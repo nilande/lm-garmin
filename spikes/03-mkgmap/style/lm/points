@@ -1,0 +1,10 @@
+name=* { name '${name}' }
+# place names from text layer
+lm:l=textpunkt & lm:cat=Bebyggelse & lm:size>=5 [0x0800 resolution 18]
+lm:l=textpunkt & lm:cat=Bebyggelse [0x0c00 resolution 20]
+lm:l=textpunkt & lm:cat=Hydrografi [0x650d resolution 21]
+lm:l=textpunkt & lm:cat=Terrängnamn [0x6614 resolution 21]
+lm:l=textpunkt [0x2800 resolution 22]
+lm:l=hojdpunkt [0x6616 resolution 22]
+lm:l=byggnadspunkt [0x6402 resolution 23]
+lm:l=ledintressepunkt_fjall [0x2f0c resolution 22]

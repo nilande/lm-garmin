@@ -1,0 +1,31 @@
+NAS sequential read hojd_sverige.zip: 1968 MB in 22.2s = 89 MB/s
+unzip administrativindelning_sverige.zip: 0.1s
+unzip anlaggningsomrade_sverige.zip: 0.2s
+unzip byggnadsverk_sverige.zip: 2.5s
+unzip hojd_sverige.zip: 38.0s
+unzip hydrografi_sverige.zip: 3.5s
+unzip kommunikation_sverige.zip: 9.8s
+unzip kulturhistorisklamning_sverige.zip: 0.1s
+unzip ledningar_sverige.zip: 0.1s
+unzip mark_sverige.zip: 43.6s
+unzip militartomrade_sverige.zip: 0.0s
+unzip naturvard_sverige.zip: 0.2s
+unzip norrapolcirkeln_sverige.zip: 0.0s
+unzip text_sverige.zip: 0.8s
+total 29673424
+drwxr-xr-x@ 15 anders  staff         480 Nov 18 20:08 .
+drwxr-xr-x@  3 anders  staff          96 Nov 18 20:06 ..
+-rwxrwx---@  1 anders  staff     5935104 Oct 16 22:02 administrativindelning_sverige.gpkg
+-rwxrwx---@  1 anders  staff    20185088 Oct 16 22:02 anlaggningsomrade_sverige.gpkg
+-rwxrwx---@  1 anders  staff   342425600 Oct 16 22:08 byggnadsverk_sverige.gpkg
+-rwxrwx---@  1 anders  staff  7067942912 Oct 16 22:08 hojd_sverige.gpkg
+-rwxrwx---@  1 anders  staff   424714240 Oct 16 22:03 hydrografi_sverige.gpkg
+-rwxrwx---@  1 anders  staff  1364537344 Oct 16 22:05 kommunikation_sverige.gpkg
+-rwxrwx---@  1 anders  staff     6037504 Oct 16 22:02 kulturhistorisklamning_sverige.gpkg
+-rwxrwx---@  1 anders  staff     4694016 Oct 16 22:02 ledningar_sverige.gpkg
+-rwxrwx---@  1 anders  staff  5820469248 Oct 16 22:11 mark_sverige.gpkg
+-rwxrwx---@  1 anders  staff      446464 Oct 16 22:02 militartomrade_sverige.gpkg
+-rwxrwx---@  1 anders  staff    15724544 Oct 16 22:02 naturvard_sverige.gpkg
+-rwxrwx---@  1 anders  staff      102400 Oct 16 22:02 norrapolcirkeln_sverige.gpkg
+-rwxrwx---@  1 anders  staff    97320960 Oct 16 22:25 text_sverige.gpkg
+DONE

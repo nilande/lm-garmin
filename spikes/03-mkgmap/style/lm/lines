@@ -1,0 +1,24 @@
+name=* { name '${name}' }
+# contours: 0x20 minor, 0x22 major (stödkurva), 0x21 depression
+lm:l=hojdlinje & (lm:t=2402 | lm:t=2405) [0x21 resolution 23]
+lm:l=hojdlinje & lm:idx=yes [0x22 resolution 21]
+lm:l=hojdlinje [0x20 resolution 22]
+# roads
+lm:t=1801 [0x01 resolution 16]
+lm:t=1802 [0x02 resolution 16]
+lm:t=1803 [0x03 resolution 18]
+lm:t=1804 [0x04 resolution 18]
+lm:t=1805 [0x05 resolution 20]
+lm:t=1806 [0x06 resolution 20]
+lm:t=1807 [0x07 resolution 21]
+lm:l=vaglinje [0x06 resolution 22]
+# ovrig_vag (base map: winter trails drawn as plain trails, overlay adds skoter style)
+lm:t=1628 [0x0a resolution 22]
+lm:t=1623 [0x11 resolution 22]
+lm:l=ovrig_vag [0x16 resolution 22]
+# water
+lm:l=hydrolinje [0x18 resolution 21]
+# power
+lm:l=ledningslinje [0x29 resolution 21]
+# admin
+lm:l=administrativ_grans [0x1c resolution 18]

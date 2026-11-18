@@ -1,0 +1,412 @@
+[_id]
+FID=5730
+ProductCode=1
+CodePage=1252
+[end]
+
+[_drawOrder]
+Type=0x28,1
+Type=0x3c,4
+Type=0x48,4
+Type=0x3f,4
+Type=0x4d,3
+Type=0x01,2
+Type=0x02,2
+Type=0x03,2
+Type=0x0c,2
+Type=0x10f03,1
+Type=0x4e,2
+Type=0x4f,2
+Type=0x52,1
+Type=0x50,1
+Type=0x10f01,1
+Type=0x10f02,1
+Type=0x51,3
+Type=0x10f04,3
+Type=0x10f05,3
+Type=0x10f06,3
+Type=0x10f07,3
+Type=0x13,5
+[end]
+
+[_polygon]
+Type=0x28
+String1=0x04,Hav
+Xpm="0 0 1 0"
+"a c #A6D6F5"
+[end]
+
+[_polygon]
+Type=0x3c
+String1=0x04,Sjö
+Xpm="0 0 1 0"
+"a c #A6D6F5"
+[end]
+
+[_polygon]
+Type=0x48
+String1=0x04,Vattendragsyta
+Xpm="0 0 1 0"
+"a c #A6D6F5"
+[end]
+
+[_polygon]
+Type=0x3f
+String1=0x04,Anlagt vatten
+Xpm="0 0 1 0"
+"a c #A6D6F5"
+[end]
+
+[_polygon]
+Type=0x4d
+String1=0x04,Glaciär
+Xpm="0 0 1 0"
+"a c #E6F4FB"
+[end]
+
+[_polygon]
+Type=0x01
+String1=0x04,Sluten bebyggelse
+Xpm="0 0 1 0"
+"a c #D58B5B"
+[end]
+
+[_polygon]
+Type=0x02
+String1=0x04,Hög bebyggelse
+Xpm="0 0 1 0"
+"a c #E0B08C"
+[end]
+
+[_polygon]
+Type=0x03
+String1=0x04,Låg bebyggelse
+Xpm="0 0 1 0"
+"a c #EECB9F"
+[end]
+
+[_polygon]
+Type=0x0c
+String1=0x04,Industri
+Xpm="0 0 1 0"
+"a c #E5E5E5"
+[end]
+
+[_polygon]
+Type=0x10f03
+String1=0x04,Öppen mark
+Xpm="0 0 1 0"
+"a c #FDFBE4"
+[end]
+
+[_polygon]
+Type=0x4e
+String1=0x04,Åker
+Xpm="0 0 1 0"
+"a c #FBF29B"
+[end]
+
+[_polygon]
+Type=0x4f
+String1=0x04,Fruktodling
+Xpm="0 0 1 0"
+"a c #FBF29B"
+[end]
+
+[_polygon]
+Type=0x52
+String1=0x04,Kalfjäll
+Xpm="0 0 1 0"
+"a c #FFFFFF"
+[end]
+
+[_polygon]
+Type=0x50
+String1=0x04,Barr- och blandskog
+Xpm="0 0 1 0"
+"a c #CFE8B6"
+[end]
+
+[_polygon]
+Type=0x10f01
+String1=0x04,Lövskog
+Xpm="0 0 1 0"
+"a c #E3F2CF"
+[end]
+
+[_polygon]
+Type=0x10f02
+String1=0x04,Fjällbjörkskog
+Xpm="0 0 1 0"
+"a c #E8F5DC"
+[end]
+
+[_polygon]
+Type=0x51
+String1=0x04,Sankmark, fast
+Xpm="32 32 2 1"
+"a c #E88A2E"
+"b c none"
+"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+[end]
+
+[_polygon]
+Type=0x10f04
+String1=0x04,Sankmark, våt
+Xpm="32 32 2 1"
+"a c #2AA0E0"
+"b c none"
+"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+[end]
+
+[_polygon]
+Type=0x10f05
+String1=0x04,Berg i dagen
+Xpm="0 0 1 0"
+"a c #B4B4B4"
+[end]
+
+[_polygon]
+Type=0x10f06
+String1=0x04,Tät vegetation
+Xpm="0 0 1 0"
+"a c #C7E39E"
+[end]
+
+[_polygon]
+Type=0x10f07
+String1=0x04,Blockig mark
+Xpm="0 0 1 0"
+"a c #D0D0D0"
+[end]
+
+[_polygon]
+Type=0x13
+String1=0x04,Byggnad
+Xpm="0 0 1 0"
+"a c #505050"
+[end]
+
+[_line]
+Type=0x20
+String1=0x04,Höjdkurva
+LineWidth=1
+Xpm="0 0 1 0"
+"a c #C9865A"
+[end]
+
+[_line]
+Type=0x22
+String1=0x04,Stödkurva
+LineWidth=2
+Xpm="0 0 1 0"
+"a c #C9865A"
+[end]
+
+[_line]
+Type=0x21
+String1=0x04,Gropkurva
+LineWidth=1
+Xpm="0 0 1 0"
+"a c #C9865A"
+[end]
+
+[_line]
+Type=0x01
+String1=0x04,Motorväg
+LineWidth=5
+BorderWidth=1
+Xpm="0 0 2 0"
+"a c #C0392B"
+"b c #7A1F15"
+[end]
+
+[_line]
+Type=0x02
+String1=0x04,Motortrafikled
+LineWidth=4
+BorderWidth=1
+Xpm="0 0 2 0"
+"a c #C0392B"
+"b c #7A1F15"
+[end]
+
+[_line]
+Type=0x03
+String1=0x04,Landsväg
+LineWidth=4
+BorderWidth=1
+Xpm="0 0 2 0"
+"a c #E07850"
+"b c #8A3A20"
+[end]
+
+[_line]
+Type=0x04
+String1=0x04,Landsväg liten
+LineWidth=3
+BorderWidth=1
+Xpm="0 0 2 0"
+"a c #E89070"
+"b c #8A3A20"
+[end]
+
+[_line]
+Type=0x05
+String1=0x04,Småväg
+LineWidth=2
+Xpm="0 0 1 0"
+"a c #808080"
+[end]
+
+[_line]
+Type=0x06
+String1=0x04,Gata
+LineWidth=2
+Xpm="0 0 1 0"
+"a c #808080"
+[end]
+
+[_line]
+Type=0x07
+String1=0x04,Småväg enkel
+LineWidth=1
+Xpm="0 0 1 0"
+"a c #A0A0A0"
+[end]
+
+[_line]
+Type=0x0a
+String1=0x04,Traktorväg
+UseOrientation=Y
+Xpm="32 2 2 1"
+"a c #606060"
+"b c none"
+"aaaabbbaaaabbbaaaabbbaaaabbbaaaa"
+"aaaabbbaaaabbbaaaabbbaaaabbbaaaa"
+[end]
+
+[_line]
+Type=0x11
+String1=0x04,Cykelväg
+LineWidth=1
+Xpm="0 0 1 0"
+"a c #8A6A3A"
+[end]
+
+[_line]
+Type=0x16
+String1=0x04,Stig
+UseOrientation=Y
+Xpm="32 2 2 1"
+"a c #333333"
+"b c none"
+"aabbaabbaabbaabbaabbaabbaabbaabb"
+"aabbaabbaabbaabbaabbaabbaabbaabb"
+[end]
+
+[_line]
+Type=0x18
+String1=0x04,Vattendrag
+LineWidth=1
+Xpm="0 0 1 0"
+"a c #3A8FD0"
+[end]
+
+[_line]
+Type=0x29
+String1=0x04,Kraftledning
+LineWidth=1
+Xpm="0 0 1 0"
+"a c #202020"
+[end]
+
+[_line]
+Type=0x1c
+String1=0x04,Gräns
+LineWidth=3
+Xpm="0 0 1 0"
+"a c #C8A0E0"
+[end]
+
+[_point]
+Type=0x6402
+String1=0x04,Byggnad
+Xpm="3 3 1 1"
+"a c #000000"
+"aaa"
+"aaa"
+"aaa"
+[end]
+
+[_point]
+Type=0x6616
+String1=0x04,Höjdpunkt
+Xpm="3 3 1 1"
+"a c #000000"
+"aaa"
+"aaa"
+"aaa"
+[end]

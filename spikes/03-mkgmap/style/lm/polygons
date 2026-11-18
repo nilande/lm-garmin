@@ -1,0 +1,26 @@
+name=* { name '${name}' }
+# --- mark (draw order handled by TYP) ---
+lm:t=2631 [0x28 resolution 18]
+lm:t=2632 [0x3c resolution 18]
+lm:t=2633 [0x48 resolution 20]
+lm:t=2634 [0x3f resolution 22]
+lm:t=2635 [0x4d resolution 18]
+lm:t=2636 [0x01 resolution 20]
+lm:t=2637 [0x02 resolution 20]
+lm:t=2638 [0x03 resolution 20]
+lm:t=2639 [0x0c resolution 20]
+lm:t=2640 [0x10f03 resolution 20]
+lm:t=2642 [0x4e resolution 20]
+lm:t=2643 [0x4f resolution 22]
+lm:t=2644 [0x52 resolution 18]
+lm:t=2645 [0x50 resolution 18]
+lm:t=2646 [0x10f01 resolution 20]
+lm:t=2647 [0x10f02 resolution 18]
+# --- sankmark / markframkomlighet (drawn above mark) ---
+lm:t=2651 [0x51 resolution 20]
+lm:t=2652 [0x10f04 resolution 20]
+lm:t=1571 [0x10f05 resolution 22]
+lm:t=1572 [0x10f06 resolution 22]
+lm:t=1573 [0x10f07 resolution 22]
+# --- byggnad ---
+lm:l=byggnad [0x13 resolution 23]

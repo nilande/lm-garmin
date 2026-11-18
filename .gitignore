@@ -1,0 +1,40 @@
+# Map data – never commit (only small fixtures under tests/data/ are allowed)
+*.gpkg
+*.gpkg-*
+*.img
+*.typ
+*.tdb
+*.tif
+*.tiff
+*.tfw
+*.tab
+*.png
+*.osm
+*.osm.pbf
+*.pbf
+*.o5m
+*.gpx
+*.geojsonl
+*.zip
+!tests/data/*.gpkg
+!tests/data/*.ref50k.tif
+!tests/data/tracks/*.gpx
+!docs/**/*.png
+
+# Spike outputs and local tools
+spikes/**/out/
+spikes/**/build/
+spikes/**/Garmin/
+spikes/**/img/
+spikes/**/inventory.json
+spikes/**/run.log
+spikes/07-perf/*/
+tools/
+
+# Python / OS
+__pycache__/
+.venv/
+.pytest_cache/
+.ruff_cache/
+.DS_Store
+._*
