@@ -3,6 +3,19 @@
 Results of tests on the real device. Newest first. The checklist for future releases is
 issue #20.
 
+## Device facts (read from `GarminDevice.xml`, 2026-11-18)
+
+| | |
+|---|---|
+| Model | Montana 700 (006-B3459-00), software 25.70 |
+| Internal storage | FAT32 (`msdos`), 14 GiB, ~10 GiB free |
+| Vector maps | `Garmin/*.img` – accepted as BaseMaps, SupplementalMaps, NMaps |
+| Other map formats | `Garmin/CustomMaps/*.KMZ` (raster Custom Maps), `Garmin/BirdsEye/*.JNX` (BirdsEye raster), `Garmin/POI/*.gpi` |
+| Largest installed map | TopoActive Europe East, one `.img` of 3.4 GB – our expected 0.5–1.5 GB for Sweden is well within what the device handles |
+
+Idea for later (not planned): BirdsEye JNX could carry Lantmäteriet's 1:50 000 raster as an
+exact-looking complement to the vector map.
+
 ## 2026-11-18 – planning kits v2, v3 and label diagnostics (issue #1)
 
 Device: Garmin Montana 700, maps on internal storage in `Garmin/`. Other maps present:
