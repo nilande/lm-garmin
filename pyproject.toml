@@ -10,6 +10,8 @@ dependencies = [
     "shapely>=2.0",
     "pyproj>=3.6",
     "numpy>=1.26",
+    "osmium>=4.3.2",
+    "pyarrow>=26.0.1",
 ]
 
 [project.scripts]

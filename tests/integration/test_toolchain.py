@@ -24,7 +24,29 @@ def test_pinned_tool_runs(java, name):
     assert tools.TOOLS[name].version.lstrip("r") in out.stdout + out.stderr
 
 
-@pytest.mark.skip(reason="M1: build fixtures to .img, decode and check object types")
+@pytest.mark.parametrize("fixture", ["fjall_727_51_05", "tatort_659_67_00", "skoter_730_51"])
+def test_converted_fixture_is_accepted_by_splitter(java, fixture, data_dir, tmp_path):
+    """All theme PBFs of a fixture go through splitter in one run (ids, ordering)."""
+    from lm_garmin.convert import convert
+    from lm_garmin.region import sweden
+
+    src = tmp_path / "src"
+    src.mkdir()
+    (src / f"{fixture}.gpkg").symlink_to(data_dir / f"{fixture}.gpkg")
+    pbf = tmp_path / "pbf"
+    stats = convert(src, sweden(src), pbf, jobs=2, log=lambda *_: None)
+    inputs = [str(pbf / s.pbf) for s in stats if s.features]
+    jar = tools.fetch(tools.TOOLS["splitter"])
+    out = subprocess.run(
+        [java, "-jar", str(jar), f"--output-dir={tmp_path / 'split'}", "--mapid=57300001", *inputs],
+        capture_output=True,
+        text=True,
+    )
+    assert out.returncode == 0, out.stdout[-2000:] + out.stderr[-2000:]
+    assert list((tmp_path / "split").glob("*.osm.pbf"))
+
+
+@pytest.mark.skip(reason="M1 (#7, #10): build fixtures to .img, decode and check object types")
 def test_build_fixtures_to_img(): ...
 
 

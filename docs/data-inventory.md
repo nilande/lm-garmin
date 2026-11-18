@@ -127,8 +127,22 @@ classify pixels to the nearest palette colour rather than match exactly.
 
 ## Snowmobile tracks (Skoterleder.org) – local only
 
-287 tracks, 10 048 points, ≈ 1 118 km, no names or attributes, WGS84. Licence unknown
-(probably ODbL via OSM). Kept out of the repo and out of every built map.
+287 tracks, 10 048 points, ≈ 1 118 km, no names or attributes, WGS84. Kept out of the repo
+and out of every built map.
+
+**Licence (2026-11-18, issue #2):** Skoterleder.org states on its "Om skoterleder.org" page
+that the map is open, that anyone can contribute, and that it *gets its data from
+OpenStreetMap*; the site's own code is open source (github.com/skoterleder/skoterleder.org).
+The trail data is therefore OSM data under the **ODbL 1.0** ("© OpenStreetMap contributors").
+Consequences:
+
+- Using the GPX locally to measure coverage is fine.
+- Committing the GPX, or shipping a map built from it, would require ODbL attribution and
+  share-alike for the derived database. We still keep it out of the repo and CI.
+- For a snowmobile overlay from this source (issue #29) the better input is **OpenStreetMap
+  itself** (e.g. a Geofabrik extract of Sweden, ways with `snowmobile=*`), which is complete,
+  current and has a documented licence. Such a map can even be distributed, with
+  "© OpenStreetMap contributors (ODbL)" attribution.
 
 ## Full table inventory
 
