@@ -346,4 +346,6 @@ coverage metric (local GPX + CI hand-made track); combined vs separate file opti
 | Third fixture | `skoter_730_51` added |
 | Raster cut-outs | 1:50 000 cut-outs of the two raster-covered fixtures committed (`*.ref50k.tif`) |
 | Language | code, docs and issues in English; README has a Swedish summary |
-| **Open** | Unicode vs cp1252 and single vs separate overlay file — waiting for the Montana device test (kit in `spikes/06-device-test/`) |
+| Encoding | Unicode – Sami characters confirmed on the Montana 700 (ADR-0005) |
+| Overlay delivery | separate `.img` file per map – several files load side by side and toggle independently; each needs its own tile-number range |
+| Map texts | drawn as label points (`0x28xx`); POI types `0x65xx`/`0x66xx` show no labels on the device |

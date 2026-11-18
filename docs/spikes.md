@@ -95,6 +95,65 @@ Built for manual testing on the Montana 700 (not committed):
 | `lmtest-unicode-bas.img` | same, `--unicode`, family 5732 |
 | `lmtest-unicode-skoter.img` | same, `--unicode`, family 5733 |
 
+**Lesson from the first device run (2026-11-18):** a rebuilt kit gave the latin and Unicode
+base maps the same tile numbers (5730000x). The Montana listed only three of the four maps
+in *Map Manager* and silently skipped `unicode-bas`. **Every map file must use its own tile
+numbers**, even across variants of the same product (`build2.sh` now uses 5730xxxx, 5731xxxx,
+5732xxxx and 5733xxxx; issue #3 must define these ranges). The Unicode *overlay* did load,
+which is a first sign that the device accepts unsigned Unicode maps from mkgmap.
+
+**Device results, kit v2 (2026-11-18, Montana 700):**
+
+| Check | Result | Cause / next step |
+|---|---|---|
+| Maps listed in *Map Manager* | 4 of 4 after unique tile numbers | – |
+| Unicode maps load | yes (overlay and base) | ADR-0005 can likely default to Unicode; confirm ŋ on screen |
+| Mountain names | shown, look right | `0x6614` |
+| Lake names (`textpunkt` Hydrografi → `0x650d`) | **not shown** | labels are in the `.img` (decoded); the device does not label `0x650d` by default → kit v3 defines `0x650d` in the TYP |
+| Overlay toggle | works | – |
+| Overlay: red/orange (Påbjuden/Ja) | shown | – |
+| Overlay: grey dashed (Nej), points 1836 | not seen | only on the two most detailed levels (resolution 21) → kit v3 puts the whole overlay on all levels |
+| Address search | not available | expected: Topografi 50 has no addresses/street names; test name search for places and POIs instead |
+| Redraw speed, colours | fast and smooth; colours OK | – |
+
+Kit v3 (`build3.sh` → `Garmin-v3/`, Unicode only, family 5734/5735) tests the two fixes.
+
+**Device results, kit v3:**
+
+| Check | Result |
+|---|---|
+| Overlay on all levels: Nej (grey dashed), Ingen information, 1836 points | **shown** – fixed |
+| Place search (Lövlund, Enebyberg, Sätra) | **works** (city types `0x0c00`/`0x0800`, `--index`) |
+| Names with **á** (Gárddiejávrrie, Syterskalet, Sytertoppen) | shown – but the visible Gárddiejávrrie is probably the *Bebyggelse* name (`0x0c00`), not the lake (`0x650d`) |
+| Names with **ŋ** (Aŋŋájávrrie, Aŋŋájávrmuörkkie, Áŋkárenluoktta, Aŋŋáblierieke) | **none shown**, neither lake nor mountain – hypothesis: the device font lacks ŋ and the whole label is dropped |
+| Lake names (`0x650d`) with a TYP icon | still not seen |
+
+Diagnostic map `diag/make_diag.py` → `Garmin-v3/lmtest-etiketter.img` (family 5736): a 4×7 grid
+600 m apart, just east of Syterstugan (E 520.5–524.1 km, N 7 303.5–7 305.3 km). Rows = point
+type (`sjo` 0x650d, `fjall` 0x6614, `ort` 0x0c00, `etikett` 0x2800), columns = characters
+1 a, 2 á, 3 ŋ, 4 č, 5 Č, 6 đ, 7 ŧ. Labels read e.g. `fjall 3 Aŋŋá`.
+
+**Device result, label diagnostic map:**
+
+| Row | Type | Icon | Label |
+|---|---|---|---|
+| sjo | `0x650d` | yes (small blue/green circle) | **no** |
+| fjall | `0x6614` | yes | **no** |
+| ort | `0x0c00` | yes | yes – all 7, Sami characters correct |
+| etikett | `0x2800` | no | yes – all 7, Sami characters correct |
+
+Conclusions:
+1. **Unicode works on the Montana 700**, including ŋ, č, Č, đ, ŧ → ADR-0005 accepted (Unicode, no
+   transliteration).
+2. The missing lake and mountain names were caused by the **point types**: the device does not
+   draw labels for water/land-feature POIs (`0x65xx`, `0x66xx`) on the map, whatever the
+   characters. The ŋ names were Hydrografi/Terrängnamn, so they vanished; the names that did
+   show were *Bebyggelse* (city types).
+3. Consequence for the style (issue #16): Lantmäteriet's map texts are drawn as **label points
+   (`0x28xx`, no icon)**, like on the printed map. Searchability of non-place names must be
+   checked separately (label points may not be in the search index; option: emit a second,
+   searchable POI with an invisible TYP icon, or test TYP `FontStyle` on `0x65xx`/`0x66xx`).
+
 Questions it answers: (1) does the Montana accept several `.img` files side by side in
 `Garmin/`; (2) can the overlay be toggled independently; (3) are Unicode maps accepted
 (some newer Garmin models refuse unsigned Unicode maps – reports conflict); (4) do the
