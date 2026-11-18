@@ -1,0 +1,1883 @@
+; GENERATED from mapping.csv by `lm-garmin style generate` – do not edit.
+
+[_id]
+FID=5750
+ProductCode=1
+CodePage=65001
+[end]
+
+[_drawOrder]
+Type=0x28,3
+Type=0x3c,3
+Type=0x48,3
+Type=0x3f,3
+Type=0x4d,3
+Type=0x01,2
+Type=0x02,2
+Type=0x03,2
+Type=0x0c,2
+Type=0x10f03,1
+Type=0x4e,2
+Type=0x10f08,2
+Type=0x52,1
+Type=0x50,1
+Type=0x10f01,1
+Type=0x10f02,1
+Type=0x10f0a,1
+Type=0x51,4
+Type=0x10f04,4
+Type=0x10f05,4
+Type=0x10f06,4
+Type=0x10f07,4
+Type=0x13,6
+Type=0x10f10,5
+Type=0x10f11,5
+Type=0x10f12,5
+Type=0x10f13,5
+Type=0x07,2
+Type=0x0e,6
+Type=0x10f14,5
+Type=0x04,5
+Type=0x16,5
+Type=0x10f15,5
+Type=0x10f16,5
+[end]
+
+[_polygon]
+Type=0x28
+String1=0x04,Hav
+Xpm="0 0 1 0"
+"a c #CBEAFF"
+[end]
+
+[_polygon]
+Type=0x3c
+String1=0x04,Sjö
+Xpm="0 0 1 0"
+"a c #CBEAFF"
+[end]
+
+[_polygon]
+Type=0x48
+String1=0x04,Vattendragsyta
+Xpm="0 0 1 0"
+"a c #CBEAFF"
+[end]
+
+[_polygon]
+Type=0x3f
+String1=0x04,Anlagt vatten
+Xpm="0 0 1 0"
+"a c #CBEAFF"
+[end]
+
+[_polygon]
+Type=0x4d
+String1=0x04,Glaciär
+Xpm="0 0 1 0"
+"a c #F4FAFF"
+[end]
+
+[_polygon]
+Type=0x01
+String1=0x04,Sluten bebyggelse
+Xpm="0 0 1 0"
+"a c #D58B5B"
+[end]
+
+[_polygon]
+Type=0x02
+String1=0x04,Hög bebyggelse
+Xpm="0 0 1 0"
+"a c #E6B28C"
+[end]
+
+[_polygon]
+Type=0x03
+String1=0x04,Låg bebyggelse
+Xpm="0 0 1 0"
+"a c #F2CF9B"
+[end]
+
+[_polygon]
+Type=0x0c
+String1=0x04,Industri- och handelsbebyggelse
+Xpm="0 0 1 0"
+"a c #E0E0E0"
+[end]
+
+[_polygon]
+Type=0x10f03
+String1=0x04,Öppen mark
+Xpm="0 0 1 0"
+"a c #FFFFEA"
+[end]
+
+[_polygon]
+Type=0x4e
+String1=0x04,Åker
+Xpm="0 0 1 0"
+"a c #FFF7A6"
+[end]
+
+[_polygon]
+Type=0x10f08
+String1=0x04,Fruktodling
+Xpm="32 32 2 1"
+"a c #9A9A40"
+"b c #FFF7A6"
+"abbbbbabbbbbabbbbbabbbbbabbbbbab"
+"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+"abbbbbabbbbbabbbbbabbbbbabbbbbab"
+"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+"abbbbbabbbbbabbbbbabbbbbabbbbbab"
+"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+"abbbbbabbbbbabbbbbabbbbbabbbbbab"
+"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+"abbbbbabbbbbabbbbbabbbbbabbbbbab"
+"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+"abbbbbabbbbbabbbbbabbbbbabbbbbab"
+"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+[end]
+
+[_polygon]
+Type=0x52
+String1=0x04,Kalfjäll
+Xpm="0 0 1 0"
+"a c #FFFFF2"
+[end]
+
+[_polygon]
+Type=0x50
+String1=0x04,Barr- och blandskog
+Xpm="0 0 1 0"
+"a c #D4EEB7"
+[end]
+
+[_polygon]
+Type=0x10f01
+String1=0x04,Lövskog
+Xpm="0 0 1 0"
+"a c #C7D9B3"
+[end]
+
+[_polygon]
+Type=0x10f02
+String1=0x04,Fjällbjörkskog
+Xpm="0 0 1 0"
+"a c #DFF5D9"
+[end]
+
+[_polygon]
+Type=0x10f0a
+String1=0x04,Ej karterat område
+Xpm="0 0 1 0"
+"a c #F0F0F0"
+[end]
+
+[_polygon]
+Type=0x51
+String1=0x04,Sankmark fast
+Xpm="32 32 2 1"
+"a c #E88A2E"
+"b c none"
+"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+[end]
+
+[_polygon]
+Type=0x10f04
+String1=0x04,Sankmark våt
+Xpm="32 32 2 1"
+"a c #40BAFF"
+"b c none"
+"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+[end]
+
+[_polygon]
+Type=0x10f05
+String1=0x04,Berg i dagen
+Xpm="0 0 1 0"
+"a c #B4B4B4"
+[end]
+
+[_polygon]
+Type=0x10f06
+String1=0x04,Tät vegetation
+Xpm="32 32 2 1"
+"a c #7FB34C"
+"b c none"
+"abbbbbbbabbbbbbbabbbbbbbabbbbbbb"
+"bbbbbbbabbbbbbbabbbbbbbabbbbbbba"
+"bbbbbbabbbbbbbabbbbbbbabbbbbbbab"
+"bbbbbabbbbbbbabbbbbbbabbbbbbbabb"
+"bbbbabbbbbbbabbbbbbbabbbbbbbabbb"
+"bbbabbbbbbbabbbbbbbabbbbbbbabbbb"
+"bbabbbbbbbabbbbbbbabbbbbbbabbbbb"
+"babbbbbbbabbbbbbbabbbbbbbabbbbbb"
+"abbbbbbbabbbbbbbabbbbbbbabbbbbbb"
+"bbbbbbbabbbbbbbabbbbbbbabbbbbbba"
+"bbbbbbabbbbbbbabbbbbbbabbbbbbbab"
+"bbbbbabbbbbbbabbbbbbbabbbbbbbabb"
+"bbbbabbbbbbbabbbbbbbabbbbbbbabbb"
+"bbbabbbbbbbabbbbbbbabbbbbbbabbbb"
+"bbabbbbbbbabbbbbbbabbbbbbbabbbbb"
+"babbbbbbbabbbbbbbabbbbbbbabbbbbb"
+"abbbbbbbabbbbbbbabbbbbbbabbbbbbb"
+"bbbbbbbabbbbbbbabbbbbbbabbbbbbba"
+"bbbbbbabbbbbbbabbbbbbbabbbbbbbab"
+"bbbbbabbbbbbbabbbbbbbabbbbbbbabb"
+"bbbbabbbbbbbabbbbbbbabbbbbbbabbb"
+"bbbabbbbbbbabbbbbbbabbbbbbbabbbb"
+"bbabbbbbbbabbbbbbbabbbbbbbabbbbb"
+"babbbbbbbabbbbbbbabbbbbbbabbbbbb"
+"abbbbbbbabbbbbbbabbbbbbbabbbbbbb"
+"bbbbbbbabbbbbbbabbbbbbbabbbbbbba"
+"bbbbbbabbbbbbbabbbbbbbabbbbbbbab"
+"bbbbbabbbbbbbabbbbbbbabbbbbbbabb"
+"bbbbabbbbbbbabbbbbbbabbbbbbbabbb"
+"bbbabbbbbbbabbbbbbbabbbbbbbabbbb"
+"bbabbbbbbbabbbbbbbabbbbbbbabbbbb"
+"babbbbbbbabbbbbbbabbbbbbbabbbbbb"
+[end]
+
+[_polygon]
+Type=0x10f07
+String1=0x04,Blockig mark
+Xpm="32 32 2 1"
+"a c #707070"
+"b c none"
+"abbbbbabbbbbabbbbbabbbbbabbbbbab"
+"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+"abbbbbabbbbbabbbbbabbbbbabbbbbab"
+"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+"abbbbbabbbbbabbbbbabbbbbabbbbbab"
+"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+"abbbbbabbbbbabbbbbabbbbbabbbbbab"
+"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+"abbbbbabbbbbabbbbbabbbbbabbbbbab"
+"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+"abbbbbabbbbbabbbbbabbbbbabbbbbab"
+"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+[end]
+
+[_polygon]
+Type=0x13
+String1=0x04,Byggnad
+Xpm="0 0 1 0"
+"a c #464646"
+[end]
+
+[_polygon]
+Type=0x10f10
+String1=0x04,Industriområde
+Xpm="32 32 2 1"
+"a c #9A9A9A"
+"b c none"
+"abbbbbbbabbbbbbbabbbbbbbabbbbbbb"
+"bbbbbbbabbbbbbbabbbbbbbabbbbbbba"
+"bbbbbbabbbbbbbabbbbbbbabbbbbbbab"
+"bbbbbabbbbbbbabbbbbbbabbbbbbbabb"
+"bbbbabbbbbbbabbbbbbbabbbbbbbabbb"
+"bbbabbbbbbbabbbbbbbabbbbbbbabbbb"
+"bbabbbbbbbabbbbbbbabbbbbbbabbbbb"
+"babbbbbbbabbbbbbbabbbbbbbabbbbbb"
+"abbbbbbbabbbbbbbabbbbbbbabbbbbbb"
+"bbbbbbbabbbbbbbabbbbbbbabbbbbbba"
+"bbbbbbabbbbbbbabbbbbbbabbbbbbbab"
+"bbbbbabbbbbbbabbbbbbbabbbbbbbabb"
+"bbbbabbbbbbbabbbbbbbabbbbbbbabbb"
+"bbbabbbbbbbabbbbbbbabbbbbbbabbbb"
+"bbabbbbbbbabbbbbbbabbbbbbbabbbbb"
+"babbbbbbbabbbbbbbabbbbbbbabbbbbb"
+"abbbbbbbabbbbbbbabbbbbbbabbbbbbb"
+"bbbbbbbabbbbbbbabbbbbbbabbbbbbba"
+"bbbbbbabbbbbbbabbbbbbbabbbbbbbab"
+"bbbbbabbbbbbbabbbbbbbabbbbbbbabb"
+"bbbbabbbbbbbabbbbbbbabbbbbbbabbb"
+"bbbabbbbbbbabbbbbbbabbbbbbbabbbb"
+"bbabbbbbbbabbbbbbbabbbbbbbabbbbb"
+"babbbbbbbabbbbbbbabbbbbbbabbbbbb"
+"abbbbbbbabbbbbbbabbbbbbbabbbbbbb"
+"bbbbbbbabbbbbbbabbbbbbbabbbbbbba"
+"bbbbbbabbbbbbbabbbbbbbabbbbbbbab"
+"bbbbbabbbbbbbabbbbbbbabbbbbbbabb"
+"bbbbabbbbbbbabbbbbbbabbbbbbbabbb"
+"bbbabbbbbbbabbbbbbbabbbbbbbabbbb"
+"bbabbbbbbbabbbbbbbabbbbbbbabbbbb"
+"babbbbbbbabbbbbbbabbbbbbbabbbbbb"
+[end]
+
+[_polygon]
+Type=0x10f11
+String1=0x04,Samhällsfunktion
+Xpm="32 32 2 1"
+"a c #B07A50"
+"b c none"
+"abbbbbbbabbbbbbbabbbbbbbabbbbbbb"
+"bbbbbbbabbbbbbbabbbbbbbabbbbbbba"
+"bbbbbbabbbbbbbabbbbbbbabbbbbbbab"
+"bbbbbabbbbbbbabbbbbbbabbbbbbbabb"
+"bbbbabbbbbbbabbbbbbbabbbbbbbabbb"
+"bbbabbbbbbbabbbbbbbabbbbbbbabbbb"
+"bbabbbbbbbabbbbbbbabbbbbbbabbbbb"
+"babbbbbbbabbbbbbbabbbbbbbabbbbbb"
+"abbbbbbbabbbbbbbabbbbbbbabbbbbbb"
+"bbbbbbbabbbbbbbabbbbbbbabbbbbbba"
+"bbbbbbabbbbbbbabbbbbbbabbbbbbbab"
+"bbbbbabbbbbbbabbbbbbbabbbbbbbabb"
+"bbbbabbbbbbbabbbbbbbabbbbbbbabbb"
+"bbbabbbbbbbabbbbbbbabbbbbbbabbbb"
+"bbabbbbbbbabbbbbbbabbbbbbbabbbbb"
+"babbbbbbbabbbbbbbabbbbbbbabbbbbb"
+"abbbbbbbabbbbbbbabbbbbbbabbbbbbb"
+"bbbbbbbabbbbbbbabbbbbbbabbbbbbba"
+"bbbbbbabbbbbbbabbbbbbbabbbbbbbab"
+"bbbbbabbbbbbbabbbbbbbabbbbbbbabb"
+"bbbbabbbbbbbabbbbbbbabbbbbbbabbb"
+"bbbabbbbbbbabbbbbbbabbbbbbbabbbb"
+"bbabbbbbbbabbbbbbbabbbbbbbabbbbb"
+"babbbbbbbabbbbbbbabbbbbbbabbbbbb"
+"abbbbbbbabbbbbbbabbbbbbbabbbbbbb"
+"bbbbbbbabbbbbbbabbbbbbbabbbbbbba"
+"bbbbbbabbbbbbbabbbbbbbabbbbbbbab"
+"bbbbbabbbbbbbabbbbbbbabbbbbbbabb"
+"bbbbabbbbbbbabbbbbbbabbbbbbbabbb"
+"bbbabbbbbbbabbbbbbbabbbbbbbabbbb"
+"bbabbbbbbbabbbbbbbabbbbbbbabbbbb"
+"babbbbbbbabbbbbbbabbbbbbbabbbbbb"
+[end]
+
+[_polygon]
+Type=0x10f12
+String1=0x04,Rekreation
+Xpm="32 32 2 1"
+"a c #6AA84F"
+"b c none"
+"abbbbbbbabbbbbbbabbbbbbbabbbbbbb"
+"bbbbbbbabbbbbbbabbbbbbbabbbbbbba"
+"bbbbbbabbbbbbbabbbbbbbabbbbbbbab"
+"bbbbbabbbbbbbabbbbbbbabbbbbbbabb"
+"bbbbabbbbbbbabbbbbbbabbbbbbbabbb"
+"bbbabbbbbbbabbbbbbbabbbbbbbabbbb"
+"bbabbbbbbbabbbbbbbabbbbbbbabbbbb"
+"babbbbbbbabbbbbbbabbbbbbbabbbbbb"
+"abbbbbbbabbbbbbbabbbbbbbabbbbbbb"
+"bbbbbbbabbbbbbbabbbbbbbabbbbbbba"
+"bbbbbbabbbbbbbabbbbbbbabbbbbbbab"
+"bbbbbabbbbbbbabbbbbbbabbbbbbbabb"
+"bbbbabbbbbbbabbbbbbbabbbbbbbabbb"
+"bbbabbbbbbbabbbbbbbabbbbbbbabbbb"
+"bbabbbbbbbabbbbbbbabbbbbbbabbbbb"
+"babbbbbbbabbbbbbbabbbbbbbabbbbbb"
+"abbbbbbbabbbbbbbabbbbbbbabbbbbbb"
+"bbbbbbbabbbbbbbabbbbbbbabbbbbbba"
+"bbbbbbabbbbbbbabbbbbbbabbbbbbbab"
+"bbbbbabbbbbbbabbbbbbbabbbbbbbabb"
+"bbbbabbbbbbbabbbbbbbabbbbbbbabbb"
+"bbbabbbbbbbabbbbbbbabbbbbbbabbbb"
+"bbabbbbbbbabbbbbbbabbbbbbbabbbbb"
+"babbbbbbbabbbbbbbabbbbbbbabbbbbb"
+"abbbbbbbabbbbbbbabbbbbbbabbbbbbb"
+"bbbbbbbabbbbbbbabbbbbbbabbbbbbba"
+"bbbbbbabbbbbbbabbbbbbbabbbbbbbab"
+"bbbbbabbbbbbbabbbbbbbabbbbbbbabb"
+"bbbbabbbbbbbabbbbbbbabbbbbbbabbb"
+"bbbabbbbbbbabbbbbbbabbbbbbbabbbb"
+"bbabbbbbbbabbbbbbbabbbbbbbabbbbb"
+"babbbbbbbabbbbbbbabbbbbbbabbbbbb"
+[end]
+
+[_polygon]
+Type=0x10f13
+String1=0x04,Civilt skjutfält
+Xpm="32 32 2 1"
+"a c #C04040"
+"b c none"
+"abbbbbbbabbbbbbbabbbbbbbabbbbbbb"
+"bbbbbbbabbbbbbbabbbbbbbabbbbbbba"
+"bbbbbbabbbbbbbabbbbbbbabbbbbbbab"
+"bbbbbabbbbbbbabbbbbbbabbbbbbbabb"
+"bbbbabbbbbbbabbbbbbbabbbbbbbabbb"
+"bbbabbbbbbbabbbbbbbabbbbbbbabbbb"
+"bbabbbbbbbabbbbbbbabbbbbbbabbbbb"
+"babbbbbbbabbbbbbbabbbbbbbabbbbbb"
+"abbbbbbbabbbbbbbabbbbbbbabbbbbbb"
+"bbbbbbbabbbbbbbabbbbbbbabbbbbbba"
+"bbbbbbabbbbbbbabbbbbbbabbbbbbbab"
+"bbbbbabbbbbbbabbbbbbbabbbbbbbabb"
+"bbbbabbbbbbbabbbbbbbabbbbbbbabbb"
+"bbbabbbbbbbabbbbbbbabbbbbbbabbbb"
+"bbabbbbbbbabbbbbbbabbbbbbbabbbbb"
+"babbbbbbbabbbbbbbabbbbbbbabbbbbb"
+"abbbbbbbabbbbbbbabbbbbbbabbbbbbb"
+"bbbbbbbabbbbbbbabbbbbbbabbbbbbba"
+"bbbbbbabbbbbbbabbbbbbbabbbbbbbab"
+"bbbbbabbbbbbbabbbbbbbabbbbbbbabb"
+"bbbbabbbbbbbabbbbbbbabbbbbbbabbb"
+"bbbabbbbbbbabbbbbbbabbbbbbbabbbb"
+"bbabbbbbbbabbbbbbbabbbbbbbabbbbb"
+"babbbbbbbabbbbbbbabbbbbbbabbbbbb"
+"abbbbbbbabbbbbbbabbbbbbbabbbbbbb"
+"bbbbbbbabbbbbbbabbbbbbbabbbbbbba"
+"bbbbbbabbbbbbbabbbbbbbabbbbbbbab"
+"bbbbbabbbbbbbabbbbbbbabbbbbbbabb"
+"bbbbabbbbbbbabbbbbbbabbbbbbbabbb"
+"bbbabbbbbbbabbbbbbbabbbbbbbabbbb"
+"bbabbbbbbbabbbbbbbabbbbbbbabbbbb"
+"babbbbbbbabbbbbbbabbbbbbbabbbbbb"
+[end]
+
+[_polygon]
+Type=0x07
+String1=0x04,Flygplatsområde
+Xpm="0 0 1 0"
+"a c #D9D9D9"
+[end]
+
+[_polygon]
+Type=0x0e
+String1=0x04,Start- och landningsbana
+Xpm="0 0 1 0"
+"a c #F5D2B0"
+[end]
+
+[_polygon]
+Type=0x10f14
+String1=0x04,Transformatorområde
+Xpm="32 32 2 1"
+"a c #808080"
+"b c none"
+"abbbbbbbabbbbbbbabbbbbbbabbbbbbb"
+"bbbbbbbabbbbbbbabbbbbbbabbbbbbba"
+"bbbbbbabbbbbbbabbbbbbbabbbbbbbab"
+"bbbbbabbbbbbbabbbbbbbabbbbbbbabb"
+"bbbbabbbbbbbabbbbbbbabbbbbbbabbb"
+"bbbabbbbbbbabbbbbbbabbbbbbbabbbb"
+"bbabbbbbbbabbbbbbbabbbbbbbabbbbb"
+"babbbbbbbabbbbbbbabbbbbbbabbbbbb"
+"abbbbbbbabbbbbbbabbbbbbbabbbbbbb"
+"bbbbbbbabbbbbbbabbbbbbbabbbbbbba"
+"bbbbbbabbbbbbbabbbbbbbabbbbbbbab"
+"bbbbbabbbbbbbabbbbbbbabbbbbbbabb"
+"bbbbabbbbbbbabbbbbbbabbbbbbbabbb"
+"bbbabbbbbbbabbbbbbbabbbbbbbabbbb"
+"bbabbbbbbbabbbbbbbabbbbbbbabbbbb"
+"babbbbbbbabbbbbbbabbbbbbbabbbbbb"
+"abbbbbbbabbbbbbbabbbbbbbabbbbbbb"
+"bbbbbbbabbbbbbbabbbbbbbabbbbbbba"
+"bbbbbbabbbbbbbabbbbbbbabbbbbbbab"
+"bbbbbabbbbbbbabbbbbbbabbbbbbbabb"
+"bbbbabbbbbbbabbbbbbbabbbbbbbabbb"
+"bbbabbbbbbbabbbbbbbabbbbbbbabbbb"
+"bbabbbbbbbabbbbbbbabbbbbbbabbbbb"
+"babbbbbbbabbbbbbbabbbbbbbabbbbbb"
+"abbbbbbbabbbbbbbabbbbbbbabbbbbbb"
+"bbbbbbbabbbbbbbabbbbbbbabbbbbbba"
+"bbbbbbabbbbbbbabbbbbbbabbbbbbbab"
+"bbbbbabbbbbbbabbbbbbbabbbbbbbabb"
+"bbbbabbbbbbbabbbbbbbabbbbbbbabbb"
+"bbbabbbbbbbabbbbbbbabbbbbbbabbbb"
+"bbabbbbbbbabbbbbbbabbbbbbbabbbbb"
+"babbbbbbbabbbbbbbabbbbbbbabbbbbb"
+[end]
+
+[_polygon]
+Type=0x04
+String1=0x04,Militärt område
+Xpm="32 32 2 1"
+"a c #00A0E0"
+"b c none"
+"abbbbbbbabbbbbbbabbbbbbbabbbbbbb"
+"bbbbbbbabbbbbbbabbbbbbbabbbbbbba"
+"bbbbbbabbbbbbbabbbbbbbabbbbbbbab"
+"bbbbbabbbbbbbabbbbbbbabbbbbbbabb"
+"bbbbabbbbbbbabbbbbbbabbbbbbbabbb"
+"bbbabbbbbbbabbbbbbbabbbbbbbabbbb"
+"bbabbbbbbbabbbbbbbabbbbbbbabbbbb"
+"babbbbbbbabbbbbbbabbbbbbbabbbbbb"
+"abbbbbbbabbbbbbbabbbbbbbabbbbbbb"
+"bbbbbbbabbbbbbbabbbbbbbabbbbbbba"
+"bbbbbbabbbbbbbabbbbbbbabbbbbbbab"
+"bbbbbabbbbbbbabbbbbbbabbbbbbbabb"
+"bbbbabbbbbbbabbbbbbbabbbbbbbabbb"
+"bbbabbbbbbbabbbbbbbabbbbbbbabbbb"
+"bbabbbbbbbabbbbbbbabbbbbbbabbbbb"
+"babbbbbbbabbbbbbbabbbbbbbabbbbbb"
+"abbbbbbbabbbbbbbabbbbbbbabbbbbbb"
+"bbbbbbbabbbbbbbabbbbbbbabbbbbbba"
+"bbbbbbabbbbbbbabbbbbbbabbbbbbbab"
+"bbbbbabbbbbbbabbbbbbbabbbbbbbabb"
+"bbbbabbbbbbbabbbbbbbabbbbbbbabbb"
+"bbbabbbbbbbabbbbbbbabbbbbbbabbbb"
+"bbabbbbbbbabbbbbbbabbbbbbbabbbbb"
+"babbbbbbbabbbbbbbabbbbbbbabbbbbb"
+"abbbbbbbabbbbbbbabbbbbbbabbbbbbb"
+"bbbbbbbabbbbbbbabbbbbbbabbbbbbba"
+"bbbbbbabbbbbbbabbbbbbbabbbbbbbab"
+"bbbbbabbbbbbbabbbbbbbabbbbbbbabb"
+"bbbbabbbbbbbabbbbbbbabbbbbbbabbb"
+"bbbabbbbbbbabbbbbbbabbbbbbbabbbb"
+"bbabbbbbbbabbbbbbbabbbbbbbabbbbb"
+"babbbbbbbabbbbbbbabbbbbbbabbbbbb"
+[end]
+
+[_polygon]
+Type=0x16
+String1=0x04,Nationalpark
+Xpm="32 32 2 1"
+"a c #5AB032"
+"b c none"
+"abbbbbbbabbbbbbbabbbbbbbabbbbbbb"
+"bbbbbbbabbbbbbbabbbbbbbabbbbbbba"
+"bbbbbbabbbbbbbabbbbbbbabbbbbbbab"
+"bbbbbabbbbbbbabbbbbbbabbbbbbbabb"
+"bbbbabbbbbbbabbbbbbbabbbbbbbabbb"
+"bbbabbbbbbbabbbbbbbabbbbbbbabbbb"
+"bbabbbbbbbabbbbbbbabbbbbbbabbbbb"
+"babbbbbbbabbbbbbbabbbbbbbabbbbbb"
+"abbbbbbbabbbbbbbabbbbbbbabbbbbbb"
+"bbbbbbbabbbbbbbabbbbbbbabbbbbbba"
+"bbbbbbabbbbbbbabbbbbbbabbbbbbbab"
+"bbbbbabbbbbbbabbbbbbbabbbbbbbabb"
+"bbbbabbbbbbbabbbbbbbabbbbbbbabbb"
+"bbbabbbbbbbabbbbbbbabbbbbbbabbbb"
+"bbabbbbbbbabbbbbbbabbbbbbbabbbbb"
+"babbbbbbbabbbbbbbabbbbbbbabbbbbb"
+"abbbbbbbabbbbbbbabbbbbbbabbbbbbb"
+"bbbbbbbabbbbbbbabbbbbbbabbbbbbba"
+"bbbbbbabbbbbbbabbbbbbbabbbbbbbab"
+"bbbbbabbbbbbbabbbbbbbabbbbbbbabb"
+"bbbbabbbbbbbabbbbbbbabbbbbbbabbb"
+"bbbabbbbbbbabbbbbbbabbbbbbbabbbb"
+"bbabbbbbbbabbbbbbbabbbbbbbabbbbb"
+"babbbbbbbabbbbbbbabbbbbbbabbbbbb"
+"abbbbbbbabbbbbbbabbbbbbbabbbbbbb"
+"bbbbbbbabbbbbbbabbbbbbbabbbbbbba"
+"bbbbbbabbbbbbbabbbbbbbabbbbbbbab"
+"bbbbbabbbbbbbabbbbbbbabbbbbbbabb"
+"bbbbabbbbbbbabbbbbbbabbbbbbbabbb"
+"bbbabbbbbbbabbbbbbbabbbbbbbabbbb"
+"bbabbbbbbbabbbbbbbabbbbbbbabbbbb"
+"babbbbbbbabbbbbbbabbbbbbbabbbbbb"
+[end]
+
+[_polygon]
+Type=0x10f15
+String1=0x04,Skyddad natur
+Xpm="32 32 2 1"
+"a c #5AB032"
+"b c none"
+"abbbbbbbabbbbbbbabbbbbbbabbbbbbb"
+"bbbbbbbabbbbbbbabbbbbbbabbbbbbba"
+"bbbbbbabbbbbbbabbbbbbbabbbbbbbab"
+"bbbbbabbbbbbbabbbbbbbabbbbbbbabb"
+"bbbbabbbbbbbabbbbbbbabbbbbbbabbb"
+"bbbabbbbbbbabbbbbbbabbbbbbbabbbb"
+"bbabbbbbbbabbbbbbbabbbbbbbabbbbb"
+"babbbbbbbabbbbbbbabbbbbbbabbbbbb"
+"abbbbbbbabbbbbbbabbbbbbbabbbbbbb"
+"bbbbbbbabbbbbbbabbbbbbbabbbbbbba"
+"bbbbbbabbbbbbbabbbbbbbabbbbbbbab"
+"bbbbbabbbbbbbabbbbbbbabbbbbbbabb"
+"bbbbabbbbbbbabbbbbbbabbbbbbbabbb"
+"bbbabbbbbbbabbbbbbbabbbbbbbabbbb"
+"bbabbbbbbbabbbbbbbabbbbbbbabbbbb"
+"babbbbbbbabbbbbbbabbbbbbbabbbbbb"
+"abbbbbbbabbbbbbbabbbbbbbabbbbbbb"
+"bbbbbbbabbbbbbbabbbbbbbabbbbbbba"
+"bbbbbbabbbbbbbabbbbbbbabbbbbbbab"
+"bbbbbabbbbbbbabbbbbbbabbbbbbbabb"
+"bbbbabbbbbbbabbbbbbbabbbbbbbabbb"
+"bbbabbbbbbbabbbbbbbabbbbbbbabbbb"
+"bbabbbbbbbabbbbbbbabbbbbbbabbbbb"
+"babbbbbbbabbbbbbbabbbbbbbabbbbbb"
+"abbbbbbbabbbbbbbabbbbbbbabbbbbbb"
+"bbbbbbbabbbbbbbabbbbbbbabbbbbbba"
+"bbbbbbabbbbbbbabbbbbbbabbbbbbbab"
+"bbbbbabbbbbbbabbbbbbbabbbbbbbabb"
+"bbbbabbbbbbbabbbbbbbabbbbbbbabbb"
+"bbbabbbbbbbabbbbbbbabbbbbbbabbbb"
+"bbabbbbbbbabbbbbbbabbbbbbbabbbbb"
+"babbbbbbbabbbbbbbabbbbbbbabbbbbb"
+[end]
+
+[_polygon]
+Type=0x10f16
+String1=0x04,Restriktionsområde (terrängfordon/eld)
+Xpm="32 32 2 1"
+"a c #D03070"
+"b c none"
+"abbbbbbbabbbbbbbabbbbbbbabbbbbbb"
+"bbbbbbbabbbbbbbabbbbbbbabbbbbbba"
+"bbbbbbabbbbbbbabbbbbbbabbbbbbbab"
+"bbbbbabbbbbbbabbbbbbbabbbbbbbabb"
+"bbbbabbbbbbbabbbbbbbabbbbbbbabbb"
+"bbbabbbbbbbabbbbbbbabbbbbbbabbbb"
+"bbabbbbbbbabbbbbbbabbbbbbbabbbbb"
+"babbbbbbbabbbbbbbabbbbbbbabbbbbb"
+"abbbbbbbabbbbbbbabbbbbbbabbbbbbb"
+"bbbbbbbabbbbbbbabbbbbbbabbbbbbba"
+"bbbbbbabbbbbbbabbbbbbbabbbbbbbab"
+"bbbbbabbbbbbbabbbbbbbabbbbbbbabb"
+"bbbbabbbbbbbabbbbbbbabbbbbbbabbb"
+"bbbabbbbbbbabbbbbbbabbbbbbbabbbb"
+"bbabbbbbbbabbbbbbbabbbbbbbabbbbb"
+"babbbbbbbabbbbbbbabbbbbbbabbbbbb"
+"abbbbbbbabbbbbbbabbbbbbbabbbbbbb"
+"bbbbbbbabbbbbbbabbbbbbbabbbbbbba"
+"bbbbbbabbbbbbbabbbbbbbabbbbbbbab"
+"bbbbbabbbbbbbabbbbbbbabbbbbbbabb"
+"bbbbabbbbbbbabbbbbbbabbbbbbbabbb"
+"bbbabbbbbbbabbbbbbbabbbbbbbabbbb"
+"bbabbbbbbbabbbbbbbabbbbbbbabbbbb"
+"babbbbbbbabbbbbbbabbbbbbbabbbbbb"
+"abbbbbbbabbbbbbbabbbbbbbabbbbbbb"
+"bbbbbbbabbbbbbbabbbbbbbabbbbbbba"
+"bbbbbbabbbbbbbabbbbbbbabbbbbbbab"
+"bbbbbabbbbbbbabbbbbbbabbbbbbbabb"
+"bbbbabbbbbbbabbbbbbbabbbbbbbabbb"
+"bbbabbbbbbbabbbbbbbabbbbbbbabbbb"
+"bbabbbbbbbabbbbbbbabbbbbbbabbbbb"
+"babbbbbbbabbbbbbbabbbbbbbabbbbbb"
+[end]
+
+[_line]
+Type=0x21
+String1=0x04,Gropkurva
+LineWidth=1
+Xpm="0 0 1 0"
+"a c #D06A08"
+[end]
+
+[_line]
+Type=0x22
+String1=0x04,Stödkurva
+LineWidth=2
+Xpm="0 0 1 0"
+"a c #D06A08"
+[end]
+
+[_line]
+Type=0x20
+String1=0x04,Höjdkurva 5 m
+LineWidth=1
+Xpm="0 0 1 0"
+"a c #D06A08"
+[end]
+
+[_line]
+Type=0x01
+String1=0x04,Motorväg
+LineWidth=5
+BorderWidth=1
+Xpm="0 0 2 0"
+"a c #C0392B"
+"b c #7A1F15"
+[end]
+
+[_line]
+Type=0x02
+String1=0x04,Motortrafikled
+LineWidth=4
+BorderWidth=1
+Xpm="0 0 2 0"
+"a c #C0392B"
+"b c #7A1F15"
+[end]
+
+[_line]
+Type=0x03
+String1=0x04,Mötesfri väg
+LineWidth=4
+BorderWidth=1
+Xpm="0 0 2 0"
+"a c #D35A3A"
+"b c #7A1F15"
+[end]
+
+[_line]
+Type=0x04
+String1=0x04,Landsväg liten
+LineWidth=3
+BorderWidth=1
+Xpm="0 0 2 0"
+"a c #E89070"
+"b c #8A3A20"
+[end]
+
+[_line]
+Type=0x05
+String1=0x04,Småväg
+LineWidth=2
+Xpm="0 0 1 0"
+"a c #7F7F7F"
+[end]
+
+[_line]
+Type=0x07
+String1=0x04,Småväg enkel standard
+LineWidth=1
+Xpm="0 0 1 0"
+"a c #A0A0A0"
+[end]
+
+[_line]
+Type=0x0b
+String1=0x04,Övergripande länk
+LineWidth=3
+Xpm="0 0 1 0"
+"a c #B5442B"
+[end]
+
+[_line]
+Type=0x10d04
+String1=0x04,Huvudgata
+LineWidth=3
+Xpm="0 0 1 0"
+"a c #E07850"
+[end]
+
+[_line]
+Type=0x06
+String1=0x04,Lokalgata stor
+LineWidth=2
+Xpm="0 0 1 0"
+"a c #7F7F7F"
+[end]
+
+[_line]
+Type=0x10d05
+String1=0x04,Lokalgata liten
+LineWidth=1
+Xpm="0 0 1 0"
+"a c #A0A0A0"
+[end]
+
+[_line]
+Type=0x1b
+String1=0x04,Färjeled
+UseOrientation=Y
+Xpm="32 2 2 1"
+"a c #C0392B"
+"b c none"
+"aaaaabbbaaaaabbbaaaaabbbaaaaabbb"
+"aaaaabbbaaaaabbbaaaaabbbaaaaabbb"
+[end]
+
+[_line]
+Type=0x14
+String1=0x04,Järnväg
+LineWidth=2
+Xpm="0 0 1 0"
+"a c #333333"
+[end]
+
+[_line]
+Type=0x10e0e
+String1=0x04,Museijärnväg
+UseOrientation=Y
+Xpm="32 2 2 1"
+"a c #555555"
+"b c none"
+"aaaaabbbaaaaabbbaaaaabbbaaaaabbb"
+"aaaaabbbaaaaabbbaaaaabbbaaaaabbb"
+[end]
+
+[_line]
+Type=0x10e00
+String1=0x04,Cykelväg
+UseOrientation=Y
+Xpm="32 1 2 1"
+"a c #8A6A3A"
+"b c none"
+"aaaaabbbaaaaabbbaaaaabbbaaaaabbb"
+[end]
+
+[_line]
+Type=0x16
+String1=0x04,Gångstig
+UseOrientation=Y
+Xpm="32 1 2 1"
+"a c #333333"
+"b c none"
+"aaaaabbbaaaaabbbaaaaabbbaaaaabbb"
+[end]
+
+[_line]
+Type=0x10e01
+String1=0x04,Elljusspår
+UseOrientation=Y
+Xpm="32 1 2 1"
+"a c #C8B400"
+"b c none"
+"aaaaabbbaaaaabbbaaaaabbbaaaaabbb"
+[end]
+
+[_line]
+Type=0x0a
+String1=0x04,Traktorväg
+UseOrientation=Y
+Xpm="32 2 2 1"
+"a c #606060"
+"b c none"
+"aaaaabbbaaaaabbbaaaaabbbaaaaabbb"
+"aaaaabbbaaaaabbbaaaaabbbaaaaabbb"
+[end]
+
+[_line]
+Type=0x10e02
+String1=0x04,Parkväg
+UseOrientation=Y
+Xpm="32 1 2 1"
+"a c #8A6A3A"
+"b c none"
+"aaaaabbbaaaaabbbaaaaabbbaaaaabbb"
+[end]
+
+[_line]
+Type=0x10e03
+String1=0x04,Vandringsled
+LineWidth=2
+Xpm="0 0 1 0"
+"a c #C44982"
+[end]
+
+[_line]
+Type=0x10e04
+String1=0x04,Vandrings- och vinterled
+LineWidth=2
+Xpm="0 0 1 0"
+"a c #C44982"
+[end]
+
+[_line]
+Type=0x10e05
+String1=0x04,Vinterled
+UseOrientation=Y
+Xpm="32 2 2 1"
+"a c #C44982"
+"b c none"
+"aaaaabbbaaaaabbbaaaaabbbaaaaabbb"
+"aaaaabbbaaaaabbbaaaaabbbaaaaabbb"
+[end]
+
+[_line]
+Type=0x10e06
+String1=0x04,Skidspår
+UseOrientation=Y
+Xpm="32 1 2 1"
+"a c #555555"
+"b c none"
+"aaaaabbbaaaaabbbaaaaabbbaaaaabbb"
+[end]
+
+[_line]
+Type=0x10e07
+String1=0x04,Lämplig färdväg
+UseOrientation=Y
+Xpm="32 1 2 1"
+"a c #C44982"
+"b c none"
+"aaaaabbbaaaaabbbaaaaabbbaaaaabbb"
+[end]
+
+[_line]
+Type=0x10e08
+String1=0x04,Rennäringsled
+UseOrientation=Y
+Xpm="32 1 2 1"
+"a c #8B5A2B"
+"b c none"
+"aaaaabbbaaaaabbbaaaaabbbaaaaabbb"
+[end]
+
+[_line]
+Type=0x10e09
+String1=0x04,Fångstarm till led
+LineWidth=1
+Xpm="0 0 1 0"
+"a c #C44982"
+[end]
+
+[_line]
+Type=0x10e0a
+String1=0x04,Roddled
+UseOrientation=Y
+Xpm="32 1 2 1"
+"a c #C44982"
+"b c none"
+"aaaaabbbaaaaabbbaaaaabbbaaaaabbb"
+[end]
+
+[_line]
+Type=0x10e0b
+String1=0x04,Svårorienterad gångstig
+UseOrientation=Y
+Xpm="32 1 2 1"
+"a c #333333"
+"b c none"
+"aaaaabbbaaaaabbbaaaaabbbaaaaabbb"
+[end]
+
+[_line]
+Type=0x10e0c
+String1=0x04,Båtdrag
+UseOrientation=Y
+Xpm="32 1 2 1"
+"a c #C44982"
+"b c none"
+"aaaaabbbaaaaabbbaaaaabbbaaaaabbb"
+[end]
+
+[_line]
+Type=0x10e0d
+String1=0x04,Trafikerad båtled
+UseOrientation=Y
+Xpm="32 1 2 1"
+"a c #C44982"
+"b c none"
+"aaaaabbbaaaaabbbaaaaabbbaaaaabbb"
+[end]
+
+[_line]
+Type=0x18
+String1=0x04,Vattendrag
+LineWidth=1
+Xpm="0 0 1 0"
+"a c #0080E6"
+[end]
+
+[_line]
+Type=0x10e10
+String1=0x04,Fors
+UseOrientation=Y
+Xpm="32 3 2 1"
+"a c #0080E6"
+"b c none"
+"aaaaabbbaaaaabbbaaaaabbbaaaaabbb"
+"aaaaabbbaaaaabbbaaaaabbbaaaaabbb"
+"aaaaabbbaaaaabbbaaaaabbbaaaaabbb"
+[end]
+
+[_line]
+Type=0x10e11
+String1=0x04,Vattenfall
+LineWidth=3
+Xpm="0 0 1 0"
+"a c #0050A0"
+[end]
+
+[_line]
+Type=0x10e12
+String1=0x04,Brygga
+LineWidth=2
+Xpm="0 0 1 0"
+"a c #333333"
+[end]
+
+[_line]
+Type=0x10e13
+String1=0x04,Dammbyggnad
+LineWidth=3
+Xpm="0 0 1 0"
+"a c #333333"
+[end]
+
+[_line]
+Type=0x10e14
+String1=0x04,Pir
+LineWidth=2
+Xpm="0 0 1 0"
+"a c #333333"
+[end]
+
+[_line]
+Type=0x10e15
+String1=0x04,Vattentub/vattenränna
+UseOrientation=Y
+Xpm="32 2 2 1"
+"a c #0080E6"
+"b c none"
+"aaaaabbbaaaaabbbaaaaabbbaaaaabbb"
+"aaaaabbbaaaaabbbaaaaabbbaaaaabbb"
+[end]
+
+[_line]
+Type=0x10e16
+String1=0x04,Akvedukt
+LineWidth=2
+Xpm="0 0 1 0"
+"a c #0080E6"
+[end]
+
+[_line]
+Type=0x10e17
+String1=0x04,Strandlinje hav
+LineWidth=1
+Xpm="0 0 1 0"
+"a c #0080E6"
+[end]
+
+[_line]
+Type=0x10d03
+String1=0x04,Glaciärgräns
+UseOrientation=Y
+Xpm="32 1 2 1"
+"a c #0080E6"
+"b c none"
+"aaaaabbbaaaaabbbaaaaabbbaaaaabbb"
+[end]
+
+[_line]
+Type=0x10e18
+String1=0x04,Sjöterritoriets gräns
+UseOrientation=Y
+Xpm="32 2 2 1"
+"a c #C080E0"
+"b c none"
+"aaaaabbbaaaaabbbaaaaabbbaaaaabbb"
+"aaaaabbbaaaaabbbaaaaabbbaaaaabbb"
+[end]
+
+[_line]
+Type=0x1e
+String1=0x04,Riksgräns
+LineWidth=4
+Xpm="0 0 1 0"
+"a c #C080E0"
+[end]
+
+[_line]
+Type=0x1c
+String1=0x04,Länsgräns
+LineWidth=3
+Xpm="0 0 1 0"
+"a c #D4B0F0"
+[end]
+
+[_line]
+Type=0x1d
+String1=0x04,Kommungräns
+LineWidth=2
+Xpm="0 0 1 0"
+"a c #D4B0F0"
+[end]
+
+[_line]
+Type=0x10e19
+String1=0x04,Odlingsgräns
+UseOrientation=Y
+Xpm="32 1 2 1"
+"a c #8A6A3A"
+"b c none"
+"aaaaabbbaaaaabbbaaaaabbbaaaaabbb"
+[end]
+
+[_line]
+Type=0x10e1a
+String1=0x04,Lintrafik
+LineWidth=1
+Xpm="0 0 1 0"
+"a c #333333"
+[end]
+
+[_line]
+Type=0x10e1b
+String1=0x04,Renstängsel
+UseOrientation=Y
+Xpm="32 1 2 1"
+"a c #333333"
+"b c none"
+"aaaaabbbaaaaabbbaaaaabbbaaaaabbb"
+[end]
+
+[_line]
+Type=0x10e1c
+String1=0x04,Kulturhistorisk lämning
+UseOrientation=Y
+Xpm="32 1 2 1"
+"a c #9A3A3A"
+"b c none"
+"aaaaabbbaaaaabbbaaaaabbbaaaaabbb"
+[end]
+
+[_line]
+Type=0x29
+String1=0x04,Kraftledning stam
+LineWidth=2
+Xpm="0 0 1 0"
+"a c #333333"
+[end]
+
+[_line]
+Type=0x10e1d
+String1=0x04,Kraftledning region
+LineWidth=1
+Xpm="0 0 1 0"
+"a c #333333"
+[end]
+
+[_line]
+Type=0x10e1e
+String1=0x04,Kraftledning fördelning
+LineWidth=1
+Xpm="0 0 1 0"
+"a c #555555"
+[end]
+
+[_line]
+Type=0x10e1f
+String1=0x04,Telefonledning
+UseOrientation=Y
+Xpm="32 1 2 1"
+"a c #555555"
+"b c none"
+"aaaaabbbaaaaabbbaaaaabbbaaaaabbb"
+[end]
+
+[_line]
+Type=0x10d00
+String1=0x04,Naturreservat linje
+LineWidth=2
+Xpm="0 0 1 0"
+"a c #5AB032"
+[end]
+
+[_line]
+Type=0x10d01
+String1=0x04,Norra polcirkeln
+UseOrientation=Y
+Xpm="32 1 2 1"
+"a c #333333"
+"b c none"
+"aaaaabbbaaaaabbbaaaaabbbaaaaabbb"
+[end]
+
+[_line]
+Type=0x10d02
+String1=0x04,Namn längs linje
+UseOrientation=Y
+Xpm="32 1 2 1"
+"a c #D0D0D0"
+"b c none"
+"abbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+[end]
+
+[_point]
+Type=0x6616
+String1=0x04,Triangelpunkt
+Xpm="5 5 1 1"
+"a c #000000"
+"aaaaa"
+"aaaaa"
+"aaaaa"
+"aaaaa"
+"aaaaa"
+[end]
+
+[_point]
+Type=0x11500
+String1=0x04,Riksröse
+Xpm="5 5 1 1"
+"a c #C080E0"
+"aaaaa"
+"aaaaa"
+"aaaaa"
+"aaaaa"
+"aaaaa"
+[end]
+
+[_point]
+Type=0x6402
+String1=0x04,Byggnad
+Xpm="3 3 1 1"
+"a c #464646"
+"aaa"
+"aaa"
+"aaa"
+[end]
+
+[_point]
+Type=0x11501
+String1=0x04,Byggnad större
+Xpm="5 5 1 1"
+"a c #464646"
+"aaaaa"
+"aaaaa"
+"aaaaa"
+"aaaaa"
+"aaaaa"
+[end]
+
+[_point]
+Type=0x11502
+String1=0x04,Byggnad störst
+Xpm="7 7 1 1"
+"a c #464646"
+"aaaaaaa"
+"aaaaaaa"
+"aaaaaaa"
+"aaaaaaa"
+"aaaaaaa"
+"aaaaaaa"
+"aaaaaaa"
+[end]
+
+[_point]
+Type=0x6404
+String1=0x04,Kyrka
+Xpm="7 7 1 1"
+"a c #000000"
+"aaaaaaa"
+"aaaaaaa"
+"aaaaaaa"
+"aaaaaaa"
+"aaaaaaa"
+"aaaaaaa"
+"aaaaaaa"
+[end]
+
+[_point]
+Type=0x11503
+String1=0x04,Religiös byggnad
+Xpm="6 6 1 1"
+"a c #000000"
+"aaaaaa"
+"aaaaaa"
+"aaaaaa"
+"aaaaaa"
+"aaaaaa"
+"aaaaaa"
+[end]
+
+[_point]
+Type=0x11504
+String1=0x04,Klockstapel
+Xpm="4 4 1 1"
+"a c #000000"
+"aaaa"
+"aaaa"
+"aaaa"
+"aaaa"
+[end]
+
+[_point]
+Type=0x11505
+String1=0x04,Kåta
+Xpm="6 6 1 1"
+"a c #C0392B"
+"aaaaaa"
+"aaaaaa"
+"aaaaaa"
+"aaaaaa"
+"aaaaaa"
+"aaaaaa"
+[end]
+
+[_point]
+Type=0x11506
+String1=0x04,Vindskydd
+Xpm="6 6 1 1"
+"a c #C0392B"
+"aaaaaa"
+"aaaaaa"
+"aaaaaa"
+"aaaaaa"
+"aaaaaa"
+"aaaaaa"
+[end]
+
+[_point]
+Type=0x11507
+String1=0x04,Raststuga
+Xpm="6 6 1 1"
+"a c #C0392B"
+"aaaaaa"
+"aaaaaa"
+"aaaaaa"
+"aaaaaa"
+"aaaaaa"
+"aaaaaa"
+[end]
+
+[_point]
+Type=0x11508
+String1=0x04,Enslig stuga i fjällen
+Xpm="6 6 1 1"
+"a c #C0392B"
+"aaaaaa"
+"aaaaaa"
+"aaaaaa"
+"aaaaaa"
+"aaaaaa"
+"aaaaaa"
+[end]
+
+[_point]
+Type=0x11509
+String1=0x04,Fjällstation
+Xpm="8 8 1 1"
+"a c #C0392B"
+"aaaaaaaa"
+"aaaaaaaa"
+"aaaaaaaa"
+"aaaaaaaa"
+"aaaaaaaa"
+"aaaaaaaa"
+"aaaaaaaa"
+"aaaaaaaa"
+[end]
+
+[_point]
+Type=0x1150a
+String1=0x04,Turiststuga
+Xpm="7 7 1 1"
+"a c #C0392B"
+"aaaaaaa"
+"aaaaaaa"
+"aaaaaaa"
+"aaaaaaa"
+"aaaaaaa"
+"aaaaaaa"
+"aaaaaaa"
+[end]
+
+[_point]
+Type=0x1150b
+String1=0x04,Forskningsstation
+Xpm="6 6 1 1"
+"a c #333333"
+"aaaaaa"
+"aaaaaa"
+"aaaaaa"
+"aaaaaa"
+"aaaaaa"
+"aaaaaa"
+[end]
+
+[_point]
+Type=0x1150c
+String1=0x04,Hembygdsgård
+Xpm="6 6 1 1"
+"a c #333333"
+"aaaaaa"
+"aaaaaa"
+"aaaaaa"
+"aaaaaa"
+"aaaaaa"
+"aaaaaa"
+[end]
+
+[_point]
+Type=0x1150d
+String1=0x04,Naturum
+Xpm="6 6 1 1"
+"a c #5AB032"
+"aaaaaa"
+"aaaaaa"
+"aaaaaa"
+"aaaaaa"
+"aaaaaa"
+"aaaaaa"
+[end]
+
+[_point]
+Type=0x1150e
+String1=0x04,Herrgård
+Xpm="6 6 1 1"
+"a c #333333"
+"aaaaaa"
+"aaaaaa"
+"aaaaaa"
+"aaaaaa"
+"aaaaaa"
+"aaaaaa"
+[end]
+
+[_point]
+Type=0x1150f
+String1=0x04,Slott
+Xpm="7 7 1 1"
+"a c #333333"
+"aaaaaaa"
+"aaaaaaa"
+"aaaaaaa"
+"aaaaaaa"
+"aaaaaaa"
+"aaaaaaa"
+"aaaaaaa"
+[end]
+
+[_point]
+Type=0x11510
+String1=0x04,Torn
+Xpm="5 5 1 1"
+"a c #333333"
+"aaaaa"
+"aaaaa"
+"aaaaa"
+"aaaaa"
+"aaaaa"
+[end]
+
+[_point]
+Type=0x11511
+String1=0x04,Väderkvarn
+Xpm="5 5 1 1"
+"a c #333333"
+"aaaaa"
+"aaaaa"
+"aaaaa"
+"aaaaa"
+"aaaaa"
+[end]
+
+[_point]
+Type=0x11512
+String1=0x04,Vindkraftverk
+Xpm="5 5 1 1"
+"a c #333333"
+"aaaaa"
+"aaaaa"
+"aaaaa"
+"aaaaa"
+"aaaaa"
+[end]
+
+[_point]
+Type=0x11513
+String1=0x04,Kärnkraftverk
+Xpm="8 8 1 1"
+"a c #C8B400"
+"aaaaaaaa"
+"aaaaaaaa"
+"aaaaaaaa"
+"aaaaaaaa"
+"aaaaaaaa"
+"aaaaaaaa"
+"aaaaaaaa"
+"aaaaaaaa"
+[end]
+
+[_point]
+Type=0x11514
+String1=0x04,Fyrbyggnad
+Xpm="6 6 1 1"
+"a c #333333"
+"aaaaaa"
+"aaaaaa"
+"aaaaaa"
+"aaaaaa"
+"aaaaaa"
+"aaaaaa"
+[end]
+
+[_point]
+Type=0x11515
+String1=0x04,Skyddsvärn
+Xpm="5 5 1 1"
+"a c #333333"
+"aaaaa"
+"aaaaa"
+"aaaaa"
+"aaaaa"
+"aaaaa"
+[end]
+
+[_point]
+Type=0x11516
+String1=0x04,Mast
+Xpm="5 5 1 1"
+"a c #333333"
+"aaaaa"
+"aaaaa"
+"aaaaa"
+"aaaaa"
+"aaaaa"
+[end]
+
+[_point]
+Type=0x11517
+String1=0x04,Skorsten
+Xpm="4 4 1 1"
+"a c #333333"
+"aaaa"
+"aaaa"
+"aaaa"
+"aaaa"
+[end]
+
+[_point]
+Type=0x11518
+String1=0x04,Anläggning
+Xpm="4 4 1 1"
+"a c #555555"
+"aaaa"
+"aaaa"
+"aaaa"
+"aaaa"
+[end]
+
+[_point]
+Type=0x11519
+String1=0x04,Helikopterplats
+Xpm="6 6 1 1"
+"a c #333333"
+"aaaaaa"
+"aaaaaa"
+"aaaaaa"
+"aaaaaa"
+"aaaaaa"
+"aaaaaa"
+[end]
+
+[_point]
+Type=0x1151a
+String1=0x04,Transformator
+Xpm="4 4 1 1"
+"a c #333333"
+"aaaa"
+"aaaa"
+"aaaa"
+"aaaa"
+[end]
+
+[_point]
+Type=0x1151b
+String1=0x04,Väghinder
+Xpm="4 4 1 1"
+"a c #333333"
+"aaaa"
+"aaaa"
+"aaaa"
+"aaaa"
+[end]
+
+[_point]
+Type=0x1151c
+String1=0x04,Vändmöjlighet
+Xpm="4 4 1 1"
+"a c #808080"
+"aaaa"
+"aaaa"
+"aaaa"
+"aaaa"
+[end]
+
+[_point]
+Type=0x1151d
+String1=0x04,Rastplats
+Xpm="6 6 1 1"
+"a c #2060C0"
+"aaaaaa"
+"aaaaaa"
+"aaaaaa"
+"aaaaaa"
+"aaaaaa"
+"aaaaaa"
+[end]
+
+[_point]
+Type=0x1151e
+String1=0x04,Trafikplats
+Xpm="4 4 1 1"
+"a c #808080"
+"aaaa"
+"aaaa"
+"aaaa"
+"aaaa"
+[end]
+
+[_point]
+Type=0x1151f
+String1=0x04,Järnvägsstation
+Xpm="6 6 1 1"
+"a c #333333"
+"aaaaaa"
+"aaaaaa"
+"aaaaaa"
+"aaaaaa"
+"aaaaaa"
+"aaaaaa"
+[end]
+
+[_point]
+Type=0x11700
+String1=0x04,Vad
+Xpm="5 5 1 1"
+"a c #0080E6"
+"aaaaa"
+"aaaaa"
+"aaaaa"
+"aaaaa"
+"aaaaa"
+[end]
+
+[_point]
+Type=0x11701
+String1=0x04,Hjälptelefon
+Xpm="6 6 1 1"
+"a c #C0392B"
+"aaaaaa"
+"aaaaaa"
+"aaaaaa"
+"aaaaaa"
+"aaaaaa"
+"aaaaaa"
+[end]
+
+[_point]
+Type=0x11702
+String1=0x04,Parkering
+Xpm="6 6 1 1"
+"a c #2060C0"
+"aaaaaa"
+"aaaaaa"
+"aaaaaa"
+"aaaaaa"
+"aaaaaa"
+"aaaaaa"
+[end]
+
+[_point]
+Type=0x11703
+String1=0x04,Stormklocka
+Xpm="6 6 1 1"
+"a c #C0392B"
+"aaaaaa"
+"aaaaaa"
+"aaaaaa"
+"aaaaaa"
+"aaaaaa"
+"aaaaaa"
+[end]
+
+[_point]
+Type=0x11704
+String1=0x04,Påbjuden färdväg vid skoteråkning
+Xpm="6 6 1 1"
+"a c #F57C00"
+"aaaaaa"
+"aaaaaa"
+"aaaaaa"
+"aaaaaa"
+"aaaaaa"
+"aaaaaa"
+[end]
+
+[_point]
+Type=0x11705
+String1=0x04,Blinkfyr
+Xpm="5 5 1 1"
+"a c #333333"
+"aaaaa"
+"aaaaa"
+"aaaaa"
+"aaaaa"
+"aaaaa"
+[end]
+
+[_point]
+Type=0x11706
+String1=0x04,Gångbro
+Xpm="5 5 1 1"
+"a c #333333"
+"aaaaa"
+"aaaaa"
+"aaaaa"
+"aaaaa"
+"aaaaa"
+[end]
+
+[_point]
+Type=0x11707
+String1=0x04,Strömriktningspil
+Xpm="4 4 1 1"
+"a c #0080E6"
+"aaaa"
+"aaaa"
+"aaaa"
+"aaaa"
+[end]
+
+[_point]
+Type=0x11708
+String1=0x04,Slussport
+Xpm="4 4 1 1"
+"a c #333333"
+"aaaa"
+"aaaa"
+"aaaa"
+"aaaa"
+[end]
+
+[_point]
+Type=0x11709
+String1=0x04,Dammbyggnad punkt
+Xpm="4 4 1 1"
+"a c #333333"
+"aaaa"
+"aaaa"
+"aaaa"
+"aaaa"
+[end]
+
+[_point]
+Type=0x1170a
+String1=0x04,Milstolpe
+Xpm="4 4 1 1"
+"a c #333333"
+"aaaa"
+"aaaa"
+"aaaa"
+"aaaa"
+[end]
+
+[_point]
+Type=0x1170b
+String1=0x04,Gruvhål
+Xpm="4 4 1 1"
+"a c #333333"
+"aaaa"
+"aaaa"
+"aaaa"
+"aaaa"
+[end]
+
+[_point]
+Type=0x1170c
+String1=0x04,Ruin
+Xpm="5 5 1 1"
+"a c #9A3A3A"
+"aaaaa"
+"aaaaa"
+"aaaaa"
+"aaaaa"
+"aaaaa"
+[end]
+
+[_point]
+Type=0x1170d
+String1=0x04,Fornlämning/minnessten
+Xpm="5 5 1 1"
+"a c #9A3A3A"
+"aaaaa"
+"aaaaa"
+"aaaaa"
+"aaaaa"
+"aaaaa"
+[end]
+
+[_point]
+Type=0x1170e
+String1=0x04,Naturminne/naturobjekt
+Xpm="5 5 1 1"
+"a c #5AB032"
+"aaaaa"
+"aaaaa"
+"aaaaa"
+"aaaaa"
+"aaaaa"
+[end]

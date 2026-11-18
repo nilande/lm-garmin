@@ -1,0 +1,83 @@
+{
+ "lm_garmin": "0.0.1",
+ "region": {
+  "id": "sweden",
+  "bbox_3006": [
+   200000.0,
+   6090000.0,
+   940000.0,
+   7680000.0
+  ]
+ },
+ "tools": {
+  "mkgmap": "r4924",
+  "splitter": "r654"
+ },
+ "java": "/opt/homebrew/opt/openjdk/bin/java",
+ "jobs": 10,
+ "seconds": 1075.63,
+ "steps": [
+  {
+   "name": "convert",
+   "seconds": 457.87,
+   "max_rss_mb": 527.4,
+   "detail": {
+    "features": 18585717
+   }
+  },
+  {
+   "name": "split:topo50",
+   "seconds": 229.2,
+   "max_rss_mb": 2689.5,
+   "detail": {
+    "tiles": 380
+   }
+  },
+  {
+   "name": "compile:topo50",
+   "seconds": 384.26,
+   "max_rss_mb": 4472.0,
+   "detail": {
+    "bytes": 2015494144
+   }
+  },
+  {
+   "name": "extract:skoter",
+   "seconds": 1.74,
+   "max_rss_mb": 0.0,
+   "detail": {
+    "objects": 10596
+   }
+  },
+  {
+   "name": "split:skoter",
+   "seconds": 0.62,
+   "max_rss_mb": 318.3,
+   "detail": {
+    "tiles": 1
+   }
+  },
+  {
+   "name": "compile:skoter",
+   "seconds": 0.98,
+   "max_rss_mb": 249.2,
+   "detail": {
+    "bytes": 889856
+   }
+  }
+ ],
+ "outputs": {
+  "topo50": {
+   "file": "lm-topo50.img",
+   "bytes": 2015494144,
+   "family_id": 5750,
+   "tiles": 380
+  },
+  "skoter": {
+   "file": "lm-skoter.img",
+   "bytes": 889856,
+   "family_id": 5751,
+   "tiles": 1
+  }
+ }
+}

@@ -1,0 +1,67 @@
+; GENERATED from mapping.csv by `lm-garmin style generate` – do not edit.
+
+[_id]
+FID=5751
+ProductCode=1
+CodePage=65001
+[end]
+
+[_line]
+Type=0x10e11
+String1=0x04,Vinterled – skoterkörning påbjuden
+LineWidth=5
+BorderWidth=1
+Xpm="0 0 2 0"
+"a c #D62000"
+"b c #600000"
+[end]
+
+[_line]
+Type=0x10e10
+String1=0x04,Vinterled – skoterkörning tillåten
+LineWidth=4
+BorderWidth=1
+Xpm="0 0 2 0"
+"a c #FF7A00"
+"b c #7A3A00"
+[end]
+
+[_line]
+Type=0x10e12
+String1=0x04,Vinterled – skoterkörning ej tillåten
+UseOrientation=Y
+Xpm="32 3 2 1"
+"a c #7A7A7A"
+"b c none"
+"aaaaabbbaaaaabbbaaaaabbbaaaaabbb"
+"aaaaabbbaaaaabbbaaaaabbbaaaaabbb"
+"aaaaabbbaaaaabbbaaaaabbbaaaaabbb"
+[end]
+
+[_line]
+Type=0x10e13
+String1=0x04,Vinterled – ingen information om skoterkörning
+UseOrientation=Y
+Xpm="32 3 2 1"
+"a c #FFB060"
+"b c none"
+"aaaaabbbaaaaabbbaaaaabbbaaaaabbb"
+"aaaaabbbaaaaabbbaaaaabbbaaaaabbb"
+"aaaaabbbaaaaabbbaaaaabbbaaaaabbb"
+[end]
+
+[_point]
+Type=0x11610
+String1=0x04,Påbjuden färdväg vid skoteråkning
+Xpm="9 9 1 1"
+"a c #D62000"
+"aaaaaaaaa"
+"aaaaaaaaa"
+"aaaaaaaaa"
+"aaaaaaaaa"
+"aaaaaaaaa"
+"aaaaaaaaa"
+"aaaaaaaaa"
+"aaaaaaaaa"
+"aaaaaaaaa"
+[end]
