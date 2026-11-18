@@ -229,8 +229,8 @@ fixtures — they are CC0 and ~1–3 MB each.)
 
 - Shipped as its own `.img` (toggle in *Map setup → Map information*); a combined
   `gmapsupp.img` is a build option.
-- Optional later: Skoterleder.org overlay as a *third* family, built only locally, never
-  distributed, only after the licence is clear.
+- Optional later: an OpenStreetMap snowmobile overlay (the source behind Skoterleder.org,
+  ODbL) as a *third* family, with OSM attribution.
 
 ## 7. Search and routing
 
@@ -340,7 +340,7 @@ coverage metric (local GPX + CI hand-made track); combined vs separate file opti
 | Repository | `nilande/lm-garmin`, public |
 | Code licence | MIT (code, styles, TYP) |
 | First device test area | Hemavan/Syter snowmobile area (E 500–550, N 7 250–7 310 km), then Stockholm NE |
-| Skoterleder.org data | licence to be asked from Skoterleder.org; GPX stays strictly local until then |
+| Skoterleder.org data | the site states its trails come from OpenStreetMap → ODbL (see data-inventory). GPX stays local; a later overlay should read OSM `snowmobile=*` directly (issue #29) |
 | Coverage tolerance | report 50 m (primary, baseline 45.9 %) and 25 m (42.5 %); local check fails on a drop > 1 pp |
 | MVP scope | searchable place names in, routing out |
 | Third fixture | `skoter_730_51` added |

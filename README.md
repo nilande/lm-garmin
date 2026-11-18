@@ -62,12 +62,24 @@ uv run pytest
 Keep the delivery anywhere; paths may contain spaces and colons
 (e.g. `LM2026:173692 - Topografi 50 Nedladdning, vektor`).
 
-## Build a map *(planned – milestone M1)*
+## Build a map
+
+Available now:
 
 ```bash
+# S0: unpack the delivery once into the cache (~/.cache/lm-garmin/gpkg); re-runs are no-ops
 uv run lm-garmin unpack "/path/to/LM2026:173692 - Topografi 50 Nedladdning, vektor"
+
+# S1: convert to OSM PBF (one file per theme) for a region
+uv run lm-garmin convert --bbox 500000,7250000,550000,7310000   # SWEREF 99 TM
+uv run lm-garmin convert --bbox-wgs84 14.5,65.4,16.0,65.9
+uv run lm-garmin convert --region sweden
+```
+
+Planned (milestone M1, issue #7):
+
+```bash
 uv run lm-garmin build --region sweden --out dist/
-uv run lm-garmin build --bbox 500000,7250000,550000,7310000 --out dist/   # SWEREF 99 TM
 ```
 
 Output: `dist/gmapsupp.img` (base map) and `dist/gmapsupp-skoter.img` (snowmobile overlay).

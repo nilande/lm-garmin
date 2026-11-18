@@ -1,0 +1,216 @@
+{
+ "lm_garmin": "0.0.1",
+ "tag_schema": 1,
+ "region": {
+  "id": "sweden",
+  "bbox_3006": [
+   200000.0,
+   6090000.0,
+   940000.0,
+   7680000.0
+  ]
+ },
+ "seconds": 489.29,
+ "themes": [
+  {
+   "theme": "administrativindelning",
+   "pbf": "administrativindelning.osm.pbf",
+   "features": 1675,
+   "nodes": 317704,
+   "ways": 981,
+   "relations": 0,
+   "seconds": 0.82,
+   "max_rss_mb": 170.0,
+   "layers": {
+    "administrativ_grans": 981,
+    "riksrose": 694
+   }
+  },
+  {
+   "theme": "anlaggningsomrade",
+   "pbf": "anlaggningsomrade.osm.pbf",
+   "features": 28930,
+   "nodes": 732797,
+   "ways": 10681,
+   "relations": 57,
+   "seconds": 2.43,
+   "max_rss_mb": 202.2,
+   "layers": {
+    "anlaggningsomrade": 10230,
+    "anlaggningsomradespunkt": 18244,
+    "flygplatsomrade": 182,
+    "flygplatspunkt": 68,
+    "start_landningsbana": 206
+   }
+  },
+  {
+   "theme": "byggnadsverk",
+   "pbf": "byggnadsverk.osm.pbf",
+   "features": 1666179,
+   "nodes": 2324342,
+   "ways": 93474,
+   "relations": 511,
+   "seconds": 18.67,
+   "max_rss_mb": 178.2,
+   "layers": {
+    "byggnad": 91195,
+    "byggnadsanlaggningslinje": 1600,
+    "byggnadsanlaggningspunkt": 14717,
+    "byggnadspunkt": 1558667
+   }
+  },
+  {
+   "theme": "hojd",
+   "pbf": "hojd.osm.pbf",
+   "features": 5118407,
+   "nodes": 301697126,
+   "ways": 4697449,
+   "relations": 0,
+   "seconds": 488.51,
+   "max_rss_mb": 539.7,
+   "layers": {
+    "hojdlinje": 4697449,
+    "hojdpunkt": 33801,
+    "hojdkurvstext": 387157
+   }
+  },
+  {
+   "theme": "hydrografi",
+   "pbf": "hydrografi.osm.pbf",
+   "features": 974455,
+   "nodes": 11112509,
+   "ways": 705293,
+   "relations": 0,
+   "seconds": 32.12,
+   "max_rss_mb": 251.5,
+   "layers": {
+    "hydroanlaggningslinje": 1595,
+    "hydroanlaggningspunkt": 3723,
+    "hydrografiskt_intressant_plats": 7721,
+    "hydrolinje": 695977,
+    "hydropunkt": 265439
+   }
+  },
+  {
+   "theme": "kommunikation",
+   "pbf": "kommunikation.osm.pbf",
+   "features": 2499212,
+   "nodes": 37641291,
+   "ways": 2360244,
+   "relations": 0,
+   "seconds": 96.68,
+   "max_rss_mb": 373.3,
+   "layers": {
+    "vaglinje": 1832254,
+    "vagpunkt": 135245,
+    "farjeled": 191,
+    "ovrig_vag": 513518,
+    "transportled_fjall": 1120,
+    "ledintressepunkt_fjall": 2894,
+    "ralstrafik": 13161,
+    "ralstrafikstation": 829
+   }
+  },
+  {
+   "theme": "kulturhistorisklamning",
+   "pbf": "kulturhistorisklamning.osm.pbf",
+   "features": 31292,
+   "nodes": 36062,
+   "ways": 428,
+   "relations": 0,
+   "seconds": 0.47,
+   "max_rss_mb": 113.1,
+   "layers": {
+    "kultur_lamning_linje": 428,
+    "kultur_lamning_punkt": 30864
+   }
+  },
+  {
+   "theme": "ledningar",
+   "pbf": "ledningar.osm.pbf",
+   "features": 16364,
+   "nodes": 72338,
+   "ways": 13783,
+   "relations": 0,
+   "seconds": 0.6,
+   "max_rss_mb": 124.0,
+   "layers": {
+    "ledningslinje": 13220,
+    "transformatoromrade": 563,
+    "transformatoromradespunkt": 2581
+   }
+  },
+  {
+   "theme": "mark",
+   "pbf": "mark.osm.pbf",
+   "features": 7765478,
+   "nodes": 223974303,
+   "ways": 9302219,
+   "relations": 233248,
+   "seconds": 440.24,
+   "max_rss_mb": 396.1,
+   "layers": {
+    "mark": 2469841,
+    "markkantlinje": 4272794,
+    "sankmark": 893458,
+    "markframkomlighet": 129385
+   }
+  },
+  {
+   "theme": "militartomrade",
+   "pbf": "militartomrade.osm.pbf",
+   "features": 286,
+   "nodes": 13654,
+   "ways": 290,
+   "relations": 4,
+   "seconds": 0.05,
+   "max_rss_mb": 126.6,
+   "layers": {
+    "militart_omrade": 286
+   }
+  },
+  {
+   "theme": "naturvard",
+   "pbf": "naturvard.osm.pbf",
+   "features": 11202,
+   "nodes": 684367,
+   "ways": 10720,
+   "relations": 439,
+   "seconds": 2.15,
+   "max_rss_mb": 192.9,
+   "layers": {
+    "skyddadnatur": 9258,
+    "naturvardspunkt": 1801,
+    "naturvardslinje": 20,
+    "restriktionsomrade": 123
+   }
+  },
+  {
+   "theme": "norrapolcirkeln",
+   "pbf": "norrapolcirkeln.osm.pbf",
+   "features": 1,
+   "nodes": 465,
+   "ways": 1,
+   "relations": 0,
+   "seconds": 0.02,
+   "max_rss_mb": 128.8,
+   "layers": {
+    "polcirkeln": 1
+   }
+  },
+  {
+   "theme": "text",
+   "pbf": "text.osm.pbf",
+   "features": 472236,
+   "nodes": 558988,
+   "ways": 19745,
+   "relations": 0,
+   "seconds": 6.87,
+   "max_rss_mb": 169.0,
+   "layers": {
+    "textpunkt": 452491,
+    "textlinje": 19745
+   }
+  }
+ ]
+}
