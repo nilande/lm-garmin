@@ -1,0 +1,5 @@
+name=* { name '${name}' }
+diag=sjo [0x650d resolution 20]
+diag=fjall [0x6614 resolution 20]
+diag=ort [0x0c00 resolution 20]
+diag=etikett [0x2800 resolution 20]

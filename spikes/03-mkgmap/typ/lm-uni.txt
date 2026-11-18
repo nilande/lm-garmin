@@ -410,3 +410,15 @@ Xpm="3 3 1 1"
 "aaa"
 "aaa"
 [end]
+
+[_point]
+Type=0x650d
+String1=0x04,Sjö, namn
+Xpm="5 5 1 1"
+"a c #3A8FD0"
+"aaaaa"
+"aaaaa"
+"aaaaa"
+"aaaaa"
+"aaaaa"
+[end]

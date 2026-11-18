@@ -55,6 +55,7 @@ base = [
     line("0x16", "Stig", "#333333", 2, dash=(2, 2)), line("0x18", "Vattendrag", "#3A8FD0", 1),
     line("0x29", "Kraftledning", "#202020", 1), line("0x1c", "Gräns", "#C8A0E0", 3),
     point("0x6402", "Byggnad", "#000000", 3), point("0x6616", "Höjdpunkt", "#000000", 3),
+    point("0x650d", "Sjö, namn", "#3A8FD0", 5),
 ]
 over = [
     "[_id]\nFID=5731\nProductCode=1\nCodePage=1252\n[end]\n",
