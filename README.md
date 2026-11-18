@@ -4,8 +4,8 @@ Build a Garmin map (`.img`) from Lantmäteriet's open topographic data
 **Topografi 50 Nedladdning, vektor**, styled to resemble Lantmäteriet's printed
 **Karta 1:50 000**. Primary target device: **Garmin Montana 700**.
 
-> **Status: planning done, implementation starting.** The command line tool is a
-> skeleton; see [docs/PLAN.md](docs/PLAN.md) and the
+> **Status: milestone M1 (MVP) in progress.** `unpack`, `convert`, `build` and `verify`
+> work; the style is a first draft; see [docs/PLAN.md](docs/PLAN.md) and the
 > [milestones](https://github.com/nilande/lm-garmin/milestones). Experiments that informed
 > the plan are in [`spikes/`](spikes) and [docs/spikes.md](docs/spikes.md).
 
@@ -64,31 +64,36 @@ Keep the delivery anywhere; paths may contain spaces and colons
 
 ## Build a map
 
-Available now:
-
 ```bash
 # S0: unpack the delivery once into the cache (~/.cache/lm-garmin/gpkg); re-runs are no-ops
 uv run lm-garmin unpack "/path/to/LM2026:173692 - Topografi 50 Nedladdning, vektor"
 
-# S1: convert to OSM PBF (one file per theme) for a region
-uv run lm-garmin convert --bbox 500000,7250000,550000,7310000   # SWEREF 99 TM
-uv run lm-garmin convert --bbox-wgs84 14.5,65.4,16.0,65.9
-uv run lm-garmin convert --region sweden
-```
-
-Planned (milestone M1, issue #7):
-
-```bash
+# S1–S3: build the maps for a region
 uv run lm-garmin build --region sweden --out dist/
+uv run lm-garmin build --bbox 500000,7250000,550000,7310000 --out dist/   # SWEREF 99 TM
+uv run lm-garmin build --bbox-wgs84 14.5,65.4,16.0,65.9 --out dist/
+
+# S4: decode the built maps and check them
+uv run lm-garmin verify dist/lm-topo50.img dist/lm-skoter.img
 ```
 
-Output: `dist/gmapsupp.img` (base map) and `dist/gmapsupp-skoter.img` (snowmobile overlay).
+Output in `dist/`:
+
+| File | Contents |
+|---|---|
+| `lm-topo50.img` | base map (family id 5750), searchable place names |
+| `lm-skoter.img` | transparent snowmobile overlay (family id 5751), only if the region has winter trails |
+| `build-report.json` | time and peak memory per step, tile counts, sizes |
+
+Single steps are available too: `lm-garmin convert …` (S1 only) and
+`lm-garmin style generate` (rewrites the mkgmap styles and TYP files from
+`styles/*/mapping.csv`).
 
 ## Install on the Montana 700
 
 1. Connect the device with USB (it appears as a drive), or put its microSD card in a reader.
-2. Copy the `.img` files to the `Garmin/` folder (internal storage or SD card). Give each
-   file a unique name, e.g. `lm-topo50.img` and `lm-skoter.img`. Files must be < 4 GB (FAT32).
+2. Copy `lm-topo50.img` and `lm-skoter.img` to the `Garmin/` folder (internal storage or
+   SD card). Files must be < 4 GB (FAT32); the build fails above 3.5 GB.
 3. Eject, restart the device, then *Map setup → Map information* (*Kartinställningar →
    Kartinformation*) to enable/disable the base map and the snowmobile overlay. Disable other
    maps covering the same area if they hide this one.

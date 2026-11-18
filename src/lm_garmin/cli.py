@@ -8,10 +8,7 @@ from pathlib import Path
 
 from . import __version__, region, tools
 
-NOT_YET = {
-    "build": "S1–S3: build gmapsupp.img for a region (issue #7)",
-    "verify": "S4: decode a built .img and run the checks (issue #9)",
-}
+NOT_YET: dict[str, str] = {}
 
 
 def _add_region_args(p: argparse.ArgumentParser) -> None:
@@ -51,6 +48,27 @@ def main(argv: list[str] | None = None) -> int:
     c.add_argument("--out", type=Path, help="output folder (default: <cache>/pbf/<region>)")
     c.add_argument("--jobs", type=int, help="parallel themes (default: CPU count)")
 
+    b = sub.add_parser("build", help="S1–S3: build the Garmin maps for a region")
+    _add_region_args(b)
+    b.add_argument("--gpkg-dir", type=Path, help="GeoPackages (default: <cache>/gpkg)")
+    b.add_argument("--out", type=Path, default=Path("dist"), help="output folder (default: dist)")
+    b.add_argument(
+        "--products",
+        default="topo50,skoter",
+        help="comma-separated: topo50 (base map), skoter (overlay)",
+    )
+    b.add_argument("--jobs", type=int, help="parallel jobs (default: CPU count)")
+    b.add_argument("--java-mem", default="4g", help="Java heap for mkgmap (default 4g)")
+    b.add_argument("--max-nodes", type=int, default=1_600_000, help="splitter --max-nodes")
+
+    s = sub.add_parser("style", help="generate mkgmap style + TYP from styles/<name>/mapping.csv")
+    s.add_argument("action", choices=["generate"])
+
+    v = sub.add_parser("verify", help="S4: decode built .img files and check them")
+    v.add_argument("img", type=Path, nargs="+", help="tile .img or gmapsupp-style .img files")
+    v.add_argument("--expect", type=Path, help="expectations JSON (see tests/data/expect)")
+    v.add_argument("--dump", type=Path, help="also write decoded features as GeoJSON lines")
+
     for name, text in NOT_YET.items():
         sub.add_parser(name, help=f"{text} – not implemented yet")
 
@@ -86,6 +104,35 @@ def main(argv: list[str] | None = None) -> int:
         total = sum(s.features for s in stats)
         print(f"{total} features in {len(stats)} themes → {out}")
         return 0
+
+    if a.cmd == "build":
+        from .build import BuildError, build
+
+        gpkg_dir = a.gpkg_dir or cache / "gpkg"
+        reg = _region_from_args(a, gpkg_dir)
+        try:
+            rep = build(
+                gpkg_dir, reg, a.out, cache, a.products.split(","), a.jobs, a.java_mem, a.max_nodes
+            )
+        except BuildError as e:
+            print(f"build failed: {e}", file=sys.stderr)
+            return 1
+        print(f"done in {rep['seconds']}s → {a.out}")
+        return 0
+
+    if a.cmd == "style":
+        from . import stylegen
+        from .products import PRODUCTS
+
+        for prod in PRODUCTS.values():
+            for f in stylegen.generate(prod.style_dir, prod.family_id, prod.levels):
+                print(f)
+        return 0
+
+    if a.cmd == "verify":
+        from .verify import main as verify_main
+
+        return verify_main(a.img, a.expect, a.dump)
 
     print(f"lm-garmin {a.cmd}: not implemented yet – {NOT_YET[a.cmd]}", file=sys.stderr)
     return 2

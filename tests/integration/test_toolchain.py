@@ -1,4 +1,4 @@
-"""Integration tests. The full fixture build arrives with milestone M1."""
+"""Integration tests for the external tools (fixture builds: test_build.py)."""
 
 import subprocess
 
@@ -44,10 +44,6 @@ def test_converted_fixture_is_accepted_by_splitter(java, fixture, data_dir, tmp_
     )
     assert out.returncode == 0, out.stdout[-2000:] + out.stderr[-2000:]
     assert list((tmp_path / "split").glob("*.osm.pbf"))
-
-
-@pytest.mark.skip(reason="M1 (#7, #10): build fixtures to .img, decode and check object types")
-def test_build_fixtures_to_img(): ...
 
 
 @pytest.mark.skip(reason="M3: snowmobile completeness gate on the decoded overlay")

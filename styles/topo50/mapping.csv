@@ -1,0 +1,174 @@
+kind,layer,t,condition,type,resolution,name,description,colour,colour2,width,pattern,order
+# Polygons – land cover (mark). Draw order: 1 background, 2 built-up/fields, 3 water, 4 wetland/terrain, 5 overlays, 6 buildings
+polygon,mark,2631,,0x28,16,,Hav,#CBEAFF,,,solid,3
+polygon,mark,2632,,0x3c,18,,Sjö,#CBEAFF,,,solid,3
+polygon,mark,2633,,0x48,20,,Vattendragsyta,#CBEAFF,,,solid,3
+polygon,mark,2634,,0x3f,22,,Anlagt vatten,#CBEAFF,,,solid,3
+polygon,mark,2635,,0x4d,18,,Glaciär,#F4FAFF,,,solid,3
+polygon,mark,2636,,0x01,20,,Sluten bebyggelse,#D58B5B,,,solid,2
+polygon,mark,2637,,0x02,20,,Hög bebyggelse,#E6B28C,,,solid,2
+polygon,mark,2638,,0x03,20,,Låg bebyggelse,#F2CF9B,,,solid,2
+polygon,mark,2639,,0x0c,20,,Industri- och handelsbebyggelse,#E0E0E0,,,solid,2
+polygon,mark,2640,,0x10f03,20,,Öppen mark,#FFFFEA,,,solid,1
+polygon,mark,2642,,0x4e,20,,Åker,#FFF7A6,,,solid,2
+polygon,mark,2643,,0x10f08,22,,Fruktodling,#FFF7A6,#9A9A40,,dots,2
+polygon,mark,2644,,0x52,18,,Kalfjäll,#FFFFF2,,,solid,1
+polygon,mark,2645,,0x50,18,,Barr- och blandskog,#D4EEB7,,,solid,1
+polygon,mark,2646,,0x10f01,20,,Lövskog,#C7D9B3,,,solid,1
+polygon,mark,2647,,0x10f02,18,,Fjällbjörkskog,#DFF5D9,,,solid,1
+polygon,mark,2648,,0x10f0a,18,,Ej karterat område,#F0F0F0,,,solid,1
+polygon,sankmark,2651,,0x51,20,,Sankmark fast,#E88A2E,,,stripe,4
+polygon,sankmark,2652,,0x10f04,20,,Sankmark våt,#40BAFF,,,stripe,4
+polygon,markframkomlighet,1571,,0x10f05,22,,Berg i dagen,#B4B4B4,,,solid,4
+polygon,markframkomlighet,1572,,0x10f06,22,,Tät vegetation,#7FB34C,,,hatch,4
+polygon,markframkomlighet,1573,,0x10f07,22,,Blockig mark,#707070,,,dots,4
+polygon,byggnad,,,0x13,23,,Byggnad,#464646,,,solid,6
+polygon,anlaggningsomrade,2831,,0x10f10,22,,Industriområde,#9A9A9A,,,hatch,5
+polygon,anlaggningsomrade,2832,,0x10f11,22,,Samhällsfunktion,#B07A50,,,hatch,5
+polygon,anlaggningsomrade,2833,,0x10f12,22,,Rekreation,#6AA84F,,,hatch,5
+polygon,anlaggningsomrade,2834,,0x10f13,22,,Civilt skjutfält,#C04040,,,hatch,5
+polygon,flygplatsomrade,2854,,0x07,20,,Flygplatsområde,#D9D9D9,,,solid,2
+polygon,start_landningsbana,2853,,0x0e,22,,Start- och landningsbana,#F5D2B0,,,solid,6
+polygon,transformatoromrade,1741,,0x10f14,22,,Transformatorområde,#808080,,,hatch,5
+polygon,militart_omrade,,,0x04,18,,Militärt område,#00A0E0,,,hatch,5
+polygon,skyddadnatur,5603,,0x16,16,,Nationalpark,#5AB032,,,hatch,5
+polygon,skyddadnatur,,,0x10f15,18,,Skyddad natur,#5AB032,,,hatch,5
+polygon,restriktionsomrade,,,0x10f16,20,,Restriktionsområde (terrängfordon/eld),#D03070,,,hatch,5
+# Lines – contours (label = height)
+line,hojdlinje,2402,,0x21,22,${ele},Gropkurva,#D06A08,,1,solid,
+line,hojdlinje,2405,,0x21,22,${ele},Gropkurva 10,#D06A08,,1,solid,
+line,hojdlinje,,lm:stodkurva=Ja,0x22,20,${ele},Stödkurva,#D06A08,,2,solid,
+line,hojdlinje,2401,,0x20,22,${ele},Höjdkurva 5 m,#D06A08,,1,solid,
+line,hojdlinje,2404,,0x20,22,${ele},Höjdkurva 10 m,#D06A08,,1,solid,
+# Roads (label = road number)
+line,vaglinje,1801,,0x01,16,${ref},Motorväg,#C0392B,#7A1F15,5,solid,
+line,vaglinje,1802,,0x02,16,${ref},Motortrafikled,#C0392B,#7A1F15,4,solid,
+line,vaglinje,1803,,0x03,17,${ref},Mötesfri väg,#D35A3A,#7A1F15,4,solid,
+line,vaglinje,1804,,0x03,18,${ref},Landsväg,#E07850,#8A3A20,4,solid,
+line,vaglinje,1805,,0x04,19,${ref},Landsväg liten,#E89070,#8A3A20,3,solid,
+line,vaglinje,1806,,0x05,20,${ref},Småväg,#7F7F7F,,2,solid,
+line,vaglinje,1807,,0x07,21,${ref},Småväg enkel standard,#A0A0A0,,1,solid,
+line,vaglinje,1808,,0x0b,19,${ref},Övergripande länk,#B5442B,,3,solid,
+line,vaglinje,1809,,0x10d04,20,${ref},Huvudgata,#E07850,,3,solid,
+line,vaglinje,1810,,0x06,21,,Lokalgata stor,#7F7F7F,,2,solid,
+line,vaglinje,1811,,0x10d05,22,,Lokalgata liten,#A0A0A0,,1,solid,
+line,farjeled,1891,,0x1b,18,,Färjeled,#C0392B,,2,dash,
+line,ralstrafik,1861,,0x14,18,,Järnväg,#333333,,2,solid,
+line,ralstrafik,1862,,0x10e0e,20,,Museijärnväg,#555555,,2,dash,
+# Paths and trails (ovrig_vag). Winter trails are drawn as in Karta 1:50 000; the overlay adds snowmobile status
+line,ovrig_vag,1623,,0x10e00,21,,Cykelväg,#8A6A3A,,1,dash,
+line,ovrig_vag,1624,,0x16,21,,Gångstig,#333333,,1,dash,
+line,ovrig_vag,1625,,0x10e01,21,,Elljusspår,#C8B400,,1,dash,
+line,ovrig_vag,1628,,0x0a,21,,Traktorväg,#606060,,2,dash,
+line,ovrig_vag,1842,,0x10e02,22,,Parkväg,#8A6A3A,,1,dash,
+line,ovrig_vag,1846,,0x10e03,20,,Vandringsled,#C44982,,2,solid,
+line,ovrig_vag,1847,,0x10e04,20,,Vandrings- och vinterled,#C44982,,2,solid,
+line,ovrig_vag,1848,,0x10e05,20,,Vinterled,#C44982,,2,dash,
+line,transportled_fjall,1821,,0x10e06,21,,Skidspår,#555555,,1,dash,
+line,transportled_fjall,1822,,0x10e07,21,,Lämplig färdväg,#C44982,,1,dash,
+line,transportled_fjall,1823,,0x10e08,21,,Rennäringsled,#8B5A2B,,1,dash,
+line,transportled_fjall,1824,,0x10e09,21,,Fångstarm till led,#C44982,,1,solid,
+line,transportled_fjall,1825,,0x10e0a,21,,Roddled,#C44982,,1,dash,
+line,transportled_fjall,1826,,0x10e0b,21,,Svårorienterad gångstig,#333333,,1,dash,
+line,transportled_fjall,1827,,0x10e0c,21,,Båtdrag,#C44982,,1,dash,
+line,transportled_fjall,1828,,0x10e0d,21,,Trafikerad båtled,#C44982,,1,dash,
+# Water
+line,hydrolinje,1581,,0x18,21,,Vattendrag,#0080E6,,1,solid,
+line,hydrografiskt_intressant_plats,1583,,0x10e10,22,,Fors,#0080E6,,3,dash,
+line,hydrografiskt_intressant_plats,1584,,0x10e11,22,,Vattenfall,#0050A0,,3,solid,
+line,hydroanlaggningslinje,1902,,0x10e12,22,,Brygga,#333333,,2,solid,
+line,hydroanlaggningslinje,1903,,0x10e13,22,,Dammbyggnad,#333333,,3,solid,
+line,hydroanlaggningslinje,1907,,0x10e14,22,,Pir,#333333,,2,solid,
+line,hydroanlaggningslinje,1910,,0x10e15,22,,Vattentub/vattenränna,#0080E6,,2,dash,
+line,hydroanlaggningslinje,1911,,0x10e16,22,,Akvedukt,#0080E6,,2,solid,
+line,markkantlinje,2612,,0x10e17,22,,Strandlinje hav,#0080E6,,1,solid,
+line,markkantlinje,2613,,0x10e17,22,,Strandlinje sjö,#0080E6,,1,solid,
+line,markkantlinje,2614,,0x10e17,22,,Strandlinje vattendragsyta,#0080E6,,1,solid,
+line,markkantlinje,2615,,0x10e17,22,,Strandlinje anlagt vatten,#0080E6,,1,solid,
+line,markkantlinje,2618,,0x10d03,22,,Glaciärgräns,#0080E6,,1,dash,
+# Boundaries and other lines
+line,administrativ_grans,1561,,0x10e18,18,,Sjöterritoriets gräns,#C080E0,,2,dash,
+line,administrativ_grans,1562,,0x1e,14,,Riksgräns,#C080E0,,4,solid,
+line,administrativ_grans,1563,,0x1c,18,,Länsgräns,#D4B0F0,,3,solid,
+line,administrativ_grans,1564,,0x1d,20,,Kommungräns,#D4B0F0,,2,solid,
+line,administrativ_grans,1565,,0x10e19,20,,Odlingsgräns,#8A6A3A,,1,dash,
+line,byggnadsanlaggningslinje,1978,,0x10e1a,21,,Lintrafik,#333333,,1,solid,
+line,byggnadsanlaggningslinje,1980,,0x10e1b,22,,Renstängsel,#333333,,1,dash,
+line,kultur_lamning_linje,,,0x10e1c,22,,Kulturhistorisk lämning,#9A3A3A,,1,dash,
+line,ledningslinje,1702,,0x29,20,,Kraftledning stam,#333333,,2,solid,
+line,ledningslinje,1703,,0x10e1d,21,,Kraftledning region,#333333,,1,solid,
+line,ledningslinje,1704,,0x10e1e,22,,Kraftledning fördelning,#555555,,1,solid,
+line,ledningslinje,1707,,0x10e1f,22,,Telefonledning,#555555,,1,dash,
+line,naturvardslinje,5641,,0x10d00,20,,Naturreservat linje,#5AB032,,2,solid,
+line,polcirkeln,1881,,0x10d01,14,,Norra polcirkeln,#333333,,1,dash,
+line,textlinje,,,0x10d02,21,${name},Namn längs linje,#D0D0D0,,1,label,
+# Points – map texts. On the Montana 700 only city types (0x01–0x11) and label points (0x28) show labels
+point,textpunkt,,lm:textkategori=Tätort & lm:textstorleksklass>=7,0x0400,15,${name},Tätort stor,,,,none,
+point,textpunkt,,lm:textkategori=Tätort,0x0800,18,${name},Tätort,,,,none,
+point,textpunkt,,lm:textkategori=Bebyggelse & lm:textstorleksklass>=4,0x0a00,20,${name},Bebyggelse stor,,,,none,
+point,textpunkt,,lm:textkategori=Bebyggelse,0x0c00,21,${name},Bebyggelse,,,,none,
+point,textpunkt,,lm:textstorleksklass>=4,0x2800,19,${name},Namn stort,,,,none,
+point,textpunkt,,lm:textkategori=Upplysningstext | lm:textkategori=Fjällupplysningstext,0x2800,23,${name},Upplysningstext,,,,none,
+point,textpunkt,,,0x2800,21,${name},Namn,,,,none,
+point,hojdpunkt,2412,,0x6616,21,${ele},Triangelpunkt,#000000,,5,icon,
+point,hojdpunkt,,,0x2800,23,${ele},Höjdvärde,,,,none,
+point,riksrose,5121,,0x11500,20,,Riksröse,#C080E0,,5,icon,
+# Points – buildings and facilities (icons are placeholders until M2)
+point,byggnadspunkt,2045,,0x6402,23,,Byggnad,#464646,,3,icon,
+point,byggnadspunkt,2046,,0x11501,22,,Byggnad större,#464646,,5,icon,
+point,byggnadspunkt,2047,,0x11502,22,,Byggnad störst,#464646,,7,icon,
+point,byggnadspunkt,1042,,0x6404,21,,Kyrka,#000000,,7,icon,
+point,byggnadspunkt,2037,,0x11503,21,,Religiös byggnad,#000000,,6,icon,
+point,byggnadspunkt,2016,,0x11504,22,,Klockstapel,#000000,,4,icon,
+point,byggnadspunkt,1044,,0x11505,21,,Kåta,#C0392B,,6,icon,
+point,byggnadspunkt,1046,,0x11506,21,,Vindskydd,#C0392B,,6,icon,
+point,byggnadspunkt,1050,,0x11507,21,,Raststuga,#C0392B,,6,icon,
+point,byggnadspunkt,2032,,0x11508,21,,Enslig stuga i fjällen,#C0392B,,6,icon,
+point,byggnadspunkt,2033,,0x11509,19,,Fjällstation,#C0392B,,8,icon,
+point,byggnadspunkt,2041,,0x1150a,20,,Turiststuga,#C0392B,,7,icon,
+point,byggnadspunkt,2048,,0x1150b,21,,Forskningsstation,#333333,,6,icon,
+point,byggnadspunkt,2049,,0x1150c,22,,Hembygdsgård,#333333,,6,icon,
+point,byggnadspunkt,2050,,0x1150d,21,,Naturum,#5AB032,,6,icon,
+point,byggnadspunkt,2034,,0x1150e,21,,Herrgård,#333333,,6,icon,
+point,byggnadspunkt,2038,,0x1150f,20,,Slott,#333333,,7,icon,
+point,byggnadspunkt,1045,,0x11510,21,,Torn,#333333,,5,icon,
+point,byggnadspunkt,1047,,0x11511,22,,Väderkvarn,#333333,,5,icon,
+point,byggnadspunkt,2025,,0x11512,21,,Vindkraftverk,#333333,,5,icon,
+point,byggnadspunkt,2035,,0x11513,19,,Kärnkraftverk,#C8B400,,8,icon,
+point,byggnadspunkt,1051,,0x11514,21,,Fyrbyggnad,#333333,,6,icon,
+point,byggnadspunkt,1052,,0x11515,22,,Skyddsvärn,#333333,,5,icon,
+point,byggnadsanlaggningspunkt,2019,,0x11516,21,,Mast,#333333,,5,icon,
+point,byggnadsanlaggningspunkt,2022,,0x11517,22,,Skorsten,#333333,,4,icon,
+point,anlaggningsomradespunkt,,,0x11518,22,,Anläggning,#555555,,4,icon,
+point,flygplatspunkt,2852,,0x11519,21,,Helikopterplats,#333333,,6,icon,
+point,transformatoromradespunkt,1742,,0x1151a,22,,Transformator,#333333,,4,icon,
+point,vagpunkt,2203,,0x1151b,22,,Väghinder,#333333,,4,icon,
+point,vagpunkt,2205,,0x1151c,23,,Vändmöjlighet,#808080,,4,icon,
+point,vagpunkt,2207,,0x1151d,21,,Rastplats,#2060C0,,6,icon,
+point,vagpunkt,2209,,0x1151e,22,,Trafikplats,#808080,,4,icon,
+point,ralstrafikstation,1871,,0x1151f,19,,Järnvägsstation,#333333,,6,icon,
+point,ledintressepunkt_fjall,1832,,0x11700,22,,Vad,#0080E6,,5,icon,
+point,ledintressepunkt_fjall,1833,,0x11701,21,,Hjälptelefon,#C0392B,,6,icon,
+point,ledintressepunkt_fjall,1834,,0x11702,21,,Parkering,#2060C0,,6,icon,
+point,ledintressepunkt_fjall,1835,,0x11703,21,,Stormklocka,#C0392B,,6,icon,
+point,ledintressepunkt_fjall,1836,,0x11704,21,,Påbjuden färdväg vid skoteråkning,#F57C00,,6,icon,
+point,ledintressepunkt_fjall,1837,,0x11705,21,,Blinkfyr,#333333,,5,icon,
+point,ledintressepunkt_fjall,1838,,0x11706,22,,Gångbro,#333333,,5,icon,
+point,hydropunkt,,,0x11707,23,,Strömriktningspil,#0080E6,,4,icon,
+point,hydroanlaggningspunkt,1922,,0x11708,22,,Slussport,#333333,,4,icon,
+point,hydroanlaggningspunkt,1923,,0x11709,22,,Dammbyggnad punkt,#333333,,4,icon,
+point,kultur_lamning_punkt,2513,,0x1170a,22,,Milstolpe,#333333,,4,icon,
+point,kultur_lamning_punkt,2517,,0x1170b,22,,Gruvhål,#333333,,4,icon,
+point,kultur_lamning_punkt,2514,,0x1170c,22,,Ruin,#9A3A3A,,5,icon,
+point,kultur_lamning_punkt,,,0x1170d,22,,Fornlämning/minnessten,#9A3A3A,,5,icon,
+point,naturvardspunkt,,,0x1170e,22,,Naturminne/naturobjekt,#5AB032,,5,icon,
+# Intentionally not drawn (kept out of the map, not silently dropped)
+drop,hojdkurvstext,,,,,,Contour labels come from ele on the contours,,,,,
+drop,markkantlinje,2611,,,,,Boundary towards unmapped area – implied by the polygons,,,,,
+drop,markkantlinje,2616,,,,,Closing line sea/lake – not drawn in Karta 1:50 000,,,,,
+drop,markkantlinje,2617,,,,,Closing line lake/watercourse – not drawn,,,,,
+drop,markkantlinje,2619,,,,,Land cover boundary – implied by the polygons,,,,,
+drop,markkantlinje,2620,,,,,Land cover boundary – implied by the polygons,,,,,
+drop,markkantlinje,2621,,,,,Land cover boundary – implied by the polygons,,,,,
+drop,markkantlinje,2622,,,,,Land cover boundary – implied by the polygons,,,,,
+drop,markkantlinje,2623,,,,,Land cover boundary – implied by the polygons,,,,,

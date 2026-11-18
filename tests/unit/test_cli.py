@@ -1,6 +1,15 @@
+import pytest
+
 from lm_garmin import cli
 
 
-def test_unimplemented_commands_exit_2(capsys):
-    assert cli.main(["build"]) == 2
-    assert "not implemented" in capsys.readouterr().err
+def test_build_requires_a_region():
+    with pytest.raises(SystemExit) as e:
+        cli.main(["build"])
+    assert e.value.code == 2
+
+
+def test_version(capsys):
+    with pytest.raises(SystemExit):
+        cli.main(["--version"])
+    assert "lm-garmin" in capsys.readouterr().out
