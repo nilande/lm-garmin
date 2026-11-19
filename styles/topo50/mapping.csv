@@ -16,7 +16,10 @@ polygon,mark,2640,,0x10f03,20,,Öppen mark,#FFFFEA,,,solid,1
 polygon,mark,2642,,0x4e,20,,Åker,#FFF7A6,,,solid,2
 polygon,mark,2643,,0x10f08,22,,Fruktodling,#FFF7A6,#9A9A40,,dots,2
 polygon,mark,2644,,0x52,18,,Kalfjäll,#FFFFF2,,,solid,1
-polygon,mark,2645,,0x50,18,,Barr- och blandskog,#D4EEB7,,,solid,1
+polygon,mark,2645,lm:ov=detail,0x50,18-18,,Barr- och blandskog,#D4EEB7,,,solid,1,continue
+polygon,mark,2645,lm:ov=detail,0x50,21,,Barr- och blandskog,#D4EEB7,,,solid,1
+polygon,mark,2645,lm:ov=yes,0x50,20-20,,Barr- och blandskog,#D4EEB7,,,solid,1
+polygon,mark,2645,lm:ov!=*,0x50,18,,Barr- och blandskog,#D4EEB7,,,solid,1
 polygon,mark,2646,,0x10f01,20,,Lövskog,#C7D9B3,,,solid,1
 polygon,mark,2647,,0x10f02,18,,Fjällbjörkskog,#DFF5D9,,,solid,1
 polygon,mark,2648,,0x10f0a,18,,Ej karterat område,#F0F0F0,,,solid,1
