@@ -56,7 +56,7 @@ jobs:
       - run: uv sync --locked
       - run: uv run lm-garmin tools fetch
       - name: Integration tests (with timings)
-        run: uv run pytest -q -m integration --durations=0 --junitxml=reports/integration.xml
+        run: uv run pytest -q -m integration --capture=tee-sys --durations=0 --junitxml=reports/integration.xml
       - uses: actions/upload-artifact@v4
         if: always()
         with:

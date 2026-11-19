@@ -99,6 +99,10 @@ def main(argv: list[str] | None = None) -> int:
     v.add_argument("--expect", type=Path, help="expectations JSON (see tests/data/expect)")
     v.add_argument("--dump", type=Path, help="also write decoded features as GeoJSON lines")
 
+    coverage = sub.add_parser("coverage", help="measure GPX coverage of a built snowmobile overlay")
+    coverage.add_argument("--img", type=Path, required=True, help="snowmobile overlay .img")
+    coverage.add_argument("--gpx", type=Path, required=True, help="GPX file or directory of files")
+
     for name, text in NOT_YET.items():
         sub.add_parser(name, help=f"{text} – not implemented yet")
 
@@ -177,6 +181,17 @@ def main(argv: list[str] | None = None) -> int:
         from .verify import main as verify_main
 
         return verify_main(a.img, a.expect, a.dump)
+
+    if a.cmd == "coverage":
+        from .coverage import CoverageError, measure
+        from .verify import VerifyError
+
+        try:
+            print(measure(a.img, a.gpx))
+        except (CoverageError, VerifyError, OSError) as e:
+            print(f"coverage failed: {e}", file=sys.stderr)
+            return 1
+        return 0
 
     print(f"lm-garmin {a.cmd}: not implemented yet – {NOT_YET[a.cmd]}", file=sys.stderr)
     return 2

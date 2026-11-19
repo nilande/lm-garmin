@@ -18,6 +18,7 @@ from shapely.geometry import Point, Polygon, box, shape
 
 from lm_garmin import stylegen, tools
 from lm_garmin.build import build
+from lm_garmin.coverage import measure
 from lm_garmin.products import PRODUCTS
 from lm_garmin.region import Region, sweden
 from lm_garmin.verify import check, decode, norm_type, summarize
@@ -185,6 +186,17 @@ def test_snowmobile_completeness(built, fx, data_dir_module):
 def test_overlay_skipped_without_winter_trails(built):
     _, report = built["tatort_659_67_00"]
     assert "skoter" not in report["outputs"]
+
+
+def test_synthetic_track_coverage(built, data_dir_module):
+    out, _ = built["skoter_730_51"]
+    gpx = data_dir_module / "tracks" / "ci_handmade.gpx"
+    result = measure(out / PRODUCTS["skoter"].filename, gpx)
+    print(result)
+    assert result.track_m == pytest.approx(5233, abs=5)
+    assert result.within_25m == pytest.approx(0.81, abs=0.01)
+    assert result.within_50m == pytest.approx(0.82, abs=0.01)
+    assert result.within_25m < result.within_50m
 
 
 def test_build_reports_steps(built):

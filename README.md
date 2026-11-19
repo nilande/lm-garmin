@@ -102,6 +102,32 @@ Single steps are available too: `lm-garmin convert …` (S1 only) and
 `lm-garmin style generate` (rewrites the mkgmap styles and TYP files from
 `styles/*/mapping.csv`).
 
+### Measure snowmobile trail coverage
+
+```bash
+uv run lm-garmin coverage --img dist/lm-skoter.img --gpx "/path/to/tracks"
+```
+
+Pass a GPX file or a directory of GPX files. The command samples track segments at
+intervals of up to 5 m and reports the share of track length within 25 m and 50 m
+of any trail in the decoded snowmobile overlay, across all four status values.
+Use an overlay that covers the same region as the reference tracks. The command
+prints aggregate figures. GitHub Actions checks the synthetic track in `tests/data/tracks/`.
+
+The Skoterleder.org regression check is local. Build the same region as the
+[coverage spike](docs/spikes.md#s5--coverage-against-skoterlederorg-gpx-spikes05-coverage):
+
+```bash
+uv run lm-garmin build --bbox 470000,7240000,595000,7320000 --products skoter --out dist/coverage
+uv run pytest -q -m local_data --capture=tee-sys
+```
+
+The check defaults to `dist/coverage/lm-skoter.img` and
+`/Volumes/scratch/lm-kartdata/snowmobile tracks`. Override these with
+`LM_GARMIN_COVERAGE_IMG` and `LM_GARMIN_COVERAGE_GPX`. The test skips when the GPX
+files are missing and fails if coverage within 50 m falls below 44.9%, one
+percentage point below the 45.9% baseline. Keep the reference tracks local.
+
 ## Install on the Montana 700
 
 1. Connect the device with USB (it appears as a drive), or put its microSD card in a reader.
