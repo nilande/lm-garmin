@@ -25,6 +25,13 @@ the union at resolution 18 increased the lake-area difference against the
 source in the Tärnaby comparison window from 10.26 to 10.81 km². The default
 style therefore uses the union at resolution 20.
 
+On the Montana 700, the before and after screenshots at 2 km showed similar
+lake outlines around Laxnäs and Stor-Laisan. The frames were panned slightly
+between captures. After alignment, the differences in lake fill were small
+and no obvious new gaps or lost islands appeared in the shared view. The
+synthetic seam test covers seam removal directly; this device comparison
+checks the appearance of the actual lake data.
+
 The nationwide *lake-merge step alone* processed 10,822 lake identifiers in
 5.7 s with a 532 MB process peak. The nationwide Garmin build remains a
 separate benchmark.
