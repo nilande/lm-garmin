@@ -55,7 +55,7 @@ def test_osm_overlay_is_opt_in_and_keeps_unmatched_sections(tmp_path):
         if f["properties"]["level"] == 0
     }
     assert {name: f["properties"]["type"] for name, f in features.items()} == {
-        "Extension": "0x10c00",
+        "Extension": "0x10e0f",
         "Crossing": "0x10c01",
         "Ice": "0x10c02",
     }

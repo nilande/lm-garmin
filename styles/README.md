@@ -21,7 +21,7 @@ out of date, and another if any Lantmäteriet object type has no row.
 | `condition` | extra mkgmap expression on the tags of [docs/tag-schema.md](../docs/tag-schema.md) |
 | `type`, `resolution` | Garmin type and the most zoomed-out mkgmap resolution where it is shown. Extended types are `0x1TTSS` with `SS ≤ 0x1f` |
 | `name` | label expression, e.g. `${ele}`, `${ref}` (default: `${name}`) |
-| `description`, `colour`, `colour2`, `width`, `pattern`, `order` | TYP look: pattern `solid`, `dash`, `dot`, `label`, `stripe`, `hatch`, `dots`, `mottled`, `icon`, `none`; polygon draw `order` 1–8 |
+| `description`, `colour`, `colour2`, `width`, `pattern`, `order` | TYP look: pattern `solid`, `solid-bitmap`, `dash`, `dot`, `label`, `stripe`, `hatch`, `dots`, `mottled`, `icon`, `none`; polygon draw `order` 1–8 |
 | `options` | `continue` keeps matching later rules. For a line rule, `outline` also copies the layer and object type to inner rings of matching multipolygons. |
 
 Rows are evaluated top to bottom; the first match wins. Lessons from the Montana 700

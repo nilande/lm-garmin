@@ -18,11 +18,15 @@ Xpm="32 2 2 1"
 [end]
 
 [_line]
-Type=0x10c00
+Type=0x10e0f
 String1=0x04,OSM utpekad skoterled
-LineWidth=3
-Xpm="0 0 1 0"
+UseOrientation=Y
+Xpm="32 3 2 1"
 "a c #007D87"
+"b c none"
+"aaaaaaabaaaaaaabaaaaaaabaaaaaaab"
+"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+"aaaaaaabaaaaaaabaaaaaaabaaaaaaab"
 [end]
 
 [_line]
