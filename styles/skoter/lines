@@ -1,10 +1,10 @@
 # GENERATED from mapping.csv by `lm-garmin style generate` – do not edit.
 name=* { name '${name}' }
 lm:l=ovrig_vag & lm:t=1847 & (lm:skoterkorning_tillaten=Påbjuden) [0x10e11 resolution 16]
-lm:l=ovrig_vag & lm:t=1848 & (lm:skoterkorning_tillaten=Påbjuden) [0x10e11 resolution 16]
+lm:l=ovrig_vag & lm:t=1848 & (lm:skoterkorning_tillaten=Påbjuden) [0x10e15 resolution 16]
 lm:l=ovrig_vag & lm:t=1847 & (lm:skoterkorning_tillaten=Ja) [0x10e10 resolution 16]
-lm:l=ovrig_vag & lm:t=1848 & (lm:skoterkorning_tillaten=Ja) [0x10e10 resolution 16]
+lm:l=ovrig_vag & lm:t=1848 & (lm:skoterkorning_tillaten=Ja) [0x10e14 resolution 16]
 lm:l=ovrig_vag & lm:t=1847 & (lm:skoterkorning_tillaten=Nej) [0x10e12 resolution 16]
-lm:l=ovrig_vag & lm:t=1848 & (lm:skoterkorning_tillaten=Nej) [0x10e12 resolution 16]
+lm:l=ovrig_vag & lm:t=1848 & (lm:skoterkorning_tillaten=Nej) [0x10e16 resolution 16]
 lm:l=ovrig_vag & lm:t=1847 [0x10e13 resolution 16]
-lm:l=ovrig_vag & lm:t=1848 [0x10e13 resolution 16]
+lm:l=ovrig_vag & lm:t=1848 [0x10e17 resolution 16]

@@ -11,7 +11,9 @@ from pathlib import Path
 import pyarrow as pa
 import pyogrio
 import pytest
+from numpy import ndarray
 from pyproj import Transformer
+from shapely import STRtree, from_wkb, get_parts, transform
 from shapely.geometry import Point, Polygon, box, shape
 
 from lm_garmin import stylegen, tools
@@ -25,6 +27,16 @@ pytestmark = pytest.mark.integration
 ROOT = Path(__file__).parents[2]
 FIXTURES = ["fjall_727_51_05", "tatort_659_67_00", "skoter_730_51"]
 REPORTS = ROOT / "reports"
+SKOTER_TYPES = {
+    (1847, "Ja"): "0x10e10",
+    (1847, "Påbjuden"): "0x10e11",
+    (1847, "Nej"): "0x10e12",
+    (1847, "Ingen information"): "0x10e13",
+    (1848, "Ja"): "0x10e14",
+    (1848, "Påbjuden"): "0x10e15",
+    (1848, "Nej"): "0x10e16",
+    (1848, "Ingen information"): "0x10e17",
+}
 
 
 def present_types(gpkg: Path) -> dict[tuple[str, str], int]:
@@ -92,11 +104,81 @@ def test_base_map_has_expected_types_and_labels(built, fx, data_dir_module):
     assert missing == []
 
 
-def test_skoter_overlay_has_all_statuses(built):
-    out, report = built["skoter_730_51"]
-    s = summarize(out / PRODUCTS["skoter"].filename)
-    assert s.types("line") == {norm_type(t) for t in ("0x10e10", "0x10e11", "0x10e12", "0x10e13")}
-    assert s.counts[("point", norm_type("0x11610"))] == 3
+def assert_points_match(source: ndarray, decoded: list[Point]) -> None:
+    assert len(decoded) == len(source), f"1836 point count: {len(decoded)} != {len(source)}"
+    spatial_index = STRtree(decoded)
+    candidates = [
+        [
+            int(i)
+            for i in spatial_index.query(point, predicate="dwithin", distance=5)
+            if point.distance(decoded[i]) < 5
+        ]
+        for point in source
+    ]
+    matches: dict[int, int] = {}
+
+    def assign(source_index: int, visited: set[int]) -> bool:
+        for decoded_index in candidates[source_index]:
+            if decoded_index in visited:
+                continue
+            visited.add(decoded_index)
+            previous = matches.get(decoded_index)
+            if previous is None or assign(previous, visited):
+                matches[decoded_index] = source_index
+                return True
+        return False
+
+    for source_index in range(len(source)):
+        assert assign(source_index, set()), (
+            f"No distinct decoded 1836 point within 5 m of source point {source_index + 1}"
+        )
+
+
+@pytest.mark.parametrize("fx", ["fjall_727_51_05", "skoter_730_51"])
+def test_snowmobile_completeness(built, fx, data_dir_module):
+    out, report = built[fx]
+    gpkg = data_dir_module / f"{fx}.gpkg"
+    meta, trails = pyogrio.read_arrow(
+        gpkg,
+        layer="ovrig_vag",
+        columns=["objekttypnr", "skoterkorning_tillaten"],
+        where="objekttypnr IN (1847, 1848)",
+    )
+    source_lengths: Counter[tuple[int, str]] = Counter()
+    for row in trails.to_pylist():
+        key = row["objekttypnr"], row["skoterkorning_tillaten"] or "Ingen information"
+        source_lengths[key] += from_wkb(row[meta["geometry_name"]]).length
+    assert source_lengths
+    if fx == "skoter_730_51":
+        assert source_lengths.keys() == SKOTER_TYPES.keys()
+
+    meta, points = pyogrio.read_arrow(
+        gpkg, layer="ledintressepunkt_fjall", columns=[], where="objekttypnr = 1836"
+    )
+    source_points = get_parts(from_wkb(points[meta["geometry_name"]].to_pylist()))
+    if fx == "skoter_730_51":
+        assert len(source_points) == 3
+
+    project = Transformer.from_crs(4326, 3006, always_xy=True)
+    decoded_lengths: Counter[str] = Counter()
+    decoded_points = []
+    for feature in decode(out / PRODUCTS["skoter"].filename):
+        props = feature["properties"]
+        if props["level"] != 0:
+            continue
+        geometry = transform(shape(feature["geometry"]), project.transform, interleaved=False)
+        if props["kind"] == "line":
+            decoded_lengths[props["type"]] += geometry.length
+        else:
+            assert (props["kind"], props["type"]) == ("point", "0x11610")
+            decoded_points.append(geometry)
+
+    for key, garmin_type in SKOTER_TYPES.items():
+        assert decoded_lengths.pop(garmin_type, 0) == pytest.approx(
+            source_lengths[key], rel=0.01, abs=0
+        ), f"{fx}: source trail {key} must be emitted as {garmin_type} within 1% of its length"
+    assert not decoded_lengths, f"{fx}: unexpected winter trail types {list(decoded_lengths)}"
+    assert_points_match(source_points, decoded_points)
     assert report["outputs"]["skoter"]["family_id"] == PRODUCTS["skoter"].family_id
 
 

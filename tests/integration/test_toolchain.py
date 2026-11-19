@@ -44,7 +44,3 @@ def test_converted_fixture_is_accepted_by_splitter(java, fixture, data_dir, tmp_
     )
     assert out.returncode == 0, out.stdout[-2000:] + out.stderr[-2000:]
     assert list((tmp_path / "split").glob("*.osm.pbf"))
-
-
-@pytest.mark.skip(reason="M3: snowmobile completeness gate on the decoded overlay")
-def test_snowmobile_completeness(): ...

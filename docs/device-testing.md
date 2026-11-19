@@ -76,3 +76,20 @@ Details and kit descriptions: [spikes.md § S6](spikes.md#s6--device-test-kit-sp
 
 Decisions: ADR-0005 accepted (Unicode); overlay ships as its own file (ADR-0004); map texts
 become label points (issue #16); tile-number ranges per map file (issue #3).
+
+## Pending – snowmobile overlay (issue #24)
+
+Enable the development base map and toggle the development snowmobile overlay in
+Map Manager. At Syterstugan, capture the same view at 250 m with the overlay on
+and off. With the overlay on, use the locations below to check each style on the
+screen outdoors. Coordinates are WGS84 in decimal degrees (latitude, longitude).
+
+| Feature | Expected style | Example location |
+|---|---|---|
+| Påbjuden (required route) | Solid red line and a nearby red point symbol | 65.88767, 15.38287 |
+| Ja (permitted) | Solid orange line | 65.86460, 15.32363 |
+| Nej (prohibited) | Dashed grey line | 65.89296, 15.39556 near Syterstugan |
+| Ingen information (no information) | Dashed light orange line | 65.84761, 15.33030 |
+
+Check the required-route point and distinguish all four line styles at 180–250 m.
+Record the device scale and daylight conditions with the screenshots.

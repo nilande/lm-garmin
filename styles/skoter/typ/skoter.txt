@@ -17,7 +17,27 @@ Xpm="0 0 2 0"
 [end]
 
 [_line]
+Type=0x10e15
+String1=0x04,Vinterled – skoterkörning påbjuden
+LineWidth=5
+BorderWidth=1
+Xpm="0 0 2 0"
+"a c #D62000"
+"b c #600000"
+[end]
+
+[_line]
 Type=0x10e10
+String1=0x04,Vinterled – skoterkörning tillåten
+LineWidth=4
+BorderWidth=1
+Xpm="0 0 2 0"
+"a c #FF7A00"
+"b c #7A3A00"
+[end]
+
+[_line]
+Type=0x10e14
 String1=0x04,Vinterled – skoterkörning tillåten
 LineWidth=4
 BorderWidth=1
@@ -39,7 +59,31 @@ Xpm="32 3 2 1"
 [end]
 
 [_line]
+Type=0x10e16
+String1=0x04,Vinterled – skoterkörning ej tillåten
+UseOrientation=Y
+Xpm="32 3 2 1"
+"a c #7A7A7A"
+"b c none"
+"aaaaabbbaaaaabbbaaaaabbbaaaaabbb"
+"aaaaabbbaaaaabbbaaaaabbbaaaaabbb"
+"aaaaabbbaaaaabbbaaaaabbbaaaaabbb"
+[end]
+
+[_line]
 Type=0x10e13
+String1=0x04,Vinterled – ingen information om skoterkörning
+UseOrientation=Y
+Xpm="32 3 2 1"
+"a c #FFB060"
+"b c none"
+"aaaaabbbaaaaabbbaaaaabbbaaaaabbb"
+"aaaaabbbaaaaabbbaaaaabbbaaaaabbb"
+"aaaaabbbaaaaabbbaaaaabbbaaaaabbb"
+[end]
+
+[_line]
+Type=0x10e17
 String1=0x04,Vinterled – ingen information om skoterkörning
 UseOrientation=Y
 Xpm="32 3 2 1"
