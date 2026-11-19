@@ -25,6 +25,21 @@ class Region:
         return "bbox-" + "-".join(str(round(v)) for v in self.bbox)
 
 
+# Named areas for quick development builds (EPSG:3006).
+AREAS: dict[str, Bbox] = {
+    # Täby/Enebyberg/Sätra: town streets, built-up areas, lakes (contains the tatort fixture)
+    "taby": (665000, 6585000, 680000, 6600000),
+    # Hemavan–Syter: mountains, Sami names, all snowmobile statuses, 1836 points
+    "hemavan": (500000, 7270000, 525000, 7310000),
+}
+
+
+def from_area(name: str) -> Region:
+    if name not in AREAS:
+        raise ValueError(f"unknown area {name!r}; known: {', '.join(sorted(AREAS))}")
+    return Region(name, AREAS[name])
+
+
 def parse_bbox(text: str) -> Bbox:
     parts = [p.strip() for p in text.split(",")]
     if len(parts) != 4:

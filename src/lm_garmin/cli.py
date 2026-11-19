@@ -11,19 +11,37 @@ from . import __version__, region, tools
 NOT_YET: dict[str, str] = {}
 
 
-def _add_region_args(p: argparse.ArgumentParser) -> None:
+def _add_region_args(p: argparse.ArgumentParser, multi: bool = False) -> None:
     g = p.add_mutually_exclusive_group(required=True)
-    g.add_argument("--bbox", help="xmin,ymin,xmax,ymax in SWEREF 99 TM (EPSG:3006)")
-    g.add_argument("--bbox-wgs84", help="lon_min,lat_min,lon_max,lat_max")
+    act = "append" if multi else "store"
+    more = " (repeatable)" if multi else ""
+    g.add_argument("--bbox", action=act, help=f"xmin,ymin,xmax,ymax in SWEREF 99 TM{more}")
+    g.add_argument("--bbox-wgs84", action=act, help=f"lon_min,lat_min,lon_max,lat_max{more}")
     g.add_argument("--region", choices=["sweden"], help="named region")
+    if multi:
+        g.add_argument(
+            "--area",
+            action="append",
+            choices=sorted(region.AREAS),
+            help="named development area (repeatable)",
+        )
+
+
+def _regions_from_args(a: argparse.Namespace, gpkg_dir: Path) -> list[region.Region]:
+    def as_list(v):
+        return v if isinstance(v, list) else [v]
+
+    if a.bbox:
+        return [region.from_bbox(b) for b in as_list(a.bbox)]
+    if a.bbox_wgs84:
+        return [region.from_wgs84(b) for b in as_list(a.bbox_wgs84)]
+    if getattr(a, "area", None):
+        return [region.from_area(n) for n in a.area]
+    return [region.sweden(gpkg_dir)]
 
 
 def _region_from_args(a: argparse.Namespace, gpkg_dir: Path) -> region.Region:
-    if a.bbox:
-        return region.from_bbox(a.bbox)
-    if a.bbox_wgs84:
-        return region.from_wgs84(a.bbox_wgs84)
-    return region.sweden(gpkg_dir)
+    return _regions_from_args(a, gpkg_dir)[0]
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -49,7 +67,10 @@ def main(argv: list[str] | None = None) -> int:
     c.add_argument("--jobs", type=int, help="parallel themes (default: CPU count)")
 
     b = sub.add_parser("build", help="S1–S3: build the Garmin maps for a region")
-    _add_region_args(b)
+    _add_region_args(b, multi=True)
+    b.add_argument(
+        "--dev", action="store_true", help="development map: own family ids, files lm-dev-*.img"
+    )
     b.add_argument("--gpkg-dir", type=Path, help="GeoPackages (default: <cache>/gpkg)")
     b.add_argument("--out", type=Path, default=Path("dist"), help="output folder (default: dist)")
     b.add_argument(
@@ -63,6 +84,15 @@ def main(argv: list[str] | None = None) -> int:
 
     s = sub.add_parser("style", help="generate mkgmap style + TYP from styles/<name>/mapping.csv")
     s.add_argument("action", choices=["generate"])
+
+    i = sub.add_parser("install", help="copy built .img files to a Garmin device (verified)")
+    i.add_argument("img", type=Path, nargs="+", help=".img files to install")
+    i.add_argument(
+        "--device",
+        type=Path,
+        default=Path("/Volumes/GARMIN"),
+        help="mount point of the device (default /Volumes/GARMIN)",
+    )
 
     v = sub.add_parser("verify", help="S4: decode built .img files and check them")
     v.add_argument("img", type=Path, nargs="+", help="tile .img or gmapsupp-style .img files")
@@ -109,10 +139,18 @@ def main(argv: list[str] | None = None) -> int:
         from .build import BuildError, build
 
         gpkg_dir = a.gpkg_dir or cache / "gpkg"
-        reg = _region_from_args(a, gpkg_dir)
+        reg = _regions_from_args(a, gpkg_dir)
         try:
             rep = build(
-                gpkg_dir, reg, a.out, cache, a.products.split(","), a.jobs, a.java_mem, a.max_nodes
+                gpkg_dir,
+                reg,
+                a.out,
+                cache,
+                a.products.split(","),
+                a.jobs,
+                a.java_mem,
+                a.max_nodes,
+                dev=a.dev,
             )
         except BuildError as e:
             print(f"build failed: {e}", file=sys.stderr)
@@ -127,6 +165,12 @@ def main(argv: list[str] | None = None) -> int:
         for prod in PRODUCTS.values():
             for f in stylegen.generate(prod.style_dir, prod.family_id, prod.levels):
                 print(f)
+        return 0
+
+    if a.cmd == "install":
+        from .install import install
+
+        install(a.img, a.device)
         return 0
 
     if a.cmd == "verify":

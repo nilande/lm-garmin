@@ -3,11 +3,14 @@
 Every map file on a device needs its own family id and its own tile (map) numbers – a
 device silently skips a map whose tile numbers are already loaded (docs/device-testing.md).
 Family ids 5730–5736 were used by the planning test kits and are not reused.
+
+`--dev` builds use their own family ids and tile numbers (+2 on the family id), so a small
+development map can sit next to the full map on the device without clashing.
 """
 
 from __future__ import annotations
 
-from dataclasses import dataclass
+from dataclasses import dataclass, replace
 from pathlib import Path
 
 STYLES_DIR = Path(__file__).resolve().parents[2] / "styles"
@@ -58,3 +61,18 @@ PRODUCTS: dict[str, Product] = {
         draw_priority=30,
     ),
 }
+
+
+DEV_OFFSET = 2
+
+
+def dev_variant(p: Product) -> Product:
+    """Same product with dev ids, name and file name (lm-dev-<key>.img)."""
+    fid = p.family_id + DEV_OFFSET
+    return replace(
+        p,
+        family_id=fid,
+        mapid_base=fid * 10_000 + 1,
+        name=f"{p.name} (dev)",
+        output=f"lm-dev-{p.key}.img",
+    )

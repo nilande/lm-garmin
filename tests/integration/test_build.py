@@ -12,7 +12,7 @@ import pytest
 from lm_garmin import stylegen, tools
 from lm_garmin.build import build
 from lm_garmin.products import PRODUCTS
-from lm_garmin.region import sweden
+from lm_garmin.region import Region, sweden
 from lm_garmin.verify import check, norm_type, summarize
 
 pytestmark = pytest.mark.integration
@@ -103,5 +103,48 @@ def test_overlay_skipped_without_winter_trails(built):
 def test_build_reports_steps(built):
     for _, report in built.values():
         names = [s["name"] for s in report["steps"]]
-        assert names[0] == "convert" and "compile:topo50" in names
+        assert names[0].startswith("convert:") and "compile:topo50" in names
         assert all(s["seconds"] >= 0 for s in report["steps"])
+
+
+def test_contour_labels_are_feet_on_index_contours_only(built, data_dir_module):
+    from lm_garmin.verify import decode
+
+    out, _ = built["fjall_727_51_05"]
+    labels = {"0x20": set(), "0x22": set()}
+    for f in decode(out / PRODUCTS["topo50"].filename):
+        p = f["properties"]
+        if p["kind"] == "line" and p["level"] == 0 and p["type"] in labels:
+            labels[p["type"]].add(p["label"])
+    assert labels["0x20"] <= {""}
+    with sqlite3.connect(data_dir_module / "fjall_727_51_05.gpkg") as c:
+        heights = {
+            int(r[0])
+            for r in c.execute("SELECT DISTINCT hojdvarde FROM hojdlinje WHERE stodkurva = 'Ja'")
+        }
+    assert {str(round(h * 3.28084)) for h in heights} == labels["0x22"]
+
+
+def test_dev_build_of_two_regions_in_one_map(tmp_path, data_dir_module):
+    """Two areas → one map with distinct tile numbers per area and dev family ids."""
+    from lm_garmin.products import dev_variant
+
+    src = tmp_path / "src"
+    src.mkdir()
+    for fx in ("fjall_727_51_05", "skoter_730_51"):
+        (src / f"{fx}.gpkg").symlink_to(data_dir_module / f"{fx}.gpkg")
+    regions = [
+        Region("a", (515000, 7270000, 520000, 7275000)),
+        Region("b", (510000, 7300000, 520000, 7310000)),
+    ]
+    out = tmp_path / "out"
+    rep = build(
+        src, regions, out, tmp_path / "cache", jobs=2, java_mem="1g", dev=True, log=lambda *_: None
+    )
+    topo = dev_variant(PRODUCTS["topo50"])
+    assert rep["outputs"]["topo50"]["file"] == "lm-dev-topo50.img"
+    assert rep["outputs"]["topo50"]["family_id"] == topo.family_id
+    s = summarize(out / "lm-dev-topo50.img")
+    assert s.tiles == {str(topo.mapid_base), str(topo.mapid_base + 1000)}
+    assert {"Lövlund", "Syterstugan"} <= s.labels
+    assert (out / "lm-dev-skoter.img").exists()

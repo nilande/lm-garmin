@@ -770,7 +770,7 @@ Xpm="0 0 1 0"
 [_line]
 Type=0x01
 String1=0x04,Motorväg
-LineWidth=5
+LineWidth=7
 BorderWidth=1
 Xpm="0 0 2 0"
 "a c #C0392B"
@@ -780,7 +780,7 @@ Xpm="0 0 2 0"
 [_line]
 Type=0x02
 String1=0x04,Motortrafikled
-LineWidth=4
+LineWidth=6
 BorderWidth=1
 Xpm="0 0 2 0"
 "a c #C0392B"
@@ -790,7 +790,7 @@ Xpm="0 0 2 0"
 [_line]
 Type=0x03
 String1=0x04,Mötesfri väg
-LineWidth=4
+LineWidth=6
 BorderWidth=1
 Xpm="0 0 2 0"
 "a c #D35A3A"
@@ -800,7 +800,7 @@ Xpm="0 0 2 0"
 [_line]
 Type=0x04
 String1=0x04,Landsväg liten
-LineWidth=3
+LineWidth=4
 BorderWidth=1
 Xpm="0 0 2 0"
 "a c #E89070"
@@ -810,7 +810,7 @@ Xpm="0 0 2 0"
 [_line]
 Type=0x05
 String1=0x04,Småväg
-LineWidth=2
+LineWidth=3
 Xpm="0 0 1 0"
 "a c #7F7F7F"
 [end]
@@ -818,7 +818,7 @@ Xpm="0 0 1 0"
 [_line]
 Type=0x07
 String1=0x04,Småväg enkel standard
-LineWidth=1
+LineWidth=2
 Xpm="0 0 1 0"
 "a c #A0A0A0"
 [end]
@@ -826,33 +826,17 @@ Xpm="0 0 1 0"
 [_line]
 Type=0x0b
 String1=0x04,Övergripande länk
-LineWidth=3
+LineWidth=4
 Xpm="0 0 1 0"
 "a c #B5442B"
 [end]
 
 [_line]
-Type=0x10d04
-String1=0x04,Huvudgata
-LineWidth=3
-Xpm="0 0 1 0"
-"a c #E07850"
-[end]
-
-[_line]
 Type=0x06
 String1=0x04,Lokalgata stor
-LineWidth=2
+LineWidth=3
 Xpm="0 0 1 0"
 "a c #7F7F7F"
-[end]
-
-[_line]
-Type=0x10d05
-String1=0x04,Lokalgata liten
-LineWidth=1
-Xpm="0 0 1 0"
-"a c #A0A0A0"
 [end]
 
 [_line]
@@ -889,9 +873,10 @@ Xpm="32 2 2 1"
 Type=0x10e00
 String1=0x04,Cykelväg
 UseOrientation=Y
-Xpm="32 1 2 1"
+Xpm="32 2 2 1"
 "a c #8A6A3A"
 "b c none"
+"aaaaabbbaaaaabbbaaaaabbbaaaaabbb"
 "aaaaabbbaaaaabbbaaaaabbbaaaaabbb"
 [end]
 
@@ -899,9 +884,10 @@ Xpm="32 1 2 1"
 Type=0x16
 String1=0x04,Gångstig
 UseOrientation=Y
-Xpm="32 1 2 1"
+Xpm="32 2 2 1"
 "a c #333333"
 "b c none"
+"aaaaabbbaaaaabbbaaaaabbbaaaaabbb"
 "aaaaabbbaaaaabbbaaaaabbbaaaaabbb"
 [end]
 
@@ -909,9 +895,10 @@ Xpm="32 1 2 1"
 Type=0x10e01
 String1=0x04,Elljusspår
 UseOrientation=Y
-Xpm="32 1 2 1"
+Xpm="32 2 2 1"
 "a c #C8B400"
 "b c none"
+"aaaaabbbaaaaabbbaaaaabbbaaaaabbb"
 "aaaaabbbaaaaabbbaaaaabbbaaaaabbb"
 [end]
 
@@ -919,9 +906,10 @@ Xpm="32 1 2 1"
 Type=0x0a
 String1=0x04,Traktorväg
 UseOrientation=Y
-Xpm="32 2 2 1"
+Xpm="32 3 2 1"
 "a c #606060"
 "b c none"
+"aaaaabbbaaaaabbbaaaaabbbaaaaabbb"
 "aaaaabbbaaaaabbbaaaaabbbaaaaabbb"
 "aaaaabbbaaaaabbbaaaaabbbaaaaabbb"
 [end]
@@ -930,9 +918,10 @@ Xpm="32 2 2 1"
 Type=0x10e02
 String1=0x04,Parkväg
 UseOrientation=Y
-Xpm="32 1 2 1"
+Xpm="32 2 2 1"
 "a c #8A6A3A"
 "b c none"
+"aaaaabbbaaaaabbbaaaaabbbaaaaabbb"
 "aaaaabbbaaaaabbbaaaaabbbaaaaabbb"
 [end]
 

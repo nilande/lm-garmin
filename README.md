@@ -85,6 +85,19 @@ Output in `dist/`:
 | `lm-skoter.img` | transparent snowmobile overlay (family id 5751), only if the region has winter trails |
 | `build-report.json` | time and peak memory per step, tile counts, sizes |
 
+### Development loop (iterating on the look)
+
+```bash
+# ~10 s: Täby (town) + Hemavan–Syter (mountains, snowmobile trails) in one small map
+uv run lm-garmin build --area taby --area hemavan --dev --out dist/dev
+# copy to a connected device: verified, atomic, removes macOS ._ files
+uv run lm-garmin install dist/dev/lm-dev-topo50.img dist/dev/lm-dev-skoter.img
+```
+
+`--dev` maps use their own family ids (5752/5753) and file names (`lm-dev-*.img`), so they can
+sit next to the full map on the device; switch one of them off in *Map Manager* while
+comparing. `--bbox` can also be repeated to combine several areas.
+
 Single steps are available too: `lm-garmin convert …` (S1 only) and
 `lm-garmin style generate` (rewrites the mkgmap styles and TYP files from
 `styles/*/mapping.csv`).

@@ -8,7 +8,9 @@ Generated files carry a header and are checked by a test to be up to date.
 Columns: kind (point|line|polygon|drop), layer, t (objekttypnr, empty = any), condition
 (extra mkgmap expression), type, resolution, name (label expression, e.g. ${ele}),
 description, colour, colour2, width, pattern (solid|dash|label|stripe|hatch|dots|icon|none), order
-(polygon draw order 1–8).
+(polygon draw order 1–8), options (`continue`: keep matching later rules, so one feature can be
+emitted twice, e.g. unlabelled at one resolution range and labelled at another).
+A resolution may be a range, e.g. `20-21`.
 """
 
 from __future__ import annotations
@@ -37,6 +39,7 @@ class Rule:
     width: str
     pattern: str
     order: str
+    options: str = ""
 
     def expression(self) -> str:
         parts = [f"lm:l={self.layer}"]
@@ -48,7 +51,8 @@ class Rule:
 
     def mkgmap_rule(self) -> str:
         action = f" {{ name '{self.name}' }}" if self.name else ""
-        return f"{self.expression()}{action} [{self.type} resolution {self.resolution}]"
+        cont = " continue" if "continue" in self.options.split() else ""
+        return f"{self.expression()}{action} [{self.type} resolution {self.resolution}{cont}]"
 
 
 def check_type(type_: str, where: str = "") -> None:
@@ -70,7 +74,7 @@ def load(mapping: Path) -> list[Rule]:
     rows = list(csv.DictReader(lines))
     rules = []
     for i, r in enumerate(rows, start=2):
-        r = {k: (v or "").strip() for k, v in r.items()}
+        r = {k: (v or "").strip() for k, v in r.items() if k is not None}
         rule = Rule(**r)
         if rule.kind not in (*KINDS, "drop"):
             raise ValueError(f"{mapping}:{i}: unknown kind {rule.kind!r}")

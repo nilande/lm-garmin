@@ -80,3 +80,22 @@ def test_typ_defines_each_used_type():
         if r.kind in ("polygon", "line") or (r.kind == "point" and r.pattern != "none"):
             assert f"Type={r.type}\n" in typ, r
     assert "CodePage=65001" in typ and "FID=5750" in typ
+
+
+def test_only_index_contours_are_labelled_in_feet():
+    rules = stylegen.load(ROOT / "styles" / "topo50" / "mapping.csv")
+    contours = [r for r in rules if r.layer == "hojdlinje"]
+    labelled = [r for r in contours if r.name]
+    assert [r.condition for r in labelled] == ["lm:stodkurva=Ja"]
+    assert labelled[0].name == "${ele|conv:m=>ft}"  # Garmin reads contour labels as feet
+    assert int(labelled[0].resolution) >= 22  # labels only when zoomed in
+    # the same index contour is drawn unlabelled further out (continue → emitted twice)
+    unlabelled = [r for r in contours if r.condition == "lm:stodkurva=Ja" and not r.name]
+    assert unlabelled and "continue" in unlabelled[0].options
+
+
+def test_roads_use_standard_garmin_road_types():
+    rules = stylegen.load(ROOT / "styles" / "topo50" / "mapping.csv")
+    for r in rules:
+        if r.layer == "vaglinje":
+            assert int(r.type, 16) <= 0x13, f"{r.t} {r.description}: {r.type}"

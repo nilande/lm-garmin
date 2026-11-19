@@ -20,7 +20,7 @@ import osmium
 
 from . import __version__, stylegen, tools
 from .convert import convert
-from .products import PRODUCTS, Product
+from .products import PRODUCTS, Product, dev_variant
 from .region import Region
 
 FAT32_LIMIT = 3_500_000_000  # stay clear of the 4 GiB per-file limit
@@ -73,7 +73,13 @@ def skoter_extract(kommunikation_pbf: Path, out: Path) -> int:
 
 
 def split(
-    java: str, inputs: list[Path], out_dir: Path, product: Product, jobs: int, max_nodes: int
+    java: str,
+    inputs: list[Path],
+    out_dir: Path,
+    product: Product,
+    jobs: int,
+    max_nodes: int,
+    mapid: int | None = None,
 ) -> Step:
     if out_dir.exists():
         shutil.rmtree(out_dir)
@@ -85,7 +91,7 @@ def split(
         "-jar",
         str(jar),
         f"--output-dir={out_dir}",
-        f"--mapid={product.mapid_base}",
+        f"--mapid={mapid or product.mapid_base}",
         f"--max-nodes={max_nodes}",
         f"--max-threads={jobs}",
         "--output=pbf",
@@ -97,7 +103,13 @@ def split(
 
 
 def compile_img(
-    java: str, tiles_dir: Path, work: Path, product: Product, jobs: int, java_mem: str
+    java: str,
+    tiles: list[Path],
+    style_dir: Path,
+    work: Path,
+    product: Product,
+    jobs: int,
+    java_mem: str,
 ) -> Step:
     if work.exists():
         shutil.rmtree(work)
@@ -109,7 +121,7 @@ def compile_img(
         "-jar",
         str(jar),
         f"--output-dir={work}",
-        f"--style-file={product.style_dir}",
+        f"--style-file={style_dir}",
         f"--family-id={product.family_id}",
         "--product-id=1",
         f"--family-name={product.name}",
@@ -125,15 +137,30 @@ def compile_img(
         cmd += ["--transparent", f"--draw-priority={product.draw_priority}"]
     else:
         cmd += ["--index"]
-    cmd += ["-c", str(tiles_dir / "template.args"), str(product.typ)]
+    # Tile files are named <mapid>.osm.pbf by splitter; mkgmap takes the map number from it.
+    cmd += [*map(str, tiles), str(style_dir / "typ" / f"{product.style}.txt")]
     secs, rss = run_tool(cmd, work / "mkgmap.log")
     img = work / "gmapsupp.img"
     return Step(f"compile:{product.key}", round(secs, 2), rss, {"bytes": img.stat().st_size})
 
 
+def generate_style(product: Product, work: Path) -> Path:
+    """Write the product's generated style (with its own family id in the TYP) to work/."""
+    out = work / "style" / product.key
+    if out.exists():
+        shutil.rmtree(out)
+    for rel, text in stylegen.generated_files(
+        product.style_dir, product.family_id, product.levels
+    ).items():
+        f = out / rel
+        f.parent.mkdir(parents=True, exist_ok=True)
+        f.write_text(text, encoding="utf-8")
+    return out
+
+
 def build(
     gpkg_dir: Path,
-    region: Region,
+    region: Region | list[Region],
     out_dir: Path,
     cache: Path,
     products: list[str] | None = None,
@@ -141,62 +168,77 @@ def build(
     java_mem: str = "4g",
     max_nodes: int = 1_600_000,
     log=print,
+    dev: bool = False,
 ) -> dict:
+    """Build the products for one region, or several regions combined into one map.
+
+    Each region is converted and split on its own (tile numbers offset by 1000 per region),
+    then all tiles are compiled into one .img per product.
+    """
+    regions = region if isinstance(region, list) else [region]
     jobs = jobs or os.cpu_count() or 4
     keys = products or list(PRODUCTS)
+    prods = {k: dev_variant(PRODUCTS[k]) if dev else PRODUCTS[k] for k in keys}
     java = tools.find_java()
     if not java:
         raise BuildError("java not found – install Java 17+ or set LM_GARMIN_JAVA")
-    work = cache / "work" / region.id
+    build_id = "+".join(r.id for r in regions) + ("-dev" if dev else "")
+    work = cache / "work" / build_id
     out_dir.mkdir(parents=True, exist_ok=True)
     steps: list[Step] = []
     t_all = time.monotonic()
 
-    # The styles are generated from mapping.csv; make sure they are current.
-    for k in keys:
-        p = PRODUCTS[k]
-        stylegen.generate(p.style_dir, p.family_id, p.levels)
-
-    t0 = time.monotonic()
-    pbf_dir = cache / "pbf" / region.id
-    theme_stats = convert(gpkg_dir, region, pbf_dir, jobs, log=log)
-    steps.append(
-        Step(
-            "convert",
-            round(time.monotonic() - t0, 2),
-            max(s.max_rss_mb for s in theme_stats),
-            {"features": sum(s.features for s in theme_stats)},
+    pbf_dirs = []
+    for reg in regions:
+        t0 = time.monotonic()
+        pbf_dir = cache / "pbf" / reg.id
+        stats = convert(gpkg_dir, reg, pbf_dir, jobs, log=log)
+        steps.append(
+            Step(
+                f"convert:{reg.id}",
+                round(time.monotonic() - t0, 2),
+                max(s.max_rss_mb for s in stats),
+                {"features": sum(s.features for s in stats)},
+            )
         )
-    )
-    all_inputs = [pbf_dir / s.pbf for s in theme_stats if s.nodes]
+        pbf_dirs.append((reg, pbf_dir, [pbf_dir / s.pbf for s in stats if s.nodes]))
 
     outputs = {}
-    for k in keys:
-        p = PRODUCTS[k]
-        if k == "skoter":
-            t0 = time.monotonic()
-            src = pbf_dir / "kommunikation.osm.pbf"
-            if not src.exists():
-                log("skoter: no kommunikation data in region, skipped")
+    for k, p in prods.items():
+        tiles: list[Path] = []
+        for i, (reg, pbf_dir, all_inputs) in enumerate(pbf_dirs):
+            if k == "skoter":
+                src = pbf_dir / "kommunikation.osm.pbf"
+                if not src.exists():
+                    continue
+                t0 = time.monotonic()
+                sk = work / "extract" / reg.id / "skoter.osm.pbf"
+                sk.parent.mkdir(parents=True, exist_ok=True)
+                n = skoter_extract(src, sk)
+                steps.append(
+                    Step(
+                        f"extract:skoter:{reg.id}",
+                        round(time.monotonic() - t0, 2),
+                        detail={"objects": n},
+                    )
+                )
+                inputs = [sk] if n else []
+            else:
+                inputs = all_inputs
+            if not inputs:
                 continue
-            sk = work / "skoter.osm.pbf"
-            sk.parent.mkdir(parents=True, exist_ok=True)
-            n = skoter_extract(src, sk)
-            steps.append(
-                Step("extract:skoter", round(time.monotonic() - t0, 2), detail={"objects": n})
-            )
-            if n == 0:
-                log("skoter: no winter trails in region, skipped")
-                continue
-            inputs = [sk]
-        else:
-            inputs = all_inputs
-        if not inputs:
-            raise BuildError(f"{k}: no data in region {region.id}")
-        tiles = work / "tiles" / k
-        steps.append(split(java, inputs, tiles, p, jobs, max_nodes))
-        log(f"{k}: split into {steps[-1].detail['tiles']} tiles in {steps[-1].seconds}s")
-        steps.append(compile_img(java, tiles, work / "img" / k, p, jobs, java_mem))
+            tdir = work / "tiles" / k / reg.id
+            steps.append(split(java, inputs, tdir, p, jobs, max_nodes, p.mapid_base + i * 1000))
+            steps[-1].name += f":{reg.id}"
+            tiles += sorted(tdir.glob("*.osm.pbf"))
+        if not tiles:
+            if k == "topo50":
+                raise BuildError(f"{k}: no data in {build_id}")
+            log(f"{k}: nothing to build in {build_id}, skipped")
+            continue
+        log(f"{k}: {len(tiles)} tiles")
+        style_dir = generate_style(p, work)
+        steps.append(compile_img(java, tiles, style_dir, work / "img" / k, p, jobs, java_mem))
         img = work / "img" / k / "gmapsupp.img"
         if img.stat().st_size > FAT32_LIMIT:
             raise BuildError(
@@ -209,13 +251,14 @@ def build(
             "file": dest.name,
             "bytes": dest.stat().st_size,
             "family_id": p.family_id,
-            "tiles": steps[-2].detail["tiles"],
+            "tiles": len(tiles),
         }
         log(f"{k}: {dest} ({dest.stat().st_size / 1e6:.1f} MB) in {steps[-1].seconds}s")
 
     report = {
         "lm_garmin": __version__,
-        "region": {"id": region.id, "bbox_3006": region.bbox},
+        "regions": [{"id": r.id, "bbox_3006": r.bbox} for r in regions],
+        "dev": dev,
         "tools": {t.name: t.version for t in tools.TOOLS.values()},
         "java": java,
         "jobs": jobs,

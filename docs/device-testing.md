@@ -16,6 +16,19 @@ issue #20.
 Idea for later (not planned): BirdsEye JNX could carry Lantmäteriet's 1:50 000 raster as an
 exact-looking complement to the vector map.
 
+## 2026-11-18 – first full-Sweden build (PR #33, issue #12)
+
+`lm-topo50.img` (2.0 GB) and `lm-skoter.img` (0.9 MB) on internal storage. First impression:
+"helt OK" – loads and is usable.
+
+| Observation | Cause | Fix (branch `style/roads-contours`) |
+|---|---|---|
+| Gravel and country roads in Hemavan/Tärnaby clearly visible | standard road types `0x05`/`0x07` | – |
+| Town streets in Täby **not visible** | 534 of ~570 street segments used extended types (`0x10d04` Huvudgata, `0x10d05` Lokalgata liten), and Lokalgata liten only showed on the three most detailed levels | all roads use standard Garmin road types (drawn even without TYP); streets from resolution 20–21 |
+| Too much weight on contour labels | every 5 m contour was labelled | only index contours (stödkurvor) are labelled |
+| Contour heights shown in **feet** | Garmin reads a contour label as feet. The label held metres, so "625" showed as 625 ft. The device uses a 12-hour clock (`Settings.fit`), so it probably also uses imperial units. | labels written in feet (`${ele|conv:m=>ft}`); a metric device then shows metres |
+| Snowmobile overlay: clear, good line widths | – | – |
+
 ## 2026-11-18 – planning kits v2, v3 and label diagnostics (issue #1)
 
 Device: Garmin Montana 700, maps on internal storage in `Garmin/`. Other maps present:
@@ -38,3 +51,10 @@ Details and kit descriptions: [spikes.md § S6](spikes.md#s6--device-test-kit-sp
 
 Decisions: ADR-0005 accepted (Unicode); overlay ships as its own file (ADR-0004); map texts
 become label points (issue #16); tile-number ranges per map file (issue #3).
+
+## Next device check (pending)
+
+Built but **not yet tested on the device**: `lm-garmin build --area taby --area hemavan --dev`
+→ `lm-dev-topo50.img` / `lm-dev-skoter.img` (family 5752/5753) with wider roads and contour
+labels only on index contours at resolution ≥ 22. Install with `lm-garmin install`.
+QMapShack desktop preview has not been tried yet.

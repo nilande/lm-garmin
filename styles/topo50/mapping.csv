@@ -1,4 +1,4 @@
-kind,layer,t,condition,type,resolution,name,description,colour,colour2,width,pattern,order
+kind,layer,t,condition,type,resolution,name,description,colour,colour2,width,pattern,order,options
 # Polygons – land cover (mark). Draw order: 1 background, 2 built-up/fields, 3 water, 4 wetland/terrain, 5 overlays, 6 buildings
 polygon,mark,2631,,0x28,16,,Hav,#CBEAFF,,,solid,3
 polygon,mark,2632,,0x3c,18,,Sjö,#CBEAFF,,,solid,3
@@ -34,33 +34,38 @@ polygon,militart_omrade,,,0x04,18,,Militärt område,#00A0E0,,,hatch,5
 polygon,skyddadnatur,5603,,0x16,16,,Nationalpark,#5AB032,,,hatch,5
 polygon,skyddadnatur,,,0x10f15,18,,Skyddad natur,#5AB032,,,hatch,5
 polygon,restriktionsomrade,,,0x10f16,20,,Restriktionsområde (terrängfordon/eld),#D03070,,,hatch,5
-# Lines – contours (label = height)
-line,hojdlinje,2402,,0x21,22,${ele},Gropkurva,#D06A08,,1,solid,
-line,hojdlinje,2405,,0x21,22,${ele},Gropkurva 10,#D06A08,,1,solid,
-line,hojdlinje,,lm:stodkurva=Ja,0x22,20,${ele},Stödkurva,#D06A08,,2,solid,
-line,hojdlinje,2401,,0x20,22,${ele},Höjdkurva 5 m,#D06A08,,1,solid,
-line,hojdlinje,2404,,0x20,22,${ele},Höjdkurva 10 m,#D06A08,,1,solid,
-# Roads (label = road number)
-line,vaglinje,1801,,0x01,16,${ref},Motorväg,#C0392B,#7A1F15,5,solid,
-line,vaglinje,1802,,0x02,16,${ref},Motortrafikled,#C0392B,#7A1F15,4,solid,
-line,vaglinje,1803,,0x03,17,${ref},Mötesfri väg,#D35A3A,#7A1F15,4,solid,
-line,vaglinje,1804,,0x03,18,${ref},Landsväg,#E07850,#8A3A20,4,solid,
-line,vaglinje,1805,,0x04,19,${ref},Landsväg liten,#E89070,#8A3A20,3,solid,
-line,vaglinje,1806,,0x05,20,${ref},Småväg,#7F7F7F,,2,solid,
-line,vaglinje,1807,,0x07,21,${ref},Småväg enkel standard,#A0A0A0,,1,solid,
-line,vaglinje,1808,,0x0b,19,${ref},Övergripande länk,#B5442B,,3,solid,
-line,vaglinje,1809,,0x10d04,20,${ref},Huvudgata,#E07850,,3,solid,
-line,vaglinje,1810,,0x06,21,,Lokalgata stor,#7F7F7F,,2,solid,
-line,vaglinje,1811,,0x10d05,22,,Lokalgata liten,#A0A0A0,,1,solid,
+# Lines – contours. Only index contours (stödkurvor) get labels, as on the printed map, and only
+# when zoomed in (resolution 22+) so place and road names win when zoomed out.
+# Garmin always reads a contour label as feet and converts to the device's unit, so the
+# label is written in feet (shown as metres on a metric device).
+line,hojdlinje,2402,,0x21,22,,Gropkurva,#D06A08,,1,solid,
+line,hojdlinje,2405,,0x21,22,,Gropkurva 10,#D06A08,,1,solid,
+line,hojdlinje,,lm:stodkurva=Ja,0x22,20-21,,Stödkurva,#D06A08,,2,solid,,continue
+line,hojdlinje,,lm:stodkurva=Ja,0x22,22,${ele|conv:m=>ft},Stödkurva,#D06A08,,2,solid,
+line,hojdlinje,2401,,0x20,22,,Höjdkurva 5 m,#D06A08,,1,solid,
+line,hojdlinje,2404,,0x20,22,,Höjdkurva 10 m,#D06A08,,1,solid,
+# Roads (label = road number). Standard Garmin road types only: the device draws and
+# treats them as roads even without the TYP. Town streets are visible from resolution 20–21.
+line,vaglinje,1801,,0x01,16,${ref},Motorväg,#C0392B,#7A1F15,7,solid,
+line,vaglinje,1802,,0x02,16,${ref},Motortrafikled,#C0392B,#7A1F15,6,solid,
+line,vaglinje,1803,,0x03,17,${ref},Mötesfri väg,#D35A3A,#7A1F15,6,solid,
+line,vaglinje,1804,,0x03,18,${ref},Landsväg,#E07850,#8A3A20,5,solid,
+line,vaglinje,1805,,0x04,19,${ref},Landsväg liten,#E89070,#8A3A20,4,solid,
+line,vaglinje,1806,,0x05,20,${ref},Småväg,#7F7F7F,,3,solid,
+line,vaglinje,1807,,0x07,21,${ref},Småväg enkel standard,#A0A0A0,,2,solid,
+line,vaglinje,1808,,0x0b,19,${ref},Övergripande länk,#B5442B,,4,solid,
+line,vaglinje,1809,,0x04,19,${ref},Huvudgata,#E89070,#8A3A20,4,solid,
+line,vaglinje,1810,,0x06,20,,Lokalgata stor,#7F7F7F,,3,solid,
+line,vaglinje,1811,,0x06,21,,Lokalgata liten,#7F7F7F,,3,solid,
 line,farjeled,1891,,0x1b,18,,Färjeled,#C0392B,,2,dash,
 line,ralstrafik,1861,,0x14,18,,Järnväg,#333333,,2,solid,
 line,ralstrafik,1862,,0x10e0e,20,,Museijärnväg,#555555,,2,dash,
 # Paths and trails (ovrig_vag). Winter trails are drawn as in Karta 1:50 000; the overlay adds snowmobile status
-line,ovrig_vag,1623,,0x10e00,21,,Cykelväg,#8A6A3A,,1,dash,
-line,ovrig_vag,1624,,0x16,21,,Gångstig,#333333,,1,dash,
-line,ovrig_vag,1625,,0x10e01,21,,Elljusspår,#C8B400,,1,dash,
-line,ovrig_vag,1628,,0x0a,21,,Traktorväg,#606060,,2,dash,
-line,ovrig_vag,1842,,0x10e02,22,,Parkväg,#8A6A3A,,1,dash,
+line,ovrig_vag,1623,,0x10e00,21,,Cykelväg,#8A6A3A,,2,dash,
+line,ovrig_vag,1624,,0x16,21,,Gångstig,#333333,,2,dash,
+line,ovrig_vag,1625,,0x10e01,21,,Elljusspår,#C8B400,,2,dash,
+line,ovrig_vag,1628,,0x0a,21,,Traktorväg,#606060,,3,dash,
+line,ovrig_vag,1842,,0x10e02,22,,Parkväg,#8A6A3A,,2,dash,
 line,ovrig_vag,1846,,0x10e03,20,,Vandringsled,#C44982,,2,solid,
 line,ovrig_vag,1847,,0x10e04,20,,Vandrings- och vinterled,#C44982,,2,solid,
 line,ovrig_vag,1848,,0x10e05,20,,Vinterled,#C44982,,2,dash,
