@@ -88,7 +88,7 @@ def test_only_index_contours_are_labelled_in_feet():
     labelled = [r for r in contours if r.name]
     assert [r.condition for r in labelled] == ["lm:stodkurva=Ja"]
     assert labelled[0].name == "${ele|conv:m=>ft}"  # Garmin reads contour labels as feet
-    assert int(labelled[0].resolution) >= 22  # labels only when zoomed in
+    assert labelled[0].resolution == "23"  # labels only when zoomed in
     # the same index contour is drawn unlabelled further out (continue → emitted twice)
     unlabelled = [r for r in contours if r.condition == "lm:stodkurva=Ja" and not r.name]
     assert unlabelled and "continue" in unlabelled[0].options

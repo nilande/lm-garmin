@@ -7,9 +7,10 @@ Generated files carry a header and are checked by a test to be up to date.
 
 Columns: kind (point|line|polygon|drop), layer, t (objekttypnr, empty = any), condition
 (extra mkgmap expression), type, resolution, name (label expression, e.g. ${ele}),
-description, colour, colour2, width, pattern (solid|dash|label|stripe|hatch|dots|icon|none), order
-(polygon draw order 1–8), options (`continue`: keep matching later rules, so one feature can be
-emitted twice, e.g. unlabelled at one resolution range and labelled at another).
+description, colour, colour2, width, pattern (solid|dash|label|stripe|hatch|dots|mottled|icon|none),
+order (polygon draw order 1–8), options (`continue`: keep matching later rules, so one feature
+can be emitted twice, e.g. unlabelled at one resolution range and labelled at another;
+`outline`: pass the layer and object type to inner rings of a multipolygon for a line rule).
 A resolution may be a range, e.g. `20-21`.
 """
 
@@ -96,6 +97,17 @@ def render_rules(rules: list[Rule], kind: str) -> str:
     return "".join(out)
 
 
+def render_relations(rules: list[Rule]) -> str:
+    # mkgmap already sends the outer rings of a multipolygon to the line rules.
+    # Tag inner rings so the boundaries of enclaves can be drawn as well.
+    return HEADER + "".join(
+        f"type=multipolygon & {r.expression()} "
+        "{ apply role=inner { set lm:l='${lm:l}'; set lm:t='${lm:t}'; } }\n"
+        for r in rules
+        if r.kind == "line" and "outline" in r.options.split()
+    )
+
+
 # ---------------------------------------------------------------- TYP
 
 
@@ -115,6 +127,27 @@ def _pattern(kind: str) -> list[str]:
         return [
             "".join("a" if x % 6 == 0 and y % 6 == 0 else "b" for x in range(32)) for y in range(32)
         ]
+    if kind == "mottled":
+        # Small, offset patches leave the underlying land-cover colour visible.
+        rows = [["b"] * 32 for _ in range(32)]
+        patches = (
+            (2, 3, (2, 4, 3)),
+            (12, 1, (3, 5, 4, 2)),
+            (24, 4, (2, 3, 2)),
+            (8, 10, (2, 4, 3)),
+            (19, 11, (3, 5, 4, 2)),
+            (27, 15, (2, 3)),
+            (1, 18, (3, 4, 2)),
+            (13, 21, (2, 4, 3, 2)),
+            (23, 25, (3, 4, 3)),
+            (4, 27, (2, 4, 2)),
+        )
+        for x, y, widths in patches:
+            max_width = max(widths)
+            for dy, width in enumerate(widths):
+                start = x + (max_width - width + dy % 2) // 2
+                rows[y + dy][start : start + width] = "a" * width
+        return ["".join(row) for row in rows]
     raise ValueError(kind)
 
 
@@ -193,7 +226,7 @@ def generated_files(
         "points": render_rules(rules, "point"),
         "lines": render_rules(rules, "line"),
         "polygons": render_rules(rules, "polygon"),
-        "relations": HEADER,
+        "relations": render_relations(rules),
         f"typ/{name}.txt": render_typ(rules, family_id),
     }
 

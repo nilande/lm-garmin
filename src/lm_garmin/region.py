@@ -29,8 +29,8 @@ class Region:
 AREAS: dict[str, Bbox] = {
     # Täby/Enebyberg/Sätra: town streets, built-up areas, lakes (contains the tatort fixture)
     "taby": (665000, 6585000, 680000, 6600000),
-    # Hemavan–Syter: mountains, Sami names, all snowmobile statuses, 1836 points
-    "hemavan": (500000, 7270000, 525000, 7310000),
+    # Hemavan–Syter and the lake country south of Lövlund: mountains, Sami names, snowmobile trails
+    "hemavan": (500000, 7260000, 525000, 7310000),
 }
 
 

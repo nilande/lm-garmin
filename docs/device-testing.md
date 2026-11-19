@@ -3,6 +3,31 @@
 Results of tests on the real device. Newest first. The checklist for future releases is
 issue #20.
 
+## 2026-11-19 – raster-inspired style and zoom checks in Täby and Tärnaby
+
+Built with `lm-garmin build --area taby --area hemavan --dev` and tested on the
+Montana 700 with the development base map and snowmobile overlay enabled. The
+comparison used the Lantmäteriet Karta 1:50 000 raster cut-outs for
+[Täby](../tests/data/tatort_659_67_00.ref50k.tif) and
+[Lövlund](../tests/data/fjall_727_51_05.ref50k.tif).
+
+| Area and screen scale | Observed on the Montana 700 |
+|---|---|
+| Täby / Ensta, 35–300 m | Grey local streets and wider main roads are visible. The muted brown contour lines give the street network more contrast. |
+| Lövlund / Nedre Björknäs, 180–400 m | Fine contours and index contour labels in metres are visible. Light green vegetation patches leave streams and paths legible. |
+| Lövlund / Björknäsviken, 500 m | The fine contours and height labels disappear. Unlabelled index contours still show the terrain. The 10 km southward extension restores land coverage near Vojtjajaure chapel. |
+| Stormyrtjärnen, 800–950 m | The orange snowmobile route and blue streams remain easy to follow. The dashed purple restriction boundary is visible. |
+| Tärnaby / Gakkervattnet, 2–2.2 km | The sparser index contours leave more room for lakes, main roads and place names. The long terrain-vehicle notices are hidden at these scales. |
+
+The scales above are the scale-bar readings on this device. The base style uses
+resolution 23 and higher for fine contours, index contour labels and information
+notices. Resolutions 21–22 show unlabelled index contours. Resolution 20 keeps
+the index contours at multiples of 100 m.
+
+On the Montana 700, take screenshots from the pause menu. The device saves BMP
+files in `Garmin/scrn/`. Keep one centre point while changing scale and include
+the scale bar in each capture to make before-and-after comparisons easier.
+
 ## Device facts (read from `GarminDevice.xml`, 2026-11-18)
 
 | | |
@@ -51,10 +76,3 @@ Details and kit descriptions: [spikes.md § S6](spikes.md#s6--device-test-kit-sp
 
 Decisions: ADR-0005 accepted (Unicode); overlay ships as its own file (ADR-0004); map texts
 become label points (issue #16); tile-number ranges per map file (issue #3).
-
-## Next device check (pending)
-
-Built but **not yet tested on the device**: `lm-garmin build --area taby --area hemavan --dev`
-→ `lm-dev-topo50.img` / `lm-dev-skoter.img` (family 5752/5753) with wider roads and contour
-labels only on index contours at resolution ≥ 22. Install with `lm-garmin install`.
-QMapShack desktop preview has not been tried yet.

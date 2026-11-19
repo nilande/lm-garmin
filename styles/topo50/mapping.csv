@@ -20,7 +20,7 @@ polygon,mark,2648,,0x10f0a,18,,Ej karterat område,#F0F0F0,,,solid,1
 polygon,sankmark,2651,,0x51,20,,Sankmark fast,#E88A2E,,,stripe,4
 polygon,sankmark,2652,,0x10f04,20,,Sankmark våt,#40BAFF,,,stripe,4
 polygon,markframkomlighet,1571,,0x10f05,22,,Berg i dagen,#B4B4B4,,,solid,4
-polygon,markframkomlighet,1572,,0x10f06,22,,Tät vegetation,#7FB34C,,,hatch,4
+polygon,markframkomlighet,1572,,0x10f06,22,,Tät vegetation,#B2E39C,,,mottled,4
 polygon,markframkomlighet,1573,,0x10f07,22,,Blockig mark,#707070,,,dots,4
 polygon,byggnad,,,0x13,23,,Byggnad,#464646,,,solid,6
 polygon,anlaggningsomrade,2831,,0x10f10,22,,Industriområde,#9A9A9A,,,hatch,5
@@ -33,17 +33,18 @@ polygon,transformatoromrade,1741,,0x10f14,22,,Transformatorområde,#808080,,,hat
 polygon,militart_omrade,,,0x04,18,,Militärt område,#00A0E0,,,hatch,5
 polygon,skyddadnatur,5603,,0x16,16,,Nationalpark,#5AB032,,,hatch,5
 polygon,skyddadnatur,,,0x10f15,18,,Skyddad natur,#5AB032,,,hatch,5
-polygon,restriktionsomrade,,,0x10f16,20,,Restriktionsområde (terrängfordon/eld),#D03070,,,hatch,5
 # Lines – contours. Only index contours (stödkurvor) get labels, as on the printed map, and only
-# when zoomed in (resolution 22+) so place and road names win when zoomed out.
+# at the same detailed levels as minor contours (resolution 23+).
+# Keep unlabelled index contours at resolutions 21–22, thinning to 100 m intervals at 20.
 # Garmin always reads a contour label as feet and converts to the device's unit, so the
 # label is written in feet (shown as metres on a metric device).
-line,hojdlinje,2402,,0x21,22,,Gropkurva,#D06A08,,1,solid,
-line,hojdlinje,2405,,0x21,22,,Gropkurva 10,#D06A08,,1,solid,
-line,hojdlinje,,lm:stodkurva=Ja,0x22,20-21,,Stödkurva,#D06A08,,2,solid,,continue
-line,hojdlinje,,lm:stodkurva=Ja,0x22,22,${ele|conv:m=>ft},Stödkurva,#D06A08,,2,solid,
-line,hojdlinje,2401,,0x20,22,,Höjdkurva 5 m,#D06A08,,1,solid,
-line,hojdlinje,2404,,0x20,22,,Höjdkurva 10 m,#D06A08,,1,solid,
+line,hojdlinje,2402,,0x21,23,,Gropkurva,#A89274,,1,solid,
+line,hojdlinje,2405,,0x21,23,,Gropkurva 10,#A89274,,1,solid,
+line,hojdlinje,,lm:stodkurva=Ja & ele ~ '-?(0|[0-9]*00)',0x22,20-20,,Stödkurva,#907450,,2,solid,,continue
+line,hojdlinje,,lm:stodkurva=Ja,0x22,21-22,,Stödkurva,#907450,,2,solid,,continue
+line,hojdlinje,,lm:stodkurva=Ja,0x22,23,${ele|conv:m=>ft},Stödkurva,#907450,,2,solid,
+line,hojdlinje,2401,,0x20,23,,Höjdkurva 5 m,#A89274,,1,solid,
+line,hojdlinje,2404,,0x20,23,,Höjdkurva 10 m,#A89274,,1,solid,
 # Roads (label = road number). Standard Garmin road types only: the device draws and
 # treats them as roads even without the TYP. Town streets are visible from resolution 20–21.
 line,vaglinje,1801,,0x01,16,${ref},Motorväg,#C0392B,#7A1F15,7,solid,
@@ -92,6 +93,7 @@ line,markkantlinje,2614,,0x10e17,22,,Strandlinje vattendragsyta,#0080E6,,1,solid
 line,markkantlinje,2615,,0x10e17,22,,Strandlinje anlagt vatten,#0080E6,,1,solid,
 line,markkantlinje,2618,,0x10d03,22,,Glaciärgräns,#0080E6,,1,dash,
 # Boundaries and other lines
+line,restriktionsomrade,,,0x10d04,20,,Gräns för restriktionsområde (terrängfordon/eld),#B16F9A,,3,dash,,outline
 line,administrativ_grans,1561,,0x10e18,18,,Sjöterritoriets gräns,#C080E0,,2,dash,
 line,administrativ_grans,1562,,0x1e,14,,Riksgräns,#C080E0,,4,solid,
 line,administrativ_grans,1563,,0x1c,18,,Länsgräns,#D4B0F0,,3,solid,
@@ -112,8 +114,8 @@ point,textpunkt,,lm:textkategori=Tätort & lm:textstorleksklass>=7,0x0400,15,${n
 point,textpunkt,,lm:textkategori=Tätort,0x0800,18,${name},Tätort,,,,none,
 point,textpunkt,,lm:textkategori=Bebyggelse & lm:textstorleksklass>=4,0x0a00,20,${name},Bebyggelse stor,,,,none,
 point,textpunkt,,lm:textkategori=Bebyggelse,0x0c00,21,${name},Bebyggelse,,,,none,
-point,textpunkt,,lm:textstorleksklass>=4,0x2800,19,${name},Namn stort,,,,none,
 point,textpunkt,,lm:textkategori=Upplysningstext | lm:textkategori=Fjällupplysningstext,0x2800,23,${name},Upplysningstext,,,,none,
+point,textpunkt,,lm:textstorleksklass>=4,0x2800,19,${name},Namn stort,,,,none,
 point,textpunkt,,,0x2800,21,${name},Namn,,,,none,
 point,hojdpunkt,2412,,0x6616,21,${ele},Triangelpunkt,#000000,,5,icon,
 point,hojdpunkt,,,0x2800,23,${ele},Höjdvärde,,,,none,

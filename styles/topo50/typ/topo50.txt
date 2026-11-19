@@ -40,7 +40,6 @@ Type=0x10f14,5
 Type=0x04,5
 Type=0x16,5
 Type=0x10f15,5
-Type=0x10f16,5
 [end]
 
 [_polygon]
@@ -286,40 +285,40 @@ Xpm="0 0 1 0"
 Type=0x10f06
 String1=0x04,Tät vegetation
 Xpm="32 32 2 1"
-"a c #7FB34C"
+"a c #B2E39C"
 "b c none"
-"abbbbbbbabbbbbbbabbbbbbbabbbbbbb"
-"bbbbbbbabbbbbbbabbbbbbbabbbbbbba"
-"bbbbbbabbbbbbbabbbbbbbabbbbbbbab"
-"bbbbbabbbbbbbabbbbbbbabbbbbbbabb"
-"bbbbabbbbbbbabbbbbbbabbbbbbbabbb"
-"bbbabbbbbbbabbbbbbbabbbbbbbabbbb"
-"bbabbbbbbbabbbbbbbabbbbbbbabbbbb"
-"babbbbbbbabbbbbbbabbbbbbbabbbbbb"
-"abbbbbbbabbbbbbbabbbbbbbabbbbbbb"
-"bbbbbbbabbbbbbbabbbbbbbabbbbbbba"
-"bbbbbbabbbbbbbabbbbbbbabbbbbbbab"
-"bbbbbabbbbbbbabbbbbbbabbbbbbbabb"
-"bbbbabbbbbbbabbbbbbbabbbbbbbabbb"
-"bbbabbbbbbbabbbbbbbabbbbbbbabbbb"
-"bbabbbbbbbabbbbbbbabbbbbbbabbbbb"
-"babbbbbbbabbbbbbbabbbbbbbabbbbbb"
-"abbbbbbbabbbbbbbabbbbbbbabbbbbbb"
-"bbbbbbbabbbbbbbabbbbbbbabbbbbbba"
-"bbbbbbabbbbbbbabbbbbbbabbbbbbbab"
-"bbbbbabbbbbbbabbbbbbbabbbbbbbabb"
-"bbbbabbbbbbbabbbbbbbabbbbbbbabbb"
-"bbbabbbbbbbabbbbbbbabbbbbbbabbbb"
-"bbabbbbbbbabbbbbbbabbbbbbbabbbbb"
-"babbbbbbbabbbbbbbabbbbbbbabbbbbb"
-"abbbbbbbabbbbbbbabbbbbbbabbbbbbb"
-"bbbbbbbabbbbbbbabbbbbbbabbbbbbba"
-"bbbbbbabbbbbbbabbbbbbbabbbbbbbab"
-"bbbbbabbbbbbbabbbbbbbabbbbbbbabb"
-"bbbbabbbbbbbabbbbbbbabbbbbbbabbb"
-"bbbabbbbbbbabbbbbbbabbbbbbbabbbb"
-"bbabbbbbbbabbbbbbbabbbbbbbabbbbb"
-"babbbbbbbabbbbbbbabbbbbbbabbbbbb"
+"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+"bbbbbbbbbbbbbaaabbbbbbbbbbbbbbbb"
+"bbbbbbbbbbbbaaaaabbbbbbbbbbbbbbb"
+"bbbaabbbbbbbaaaabbbbbbbbbbbbbbbb"
+"bbaaaabbbbbbbbaabbbbbbbbaabbbbbb"
+"bbaaabbbbbbbbbbbbbbbbbbbaaabbbbb"
+"bbbbbbbbbbbbbbbbbbbbbbbbaabbbbbb"
+"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+"bbbbbbbbbaabbbbbbbbbbbbbbbbbbbbb"
+"bbbbbbbbaaaabbbbbbbbaaabbbbbbbbb"
+"bbbbbbbbaaabbbbbbbbaaaaabbbbbbbb"
+"bbbbbbbbbbbbbbbbbbbaaaabbbbbbbbb"
+"bbbbbbbbbbbbbbbbbbbbbaabbbbbbbbb"
+"bbbbbbbbbbbbbbbbbbbbbbbbbbbaabbb"
+"bbbbbbbbbbbbbbbbbbbbbbbbbbbaaabb"
+"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+"baaabbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+"baaaabbbbbbbbbbbbbbbbbbbbbbbbbbb"
+"bbaabbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+"bbbbbbbbbbbbbbaabbbbbbbbbbbbbbbb"
+"bbbbbbbbbbbbbaaaabbbbbbbbbbbbbbb"
+"bbbbbbbbbbbbbaaabbbbbbbbbbbbbbbb"
+"bbbbbbbbbbbbbbaabbbbbbbbbbbbbbbb"
+"bbbbbbbbbbbbbbbbbbbbbbbaaabbbbbb"
+"bbbbbbbbbbbbbbbbbbbbbbbaaaabbbbb"
+"bbbbbaabbbbbbbbbbbbbbbbaaabbbbbb"
+"bbbbaaaabbbbbbbbbbbbbbbbbbbbbbbb"
+"bbbbbaabbbbbbbbbbbbbbbbbbbbbbbbb"
+"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
 [end]
 
 [_polygon]
@@ -703,52 +702,12 @@ Xpm="32 32 2 1"
 "babbbbbbbabbbbbbbabbbbbbbabbbbbb"
 [end]
 
-[_polygon]
-Type=0x10f16
-String1=0x04,Restriktionsområde (terrängfordon/eld)
-Xpm="32 32 2 1"
-"a c #D03070"
-"b c none"
-"abbbbbbbabbbbbbbabbbbbbbabbbbbbb"
-"bbbbbbbabbbbbbbabbbbbbbabbbbbbba"
-"bbbbbbabbbbbbbabbbbbbbabbbbbbbab"
-"bbbbbabbbbbbbabbbbbbbabbbbbbbabb"
-"bbbbabbbbbbbabbbbbbbabbbbbbbabbb"
-"bbbabbbbbbbabbbbbbbabbbbbbbabbbb"
-"bbabbbbbbbabbbbbbbabbbbbbbabbbbb"
-"babbbbbbbabbbbbbbabbbbbbbabbbbbb"
-"abbbbbbbabbbbbbbabbbbbbbabbbbbbb"
-"bbbbbbbabbbbbbbabbbbbbbabbbbbbba"
-"bbbbbbabbbbbbbabbbbbbbabbbbbbbab"
-"bbbbbabbbbbbbabbbbbbbabbbbbbbabb"
-"bbbbabbbbbbbabbbbbbbabbbbbbbabbb"
-"bbbabbbbbbbabbbbbbbabbbbbbbabbbb"
-"bbabbbbbbbabbbbbbbabbbbbbbabbbbb"
-"babbbbbbbabbbbbbbabbbbbbbabbbbbb"
-"abbbbbbbabbbbbbbabbbbbbbabbbbbbb"
-"bbbbbbbabbbbbbbabbbbbbbabbbbbbba"
-"bbbbbbabbbbbbbabbbbbbbabbbbbbbab"
-"bbbbbabbbbbbbabbbbbbbabbbbbbbabb"
-"bbbbabbbbbbbabbbbbbbabbbbbbbabbb"
-"bbbabbbbbbbabbbbbbbabbbbbbbabbbb"
-"bbabbbbbbbabbbbbbbabbbbbbbabbbbb"
-"babbbbbbbabbbbbbbabbbbbbbabbbbbb"
-"abbbbbbbabbbbbbbabbbbbbbabbbbbbb"
-"bbbbbbbabbbbbbbabbbbbbbabbbbbbba"
-"bbbbbbabbbbbbbabbbbbbbabbbbbbbab"
-"bbbbbabbbbbbbabbbbbbbabbbbbbbabb"
-"bbbbabbbbbbbabbbbbbbabbbbbbbabbb"
-"bbbabbbbbbbabbbbbbbabbbbbbbabbbb"
-"bbabbbbbbbabbbbbbbabbbbbbbabbbbb"
-"babbbbbbbabbbbbbbabbbbbbbabbbbbb"
-[end]
-
 [_line]
 Type=0x21
 String1=0x04,Gropkurva
 LineWidth=1
 Xpm="0 0 1 0"
-"a c #D06A08"
+"a c #A89274"
 [end]
 
 [_line]
@@ -756,7 +715,7 @@ Type=0x22
 String1=0x04,Stödkurva
 LineWidth=2
 Xpm="0 0 1 0"
-"a c #D06A08"
+"a c #907450"
 [end]
 
 [_line]
@@ -764,7 +723,7 @@ Type=0x20
 String1=0x04,Höjdkurva 5 m
 LineWidth=1
 Xpm="0 0 1 0"
-"a c #D06A08"
+"a c #A89274"
 [end]
 
 [_line]
@@ -1116,6 +1075,18 @@ UseOrientation=Y
 Xpm="32 1 2 1"
 "a c #0080E6"
 "b c none"
+"aaaaabbbaaaaabbbaaaaabbbaaaaabbb"
+[end]
+
+[_line]
+Type=0x10d04
+String1=0x04,Gräns för restriktionsområde (terrängfordon/eld)
+UseOrientation=Y
+Xpm="32 3 2 1"
+"a c #B16F9A"
+"b c none"
+"aaaaabbbaaaaabbbaaaaabbbaaaaabbb"
+"aaaaabbbaaaaabbbaaaaabbbaaaaabbb"
 "aaaaabbbaaaaabbbaaaaabbbaaaaabbb"
 [end]
 
