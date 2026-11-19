@@ -27,6 +27,7 @@ from pyproj import Transformer
 from . import __version__
 from .region import Region
 from .tags import SCHEMA_VERSION, feature_tags, read_columns
+from .water_overview import LAKE_TYPE, merged_lakes
 
 # Theme → layers, as delivered by Lantmäteriet (product version 2026.05).
 # Fixed order → fixed id ranges. Never reorder; append new themes at the end.
@@ -92,6 +93,7 @@ class ThemeStats:
     seconds: float = 0.0
     max_rss_mb: float = 0.0
     layers: dict[str, int] = field(default_factory=dict)
+    merged_lakes: int = 0
 
 
 class OsmSink:
@@ -176,7 +178,13 @@ def _to_wgs84(geoms: np.ndarray, tr: Transformer) -> np.ndarray:
 
 
 def _write_batch(
-    sink: OsmSink, layer: str, columns: list[str], batch, geom_col: str, tr: Transformer
+    sink: OsmSink,
+    layer: str,
+    columns: list[str],
+    batch,
+    geom_col: str,
+    tr: Transformer,
+    lake_ids: frozenset[str],
 ) -> int:
     geoms = _to_wgs84(shapely.from_wkb(batch.column(geom_col).to_numpy(zero_copy_only=False)), tr)
     values = [batch.column(c).to_pylist() for c in columns]
@@ -186,6 +194,8 @@ def _write_batch(
         if g is None or g.is_empty:
             continue
         tags = feature_tags(layer, columns, row)
+        if lake_ids and tags.get("lm:t") == LAKE_TYPE and tags.get("lm:vattenytaid") in lake_ids:
+            tags["lm:ov"] = "detail"
         n += 1
         for part in shapely.get_parts(g):
             t = shapely.get_type_id(part)
@@ -215,6 +225,8 @@ def convert_theme(
     stats = ThemeStats(theme, out.name)
     sink = OsmSink(out, id_base(theme), (lon[0], lat[0], lon[1], lat[1]))
     try:
+        lakes = merged_lakes([gpkg for gpkg, layer in sources if layer == "mark"], region.bbox)
+        lake_ids = frozenset(lakes)
         for gpkg, layer in sources:
             info = pyogrio.read_info(gpkg, layer=layer)
             columns = read_columns(list(info["fields"]))
@@ -229,9 +241,22 @@ def convert_theme(
             ) as (meta, reader):
                 geom_col = meta["geometry_name"] or "wkb_geometry"
                 for batch in reader:
-                    count += _write_batch(sink, layer, columns, batch, geom_col, tr)
+                    count += _write_batch(
+                        sink,
+                        layer,
+                        columns,
+                        batch,
+                        geom_col,
+                        tr,
+                        lake_ids if layer == "mark" else frozenset(),
+                    )
             stats.layers[layer] = stats.layers.get(layer, 0) + count
             stats.features += count
+        for water_id, lake in sorted(lakes.items()):
+            tags = {"lm:l": "mark", "lm:t": LAKE_TYPE, "lm:vattenytaid": water_id, "lm:ov": "yes"}
+            for part in shapely.get_parts(_to_wgs84(lake, tr)):
+                sink.polygon([shapely.get_coordinates(r) for r in shapely.get_rings(part)], tags)
+        stats.merged_lakes = len(lakes)
     finally:
         sink.close()
     stats.nodes, stats.ways, stats.relations = sink.nodes, sink.ways, sink.relations

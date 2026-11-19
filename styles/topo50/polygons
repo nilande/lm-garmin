@@ -1,6 +1,9 @@
 # GENERATED from mapping.csv by `lm-garmin style generate` – do not edit.
 lm:l=mark & lm:t=2631 [0x28 resolution 16]
-lm:l=mark & lm:t=2632 [0x3c resolution 18]
+lm:l=mark & lm:t=2632 & (lm:ov=detail) [0x3c resolution 18-18 continue]
+lm:l=mark & lm:t=2632 & (lm:ov=detail) [0x3c resolution 21]
+lm:l=mark & lm:t=2632 & (lm:ov=yes) [0x3c resolution 20-20]
+lm:l=mark & lm:t=2632 & (lm:ov!=*) [0x3c resolution 18]
 lm:l=mark & lm:t=2633 [0x48 resolution 20]
 lm:l=mark & lm:t=2634 [0x3f resolution 22]
 lm:l=mark & lm:t=2635 [0x4d resolution 18]
