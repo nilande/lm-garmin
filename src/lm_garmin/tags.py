@@ -9,7 +9,7 @@ from __future__ import annotations
 import unicodedata
 from collections.abc import Iterable
 
-SCHEMA_VERSION = 1
+SCHEMA_VERSION = 2
 
 # Columns never carried over: identity/bookkeeping, or redundant with lm:t.
 SKIP_COLUMNS = frozenset({"fid", "geom", "objektidentitet", "skapad", "objekttyp", "objekttypnr"})

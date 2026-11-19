@@ -1,4 +1,4 @@
-# Tag schema (version 1)
+# Tag schema (version 2)
 
 The converter (stage S1, `lm_garmin.convert`) writes Topografi 50 as OSM PBF. The OSM tags
 only re-encode Lantmäteriet's own data ([ADR-0003](adr/0003-style-independent-intermediate-and-cache.md));
@@ -37,6 +37,7 @@ selected by the GeoPackage R-tree; geometries are **not** clipped to the region.
 | `name` | `textstrang` | text layers |
 | `ele` | `hojdvarde` | contours and spot heights |
 | `ref` | `vardvagnummer` | road number |
+| `lm:ov` | derived lake geometry | `yes` on the merged lake and `detail` on its original fragments. Untagged lakes retain their source geometry at all levels supported by the style. |
 
 Not carried: `fid`, `geom`, `objektidentitet`, `skapad`, `objekttyp` (redundant with `lm:t`).
 
@@ -46,6 +47,12 @@ decimals. Dropped values: empty, `Ingen information`, and `0` for `rotation`/`te
 > **A missing tag means "no information".** In particular, a winter trail (1847/1848)
 > without `lm:skoterkorning_tillaten` has the value *Ingen information*; styles must handle
 > that case explicitly.
+
+For lake polygons (`mark`, type 2632), the converter can dissolve fragments
+with the same `vattenytaid` within the selected region. A merged feature is added
+only when the union is valid and reduces the number of polygon parts. It retains
+the water-body identifier, holes and shoreline geometry. The default style uses
+the merged geometry at resolution 20 and source fragments at the other levels.
 
 ## Example
 

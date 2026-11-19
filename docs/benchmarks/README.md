@@ -3,6 +3,32 @@
 Reference machine: Apple M5 (10 cores), 16 GB RAM, internal SSD; data on an SMB share (NAS).
 Delivery `LM2026:173692` (data 2026-10-16).
 
+## Lake overview around Tärnaby (issue #15)
+
+Compared two builds of the same 50 × 50 km extent in SWEREF 99 TM
+(`490000,7265000,540000,7315000`). The converter joined 89 lake identifiers
+from the Topografi 50 source. The table counts decoded lake polygons (Garmin type
+`0x3c`), which can be split again at Garmin tile boundaries.
+
+| mkgmap resolution | Source fragments | Merged lake overview |
+|---|---:|---:|
+| 24 | 2,990 | 2,990 |
+| 21 | 1,906 | 1,906 |
+| 20 | 976 | 948 |
+| 18 | 248 | 248 |
+
+At resolution 20, the overlap with the source lake areas (intersection over
+union) went from 91.99% to 92.06% after clipping the decoded geometry and the
+source to the benchmark extent. The decoded lake geometry at resolutions
+24, 23, 22, 21 and 18 matched exactly. An exploratory build that also showed
+the union at resolution 18 increased the lake-area difference against the
+source in the Tärnaby comparison window from 10.26 to 10.81 km². The default
+style therefore uses the union at resolution 20.
+
+The nationwide *lake-merge step alone* processed 10,822 lake identifiers in
+5.7 s with a 532 MB process peak. The nationwide Garmin build remains a
+separate benchmark.
+
 ## 2026-11-18 – S0 unpack + S1 convert, all of Sweden (branch `m1/unpack-region-convert`)
 
 | Step | Wall | CPU | Peak RSS | Output |
