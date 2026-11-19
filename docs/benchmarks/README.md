@@ -17,8 +17,13 @@ mixed-forest source polygons into 16 groups across the Topografi 50 grid.
 | Decoded forest overlapping source open ground | 2.44 km² | 2.35 km² |
 
 The integration test checks that the join is limited to resolution 20 and
-that a lake and a clearing remain open in the compiled map. The joins are
-bounded by a 50 km processing grid. In a nationwide dry run of the dissolve
+that a lake and a clearing remain open in the compiled map. At 2 km on the
+Montana 700, the shared view around Forsbäck and Gakkervattnet looked similar
+before and after. After aligning the panned screenshots, the remaining visible
+differences were small changes at forest edges. Water and open patches remained
+visible, with no obvious new straight breaks in the shared view.
+
+The joins are bounded by a 50 km processing grid. In a nationwide dry run of the dissolve
 step, 9,735 groups were produced from 46,275 fragments in about two minutes.
 Their WKB occupied about 517 MB. The converter stages those polygons on disk
 while it writes the source data, keeping their output order and avoiding
