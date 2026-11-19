@@ -3,6 +3,23 @@
 Results of tests on the real device. Newest first. The checklist for future releases is
 issue #20.
 
+## 2026-11-19 – snowmobile overlay (issue #24)
+
+The paired 250 m screenshots at Syterstugan confirmed that the development
+overlay toggles independently. The solid red overlay disappears when it is
+disabled and the base map's trail remains. A red 1836 point symbol is visible
+on the trail southwest of Syterstugan with the overlay enabled.
+
+| Feature | Observed style | Example location (WGS84 latitude, longitude) |
+|---|---|---|
+| Påbjuden (required route) | Solid red line and a small red square | 65.88767, 15.38287 |
+| Ja (permitted) | Solid orange line, easy to follow | 65.86460, 15.32363 |
+| Nej (prohibited) | Dashed grey line, less prominent than the solid routes | 65.89296, 15.39556 near Syterstugan |
+| Ingen information (no information) | Dashed light orange line, with the lowest contrast against the terrain patterns | 65.84761, 15.33030 |
+
+All four styles could be identified in the 180–250 m screenshots. Readability
+of the physical display in direct sunlight is still unverified.
+
 ## 2026-11-19 – raster-inspired style and zoom checks in Täby and Tärnaby
 
 Built with `lm-garmin build --area taby --area hemavan --dev` and tested on the
