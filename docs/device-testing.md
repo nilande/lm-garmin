@@ -32,6 +32,11 @@ use equal-length lines at the same encoded zoom levels, numbered north to south:
 | 6 | `0x10e16` | Dashed grey, Lantmäteriet overlay |
 | 7 | `0x04` | Purple standard road type as a reference |
 
+On the Montana 700, all seven lines appeared at 200 m. At both 250 m and
+600 m, row 1 (`0x10c00`) was absent and rows 2–7 were visible. At 600 m,
+the device hid several labels. The two teal solid rows use identical geometry
+and bitmap styling apart from their positions and type codes.
+
 ## 2026-11-19 – snowmobile overlay (issue #24)
 
 The paired 250 m screenshots at Syterstugan confirmed that the development
