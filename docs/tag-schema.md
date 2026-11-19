@@ -1,4 +1,4 @@
-# Tag schema (version 2)
+# Tag schema (version 3)
 
 The converter (stage S1, `lm_garmin.convert`) writes Topografi 50 as OSM PBF. The OSM tags
 only re-encode Lantmäteriet's own data ([ADR-0003](adr/0003-style-independent-intermediate-and-cache.md));
@@ -37,7 +37,7 @@ selected by the GeoPackage R-tree; geometries are **not** clipped to the region.
 | `name` | `textstrang` | text layers |
 | `ele` | `hojdvarde` | contours and spot heights |
 | `ref` | `vardvagnummer` | road number |
-| `lm:ov` | derived lake geometry | `yes` on the merged lake and `detail` on its original fragments. Untagged lakes retain their source geometry at all levels supported by the style. |
+| `lm:ov` | derived overview geometry | `yes` on the merged shape and `detail` on the source fragments it replaces at overview resolution. Untagged features use their source geometry at every supported level. |
 
 Not carried: `fid`, `geom`, `objektidentitet`, `skapad`, `objekttyp` (redundant with `lm:t`).
 
@@ -53,6 +53,12 @@ with the same `vattenytaid` within the selected region. A merged feature is adde
 only when the union is valid and reduces the number of polygon parts. It retains
 the water-body identifier, holes and shoreline geometry. The default style uses
 the merged geometry at resolution 20 and source fragments at the other levels.
+
+For coniferous and mixed forest (`mark`, type 2645), the converter also joins
+adjacent source polygons that share an edge across a 10 km source-grid line.
+It works in aligned 50 km blocks, with joins confined to each block. The union
+preserves clearings, water and other holes in the source forest. The default
+style uses it at resolution 20.
 
 ## Example
 

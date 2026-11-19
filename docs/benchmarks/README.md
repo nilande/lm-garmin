@@ -3,6 +3,33 @@
 Reference machine: Apple M5 (10 cores), 16 GB RAM, internal SSD; data on an SMB share (NAS).
 Delivery `LM2026:173692` (data 2026-10-16).
 
+## Forest overview around Tärnaby (issue #15)
+
+Reused the 50 × 50 km lake benchmark extent with the same single Garmin tile
+in both builds (`--max-nodes 4000000`). The converter joined 62 coniferous and
+mixed-forest source polygons into 16 groups across the Topografi 50 grid.
+
+| Resolution-20 check | Source fragments | Joined forest |
+|---|---:|---:|
+| Decoded forest polygons (`0x50`) | 359 | 325 |
+| Forest area overlap with source (IoU) | 95.74% | 95.84% |
+| Decoded forest overlapping source water | 1.58 km² | 1.48 km² |
+| Decoded forest overlapping source open ground | 2.44 km² | 2.35 km² |
+
+The integration test checks that the join is limited to resolution 20 and
+that a lake and a clearing remain open in the compiled map. At 2 km on the
+Montana 700, the shared view around Forsbäck and Gakkervattnet looked similar
+before and after. After aligning the panned screenshots, the remaining visible
+differences were small changes at forest edges. Water and open patches remained
+visible, with no obvious new straight breaks in the shared view.
+
+The joins are bounded by a 50 km processing grid. In a nationwide dry run of the dissolve
+step, 9,735 groups were produced from 46,275 fragments in about two minutes.
+Their WKB occupied about 517 MB. The converter stages those polygons on disk
+while it writes the source data, keeping their output order and avoiding
+holding the entire overview in memory. Whole-country Garmin build performance
+still needs a separate measurement.
+
 ## Lake overview around Tärnaby (issue #15)
 
 Compared two builds of the same 50 × 50 km extent in SWEREF 99 TM
