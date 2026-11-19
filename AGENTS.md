@@ -59,15 +59,14 @@ Data cache: `$LM_GARMIN_CACHE` or `~/.cache/lm-garmin` (unpacked GeoPackages in 
 ## State (2026-11-19)
 
 Done: M0 planning, M1 #1 #4–#10 (unpack, regions, convert, build, generated style, verify,
-CI fixture builds), device test of the full Sweden map. Branch `style/roads-contours`
-(PR open): standard road types, wider roads, contour labels only on index contours and only
-when zoomed in, dev maps (`--area`, `--dev`), `install`.
+CI fixture builds), device test of the full Sweden map, and Montana 700 style checks in
+Täby and Tärnaby. The dev maps (`--area`, `--dev`) have been used to check road visibility,
+contour labels and the overview. See [device-testing.md](docs/device-testing.md).
 
 Not done / next steps (GitHub issues and milestones are the source of truth):
 
-1. **Device check of the latest style** with the dev map (wider roads, contour labels) –
-   `docs/device-testing.md` has the previous findings. Enable *Screen capture* on the Montana
-   (probably *Settings → Display*); screenshots should appear in `Garmin/scrn/`.
+1. **Device checklist** (#20): turn the repeatable checks and screenshot method in
+   `docs/device-testing.md` into a release checklist.
 2. **Desktop preview**: QMapShack (`brew install --cask qmapshack`) renders `.img` + TYP;
    **not tried yet**. Our own render/compare against the raster is issue #18.
 3. **Street names**: Topografi 50 has none (`gatunamn` is empty). Candidate sources:

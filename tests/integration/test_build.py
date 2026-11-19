@@ -5,15 +5,20 @@ Only reports and timings leave the test – never map data.
 
 import json
 import sqlite3
+from collections import Counter, defaultdict
 from pathlib import Path
 
+import pyarrow as pa
+import pyogrio
 import pytest
+from pyproj import Transformer
+from shapely.geometry import Point, Polygon, box, shape
 
 from lm_garmin import stylegen, tools
 from lm_garmin.build import build
 from lm_garmin.products import PRODUCTS
 from lm_garmin.region import Region, sweden
-from lm_garmin.verify import check, norm_type, summarize
+from lm_garmin.verify import check, decode, norm_type, summarize
 
 pytestmark = pytest.mark.integration
 
@@ -107,22 +112,43 @@ def test_build_reports_steps(built):
         assert all(s["seconds"] >= 0 for s in report["steps"])
 
 
-def test_contour_labels_are_feet_on_index_contours_only(built, data_dir_module):
-    from lm_garmin.verify import decode
-
+def test_contour_detail_and_labels_by_zoom_level(built, data_dir_module):
     out, _ = built["fjall_727_51_05"]
-    labels = {"0x20": set(), "0x22": set()}
+    labels: dict[tuple[int, str], set[str]] = defaultdict(set)
+    index_counts: Counter[int] = Counter()
     for f in decode(out / PRODUCTS["topo50"].filename):
         p = f["properties"]
-        if p["kind"] == "line" and p["level"] == 0 and p["type"] in labels:
-            labels[p["type"]].add(p["label"])
-    assert labels["0x20"] <= {""}
+        if p["kind"] == "line" and p["type"] in {"0x20", "0x21", "0x22"}:
+            labels[p["level"], p["type"]].add(p["label"])
+            if p["type"] == "0x22":
+                index_counts[p["level"]] += 1
+    for level in (0, 1):
+        assert labels[level, "0x20"] == {""}
+        assert labels[level, "0x21"] <= {""}
+    for level in (2, 3, 4):
+        assert labels[level, "0x22"] == {""}
+        assert not labels[level, "0x20"]
+        assert not labels[level, "0x21"]
+    assert 0 < index_counts[4] < index_counts[3]
     with sqlite3.connect(data_dir_module / "fjall_727_51_05.gpkg") as c:
         heights = {
             int(r[0])
             for r in c.execute("SELECT DISTINCT hojdvarde FROM hojdlinje WHERE stodkurva = 'Ja'")
         }
-    assert {str(round(h * 3.28084)) for h in heights} == labels["0x22"]
+    expected_labels = {str(round(h * 3.28084)) for h in heights}
+    assert labels[0, "0x22"] == expected_labels
+    assert labels[1, "0x22"] and labels[1, "0x22"] <= expected_labels
+
+
+def test_large_information_text_requires_detailed_zoom(built):
+    out, _ = built["skoter_730_51"]
+    levels = {
+        p["level"]
+        for f in decode(out / PRODUCTS["topo50"].filename)
+        if (p := f["properties"])["kind"] == "point"
+        and (p["label"] or "").startswith("Förbjudet område för terrängfordon")
+    }
+    assert levels == {0, 1}
 
 
 def test_dev_build_of_two_regions_in_one_map(tmp_path, data_dir_module):
@@ -148,3 +174,36 @@ def test_dev_build_of_two_regions_in_one_map(tmp_path, data_dir_module):
     assert s.tiles == {str(topo.mapid_base), str(topo.mapid_base + 1000)}
     assert {"Lövlund", "Syterstugan"} <= s.labels
     assert (out / "lm-dev-skoter.img").exists()
+
+
+def test_restriction_area_draws_outer_and_inner_boundaries(tmp_path):
+    if not tools.find_java():
+        pytest.skip("java not found")
+    outer = box(516000, 7271000, 519000, 7274000)
+    inner = box(517000, 7272000, 518000, 7273000)
+    area = Polygon(outer.exterior.coords, [inner.exterior.coords])
+    src = tmp_path / "src"
+    src.mkdir()
+    pyogrio.write_arrow(
+        pa.table({"geom": [area.wkb]}),
+        src / "restriction.gpkg",
+        layer="restriktionsomrade",
+        geometry_name="geom",
+        geometry_type="Polygon",
+        crs="EPSG:3006",
+    )
+    region = Region("restriction", (515000, 7270000, 520000, 7275000))
+    out = tmp_path / "out"
+    build(src, region, out, tmp_path / "cache", jobs=1, java_mem="1g", log=lambda *_: None)
+
+    boundaries = []
+    for feature in decode(out / PRODUCTS["topo50"].filename):
+        props = feature["properties"]
+        assert props["type"] != "0x10f16"
+        if props["type"] == "0x10d04" and props["kind"] == "line" and props["level"] == 0:
+            boundaries.append(shape(feature["geometry"]))
+    assert len(boundaries) == 2
+    project = Transformer.from_crs(3006, 4326, always_xy=True)
+    for x, y in ((516000, 7272500), (517000, 7272500)):
+        point = Point(project.transform(x, y))
+        assert min(line.distance(point) for line in boundaries) < 0.0001

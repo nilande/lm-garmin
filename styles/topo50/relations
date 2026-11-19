@@ -1,1 +1,2 @@
 # GENERATED from mapping.csv by `lm-garmin style generate` – do not edit.
+type=multipolygon & lm:l=restriktionsomrade { apply role=inner { set lm:l='${lm:l}'; set lm:t='${lm:t}'; } }
