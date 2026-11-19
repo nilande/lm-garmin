@@ -3,6 +3,40 @@
 Results of tests on the real device. Newest first. The checklist for future releases is
 issue #20.
 
+## 2026-11-19 – OSM line visibility and the Täby diagnostic overlay
+
+At Forsavan, the original designated OSM line (`0x10c00`) appeared at 200 m
+and disappeared at 250 m, including with the other maps disabled. A continuous
+bitmap alone did not change that threshold. With the same bitmap and geometry
+but Garmin line type `0x10e0f`, the line appeared at 250 m.
+
+Build a reusable side-by-side test of line types without any source map data:
+
+```bash
+uv run python scripts/build_line_diagnostics.py
+uv run lm-garmin install dist/line-diagnostics/taby-testlinjer.img
+```
+
+Enable **Täby syntetiska testlinjer**, centre the map at **59.45393, 18.06203**
+(Ensta), and keep north up. For a visibility comparison, disable the other
+maps and take one screenshot per scale at 200 m, 250 m and 600 m. The rows
+use equal-length lines at the same encoded zoom levels, numbered north to south:
+
+| Row | Type | Style |
+|---|---|---|
+| 1 | `0x10c00` | Solid teal, original OSM code |
+| 2 | `0x10e0f` | Same solid teal bitmap, revised OSM code |
+| 3 | `0x10c01` | Dashed teal |
+| 4 | `0x10c02` | Dotted teal |
+| 5 | `0x10e14` | Solid orange, Lantmäteriet overlay |
+| 6 | `0x10e16` | Dashed grey, Lantmäteriet overlay |
+| 7 | `0x04` | Purple standard road type as a reference |
+
+On the Montana 700, all seven lines appeared at 200 m. At both 250 m and
+600 m, row 1 (`0x10c00`) was absent and rows 2–7 were visible. At 600 m,
+the device hid several labels. The two teal solid rows use identical geometry
+and bitmap styling apart from their positions and type codes.
+
 ## 2026-11-19 – snowmobile overlay (issue #24)
 
 The paired 250 m screenshots at Syterstugan confirmed that the development

@@ -83,7 +83,32 @@ Output in `dist/`:
 |---|---|
 | `lm-topo50.img` | base map (family id 5750), searchable place names |
 | `lm-skoter.img` | transparent snowmobile overlay (family id 5751), only if the region has winter trails |
+| `osm-skoter.img` | optional, independently toggleable OpenStreetMap supplement (family id 5754) |
 | `build-report.json` | time and peak memory per step, tile counts, sizes |
+
+### Add the optional OpenStreetMap snowmobile supplement
+
+```bash
+uv run lm-garmin build --area hemavan --osm /path/to/region.osm.pbf --dev --out dist/dev
+# Or use --products skoter-osm to build just the supplement.
+```
+
+Use an OpenStreetMap `.osm` or `.osm.pbf` extract with complete way nodes. Providing
+`--osm` adds a separate **OSM Skoterkomplement** map alongside the default Lantmäteriet
+products. The development filename is `osm-dev-skoter.img`. Install it like the
+other maps and toggle it in Map Manager.
+
+Teal identifies the OpenStreetMap source. A solid line marks `snowmobile=designated`,
+a dashed line marks `yes` or `permissive`, and a dotted line marks `ice_road=yes`
+with one of those access tags. These are OSM tags, including the ice-road tag.
+The supplement keeps stretches that differ from Topografi 50. It uses a 40 m
+corridor around the source winter trails and treats overlaps of at least 120 m,
+or 80% of a shorter way, as matches. It retains short crossings and drops
+fragments under 30 m left by an overlap. All Lantmäteriet trail statuses count
+when finding matches, including `Nej`.
+
+The overlay carries **© OpenStreetMap contributors** attribution. The source is
+available under the [OpenStreetMap ODbL terms](https://www.openstreetmap.org/copyright).
 
 ### Development loop (iterating on the look)
 

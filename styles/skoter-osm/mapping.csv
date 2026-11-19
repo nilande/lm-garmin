@@ -1,0 +1,5 @@
+kind,layer,t,condition,type,resolution,name,description,colour,colour2,width,pattern,order
+# The teal colour identifies OSM. Ice routes and other access tags use distinct patterns.
+line,osm_skoter,,ice_road=yes,0x10c02,18,,OSM skoterled över is,#007D87,,2,dot,
+line,osm_skoter,,snowmobile=designated,0x10e0f,18,,OSM utpekad skoterled,#007D87,,3,solid-bitmap,
+line,osm_skoter,,,0x10c01,18,,OSM skoterled eller tillträde,#007D87,,2,dash,

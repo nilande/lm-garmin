@@ -14,7 +14,7 @@ Nedladdning, vektor** (GeoPackage, CC0) into a Garmin map (`.img`) for the
 |---|---|
 | All 13 themes translated to Garmin types | Routing on `vaglinje` (and winter trails) |
 | One default style (mkgmap style + TYP as source) that resembles Karta 1:50 000 | Alternative styles (e.g. high-contrast, winter) |
-| Build for all of Sweden, or a bbox / county / municipality | Skoterleder.org overlay (local-only, after licence check) |
+| Build for all of Sweden, or a bbox / county / municipality | Optional supplement built from a local OpenStreetMap extract |
 | Separate, transparent snowmobile overlay from LM data | Automatic Geotorget download via API |
 | Place names searchable (if the device test confirms it is cheap) | Contour labels tuning, hill shading (not possible in `.img`) |
 | CI: lint, unit, integration build of fixtures, decode-and-verify, perf numbers | Release packaging (Homebrew tap / pipx) |
@@ -229,8 +229,9 @@ fixtures — they are CC0 and ~1–3 MB each.)
 
 - Shipped as its own `.img` (toggle in *Map setup → Map information*); a combined
   `gmapsupp.img` is a build option.
-- Optional later: an OpenStreetMap snowmobile overlay (the source behind Skoterleder.org,
-  ODbL) as a *third* family, with OSM attribution.
+- Optional: a *third* map family built from a local OpenStreetMap extract, with OSM
+  attribution and distinct line styles. Show complementary stretches where the data
+  differs from Lantmäteriet's winter trails.
 
 ## 7. Search and routing
 
@@ -331,7 +332,7 @@ coverage metric (local GPX + CI hand-made track); combined vs separate file opti
 **M4 Performance** — stage cache keys, style-only rebuilds, per-stage metrics in
 `build-report.json`, CI perf trend, full-Sweden benchmark and tuning (`max-nodes`, jobs).
 
-**M5 Later** — routing; Skoterleder.org local overlay; alternative styles; packaging.
+**M5 Later** — routing; OpenStreetMap supplement from a local extract; alternative styles; packaging.
 
 ## 13. Decisions (2026-11-18)
 

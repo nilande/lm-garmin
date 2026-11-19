@@ -7,7 +7,8 @@ Generated files carry a header and are checked by a test to be up to date.
 
 Columns: kind (point|line|polygon|drop), layer, t (objekttypnr, empty = any), condition
 (extra mkgmap expression), type, resolution, name (label expression, e.g. ${ele}),
-description, colour, colour2, width, pattern (solid|dash|label|stripe|hatch|dots|mottled|icon|none),
+description, colour, colour2, width,
+pattern (solid|solid-bitmap|dash|dot|label|stripe|hatch|dots|mottled|icon|none),
 order (polygon draw order 1–8), options (`continue`: keep matching later rules, so one feature
 can be emitted twice, e.g. unlabelled at one resolution range and labelled at another;
 `outline`: pass the layer and object type to inner rings of a multipolygon for a line rule).
@@ -168,9 +169,14 @@ def _typ_line(r: Rule) -> str:
     if r.pattern == "label":
         # Label-only line: mkgmap rejects a fully transparent line, so one faint pixel in 32.
         s += "UseOrientation=Y\n" + _xpm(["a" + "b" * 31], {"a": r.colour, "b": "none"})
-    elif r.pattern == "dash":
-        dash = "".join("a" if i % 8 < 5 else "b" for i in range(32))
-        s += "UseOrientation=Y\n" + _xpm([dash] * w, {"a": r.colour, "b": "none"})
+    elif r.pattern in ("dash", "dot", "solid-bitmap"):
+        length = {"dash": 5, "dot": 2, "solid-bitmap": 7}[r.pattern]
+        dash = "".join("a" if i % 8 < length else "b" for i in range(32))
+        rows = [dash] * w
+        if r.pattern == "solid-bitmap":
+            # Keep a continuous centre while using the same bitmap format as dashed lines.
+            rows[w // 2] = "a" * 32
+        s += "UseOrientation=Y\n" + _xpm(rows, {"a": r.colour, "b": "none"})
     elif r.colour2:
         s += f'LineWidth={w}\nBorderWidth=1\nXpm="0 0 2 0"\n"a c {r.colour}"\n"b c {r.colour2}"\n'
     else:

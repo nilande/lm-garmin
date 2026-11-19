@@ -6,11 +6,16 @@ from lm_garmin.products import PRODUCTS, dev_variant
 
 
 def test_dev_variant_has_own_ids_and_file():
+    dev_filenames = {
+        "topo50": "lm-dev-topo50.img",
+        "skoter": "lm-dev-skoter.img",
+        "skoter-osm": "osm-dev-skoter.img",
+    }
     for p in PRODUCTS.values():
         d = dev_variant(p)
         assert d.family_id == p.family_id + 2
         assert d.mapid_base // 10_000 == d.family_id
-        assert d.filename == f"lm-dev-{p.key}.img"
+        assert d.filename == dev_filenames[p.key]
         assert "(dev)" in d.name
     fams = {p.family_id for p in PRODUCTS.values()} | {
         dev_variant(p).family_id for p in PRODUCTS.values()

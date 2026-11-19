@@ -1,0 +1,2 @@
+# GENERATED from mapping.csv by `lm-garmin style generate` – do not edit.
+name=* { name '${name}' }
