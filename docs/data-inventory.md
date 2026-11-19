@@ -139,10 +139,30 @@ Consequences:
 - Using the GPX locally to measure coverage is fine.
 - Committing the GPX, or shipping a map built from it, would require ODbL attribution and
   share-alike for the derived database. We still keep it out of the repo and CI.
-- For a snowmobile overlay from this source (issue #29) the better input is **OpenStreetMap
-  itself** (e.g. a Geofabrik extract of Sweden, ways with `snowmobile=*`), which is complete,
-  current and has a documented licence. Such a map can even be distributed, with
-  "© OpenStreetMap contributors (ODbL)" attribution.
+- The optional supplement (issue #29) reads a local **OpenStreetMap** extract directly.
+  This preserves the source tags and provides source attribution; GPX remains a reference
+  dataset for checks. See the [OSM licence and attribution](https://www.openstreetmap.org/copyright).
+
+### GPX export spot check near Syter (2026-11-19)
+
+[Skoterleder.org](https://www.skoterleder.org/) describes its trail map as sourced from
+OpenStreetMap and its GPX download as an export of the map. Its public
+[GPX selection code](https://github.com/skoterleder/skoterleder.org/blob/8a165462a958fe94b678e4b54b283e00a552e817/website/js/skoterleder-ux.js#L980)
+sends the selected area to a separate export service.
+
+For a geometric spot check, OpenStreetMap way data was downloaded for the public bounding
+box `15.24,65.82,15.52,65.94` (west, south, east, north). GPX tracks and tagged OSM ways
+were compared within an inner window around Syter using length-weighted samples at up to
+5 m spacing in SWEREF 99 TM. The outer window supplied nearby candidates at the edges.
+
+| Comparison | Sampled length | Within 25 m | Within 50 m |
+|---|---:|---:|---:|
+| Skoterleder.org GPX → OSM | 27.89 km | 100.0% | 100.0% |
+| OSM → Skoterleder.org GPX | 28.77 km | 97.2% | 97.5% |
+
+This supports the stated OSM provenance for this export and window. The result is specific
+to the sampled area and compares alignments in two snapshots. Only the aggregate figures
+leave the local analysis.
 
 ## Full table inventory
 

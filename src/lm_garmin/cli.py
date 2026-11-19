@@ -75,9 +75,9 @@ def main(argv: list[str] | None = None) -> int:
     b.add_argument("--out", type=Path, default=Path("dist"), help="output folder (default: dist)")
     b.add_argument(
         "--products",
-        default="topo50,skoter",
-        help="comma-separated: topo50 (base map), skoter (overlay)",
+        help="comma-separated: topo50, skoter, skoter-osm (adds skoter-osm with --osm by default)",
     )
+    b.add_argument("--osm", type=Path, help="local .osm or .osm.pbf extract for the OSM supplement")
     b.add_argument("--jobs", type=int, help="parallel jobs (default: CPU count)")
     b.add_argument("--java-mem", default="4g", help="Java heap for mkgmap (default 4g)")
     b.add_argument("--max-nodes", type=int, default=1_600_000, help="splitter --max-nodes")
@@ -146,11 +146,12 @@ def main(argv: list[str] | None = None) -> int:
                 reg,
                 a.out,
                 cache,
-                a.products.split(","),
+                a.products.split(",") if a.products else None,
                 a.jobs,
                 a.java_mem,
                 a.max_nodes,
                 dev=a.dev,
+                osm=a.osm,
             )
         except BuildError as e:
             print(f"build failed: {e}", file=sys.stderr)

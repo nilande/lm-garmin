@@ -27,6 +27,7 @@ class Product:
     transparent: bool = False
     draw_priority: int = 25
     output: str = ""
+    copyright: str = "© Lantmäteriet"
 
     @property
     def style_dir(self) -> Path:
@@ -60,19 +61,32 @@ PRODUCTS: dict[str, Product] = {
         transparent=True,
         draw_priority=30,
     ),
+    "skoter-osm": Product(
+        key="skoter-osm",
+        style="skoter-osm",
+        family_id=5754,
+        mapid_base=57540001,
+        name="OSM Skoterkomplement",
+        levels="0:24, 1:22, 2:20, 3:18, 4:16",
+        transparent=True,
+        draw_priority=29,
+        output="osm-skoter.img",
+        copyright="© OpenStreetMap contributors (ODbL) | openstreetmap.org/copyright",
+    ),
 }
 
-
+DEFAULT_PRODUCTS = ("topo50", "skoter")
 DEV_OFFSET = 2
 
 
 def dev_variant(p: Product) -> Product:
-    """Same product with dev ids, name and file name (lm-dev-<key>.img)."""
+    """Same product with dev ids and names, e.g. lm-dev-topo50.img or osm-dev-skoter.img."""
     fid = p.family_id + DEV_OFFSET
+    prefix, _, suffix = p.filename.partition("-")
     return replace(
         p,
         family_id=fid,
         mapid_base=fid * 10_000 + 1,
         name=f"{p.name} (dev)",
-        output=f"lm-dev-{p.key}.img",
+        output=f"{prefix}-dev-{suffix}",
     )

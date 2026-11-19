@@ -1,7 +1,7 @@
 """S1–S3: build Garmin .img files for a region.
 
 S1 convert (GeoPackage → PBF per theme) → S2 split (splitter) → S3 compile (mkgmap + style +
-TYP), once per product (base map, snowmobile overlay). Each external step is timed and its
+TYP), once per product (base map and snowmobile overlays). Each external step is timed and its
 peak memory recorded in build-report.json.
 """
 
@@ -20,7 +20,7 @@ import osmium
 
 from . import __version__, stylegen, tools
 from .convert import convert
-from .products import PRODUCTS, Product, dev_variant
+from .products import DEFAULT_PRODUCTS, PRODUCTS, Product, dev_variant
 from .region import Region
 
 FAT32_LIMIT = 3_500_000_000  # stay clear of the 4 GiB per-file limit
@@ -127,7 +127,7 @@ def compile_img(
         f"--family-name={product.name}",
         f"--series-name={product.name}",
         f"--description={product.name}",
-        "--copyright-message=© Lantmäteriet",
+        f"--copyright-message={product.copyright}",
         "--unicode",
         "--lower-case",
         "--gmapsupp",
@@ -169,6 +169,7 @@ def build(
     max_nodes: int = 1_600_000,
     log=print,
     dev: bool = False,
+    osm: Path | None = None,
 ) -> dict:
     """Build the products for one region, or several regions combined into one map.
 
@@ -177,7 +178,13 @@ def build(
     """
     regions = region if isinstance(region, list) else [region]
     jobs = jobs or os.cpu_count() or 4
-    keys = products or list(PRODUCTS)
+    keys = products or [*DEFAULT_PRODUCTS, *(["skoter-osm"] if osm is not None else [])]
+    if unknown := sorted(set(keys) - PRODUCTS.keys()):
+        raise BuildError(f"Unknown map products: {', '.join(unknown)}")
+    if "skoter-osm" in keys and (osm is None or not osm.is_file()):
+        raise BuildError("skoter-osm requires --osm with a local .osm or .osm.pbf file")
+    if osm is not None and "skoter-osm" not in keys:
+        raise BuildError("--osm requires skoter-osm in --products (or omit --products)")
     prods = {k: dev_variant(PRODUCTS[k]) if dev else PRODUCTS[k] for k in keys}
     java = tools.find_java()
     if not java:
@@ -188,8 +195,30 @@ def build(
     steps: list[Step] = []
     t_all = time.monotonic()
 
+    osm_trails = []
+    if osm is not None:
+        from .osm_skoter import read_trails
+
+        t0 = time.monotonic()
+        work.mkdir(parents=True, exist_ok=True)
+        try:
+            osm_trails = read_trails(osm, work / "osm-trails.osm.pbf")
+        except (RuntimeError, ValueError) as e:
+            raise BuildError(f"Could not read the OSM extract: {e}") from e
+        steps.append(
+            Step(
+                "read:skoter-osm",
+                round(time.monotonic() - t0, 2),
+                detail={"ways": len(osm_trails)},
+            )
+        )
+
     pbf_dirs = []
+    convert_lm = any(k in DEFAULT_PRODUCTS for k in keys)
     for reg in regions:
+        if not convert_lm:
+            pbf_dirs.append((reg, cache / "pbf" / reg.id, []))
+            continue
         t0 = time.monotonic()
         pbf_dir = cache / "pbf" / reg.id
         stats = convert(gpkg_dir, reg, pbf_dir, jobs, log=log)
@@ -207,7 +236,22 @@ def build(
     for k, p in prods.items():
         tiles: list[Path] = []
         for i, (reg, pbf_dir, all_inputs) in enumerate(pbf_dirs):
-            if k == "skoter":
+            if k == "skoter-osm":
+                from .osm_skoter import write_region
+
+                t0 = time.monotonic()
+                supplement = work / "extract" / reg.id / "skoter-osm.osm.pbf"
+                supplement.parent.mkdir(parents=True, exist_ok=True)
+                n = write_region(osm_trails, gpkg_dir, reg, supplement)
+                steps.append(
+                    Step(
+                        f"extract:skoter-osm:{reg.id}",
+                        round(time.monotonic() - t0, 2),
+                        detail={"objects": n},
+                    )
+                )
+                inputs = [supplement] if n else []
+            elif k == "skoter":
                 src = pbf_dir / "kommunikation.osm.pbf"
                 if not src.exists():
                     continue
@@ -234,6 +278,8 @@ def build(
         if not tiles:
             if k == "topo50":
                 raise BuildError(f"{k}: no data in {build_id}")
+            if k == "skoter-osm":
+                (out_dir / p.filename).unlink(missing_ok=True)
             log(f"{k}: nothing to build in {build_id}, skipped")
             continue
         log(f"{k}: {len(tiles)} tiles")
