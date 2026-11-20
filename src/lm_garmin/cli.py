@@ -72,6 +72,8 @@ def main(argv: list[str] | None = None) -> int:
         "--dev", action="store_true", help="development map: own family ids, files lm-dev-*.img"
     )
     b.add_argument("--gpkg-dir", type=Path, help="GeoPackages (default: <cache>/gpkg)")
+    b.add_argument("--topo100-dir", type=Path, help="unpacked Topografi 100 nationwide GeoPackages")
+    b.add_argument("--topo250-dir", type=Path, help="unpacked Topografi 250 nationwide GeoPackages")
     b.add_argument("--out", type=Path, default=Path("dist"), help="output folder (default: dist)")
     b.add_argument(
         "--products",
@@ -157,6 +159,8 @@ def main(argv: list[str] | None = None) -> int:
                 a.max_nodes,
                 dev=a.dev,
                 osm=a.osm,
+                topo100_dir=a.topo100_dir,
+                topo250_dir=a.topo250_dir,
             )
         except BuildError as e:
             print(f"build failed: {e}", file=sys.stderr)

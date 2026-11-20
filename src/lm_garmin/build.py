@@ -18,7 +18,7 @@ from pathlib import Path
 
 import osmium
 
-from . import __version__, stylegen, tools
+from . import __version__, overview, stylegen, tools
 from .convert import convert
 from .products import DEFAULT_PRODUCTS, PRODUCTS, Product, dev_variant
 from .region import Region
@@ -144,13 +144,18 @@ def compile_img(
     return Step(f"compile:{product.key}", round(secs, 2), rss, {"bytes": img.stat().st_size})
 
 
-def generate_style(product: Product, work: Path) -> Path:
+def generate_style(
+    product: Product, work: Path, overview_resolutions: tuple[int, ...] = ()
+) -> Path:
     """Write the product's generated style (with its own family id in the TYP) to work/."""
     out = work / "style" / product.key
     if out.exists():
         shutil.rmtree(out)
     for rel, text in stylegen.generated_files(
-        product.style_dir, product.family_id, product.levels
+        product.style_dir,
+        product.family_id,
+        product.levels,
+        overview_resolutions=overview_resolutions,
     ).items():
         f = out / rel
         f.parent.mkdir(parents=True, exist_ok=True)
@@ -170,6 +175,9 @@ def build(
     log=print,
     dev: bool = False,
     osm: Path | None = None,
+    *,
+    topo100_dir: Path | None = None,
+    topo250_dir: Path | None = None,
 ) -> dict:
     """Build the products for one region, or several regions combined into one map.
 
@@ -185,11 +193,30 @@ def build(
         raise BuildError("skoter-osm requires --osm with a local .osm or .osm.pbf file")
     if osm is not None and "skoter-osm" not in keys:
         raise BuildError("--osm requires skoter-osm in --products (or omit --products)")
+    sources = {
+        scale: folder / "mark_sverige.gpkg"
+        for scale, folder in ((100, topo100_dir), (250, topo250_dir))
+        if folder is not None
+    }
+    if sources and "topo50" not in keys:
+        raise BuildError("--topo100-dir and --topo250-dir require topo50 in --products")
+    for scale, source in sources.items():
+        if not source.is_file():
+            raise BuildError(f"Topografi {scale}: missing {source}")
+    mapped = {}
+    if sources:
+        rules = stylegen.load(PRODUCTS["topo50"].style_dir / "mapping.csv")
+        mapped = {
+            f"{layer}{scale}": {r.t for r in rules if r.layer == f"{layer}{scale}"}
+            for scale in sources
+            for layer in overview.LAYERS
+        }
     prods = {k: dev_variant(PRODUCTS[k]) if dev else PRODUCTS[k] for k in keys}
     java = tools.find_java()
     if not java:
         raise BuildError("java not found – install Java 17+ or set LM_GARMIN_JAVA")
     build_id = "+".join(r.id for r in regions) + ("-dev" if dev else "")
+    build_id += "".join(f"-topo{scale}" for scale in sources)
     work = cache / "work" / build_id
     out_dir.mkdir(parents=True, exist_ok=True)
     steps: list[Step] = []
@@ -269,6 +296,21 @@ def build(
                 inputs = [sk] if n else []
             else:
                 inputs = all_inputs
+                if sources and inputs:
+                    t0 = time.monotonic()
+                    polygons = work / "extract" / reg.id / "overview.osm.pbf"
+                    try:
+                        counts = overview.write_polygons(sources, reg, polygons, mapped)
+                    except (OSError, RuntimeError, ValueError) as e:
+                        raise BuildError(f"Could not prepare overview polygons: {e}") from e
+                    steps.append(
+                        Step(
+                            f"extract:overview:{reg.id}",
+                            round(time.monotonic() - t0, 2),
+                            detail={"polygons": counts},
+                        )
+                    )
+                    inputs = [*inputs, polygons]
             if not inputs:
                 continue
             tdir = work / "tiles" / k / reg.id
@@ -283,7 +325,10 @@ def build(
             log(f"{k}: nothing to build in {build_id}, skipped")
             continue
         log(f"{k}: {len(tiles)} tiles")
-        style_dir = generate_style(p, work)
+        resolutions = (
+            tuple(overview.RESOLUTIONS[scale] for scale in sources) if k == "topo50" else ()
+        )
+        style_dir = generate_style(p, work, resolutions)
         steps.append(compile_img(java, tiles, style_dir, work / "img" / k, p, jobs, java_mem))
         img = work / "img" / k / "gmapsupp.img"
         if img.stat().st_size > FAT32_LIMIT:
@@ -312,5 +357,7 @@ def build(
         "steps": [s.__dict__ for s in steps],
         "outputs": outputs,
     }
+    if sources:
+        report["overview_sources"] = {str(scale): str(path) for scale, path in sources.items()}
     (out_dir / "build-report.json").write_text(json.dumps(report, indent=1), encoding="utf-8")
     return report

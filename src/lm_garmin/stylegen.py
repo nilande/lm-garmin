@@ -18,7 +18,7 @@ A resolution may be a range, e.g. `20-21`.
 from __future__ import annotations
 
 import csv
-from dataclasses import dataclass
+from dataclasses import dataclass, replace
 from pathlib import Path
 
 HEADER = "# GENERATED from mapping.csv by `lm-garmin style generate` – do not edit.\n"
@@ -220,8 +220,35 @@ def render_typ(rules: list[Rule], family_id: int, product_id: int = 1) -> str:
 # ---------------------------------------------------------------- files
 
 
+def _replace_polygon_levels(rules: list[Rule], resolutions: tuple[int, ...]) -> list[Rule]:
+    result = []
+    for rule in rules:
+        if rule.kind != "polygon" or rule.layer not in {"mark", "sankmark"}:
+            result.append(rule)
+            continue
+        start, _, end = rule.resolution.partition("-")
+        low, high = int(start), int(end or "24")
+        excluded = sorted(res for res in resolutions if low <= res <= high)
+        if not excluded:
+            result.append(rule)
+            continue
+        limits = [low - 1, *excluded, high + 1]
+        bands = [(a + 1, b - 1) for a, b in zip(limits, limits[1:], strict=False) if a + 1 < b]
+        for index, (start, end) in enumerate(bands):
+            # Emit every surviving band before advancing to the next style rule.
+            options = rule.options
+            if index < len(bands) - 1 and "continue" not in options.split():
+                options = f"{options} continue".strip()
+            result.append(replace(rule, resolution=f"{start}-{end}", options=options))
+    return result
+
+
 def generated_files(
-    style_dir: Path, family_id: int, levels: str = DEFAULT_LEVELS
+    style_dir: Path,
+    family_id: int,
+    levels: str = DEFAULT_LEVELS,
+    *,
+    overview_resolutions: tuple[int, ...] = (),
 ) -> dict[str, str]:
     rules = load(style_dir / "mapping.csv")
     name = style_dir.name
@@ -231,7 +258,7 @@ def generated_files(
         "options": f"{HEADER}levels = {levels}\n",
         "points": render_rules(rules, "point"),
         "lines": render_rules(rules, "line"),
-        "polygons": render_rules(rules, "polygon"),
+        "polygons": render_rules(_replace_polygon_levels(rules, overview_resolutions), "polygon"),
         "relations": render_relations(rules),
         f"typ/{name}.txt": render_typ(rules, family_id),
     }
