@@ -1,6 +1,6 @@
 [project]
 name = "lm-garmin"
-version = "0.0.1"
+version = "0.1.0"
 description = "Build Garmin .img maps from Lantmäteriet's Topografi 50 (GeoPackage)"
 readme = "README.md"
 license = "MIT"

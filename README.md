@@ -4,14 +4,15 @@ Build a Garmin map (`.img`) from Lantmäteriet's open topographic data
 **Topografi 50 Nedladdning, vektor**, styled to resemble Lantmäteriet's printed
 **Karta 1:50 000**. Primary target device: **Garmin Montana 700**.
 
-> Work toward [v0.1 MVP](https://github.com/nilande/lm-garmin/milestone/7) focuses on
-> verifying the nationwide base map and the separate Lantmäteriet snowmobile overlay
-> on the Montana 700. See the [release plan](docs/PLAN.md#v01-mvp).
+> **v0.1.0** – the nationwide base map and the separate Lantmäteriet snowmobile overlay are
+> built, verified and accepted on a Garmin Montana 700. See [CHANGELOG.md](CHANGELOG.md),
+> the [device test record](docs/device-testing.md) and [AGENTS.md](AGENTS.md) for the state of
+> the project and next steps.
 
 Map data © Lantmäteriet (CC0). This repository contains **no map data** except small test
 cut-outs in [`tests/data`](tests/data/PROVENANCE.md).
 
-## What it will do
+## What it does
 
 - Convert all 13 themes of Topografi 50 (GeoPackage, SWEREF 99 TM) to a routable-ready
   OSM intermediate, then compile it with [mkgmap](https://www.mkgmap.org.uk/) and a custom
@@ -55,8 +56,20 @@ uv run pytest
    The product is free (CC0).
 3. Download the delivery. You get one zip per theme (`hojd_sverige.zip`, `mark_sverige.zip`, …)
    and `uttag.json` — about 5.4 GB zipped, 15.3 GB unpacked for all of Sweden.
-4. Optional, for visual comparison: order **Karta 1:50 000 Nedladdning, raster** (GeoTIFF)
-   for the same area.
+4. Recommended for the overview zoom levels: order **Topografi 250 Nedladdning, vektor**,
+   area *Sverige*, GeoPackage (also free, CC0). Only its `mark_sverige.zip` is used. Unpack
+   it into a folder of its own:
+
+   ```bash
+   mkdir -p "/path/to/topografi250/gpkg"
+   unzip -j "/path/to/LM…:… - Topografi 250 Nedladdning, vektor/mark_sverige.zip" '*.gpkg' \
+     -d "/path/to/topografi250/gpkg"
+   ```
+
+   Without it the map still builds, but large areas at the 8 km zoom show the dark
+   background colour ([device test](docs/device-testing.md#täby-overview-retest)).
+5. Optional: **Topografi 100** (same steps) for the 2 km overview level, and
+   **Karta 1:50 000 Nedladdning, raster** (GeoTIFF) for visual comparison.
 
 Keep the delivery anywhere; paths may contain spaces and colons
 (e.g. `LM2026:173692 - Topografi 50 Nedladdning, vektor`).
@@ -67,8 +80,9 @@ Keep the delivery anywhere; paths may contain spaces and colons
 # S0: unpack the delivery once into the cache (~/.cache/lm-garmin/gpkg); re-runs are no-ops
 uv run lm-garmin unpack "/path/to/LM2026:173692 - Topografi 50 Nedladdning, vektor"
 
-# S1–S3: build the maps for a region
-uv run lm-garmin build --region sweden --out dist/
+# S1–S3: build the maps for a region. The v0.1 release map (≈ 20 min, 1.9 GB):
+uv run lm-garmin build --region sweden --topo250-dir "/path/to/topografi250/gpkg" --out dist/
+# smaller regions
 uv run lm-garmin build --bbox 500000,7250000,550000,7310000 --out dist/   # SWEREF 99 TM
 uv run lm-garmin build --bbox-wgs84 14.5,65.4,16.0,65.9 --out dist/
 
@@ -241,6 +255,9 @@ Skoterlederna i Lantmäteriets data (vinterleder med uppgift om skoterkörning �
 påbjuden eller förbjuden) byggs som ett eget genomskinligt lager som kan slås av och på
 i enheten. Ortnamn blir sökbara.
 
-Data hämtas gratis från Geotorget (se ovan). Repot innehåller ingen kartdata utöver små
-testutsnitt. Projektet är i början: planen finns i [docs/PLAN.md](docs/PLAN.md) och arbetet
-följs i GitHub Issues. Koden är MIT-licensierad; data © Lantmäteriet (CC0).
+Data hämtas gratis från Geotorget (se ovan): Topografi 50 och, för översiktsnivåerna,
+Topografi 250. Hela Sverige byggs på cirka 20 minuter till en karta på 1,9 GB. Version
+0.1.0 är provad och godkänd på en Montana 700. Repot innehåller ingen kartdata utöver små
+testutsnitt. Planen finns i [docs/PLAN.md](docs/PLAN.md), läget och nästa steg i
+[AGENTS.md](AGENTS.md), och arbetet följs i GitHub Issues. Koden är MIT-licensierad;
+data © Lantmäteriet (CC0).

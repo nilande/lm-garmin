@@ -58,12 +58,16 @@ Data cache: `$LM_GARMIN_CACHE` or `~/.cache/lm-garmin` (unpacked GeoPackages in 
 
 ## Release status
 
-The [v0.1 MVP milestone](https://github.com/nilande/lm-garmin/milestone/7)
-tracks the default nationwide build (#11), Garmin IDs (#3) and one Montana
-device session for the base and overlay (#12, #20, #24). See the
-[release plan](docs/PLAN.md#v01-mvp) and
-[device checklist](docs/device-testing.md#release-checklist). GitHub issues
-track subsequent style, search and performance work.
+**v0.1.0** (2026-11-20, see [CHANGELOG.md](CHANGELOG.md)): nationwide base map with Topografi 250
+overview polygons and the separate snowmobile overlay, accepted on the Montana 700. Still open
+from the release: a daylight check of the overlay
+([pending checks](docs/device-testing.md#pending-montana-checks)).
+
+Suggested next steps (v0.2, "a map for everyday use"): street names from a new source
+(Topografi 50 has none – evaluate Trafikverket NVDB and Lantmäteriet address data), label
+priority and density (#16), look of hatching/dashes and the 800 m street network (#14), and
+preparing for Lantmäteriet's Topografi 50 structure change on 2027-05-04. Routing (#28),
+packaging (#30), the single-file bundle (#51) and CI performance trends (#26, #27) can wait.
 
 ## Where things are
 
