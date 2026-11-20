@@ -6,7 +6,7 @@ Delivery `LM2026:173692` (data 2026-10-16).
 ## Decoded object budgets
 
 The default base map has seven detail levels. The counts below are from the
-50 × 50 km Tärnaby extract after the lake and forest overview changes, using
+50 × 50 km Tärnaby extract after the lake, forest and wetland overview changes, using
 one Garmin tile. Counts come from the compiled map and include pieces split
 by the Garmin compiler and the tile background polygon.
 
@@ -16,12 +16,12 @@ by the Garmin compiler and the tile background polygon.
 | 1 | 23 | 6,148 | 22,199 | 20,940 |
 | 2 | 22 | 1,210 | 11,611 | 19,902 |
 | 3 | 21 | 1,042 | 7,621 | 17,586 |
-| 4 | 20 | 201 | 1,729 | 12,521 |
+| 4 | 20 | 201 | 1,726 | 11,943 |
 | 5 | 18 | 4 | 26 | 2,148 |
 | 6 | 16 | 2 | 0 | 1 |
 
 At level 4, firm wetlands, open ground and mountain birch forest are the
-largest polygon classes by count (4,385, 3,745 and 2,315 respectively).
+largest polygon classes by count (3,814, 3,744 and 2,313 respectively).
 
 Each upper limit is the measured count plus 15% (rounded up), with room for at
 least two extra objects in nonempty categories. Empty categories have a limit
@@ -40,6 +40,27 @@ uv run pytest -q -m local_data -k tarnaby_overview_budget
 Set `LM_GARMIN_OVERVIEW_IMG` to check a build at another path. Use the same
 extent, delivery and tile layout when comparing the counts. The local test
 skips if the map has yet to be built.
+
+## Firm wetland overview around Tärnaby (issue #15)
+
+At resolution 20, firm wetlands (`2651`) must cover at least 4,000 Garmin
+square units, roughly 0.94 ha at Tärnaby's latitude. Smaller firm wetlands
+remain eligible at resolution 21 and finer. The cutoff is based on the
+polygon's size on the map and varies in hectares with latitude.
+[mkgmap style manual](https://www.mkgmap.org.uk/doc/pdf/style-manual.pdf)
+
+| Resolution-20 check | Before | After |
+|---|---:|---:|
+| Firm wetland polygons (`0x51`) | 4,385 | 3,814 |
+| Firm wetland area inside the extract | 195.68 km² | 192.54 km² |
+| Wet wetland polygons (`0x10f04`) | 37 | 37 |
+| Total decoded polygons | 12,521 | 11,943 |
+
+After clipping both outputs to the benchmark extent, 98.39% of the previous
+firm wetland area still overlaps the new output. Object counts at the other
+detail levels match. The integration test checks that a small firm wetland
+appears at resolution 21 and finer and that a larger firm wetland and a wet
+wetland still appear at resolution 20.
 
 ## Forest overview around Tärnaby (issue #15)
 

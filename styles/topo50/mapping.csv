@@ -23,7 +23,10 @@ polygon,mark,2645,lm:ov!=*,0x50,18,,Barr- och blandskog,#D4EEB7,,,solid,1
 polygon,mark,2646,,0x10f01,20,,Lövskog,#C7D9B3,,,solid,1
 polygon,mark,2647,,0x10f02,18,,Fjällbjörkskog,#DFF5D9,,,solid,1
 polygon,mark,2648,,0x10f0a,18,,Ej karterat område,#F0F0F0,,,solid,1
-polygon,sankmark,2651,,0x51,20,,Sankmark fast,#E88A2E,,,stripe,4
+# At resolution 20, omit small firm wetlands. 4000 Garmin square units are about
+# 0.94 ha at Tärnaby; using map units follows the screen footprint across latitudes.
+polygon,sankmark,2651,area_size()>=4000,0x51,20,,Sankmark fast,#E88A2E,,,stripe,4
+polygon,sankmark,2651,,0x51,21,,Sankmark fast,#E88A2E,,,stripe,4
 polygon,sankmark,2652,,0x10f04,20,,Sankmark våt,#40BAFF,,,stripe,4
 polygon,markframkomlighet,1571,,0x10f05,22,,Berg i dagen,#B4B4B4,,,solid,4
 polygon,markframkomlighet,1572,,0x10f06,22,,Tät vegetation,#B2E39C,,,mottled,4
