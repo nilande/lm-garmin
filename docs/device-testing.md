@@ -28,9 +28,10 @@ build, device firmware, scale and result here when a check is complete.
   selection again after switching the displayed map in **Map Manager**. On the
   Montana, both the **Water Features** list and **Spell Search** returned one
   Vallentunasjön and two distinct Stormyrtjärnen locations.
-- [ ] **Mountain and town search** ([issue #16](https://github.com/nilande/lm-garmin/issues/16)).
-  With the same search map selected, try Norra Sytertoppen under land features
-  and Vallentuna under **Cities**.
+- [x] **Mountain and town search** ([issue #16](https://github.com/nilande/lm-garmin/issues/16)).
+  Select **LM Test geo-POI** as the search map. From Täby, use **Search Near**
+  with a waypoint at **65.89220, 15.27149** before looking for Norra Sytertoppen
+  under **Land Features**. Vallentuna appears under **Cities** near Täby.
 - [ ] **Snowmobile overlay contrast in direct sunlight** ([issue #24](https://github.com/nilande/lm-garmin/issues/24)).
   Check the physical display at normal riding brightness, especially the grey
   dashed routes against snow or open terrain.
@@ -74,6 +75,15 @@ search source unchanged on this device. With **LM Test geo-POI** explicitly
 selected, the full-index diagnostic also returned the expected three lakes
 through both paths. The two Stormyrtjärnen results opened different lakes, as
 shown in the captures. Both builds and the screenshots are kept locally.
+
+The follow-up found Vallentuna under **Cities** and Norra Sytertoppen under
+**Land Features**. The mountain search took too long from Täby. Using **Search
+Near** with a waypoint at the summit returned results near the waypoint. The
+list also showed `Norra Sytertoppen, 1768 M` and `1768` nearby. The compiled
+test map contains a named `0x6616` peak and a separate `0x6616` elevation point
+labelled `1768`, about 75 m apart. The source of the combined name and elevation
+entry was not established. Consider matching the named peak and elevation
+point when preparing searchable peaks for the base map.
 
 The pale-blue polygons north of Visinge also appear in the Topografi 50 data
 and the Karta 1:50 000 reference. The saturated cyan stroke next to the
