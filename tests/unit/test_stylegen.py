@@ -5,7 +5,8 @@ from pathlib import Path
 
 import pytest
 
-from lm_garmin import stylegen
+from lm_garmin import style_docs, stylegen
+from lm_garmin.convert import LAYER_THEME
 from lm_garmin.products import PRODUCTS
 
 ROOT = Path(__file__).parents[2]
@@ -39,10 +40,12 @@ def test_inventory_parsed():
 
 def test_every_object_type_has_a_rule_or_is_dropped_explicitly():
     rules = stylegen.load(ROOT / "styles" / "topo50" / "mapping.csv")
-    missing = sorted(lt for lt in inventory_types() if not covered(rules, *lt))
+    inventory = inventory_types()
+    missing = sorted(lt for lt in inventory if not covered(rules, *lt))
     assert missing == []
-    for layer in LAYERS_WITHOUT_TYPES:
-        assert any(r.layer == layer for r in rules), layer
+    layers = set(LAYER_THEME)
+    assert layers == {layer for layer, _ in inventory} | LAYERS_WITHOUT_TYPES
+    assert layers <= {rule.layer for rule in rules}
 
 
 def test_overlay_covers_all_winter_trails():
@@ -60,6 +63,13 @@ def test_generated_files_are_up_to_date(key):
     for rel, text in stylegen.generated_files(p.style_dir, p.family_id, p.levels).items():
         on_disk = (p.style_dir / rel).read_text(encoding="utf-8")
         assert on_disk == text, f"{p.style_dir / rel} is stale – run `lm-garmin style generate`"
+
+
+def test_translation_table_is_up_to_date():
+    table = style_docs.TRANSLATION_TABLE.read_text(encoding="utf-8")
+    assert table == style_docs.render_translation_table(), (
+        "docs/translation-table.md is stale – run `lm-garmin style generate`"
+    )
 
 
 @pytest.mark.parametrize("bad", ["0x11520", "0x10e30", "0x200000"])

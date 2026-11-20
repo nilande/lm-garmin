@@ -137,9 +137,9 @@ uv run lm-garmin install dist/dev/lm-dev-topo50.img dist/dev/lm-dev-skoter.img
 sit next to the full map on the device; switch one of them off in *Map Manager* while
 comparing. `--bbox` can also be repeated to combine several areas.
 
-Single steps are available too: `lm-garmin convert …` (S1 only) and
-`lm-garmin style generate` (rewrites the mkgmap styles and TYP files from
-`styles/*/mapping.csv`).
+Use `lm-garmin convert …` to run S1 by itself. Use `lm-garmin style generate`
+to regenerate the mkgmap styles, TYP files and the
+[translation table](docs/translation-table.md) from `styles/*/mapping.csv`.
 
 ### Measure snowmobile trail coverage
 
