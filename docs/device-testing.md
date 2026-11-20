@@ -18,16 +18,18 @@ build, device firmware, scale and result here when a check is complete.
   Time redraw separately if evaluating a performance change.
 - [ ] **Topografi 50 fallback around Tärnaby** ([PR #42](https://github.com/nilande/lm-garmin/pull/42)).
   At northern Stormyrtjärnen (**65.69294, 15.22104**) and **2 km**, compare the
-  installed **Tarnaby myr fore** and **Tarnaby myr efter**. Check that the larger
+  locally archived **Tarnaby myr fore** and **Tarnaby myr efter** after reloading
+  them onto the device. Check that the larger
   firm wetlands are still easy to recognize. This covers builds without
   Topografi 100.
 - [ ] **Lake, mountain and town search** ([issue #16](https://github.com/nilande/lm-garmin/issues/16)).
-  With only **LM Test sok liten** enabled, try **Search Near → Geographic
-  Points → Water Features → Spell Search** near Vallentunasjön. Search for
-  the synthetic ASCII lake `LakeTest` first, then `Vallentunasjön` if the
-  first search returns. The small Unicode map has exactly three indexed
-  entries, including the town Vallentuna for a **Cities** control. Repeat the
-  mountain and same-name lake checks when the spelling search is understood.
+  Use **LM Test geo-POI**. In the category results, open the menu and choose
+  **Select Map → LM Test geo-POI** before choosing **Spell Search**. Check this
+  selection again after switching the displayed map in **Map Manager**. Under
+  **Geographic Points → Water Features**, search for Vallentunasjön, then use
+  **Search Near** around Tärnaby and check that Stormyrtjärnen returns two
+  locations. Try Norra Sytertoppen under land features and Vallentuna under
+  **Cities** as controls.
 - [ ] **Snowmobile overlay contrast in direct sunlight** ([issue #24](https://github.com/nilande/lm-garmin/issues/24)).
   Check the physical display at normal riding brightness, especially the grey
   dashed routes against snow or open terrain.
@@ -63,8 +65,12 @@ With the first diagnostic (**LM Test geo-POI**, family 5772), the device
 listed Vallentunasjön in **Water Features** and opened it at the correct lake.
 **Spell Search** stayed on the spinner during the test. The build has an
 embedded MDR index with 5,507 point records. The next diagnostic (family
-5773) keeps the same encoding and has three indexed points to separate the
-large-index case from the device search behavior. Both builds are kept locally.
+5773) uses the same encoding and has three indexed points. Both `LakeTest` and
+`Vallentunasjön` were found by **Spell Search** after choosing the diagnostic
+under **Select Map**. The screenshot shows **Spell Search** and **Select Map**
+in the same menu. Changing the displayed map in **Map Manager** left the
+search source unchanged on this device. The full-index diagnostic still needs
+one run with the search map explicitly selected. Both builds are kept locally.
 
 The pale-blue polygons north of Visinge also appear in the Topografi 50 data
 and the Karta 1:50 000 reference. The saturated cyan stroke next to the
