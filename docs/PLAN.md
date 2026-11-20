@@ -349,6 +349,28 @@ Further style and overview work (#14–#16), additional encodings (#17), CI
 trends and extra build tuning (#26–#27), routing (#28), packaging (#30) and the
 single-file bundle (#51) follow v0.1.
 
+### v0.2 Everyday map
+
+v0.1.0 was released on 2026-11-20 ([CHANGELOG](../CHANGELOG.md)). The
+[v0.2 milestone](https://github.com/nilande/lm-garmin/milestone/8) is about a map for
+everyday use, driven by the Montana results. In priority order:
+
+1. **Street names** ([#55](https://github.com/nilande/lm-garmin/issues/55)). Topografi 50 has
+   none. Evaluate NVDB, Lantmäteriet address data and OSM (licence, coverage, matching to
+   `vaglinje`), decide in an ADR, then implement it in a follow-up issue.
+2. **Label priority and density** ([#16](https://github.com/nilande/lm-garmin/issues/16)):
+   repeated reserve labels and dense labels at 2 km.
+3. **Look** ([#14](https://github.com/nilande/lm-garmin/issues/14)): hatching against terrain,
+   the 800 m street network, and the contrast of the light-orange overlay dashes
+   ([#57](https://github.com/nilande/lm-garmin/issues/57) daylight check).
+4. **Topografi 50 structure change on 2027-05-04**
+   ([#56](https://github.com/nilande/lm-garmin/issues/56)): test against Lantmäteriet's test
+   data and support the new structure in time.
+
+Deferred until there is a need: routing (#28), packaging (#30), the single-file bundle (#51),
+CI performance trends (#26) and further build tuning (#27). Each style change is tried with
+a `--dev` map on the device before it is merged.
+
 ### Original milestones
 
 M0–M5 retain the original breakdown by project area.

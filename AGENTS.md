@@ -63,11 +63,11 @@ overview polygons and the separate snowmobile overlay, accepted on the Montana 7
 from the release: a daylight check of the overlay
 ([pending checks](docs/device-testing.md#pending-montana-checks)).
 
-Suggested next steps (v0.2, "a map for everyday use"): street names from a new source
-(Topografi 50 has none – evaluate Trafikverket NVDB and Lantmäteriet address data), label
-priority and density (#16), look of hatching/dashes and the 800 m street network (#14), and
-preparing for Lantmäteriet's Topografi 50 structure change on 2027-05-04. Routing (#28),
-packaging (#30), the single-file bundle (#51) and CI performance trends (#26, #27) can wait.
+Next: the [v0.2 Everyday map milestone](https://github.com/nilande/lm-garmin/milestone/8)
+([plan](docs/PLAN.md#v02-everyday-map)): street names (#55), label priority and density
+(#16), look (#14), overlay daylight check (#57) and the Topografi 50 structure change on
+2027-05-04 (#56). Routing (#28), packaging (#30), the single-file bundle (#51) and CI
+performance trends (#26, #27) can wait.
 
 ## Where things are
 
