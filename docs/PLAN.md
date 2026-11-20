@@ -16,8 +16,8 @@ Nedladdning, vektor** (GeoPackage, CC0) into a Garmin map (`.img`) for the
 | One default style (mkgmap style + TYP as source) that resembles Karta 1:50 000 | Alternative styles (e.g. high-contrast, winter) |
 | Build for all of Sweden, or a bbox / county / municipality | Optional supplement built from a local OpenStreetMap extract |
 | Separate, transparent snowmobile overlay from LM data | Automatic Geotorget download via API |
-| Place names searchable (if the device test confirms it is cheap) | Contour labels tuning, hill shading (not possible in `.img`) |
-| CI: lint, unit, integration build of fixtures, decode-and-verify, perf numbers | Release packaging (Homebrew tap / pipx) |
+| Town names searchable on the Montana 700 | Production lake and mountain search, further labelling and contour tuning |
+| CI: lint, unit tests, fixture builds and decode verification | CI performance trends and release packaging (Homebrew tap / pipx) |
 
 Non-goals: raster maps (`.img` is vector only; a raster would be a Garmin *Custom Map*
 KMZ, a different product), Garmin-signed maps, distributing built maps or map data.
@@ -233,17 +233,20 @@ fixtures — they are CC0 and ~1–3 MB each.)
 | Ingen information | dashed orange, medium |
 | Nej | thin grey dashed with red ticks – clearly "not for snowmobiles" |
 
-- Shipped as its own `.img` (toggle in *Map setup → Map information*); a combined
-  `gmapsupp.img` is a build option.
+- Built as its own `lm-skoter.img`, independently switchable in *Map Manager*.
+  An optional single-file bundle is tracked in [#51](https://github.com/nilande/lm-garmin/issues/51).
 - Optional: a *third* map family built from a local OpenStreetMap extract, with OSM
   attribution and distinct line styles. Show complementary stretches where the data
   differs from Lantmäteriet's winter trails.
+- Skoterleder.org GPX can be used for the optional local coverage comparison and is
+  excluded from build inputs, CI and published artifacts. See [#2](https://github.com/nilande/lm-garmin/issues/2).
 
 ## 7. Search and routing
 
-- **Search** (recommended for MVP, cost ≈ seconds of build time and a few % file size):
-  `--index`, place names as city/POI types. Multi-part names joined. To be confirmed on the
-  device (spike S6 kit).
+- **Search**: the default base map includes a town index. The v0.1 device check uses
+  **Cities** with **LM Topo50** selected as the search map. Lake and mountain search
+  passed in the diagnostic map. Production integration is tracked in
+  [#16](https://github.com/nilande/lm-garmin/issues/16).
 - **Routing** (not MVP): needs a connected network. Plan: road layers converted with shared
   nodes at identical coordinates (node de-duplication in S1 for `vaglinje`, later
   `ovrig_vag` 1847/1848 for winter routing), `mkgmap:road-class`/`road-speed` from vägklass,
@@ -318,6 +321,35 @@ delivery id, date, bbox, command); three areas (data-inventory "Test areas").
 
 ## 12. Milestones and issue outline
 
+### v0.1 MVP
+
+The [v0.1 MVP milestone](https://github.com/nilande/lm-garmin/milestone/7) covers the
+default nationwide Topografi 50 base map and the separate Lantmäteriet snowmobile
+overlay. The optional Topografi 100/250 overview and direct OSM snowmobile supplement
+can be enabled separately.
+
+1. Build both default Sweden files from a pinned `main` commit and a cold stage
+   cache. Record the source delivery, build times, memory, sizes, checksums and
+   structural verification ([#11](https://github.com/nilande/lm-garmin/issues/11)).
+   Check that the map families and tile IDs can coexist on the test device
+   ([#3](https://github.com/nilande/lm-garmin/issues/3)).
+2. Run the [Montana release checklist](device-testing.md#release-checklist) on those
+   same files in Täby and Hemavan/Syter. Cover install, startup, redraw, map
+   legibility, one town search and the snowmobile overlay in daylight
+   ([#12](https://github.com/nilande/lm-garmin/issues/12),
+   [#20](https://github.com/nilande/lm-garmin/issues/20),
+   [#24](https://github.com/nilande/lm-garmin/issues/24)).
+3. Record the results and resolve release-blocking failures before tagging `v0.1.0`.
+   Release the code, styles and build instructions. Generated maps stay local.
+
+Further style and overview work (#14–#16), additional encodings (#17), CI
+trends and extra build tuning (#26–#27), routing (#28), packaging (#30) and the
+single-file bundle (#51) follow v0.1.
+
+### Original milestones
+
+M0–M5 retain the original breakdown by project area.
+
 Labels: `type:feature`, `type:bug`, `type:chore`, `type:docs`, `area:pipeline`, `area:style`,
 `area:skoter`, `area:ci`, `area:perf`, `needs-device`.
 
@@ -347,7 +379,7 @@ coverage metric (local GPX + CI hand-made track); combined vs separate file opti
 | Repository | `nilande/lm-garmin`, public |
 | Code licence | MIT (code, styles, TYP) |
 | First device test area | Hemavan/Syter snowmobile area (E 500–550, N 7 250–7 310 km), then Stockholm NE |
-| Skoterleder.org data | the site states its trails come from OpenStreetMap → ODbL (see data-inventory). GPX stays local; a later overlay should read OSM `snowmobile=*` directly (issue #29) |
+| Skoterleder.org data | the site states its trails come from OpenStreetMap (see data-inventory). GPX stays local for coverage comparisons. The optional supplement reads directly from OSM (§6). |
 | Coverage tolerance | report 50 m (primary, baseline 45.9 %) and 25 m (42.5 %); local check fails on a drop > 1 pp |
 | MVP scope | searchable place names in, routing out |
 | Third fixture | `skoter_730_51` added |

@@ -3,6 +3,34 @@
 Pending Montana checks and results from past device tests. The release checklist is tracked
 in [issue #20](https://github.com/nilande/lm-garmin/issues/20).
 
+## Release checklist
+
+Use the same verified `lm-topo50.img` and `lm-skoter.img` for both
+[#12](https://github.com/nilande/lm-garmin/issues/12) and
+[#24](https://github.com/nilande/lm-garmin/issues/24).
+
+- [ ] In **Map Manager**, enable **LM Topo50** and disable other detailed maps for
+  the same area. Start with the snowmobile overlay off. Restart the device,
+  record the time until the map is usable, and check that both LM products are listed.
+- [ ] In **Täby / Ensta** (59.45393, 18.06203) and **Hemavan / Syterstugan**
+  (65.89296, 15.39556), pan and zoom at **250 m**, **2 km**, and **8 km** or the
+  closest scale shown. Record approximate redraw times. Check that roads and
+  contours are legible close in, that major roads, lakes and relevant names
+  remain identifiable in the overview, and that labels with diacritics render.
+- [ ] Near Täby, open **Where To? → Cities** and choose **Select Map → LM Topo50**
+  from the search menu. Find **Vallentuna** in the list or with **Spell Search**.
+  The search-map setting is independent of **Map Manager**. Record which method
+  worked and roughly how long it took.
+- [ ] In daylight at normal brightness, enable the snowmobile overlay in
+  **Map Manager**. At the [Syter example locations](#2026-11-19--snowmobile-overlay-issue-24),
+  check the four line styles and the red 1836 marker at **180–250 m**. Toggle the
+  overlay near Syterstugan and check that the base winter trail is still visible.
+
+Record the build commit and firmware, the enabled maps, startup and redraw
+times, search result, and the result of each overlay check. For any rendering
+issue, take a screenshot from the pause menu with the scale bar visible and
+note the location and display conditions. BMPs are stored under `Garmin/scrn/`.
+
 ## Pending Montana checks
 
 Enable one test map at a time. For each comparison, keep the same map centre and

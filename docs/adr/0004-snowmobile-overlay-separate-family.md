@@ -15,15 +15,16 @@ The user wants Lantmäteriet's snowmobile information (`ovrig_vag` 1847/1848 wit
 Option 2. The base map still shows 1847/1848 as "marked winter trail" (like Karta 1:50 000),
 the overlay adds the snowmobile status styling on top.
 
-Default delivery: two files (`gmapsupp.img`, `gmapsupp-skoter.img`); a combined
-single `gmapsupp.img` with both families is a build option. The final default is chosen
-after the device test (spike S6).
+Default delivery uses `lm-topo50.img` and `lm-skoter.img`, which can be toggled
+independently on the Montana. An optional single-file bundle is tracked in
+[#51](https://github.com/nilande/lm-garmin/issues/51).
 
 ## Evidence
 Spike S3/S6: overlay compiles with its own TYP, combines with the base map in one gmapsupp,
 and decodes with the right types (S4).
 
 ## Consequences
-- Two family ids to keep stable (proposal: 5730 base, 5731 overlay — to be checked against
-  ids used by popular OSM maps).
-- A later Skoterleder.org overlay (local only) is a third family with the same mechanism.
+- Keep the production family IDs stable (5750 base, 5751 Lantmäteriet overlay).
+- The optional supplement reads a local OpenStreetMap extract directly and uses its
+  own family and line style. A locally held Skoterleder.org GPX is used only for an
+  optional coverage comparison.
