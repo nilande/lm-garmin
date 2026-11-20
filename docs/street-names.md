@@ -1,8 +1,7 @@
 # Street names – source evaluation (issue #55)
 
-Status: **evaluation in progress** (2026-11-20). The licence and content review is done. The
-matching test in Täby is waiting for NVDB data (see [Next steps](#next-steps)).
-Decision draft: [ADR-0007](adr/0007-street-names-from-nvdb.md).
+Status: **evaluation done** (2026-11-20). Licence, content and a matching test in Täby are
+done. Proposed decision: [ADR-0007](adr/0007-street-names-from-nvdb.md) (NVDB).
 
 ## Problem
 
@@ -51,12 +50,53 @@ Use the `taby` area (E 665–680 km, N 6 585–6 600 km) and report:
 | Segments with two competing names | reported |
 | Runtime for the area / for Stockholm county | reported |
 
+## Test data
+
+Trafikverket NVDB from Lastkajen, *betraktelsedatum* 2026-11-17, SWEREF 99 TM, for Stockholms
+län and Västerbottens län (GeoPackage and File Geodatabase). The delivery's
+`Licensinformation.txt` states **CC0 1.0**. The zips are stored outside the repo with
+checksums. The GeoPackage has 124 layers; street names are in **`NVDB_DK_O_20_Gatunamn`**
+(128 233 segments in Stockholms län; fields `Namn`, `ELEMENT_ID`, start and end measure,
+`DIRECTION`, `ROLE`, …; LineString Z). Other road names, for example on forestry roads, are in
+`NVDB_DK_O_21_Ovrigt_vagnamn` (7 585 segments, with `Namnsattande_organisation`). Each
+lan file is 1.4–2.2 GB unpacked. Only the name layers are needed.
+
+## Matching test – result (Täby dev area)
+
+`spikes/09-street-names/match.py`, Topografi 50 `vaglinje` against `NVDB_DK_O_20_Gatunamn`
+in E 665–680 km, N 6 585–6 600 km: 9 151 road segments, 12 617 NVDB name lines,
+**0.5 s**.
+
+| Class | km | Named (by length), 15 m / 30° / 0.6 |
+|---|---:|---:|
+| 1809 Huvudgata | 128.6 | 97.6 % |
+| 1810 Lokalgata stor | 99.8 | 97.2 % |
+| 1811 Lokalgata liten | 823.5 | 86.6 % |
+| **Town streets 1809–1811** | 1 051.9 | **89.0 %** (target 90 %) |
+| 1804–1805 Landsväg (liten) | 32.3 | 85–87 % |
+| 1801/1803 Motorväg, Mötesfri väg | 112.8 | 24–25 % (they carry road numbers, not names – expected) |
+
+Sensitivity for town streets: buffer 20 m → 89.2 %; minimum share 0.5 → **90.0 %**;
+buffer 25 m, 40°, 0.5 → 92.8 % but 2.3× more ambiguous segments. The result hardly depends on
+the buffer, so the geometries agree well. Of the unnamed town-street length, 5.0 % has **no
+NVDB name within 15 m**, likely unnamed access roads, parking and private roads. Another
+6.0 % is partly covered, where a name changes along a longer Topografi 50 segment. 389 of
+7 682 town segments (5 %) have a runner-up name covering ≥ 30 %.
+
+Visual sample against the 1:10 000 raster (whose street names also come from NVDB/Vägslag):
+2 of 5 sampled names confirmed on the map, none contradicted, and 3 could not be judged from
+the crop. Too few to judge the error rate. The implementation issue needs an automated check.
+
+Known spike bug: overlapping pieces of the same name could be counted twice (one share of
+1.47). The production code must union per name before measuring.
+
 ## Next steps
 
-1. **Data:** create a free Lastkajen account (requires a person; not done by the tool) and
-   download NVDB street names (and the road network if names are a separate layer) for
-   Stockholm county as GeoPackage or Shape. Record the package name, date and licence text.
-2. Run the matching test above and record results here.
-3. Accept or revise ADR-0007, then open an implementation issue: a `--nvdb-dir` build option
-   like `--topo250-dir`, style rules, a CI fixture with a small NVDB cut-out (CC0 allows it),
-   and a device check of label density.
+1. Accept ADR-0007 (or revise it).
+2. Implementation issue: `--nvdb-dir` (reads only the name layers, cached per region), matching
+   with 15 m / 30° / share ≥ 0.5. Split Topografi 50 segments where the name changes, instead
+   of dropping partly covered segments. Add the tag `lm:gatunamn_nvdb` (tag schema bump), road
+   name rules in the style, a small CC0 NVDB fixture for the Täby fixture area, and an automated
+   name check. Then a device check of label density at 250 m and 800 m, and of whether street
+   names become searchable.
+3. Västerbotten data is available for a check in a sparser area (Tärnaby, Storuman).

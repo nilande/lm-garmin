@@ -180,3 +180,9 @@ XML for all of Sweden would be ~50 GB – production must write **PBF** and stre
 
 Most frequent colours of the two 1:50 000 rasters → starting TYP palette (see
 data-inventory). Rasters are anti-aliased; comparison must classify to nearest palette colour.
+
+## S9 – Street names from NVDB (`spikes/09-street-names`, issue #55)
+
+`match.py` matches Topografi 50 `vaglinje` to NVDB `NVDB_DK_O_20_Gatunamn` (buffer, bearing,
+covered share). Täby: 90.0 % of town-street length named in 0.5 s. Results and next steps are in
+[street-names.md](street-names.md).

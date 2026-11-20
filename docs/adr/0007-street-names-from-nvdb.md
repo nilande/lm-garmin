@@ -1,6 +1,6 @@
 # 0007 – Street names from Trafikverket NVDB
 
-Status: **Proposed** · 2026-11-20 (issue #55; waiting for the matching test)
+Status: **Proposed for acceptance** · 2026-11-20 (issue #55; matching test done – merging this ADR accepts it)
 
 ## Context
 Topografi 50 has no street names (`vaglinje.gatunamn` is empty). Users in towns need named
@@ -22,10 +22,13 @@ Use **NVDB** as an optional input (`--nvdb-dir`, like `--topo250-dir`), matched 
 Topografi 50 roads by buffer, bearing and overlap. Do not use Topografi 10. OSM names may be
 added later as a local-only fallback.
 
-## To be confirmed by the matching test
-Coverage ≥ 90 % of town street length in Täby, ≤ 2 wrong names per 100 sampled segments,
-and acceptable runtime. If matching to Topografi 50 geometry is not good enough, the
-alternative is to draw town streets from NVDB geometry at the most detailed levels.
+## Evidence (matching test, Täby)
+NVDB delivery 2026-11-17 confirmed CC0. Matching Topografi 50 roads to
+`NVDB_DK_O_20_Gatunamn` named **90.0 %** of town-street length (97 % of main and large local
+streets) in 0.5 s for a 15 × 15 km area. The result is insensitive to the buffer size. The
+remaining 10 % is unnamed in NVDB within 15 m, or a name changes along a segment. See
+[street-names.md](../street-names.md#matching-test--result-täby-dev-area). The error rate
+still needs an automated check in the implementation; the visual sample was too small.
 
 ## Consequences
 - All inputs stay CC0. Built maps keep "© Lantmäteriet" and add "Trafikverket (NVDB)" as source.
