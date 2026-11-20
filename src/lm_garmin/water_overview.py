@@ -17,7 +17,9 @@ WATER_ID = "vattenytaid"
 WHERE_LAKES = f"objekttypnr = {LAKE_TYPE} AND {WATER_ID} IS NOT NULL AND {WATER_ID} <> ''"
 
 
-def merged_lakes(sources: list[Path], bbox: Bbox) -> dict[str, Polygon | MultiPolygon]:
+def merged_lakes(
+    sources: list[Path], bbox: Bbox, mask: Polygon | MultiPolygon | None = None
+) -> dict[str, Polygon | MultiPolygon]:
     """Keep a replacement only when a valid union reduces the number of lake parts."""
     sources = [
         path
@@ -48,7 +50,11 @@ def merged_lakes(sources: list[Path], bbox: Bbox) -> dict[str, Polygon | MultiPo
                 ids = batch.column(WATER_ID).to_pylist()
                 geom = batch.column(meta["geometry_name"] or "wkb_geometry")
                 for index, water_id in enumerate(ids):
-                    if water_id in repeated and (wkb := geom[index].as_py()) is not None:
+                    if (
+                        water_id in repeated
+                        and (wkb := geom[index].as_py()) is not None
+                        and (mask is None or mask.intersects(shapely.from_wkb(wkb)))
+                    ):
                         fragments[water_id].append(wkb)
 
     merged = {}

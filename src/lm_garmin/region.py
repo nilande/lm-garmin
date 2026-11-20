@@ -8,6 +8,7 @@ from pathlib import Path
 
 import numpy as np
 from pyproj import Transformer
+from shapely.geometry import MultiPolygon, Polygon
 
 Bbox = tuple[float, float, float, float]
 
@@ -16,6 +17,8 @@ Bbox = tuple[float, float, float, float]
 class Region:
     name: str
     bbox: Bbox  # xmin, ymin, xmax, ymax in EPSG:3006
+    geometry: Polygon | MultiPolygon | None = None
+    boundary_source: str | None = None
 
     @property
     def id(self) -> str:

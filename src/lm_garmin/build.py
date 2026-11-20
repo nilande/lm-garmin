@@ -348,7 +348,14 @@ def build(
 
     report = {
         "lm_garmin": __version__,
-        "regions": [{"id": r.id, "bbox_3006": r.bbox} for r in regions],
+        "regions": [
+            {
+                "id": r.id,
+                "bbox_3006": r.bbox,
+                **({"boundary_source": r.boundary_source} if r.boundary_source else {}),
+            }
+            for r in regions
+        ],
         "dev": dev,
         "tools": {t.name: t.version for t in tools.TOOLS.values()},
         "java": java,

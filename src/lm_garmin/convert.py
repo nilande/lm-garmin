@@ -190,8 +190,14 @@ def _write_batch(
     lake_ids: frozenset[str],
     forest_fids: set[int],
     fid_col: str,
+    region: Region,
 ) -> int:
-    geoms = _to_wgs84(shapely.from_wkb(batch.column(geom_col).to_numpy(zero_copy_only=False)), tr)
+    geoms = shapely.from_wkb(batch.column(geom_col).to_numpy(zero_copy_only=False))
+    if region.geometry is not None:
+        keep = shapely.intersects(region.geometry, geoms)
+        geoms = geoms[keep]
+        batch = batch.filter(keep)
+    geoms = _to_wgs84(geoms, tr)
     values = [batch.column(c).to_pylist() for c in columns]
     rows = list(zip(*values, strict=True)) if values else [()] * len(geoms)
     n = 0
@@ -231,17 +237,21 @@ def convert_theme(
     tr = Transformer.from_crs(3006, 4326, always_xy=True)
     lon, lat = tr.transform([region.bbox[0], region.bbox[2]], [region.bbox[1], region.bbox[3]])
     stats = ThemeStats(theme, out.name)
+    if region.geometry is not None:
+        shapely.prepare(region.geometry)
     with TemporaryFile(dir=out_dir) as forest_overviews:
         sink = OsmSink(out, id_base(theme), (lon[0], lat[0], lon[1], lat[1]))
         try:
-            lakes = merged_lakes([gpkg for gpkg, layer in sources if layer == "mark"], region.bbox)
+            lakes = merged_lakes(
+                [gpkg for gpkg, layer in sources if layer == "mark"], region.bbox, region.geometry
+            )
             lake_ids = frozenset(lakes)
             for gpkg, layer in sources:
                 info = pyogrio.read_info(gpkg, layer=layer)
                 columns = read_columns(list(info["fields"]))
                 forest_fids: set[int] = set()
                 if layer == "mark":
-                    for fids, forest in merged_forests(gpkg, region.bbox):
+                    for fids, forest in merged_forests(gpkg, region.bbox, region.geometry):
                         forest_fids.update(fids)
                         # Keep merged shapes on disk until the detailed features are written.
                         wkb = forest.wkb
@@ -270,6 +280,7 @@ def convert_theme(
                             lake_ids if layer == "mark" else frozenset(),
                             forest_fids,
                             meta["fid_column"],
+                            region,
                         )
                 stats.layers[layer] = stats.layers.get(layer, 0) + count
                 stats.features += count

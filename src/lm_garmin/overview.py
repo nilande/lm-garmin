@@ -30,7 +30,7 @@ def write_polygons(
     """Append a separate PBF to the base-map inputs, without changing the Topografi 50 cache."""
     dest.parent.mkdir(parents=True, exist_ok=True)
     project = Transformer.from_crs(3006, 4326, always_xy=True)
-    extent = box(*region.bbox)
+    extent = region.geometry if region.geometry is not None else box(*region.bbox)
     sink = OsmSink(dest, (len(THEMES) + 1) * ID_STRIDE, project.transform_bounds(*region.bbox))
     counts = dict.fromkeys(sources, 0)
     try:

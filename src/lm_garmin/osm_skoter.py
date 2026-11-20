@@ -109,7 +109,7 @@ def write_region(
     trails: list[tuple[LineString, dict[str, str]]], gpkg_dir: Path, region: Region, out: Path
 ) -> int:
     reference = reference_lines(gpkg_dir, region)
-    extent = box(*region.bbox)
+    extent = region.geometry if region.geometry is not None else box(*region.bbox)
     project = Transformer.from_crs(3006, 4326, always_xy=True)
     sink = OsmSink(out, 1, project.transform_bounds(*region.bbox))
     try:
