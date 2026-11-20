@@ -18,6 +18,9 @@ def _add_region_args(p: argparse.ArgumentParser, multi: bool = False) -> None:
     g.add_argument("--bbox", action=act, help=f"xmin,ymin,xmax,ymax in SWEREF 99 TM{more}")
     g.add_argument("--bbox-wgs84", action=act, help=f"lon_min,lat_min,lon_max,lat_max{more}")
     g.add_argument("--region", choices=["sweden"], help="named region")
+    g.add_argument("--county", action=act, help=f"county name or SCB code{more}")
+    g.add_argument("--municipality", action=act, help=f"municipality name or SCB code{more}")
+    p.add_argument("--admin-index", type=Path, help="SCB digital boundaries ZIP for named regions")
     if multi:
         g.add_argument(
             "--area",
@@ -27,7 +30,7 @@ def _add_region_args(p: argparse.ArgumentParser, multi: bool = False) -> None:
         )
 
 
-def _regions_from_args(a: argparse.Namespace, gpkg_dir: Path) -> list[region.Region]:
+def _regions_from_args(a: argparse.Namespace, gpkg_dir: Path, cache: Path) -> list[region.Region]:
     def as_list(v):
         return v if isinstance(v, list) else [v]
 
@@ -37,11 +40,17 @@ def _regions_from_args(a: argparse.Namespace, gpkg_dir: Path) -> list[region.Reg
         return [region.from_wgs84(b) for b in as_list(a.bbox_wgs84)]
     if getattr(a, "area", None):
         return [region.from_area(n) for n in a.area]
+    if a.county or a.municipality:
+        from .administrative import named_regions
+
+        kind, names = ("county", a.county) if a.county else ("municipality", a.municipality)
+        regions = named_regions(
+            kind, as_list(names), gpkg_dir, a.admin_index or cache / "admin-index.zip"
+        )
+        for selected in regions:
+            print(f"{selected.id}: {selected.boundary_source}", file=sys.stderr)
+        return regions
     return [region.sweden(gpkg_dir)]
-
-
-def _region_from_args(a: argparse.Namespace, gpkg_dir: Path) -> region.Region:
-    return _regions_from_args(a, gpkg_dir)[0]
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -135,7 +144,10 @@ def main(argv: list[str] | None = None) -> int:
         from .convert import convert
 
         gpkg_dir = a.gpkg_dir or cache / "gpkg"
-        reg = _region_from_args(a, gpkg_dir)
+        try:
+            reg = _regions_from_args(a, gpkg_dir, cache)[0]
+        except (ValueError, RuntimeError) as e:
+            p.error(str(e))
         out = a.out or cache / "pbf" / reg.id
         stats = convert(gpkg_dir, reg, out, a.jobs)
         total = sum(s.features for s in stats)
@@ -146,7 +158,10 @@ def main(argv: list[str] | None = None) -> int:
         from .build import BuildError, build
 
         gpkg_dir = a.gpkg_dir or cache / "gpkg"
-        reg = _regions_from_args(a, gpkg_dir)
+        try:
+            reg = _regions_from_args(a, gpkg_dir, cache)
+        except (ValueError, RuntimeError) as e:
+            p.error(str(e))
         try:
             rep = build(
                 gpkg_dir,

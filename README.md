@@ -91,6 +91,23 @@ Topografi 250 replaces them at resolution 18. Each option works independently.
 If omitted, the corresponding level uses Topografi 50. Names, roads and trails
 continue to come from Topografi 50. See the [overview source plan](docs/overview-sources.md).
 
+### Build by county or municipality
+
+Download the ArcView-shape ZIP from [SCB's digital boundaries](https://www.scb.se/hitta-statistik/regional-statistik-och-kartor/regionala-indelningar/digitala-granser/)
+and pass the ZIP as downloaded. The default is `admin-index.zip` in the build
+cache. Both `build` and `convert` accept names or SCB codes.
+
+```bash
+uv run lm-garmin build --county "Jämtlands län" --admin-index /path/to/scb.zip
+uv run lm-garmin build --municipality Storuman --admin-index /path/to/scb.zip --dev
+```
+
+The build matches names to closed polygons made from Topografi 50 boundary lines
+and reports when it uses a simplified SCB polygon instead. The converter uses
+the GeoPackage spatial index for the bounding box and then keeps objects that
+intersect the boundary polygon. Topografi 50 objects crossing it are retained as
+whole features. The Garmin tile itself is rectangular.
+
 Output in `dist/`:
 
 | File | Contents |

@@ -45,7 +45,9 @@ def _components(geoms: np.ndarray, cells: np.ndarray) -> Iterator[list[int]]:
         yield sorted(group)
 
 
-def merged_forests(path: Path, bbox: Bbox) -> Iterator[tuple[list[int], Polygon | MultiPolygon]]:
+def merged_forests(
+    path: Path, bbox: Bbox, mask: Polygon | MultiPolygon | None = None
+) -> Iterator[tuple[list[int], Polygon | MultiPolygon]]:
     """Yield source feature IDs and their valid union, one 50 km block at a time."""
     info = pyogrio.read_info(path, layer="mark")
     if "objekttypnr" not in info["fields"]:
@@ -82,6 +84,8 @@ def merged_forests(path: Path, bbox: Bbox) -> Iterator[tuple[list[int], Polygon 
             grid = np.rint(bounds / SOURCE_GRID_M) * SOURCE_GRID_M
             touches_grid = np.any(np.abs(bounds - grid) <= GRID_TOLERANCE_M, axis=1)
             keep = owned & touches_grid
+            if mask is not None:
+                keep &= shapely.intersects(mask, geoms)
             ids, geoms, centres = ids[keep], geoms[keep], centres[keep]
             valid = shapely.is_valid(geoms) & ~shapely.is_empty(geoms)
             ids, geoms = ids[valid], geoms[valid]
