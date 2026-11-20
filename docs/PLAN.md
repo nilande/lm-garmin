@@ -323,14 +323,17 @@ delivery id, date, bbox, command); three areas (data-inventory "Test areas").
 
 ### v0.1 MVP
 
-The [v0.1 MVP milestone](https://github.com/nilande/lm-garmin/milestone/7) covers the
-default nationwide Topografi 50 base map and the separate Lantmäteriet snowmobile
-overlay. The optional Topografi 100/250 overview and direct OSM snowmobile supplement
-can be enabled separately.
+The [v0.1 MVP milestone](https://github.com/nilande/lm-garmin/milestone/7) covers
+the nationwide Topografi 50 base map and the separate Lantmäteriet snowmobile
+overlay. The release candidate uses Topografi 250 at resolution 18
+(`--topo250-dir`) following the [Täby device retest](device-testing.md#täby-overview-retest).
+The build command also supports Topografi 50 alone, an optional Topografi 100
+overview and the optional direct OSM snowmobile supplement.
 
-1. Build both default Sweden files from a pinned `main` commit and a cold stage
-   cache. Record the source delivery, build times, memory, sizes, checksums and
-   structural verification ([#11](https://github.com/nilande/lm-garmin/issues/11)).
+1. Build both Sweden files from a pinned `main` commit. Keep the cold
+   Topografi 50 baseline and record the candidate sources, timings, memory,
+   sizes, checksums and structural verification
+   ([#11](https://github.com/nilande/lm-garmin/issues/11)).
    Check that the map families and tile IDs can coexist on the test device
    ([#3](https://github.com/nilande/lm-garmin/issues/3)).
 2. Run the [Montana release checklist](device-testing.md#release-checklist) on those
