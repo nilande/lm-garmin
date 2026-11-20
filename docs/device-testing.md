@@ -10,31 +10,46 @@ orientation and include the scale bar in the screenshots. Use the pause menu to
 capture the screens and keep the BMPs from `Garmin/scrn/` locally. Record the map
 build, device firmware, scale and result here when a check is complete.
 
-- [ ] **Combined test of overview polygons and labels** ([build notes](../spikes/09-overview-labels/README.md)).
-  Compare the installed **LM Test referens** and **LM Test oversikt**. Each map
-  contains both areas. Use the same centre for the before-and-after pair at each
-  scale.
-
-  | Area | Scale bar | Centre (latitude, longitude) | Look for |
-  |---|---:|---|---|
-  | Sytertoppen | 2 km | **65.89225, 15.27215** | Norra Sytertoppen and distinct open mountain terrain |
-  | Tärnaby | 8 km | **65.81933, 15.27567** | Stor-Laisan, the larger wetlands and legibility of terrain names |
-  | Täby–Vallentuna | 2 km and 8 km | **59.51056, 18.04693** | Vallentunasjön, built-up fill and main roads |
-
-  Record the scale where the overview switches if it differs from the suggested
-  scale, and note any obvious difference in redraw time.
+- [ ] **Retest overview label priority after the next label build**
+  ([issue #16](https://github.com/nilande/lm-garmin/issues/16)). Recheck
+  Stor-Laisan at **8 km** and Vallentunasjön at **2 km** and **8 km**.
+  Compare Swedish and Sámi name selection around Tärnaby. Use the centres in
+  the [recorded comparison](#2026-11-20--combined-overview-polygons-and-labels).
+  Time redraw separately if evaluating a performance change.
 - [ ] **Topografi 50 fallback around Tärnaby** ([PR #42](https://github.com/nilande/lm-garmin/pull/42)).
   At northern Stormyrtjärnen (**65.69294, 15.22104**) and **2 km**, compare the
   installed **Tarnaby myr fore** and **Tarnaby myr efter**. Check that the larger
   firm wetlands are still easy to recognize. This covers builds without
   Topografi 100.
-- [ ] **Lake and mountain labels and search** ([issue #16](https://github.com/nilande/lm-garmin/issues/16)).
+- [ ] **Lake, mountain and town search** ([issue #16](https://github.com/nilande/lm-garmin/issues/16)).
   Use the same **LM Test** maps. Compare results for Vallentunasjön and both
   distinct Stormyrtjärnen lakes, noting their positions. Try Norra Sytertoppen
   for mountain search and Vallentuna as the town-search control.
 - [ ] **Snowmobile overlay contrast in direct sunlight** ([issue #24](https://github.com/nilande/lm-garmin/issues/24)).
   Check the physical display at normal riding brightness, especially the grey
   dashed routes against snow or open terrain.
+
+## 2026-11-20 – combined overview polygons and labels
+
+Montana 700, firmware 25.70. Compared **LM Test referens** (family 5770) and
+**LM Test oversikt** (family 5771) from the
+[combined test build](../spikes/09-overview-labels/README.md). The captures
+were slightly panned between maps. Comparisons use landmarks in their common
+view. The dark surround at 8 km is outside the test-map footprint.
+
+| Area | Scale bar | Target centre (latitude, longitude) | Observation |
+|---|---:|---|---|
+| Sytertoppen | 2 km | 65.89225, 15.27215 | The candidate draws additional terrain names. |
+| Tärnaby–Hemavan | 2 km | 65.81933, 15.27567 | The candidate draws Norra Sytertoppen and Stor-Laisan. The reference shows Stoere Laajsere in the same lake area. |
+| Tärnaby–Hemavan | 8 km | 65.81933, 15.27567 | E12, the larger lakes and the mountain areas are legible. The candidate draws Gakkervattnet and Stoere Vaerie. Stor-Laisan is encoded at this level and was absent from the screen. |
+| Täby–Vallentuna | 2 km and 8 km | 59.51056, 18.04693 | The overview has a more continuous land background at 8 km. Main roads are clear in both maps. Vallentunasjön's label was absent at both scales, including in the candidate captures with the info banner closed. |
+
+The file check confirms one candidate placement for Vallentunasjön and
+Stor-Laisan per overview level. Their absence on the screen makes label
+priority a follow-up for the next build. The Topografi 100 and 250 deliveries
+contain Stor-Laisan and omit Stoere Laajsere. Retain verified Topografi 50
+aliases where the coarse sources omit an official name as part of the next
+label experiment. Search and redraw timings remain unverified.
 
 ## 2026-11-19 – OSM line visibility and the Täby diagnostic overlay
 
