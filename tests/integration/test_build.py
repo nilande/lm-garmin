@@ -21,6 +21,7 @@ from lm_garmin.build import build
 from lm_garmin.coverage import measure
 from lm_garmin.products import PRODUCTS
 from lm_garmin.region import Region, sweden
+from lm_garmin.render import run as render
 from lm_garmin.verify import check, decode, norm_type, summarize
 
 pytestmark = pytest.mark.integration
@@ -204,6 +205,33 @@ def test_build_reports_steps(built):
         names = [s["name"] for s in report["steps"]]
         assert names[0].startswith("convert:") and "compile:topo50" in names
         assert all(s["seconds"] >= 0 for s in report["steps"])
+
+
+@pytest.mark.parametrize("fixture", ["fjall_727_51_05", "tatort_659_67_00"])
+def test_raster_comparison(built, data_dir_module, tmp_path, fixture):
+    out, _ = built[fixture]
+    report = render(
+        out / PRODUCTS["topo50"].filename,
+        tmp_path,
+        reference=data_dir_module / f"{fixture}.ref50k.tif",
+    )
+    assert (report["width"], report["height"]) == (1000, 1000)
+    assert report["reference_pixels"] == 1_000_000
+    assert report["classified_pixels"] > 600_000
+    assert report["classes"]["water"]["iou"] > 0.8
+    for file in ("render.png", "side-by-side.png", "diff.png"):
+        assert (tmp_path / file).stat().st_size > 0
+    reports = REPORTS / "raster"
+    reports.mkdir(parents=True, exist_ok=True)
+    (reports / f"{fixture}.json").write_text(json.dumps(report, indent=2) + "\n")
+    print(
+        f"{fixture}: "
+        + ", ".join(
+            f"{cls}={values['iou']:.1%}"
+            for cls, values in report["classes"].items()
+            if values["iou"] is not None
+        )
+    )
 
 
 def test_contour_detail_and_labels_by_zoom_level(built, data_dir_module):

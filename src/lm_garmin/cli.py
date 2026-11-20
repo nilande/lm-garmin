@@ -114,6 +114,15 @@ def main(argv: list[str] | None = None) -> int:
 
     v = sub.add_parser("verify", help="S4: decode built .img files and check them")
     v.add_argument("img", type=Path, nargs="+", help="tile .img or gmapsupp-style .img files")
+
+    rend = sub.add_parser("render", help="render a Garmin map and compare it to a reference raster")
+    rend.add_argument("img", type=Path, help="Garmin .img to decode")
+    rend.add_argument("--bbox", help="xmin,ymin,xmax,ymax in SWEREF 99 TM (defaults to reference)")
+    rend.add_argument("--reference", type=Path, help="georeferenced RGB raster")
+    rend.add_argument("--out", type=Path, default=Path("dist/render"), help="PNG and report folder")
+    rend.add_argument("--level", type=int, choices=range(7), default=0, help="Garmin level")
+    rend.add_argument("--meters-per-pixel", type=float, default=5, help="SWEREF grid spacing")
+    rend.add_argument("--style-mapping", type=Path, help="custom mapping.csv used by the build")
     v.add_argument("--expect", type=Path, help="expectations JSON (see tests/data/expect)")
     v.add_argument("--dump", type=Path, help="also write decoded features as GeoJSON lines")
     v.add_argument("--level-counts", action="store_true", help="print feature counts by level")
@@ -228,6 +237,30 @@ def main(argv: list[str] | None = None) -> int:
         from .verify import main as verify_main
 
         return verify_main(a.img, a.expect, a.dump, level_counts=a.level_counts)
+
+    if a.cmd == "render":
+        from .render import run
+        from .verify import VerifyError
+
+        try:
+            report = run(
+                a.img,
+                a.out,
+                bbox=region.parse_bbox(a.bbox) if a.bbox else None,
+                reference=a.reference,
+                level=a.level,
+                metres=a.meters_per_pixel,
+                mapping=a.style_mapping,
+            )
+        except (OSError, ValueError, VerifyError) as e:
+            print(f"render failed: {e}", file=sys.stderr)
+            return 1
+        if report is not None:
+            for name, score in report["classes"].items():
+                if score["iou"] is not None:
+                    print(f"{name}: IoU {score['iou']:.1%}")
+        print(f"rendered → {a.out}")
+        return 0
 
     if a.cmd == "coverage":
         from .coverage import CoverageError, measure

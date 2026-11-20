@@ -170,6 +170,25 @@ Use `lm-garmin convert …` to run S1 by itself. Use `lm-garmin style generate`
 to regenerate the mkgmap styles, TYP files and the
 [translation table](docs/translation-table.md) from `styles/*/mapping.csv`.
 
+### Compare the base map to Karta 1:50 000
+
+Compare a built map with a reference GeoTIFF covering the same area.
+
+```bash
+uv run lm-garmin render dist/dev/lm-dev-topo50.img \
+  --reference tests/data/tatort_659_67_00.ref50k.tif --out dist/raster-taby
+```
+
+The comparison uses a common SWEREF 99 TM grid at 5 metres per pixel. Use `--bbox`
+for a smaller window, `--level` to inspect a Garmin overview, and `--style-mapping`
+if the map was built from a different `mapping.csv`. With a reference, the command
+writes a side-by-side PNG (reference left), a difference PNG and per-class IoU in
+`comparison.json`. A bbox alone produces `render.png`.
+
+The preview uses the matching TYP colours, fill patterns and polygon draw order.
+It approximates line strokes and leaves text and Garmin's own placement rules to
+the device. Read [how to interpret the comparison](docs/raster-comparison.md).
+
 ### Measure snowmobile trail coverage
 
 ```bash
