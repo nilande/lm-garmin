@@ -22,14 +22,15 @@ build, device firmware, scale and result here when a check is complete.
   them onto the device. Check that the larger
   firm wetlands are still easy to recognize. This covers builds without
   Topografi 100.
-- [ ] **Lake, mountain and town search** ([issue #16](https://github.com/nilande/lm-garmin/issues/16)).
+- [x] **Lake search** ([issue #16](https://github.com/nilande/lm-garmin/issues/16)).
   Use **LM Test geo-POI**. In the category results, open the menu and choose
   **Select Map → LM Test geo-POI** before choosing **Spell Search**. Check this
-  selection again after switching the displayed map in **Map Manager**. Under
-  **Geographic Points → Water Features**, search for Vallentunasjön, then use
-  **Search Near** around Tärnaby and check that Stormyrtjärnen returns two
-  locations. Try Norra Sytertoppen under land features and Vallentuna under
-  **Cities** as controls.
+  selection again after switching the displayed map in **Map Manager**. On the
+  Montana, both the **Water Features** list and **Spell Search** returned one
+  Vallentunasjön and two distinct Stormyrtjärnen locations.
+- [ ] **Mountain and town search** ([issue #16](https://github.com/nilande/lm-garmin/issues/16)).
+  With the same search map selected, try Norra Sytertoppen under land features
+  and Vallentuna under **Cities**.
 - [ ] **Snowmobile overlay contrast in direct sunlight** ([issue #24](https://github.com/nilande/lm-garmin/issues/24)).
   Check the physical display at normal riding brightness, especially the grey
   dashed routes against snow or open terrain.
@@ -69,8 +70,10 @@ embedded MDR index with 5,507 point records. The next diagnostic (family
 `Vallentunasjön` were found by **Spell Search** after choosing the diagnostic
 under **Select Map**. The screenshot shows **Spell Search** and **Select Map**
 in the same menu. Changing the displayed map in **Map Manager** left the
-search source unchanged on this device. The full-index diagnostic still needs
-one run with the search map explicitly selected. Both builds are kept locally.
+search source unchanged on this device. With **LM Test geo-POI** explicitly
+selected, the full-index diagnostic also returned the expected three lakes
+through both paths. The two Stormyrtjärnen results opened different lakes, as
+shown in the captures. Both builds and the screenshots are kept locally.
 
 The pale-blue polygons north of Visinge also appear in the Topografi 50 data
 and the Karta 1:50 000 reference. The saturated cyan stroke next to the
