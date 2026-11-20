@@ -77,6 +77,40 @@ build, device firmware, scale and result here when a check is complete.
   Check the physical display at normal riding brightness, especially the grey
   dashed routes against snow or open terrain.
 
+## 2026-11-20 – v0.1 Sweden candidate
+
+Montana 700, firmware 25.70. Used the [nationwide build from `1140add`](benchmarks/2026-11-20-build-sweden-v0.1-rc.json).
+The tester reported response and loading times on the order of a second or a
+few seconds. The session did not use timed individual measurements. Vallentuna
+was found in the town search, and `313.bmp` shows the result selected.
+
+| Area and scale bar | Captures | Observation |
+|---|---|---|
+| Täby / Stockholm, 800 m and about 2 km | `96.bmp`, `133.bmp`, `142.bmp` | Street hierarchy, shores and many names are readable. The 800 m street network and some 2 km labels are dense. |
+| Täby / Stockholm, 5.6 and 8 km | `88.bmp`, `124.bmp` | Main roads and towns are readable. Irregular dark navy patches interrupt the land background. |
+| Tärnaby area, 800 m and 2 km | `240.bmp`, `271.bmp` | Contours, roads, lakes and names with Sámi characters are visible. Repeated reserve labels and hatching compete with the terrain in the 2 km view. |
+| Tärnaby area, 8 km | `212.bmp` | E12, Tärnaby, and the larger lakes are easy to follow. Dark exterior areas border the coverage, and smaller dark patches occur within it. |
+| Syterstugan, 150, 200 and 600 m | `431.bmp`, `436.bmp`, `439.bmp` | The solid red required route is clear at all three scales. A small red square is visible southwest of the hut at 150 m. The 600 m view shows a short orange segment at the bottom-right edge. |
+
+**Overview follow-up ([#15](https://github.com/nilande/lm-garmin/issues/15)).**
+The navy inside the map matches the background colour outside coverage. A
+decoded sample across Täby (17.99–18.18°E, 59.40–59.53°N) had Topografi 50 land
+and water polygons over about 99% of the window at resolution 21 and 49% at
+resolution 18. At resolution 18 the sample retains sea, lakes, and coniferous
+and mixed forest. Built-up areas, open ground and fields account for most of
+the missing fill. This suggests testing continuous land fill at the fallback
+overview level.
+
+**Overlay follow-up ([#24](https://github.com/nilande/lm-garmin/issues/24)).**
+The archived screens show the overlay enabled. They do not include a matched
+overlay-off capture or show all four statuses side by side. The grey dashed
+line is difficult to separate from adjacent map features, and the light-orange
+dashed status was not identified in the new captures. The on-device contrast
+check remains open. Use the [known status locations](#2026-11-19--snowmobile-overlay-issue-24)
+at 180–250 m and compare the same Syterstugan view with the overlay off and on.
+The candidate's decoded overlay confirms the four line statuses and all 748
+type-1836 markers.
+
 ## 2026-11-20 – combined overview polygons and labels
 
 Montana 700, firmware 25.70. Compared **LM Test referens** (family 5770) and
