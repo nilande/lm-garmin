@@ -179,6 +179,9 @@ same check is available for the [50 km Tärnaby benchmark](benchmarks/README.md#
 These counts measure the number of objects in a build; device redraw timings are measured
 separately.
 
+See [Lantmäteriet overview sources](overview-sources.md) for the Topografi 100
+and 250 comparison builds and the plan for overview labels and search.
+
 ## 5. Style strategy
 
 ### 5.1 Styles as source

@@ -77,6 +77,20 @@ uv run lm-garmin build --bbox-wgs84 14.5,65.4,16.0,65.9 --out dist/
 uv run lm-garmin verify dist/lm-topo50.img dist/lm-skoter.img
 ```
 
+For the base map, pass either or both directories of unpacked nationwide
+GeoPackages in SWEREF 99 TM to use Lantmäteriet's generalized polygons at the
+overview levels. Each directory must contain its delivery's `mark_sverige.gpkg`.
+
+```bash
+uv run lm-garmin build --area hemavan --dev --products topo50 \
+  --topo100-dir "/path/to/topografi100/gpkg" --topo250-dir "/path/to/topografi250/gpkg"
+```
+
+Topografi 100 replaces land cover, water surfaces and wetlands at resolution 20.
+Topografi 250 replaces them at resolution 18. Each option works independently.
+If omitted, the corresponding level uses Topografi 50. Names, roads and trails
+continue to come from Topografi 50. See the [overview source plan](docs/overview-sources.md).
+
 Output in `dist/`:
 
 | File | Contents |
