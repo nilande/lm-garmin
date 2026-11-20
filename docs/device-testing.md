@@ -51,6 +51,10 @@ orientation and include the scale bar in the screenshots. Use the pause menu to
 capture the screens and keep the BMPs from `Garmin/scrn/` locally. Record the map
 build, device firmware, scale and result here when a check is complete.
 
+- [ ] **Daylight check of the snowmobile overlay** (left open when v0.1.0 was released,
+  [#24](https://github.com/nilande/lm-garmin/issues/24)). Outdoors at normal brightness, check
+  that the four trail statuses and the 1836 marker are distinguishable at **180–250 m** near
+  Syterstugan, in particular the light-orange *Ingen information* dashes over wetland hatching.
 - [ ] **Retest overview label priority after the next label build**
   ([issue #16](https://github.com/nilande/lm-garmin/issues/16)). Recheck
   Stor-Laisan at **8 km** and Vallentunasjön at **2 km** and **8 km**.
