@@ -3,6 +3,31 @@
 Reference machine: Apple M5 (10 cores), 16 GB RAM, internal SSD; data on an SMB share (NAS).
 Delivery `LM2026:173692` (data 2026-10-16).
 
+## 2026-11-20 – v0.1 Sweden release candidate (issue #11)
+
+Built commit `1140add` with ten jobs and a cold stage cache, using the unpacked
+Topografi 50 delivery. The [build report](2026-11-20-build-sweden-v0.1-rc.json)
+includes the source identifier, output SHA-256 checksums and decoded results.
+
+| Stage | Wall time | Reported peak RSS | Output |
+|---|---:|---:|---|
+| Convert | 579.53 s | 731.1 MB | 18,585,717 features |
+| Split base map | 262.02 s | 2,863.5 MB | 403 tiles |
+| Compile base map | 444.17 s | 4,574.9 MB | `lm-topo50.img`, 1,894,350,848 bytes |
+| Extract, split and compile overlay | 4.11 s | 314.2 MB | `lm-skoter.img`, 912,384 bytes |
+| **Total build** | **1,296.31 s (21 min 36 s)** | **4,574.9 MB** | **Two maps** |
+
+The build met the 45-minute and 8 GB targets and both outputs are below the
+3.5 GB build limit for FAT32. The largest stage RSS is a process peak reported
+by the pipeline. Both images passed structural verification. The base map
+decoded at seven levels. The overlay has all four snowmobile statuses, with
+5,920 line segments and 748 type-1836 markers at level 0. See the
+[Garmin ID check](../garmin-ids.md#v01-candidate-check) for the tested device files.
+
+A second map for Gotland (`--county 09 --products topo50`, ten jobs) took
+18.62 seconds, within the five-minute county target. It used the Topografi 50
+county boundary with the SCB index for name and code lookup.
+
 ## Stage cache around Storuman (issue #25)
 
 Built the base map for Storuman using Topografi 50, 100 and 250, with four
