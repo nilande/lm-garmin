@@ -1,7 +1,39 @@
 # Device testing – Garmin Montana 700
 
-Results of tests on the real device. Newest first. The checklist for future releases is
-issue #20.
+Pending Montana checks and results from past device tests. The release checklist is tracked
+in [issue #20](https://github.com/nilande/lm-garmin/issues/20).
+
+## Pending Montana checks
+
+Enable one test map at a time. For each comparison, keep the same map centre and
+orientation and include the scale bar in the screenshots. Use the pause menu to
+capture the screens and keep the BMPs from `Garmin/scrn/` locally. Record the map
+build, device firmware, scale and result here when a check is complete.
+
+- [ ] **Overview polygons around Tärnaby** ([PR #43](https://github.com/nilande/lm-garmin/pull/43)).
+  Compare the installed **Tarnaby Topo50 ref** and **Tarnaby Topo oversikt** at
+  northern Stormyrtjärnen (**65.69294, 15.22104**), with one screenshot per map
+  at **2 km** and **8 km**. Check whether large lakes, wetlands and open mountain
+  terrain remain distinct. Note the actual scale-bar readings at which the
+  overview changes and any obvious difference in redraw time.
+- [ ] **Topografi 50 fallback around Tärnaby** ([PR #42](https://github.com/nilande/lm-garmin/pull/42)).
+  At the same centre and **2 km**, compare the installed **Tarnaby myr fore**
+  and **Tarnaby myr efter**. Check that the larger firm wetlands are still easy
+  to recognize. This covers builds without Topografi 100.
+- [ ] **Built-up fill around Täby–Vallentuna** ([PR #43](https://github.com/nilande/lm-garmin/pull/43)).
+  The local **Taby Topo50 ref** and **Taby Topo oversikt** pair needs installation
+  before testing. Centre near Vallentunasjön (**59.51056, 18.04693**) and compare
+  **2 km** and **8 km**. Check whether built-up fill helps identify towns while
+  leaving the main roads and lake outlines easy to see.
+- [ ] **Lake and mountain labels and search** ([issue #16](https://github.com/nilande/lm-garmin/issues/16)).
+  Requires a build with the new overview labels. Check the visibility of
+  Stor-Laisan and Norra Sytertoppen at the intended overview scales. Open search
+  on the reference and candidate maps in turn. Compare results for Vallentunasjön
+  and both distinct Stormyrtjärnen lakes, noting their positions. Record which lake
+  and mountain names are searchable and use Vallentuna as the town-search control.
+- [ ] **Snowmobile overlay contrast in direct sunlight** ([issue #24](https://github.com/nilande/lm-garmin/issues/24)).
+  Check the physical display at normal riding brightness, especially the grey
+  dashed routes against snow or open terrain.
 
 ## 2026-11-19 – OSM line visibility and the Täby diagnostic overlay
 

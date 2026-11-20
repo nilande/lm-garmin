@@ -59,6 +59,12 @@ For matching label placements, use the complete `textstrang`, feature category
 and geographic context. `objektidentitet` differed between products for the
 sampled features, and placements can move substantially between scales. Prefer
 association with the same lake or terrain feature where possible. Keep distinct
-places that share a name. On the device, enable only one test map and check
-Vallentunasjön for repeated placements, both distinct Stormyrtjärnen lakes and
-the existing town search. Lake and mountain search behavior remains to be tested.
+places that share a name.
+
+Before testing on the device, build a label comparison for Tärnaby and
+Täby–Vallentuna. Decode the `.img` files to check the intended level for each
+new label and compare the full set of points at the most detailed level.
+Use Vallentunasjön to test duplicate label placements and the two
+Stormyrtjärnen lakes to test preservation of homonyms. Record label counts and
+check that the detailed town points match. Track the remaining visual and
+search checks in the [Montana checklist](device-testing.md#pending-montana-checks).
