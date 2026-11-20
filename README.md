@@ -91,6 +91,18 @@ Topografi 250 replaces them at resolution 18. Each option works independently.
 If omitted, the corresponding level uses Topografi 50. Names, roads and trails
 continue to come from Topografi 50. See the [overview source plan](docs/overview-sources.md).
 
+### Rebuild after editing a style
+
+Run the same `build` command after editing the style. Data conversion, geographic
+extracts and Garmin tile splitting are reused for matching inputs. Only products
+with a changed generated style are recompiled. The first build fingerprints its
+input files. Later builds reuse digests while the file metadata matches, and
+`build-report.json` marks reused stages with `cached: true`.
+
+`lm-garmin cache info` reports the number and size of cached stage outputs.
+`lm-garmin cache clean` removes the stage cache. The unpacked source GeoPackages,
+downloaded tools and maps already written to the output directory are preserved.
+
 ### Build by county or municipality
 
 Download the ArcView-shape ZIP from [SCB's digital boundaries](https://www.scb.se/hitta-statistik/regional-statistik-och-kartor/regionala-indelningar/digitala-granser/)
