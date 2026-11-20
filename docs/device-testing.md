@@ -109,26 +109,30 @@ and produced 12,870 polygons across the extract. The Topografi 250 option
 filled 95.3% with 1,979 polygons, compared with 3,397 in the original
 Topografi 50 extract. The retest uses the official polygons at resolution 18.
 
-In **Map Manager**, show **LM Topo50 (dev)** alone for the Täby retest at
-**8 km** around Ensta/Täby (**59.45393, 18.06203**). Check whether the dark
-patches are gone or small enough to leave land and water easy to tell apart.
-Take one screenshot with the scale bar visible. The device sample covers
-SWEREF 99 TM `630000,6540000,730000,6660000` and uses Topografi 50
-`LM2026:173692` with Topografi 250 `LM2026:174947`. The build uses the
-existing `--topo250-dir` option.
+The **8 km** Montana capture `56.bmp` shows the Täby–Stockholm area with
+**LM Topo50 (dev)**. The large dark patches seen in `124.bmp` are largely
+gone inside the common mapped area. Roads, towns, shoreline and open land
+remain distinguishable. The dark band at the bottom is the edge of the
+regional test map. The two views are slightly panned.
+
+The device sample covers SWEREF 99 TM `630000,6540000,730000,6660000` and uses
+Topografi 50 `LM2026:173692` with Topografi 250 `LM2026:174947`. The decoded
+resolution-18 polygons cover 95.6% of the sample window above. Use the
+existing `--topo250-dir` option for the next nationwide candidate.
 
 ### Overlay retest ([#24](https://github.com/nilande/lm-garmin/issues/24))
 
-The archived screens show the overlay enabled. They do not include a matched
-overlay-off capture or show all four statuses side by side. The grey dashed
-line is difficult to separate from adjacent map features, and the light-orange
-dashed status was not identified in the new captures. The on-device contrast
-check remains open. Switch back to the nationwide **LM Topo50** for this
-part. Use the [known status locations](#2026-11-19--snowmobile-overlay-issue-24)
-at **180–250 m** and compare the same Syterstugan view with **LM Skoterleder**
-off and on. Check the light-orange dashes at **65.84761, 15.33030** with the
-overlay on. The candidate's decoded overlay confirms the four line statuses
-and all 748 type-1836 markers.
+The matched Syterstugan views at **180 m** (`212.bmp` off, `223.bmp` on) show
+the winter trail in the base map with the overlay off. Switching on
+**LM Skoterleder** adds the red required route and the grey dashed stretch
+near the hut. At **200 m**, `272.bmp` shows the solid orange permitted route
+and the light-orange dashed route southwest of **65.84761, 15.33030**. The
+light-orange dashes are visible and have lower contrast against wetland
+hatching. The red 1836 marker is visible in the earlier `439.bmp`.
+
+The tester expects the lines to be readable in daylight. The physical
+display has yet to be tested in daylight at normal brightness. See the
+[known status locations](#2026-11-19--snowmobile-overlay-issue-24).
 
 ## 2026-11-20 – combined overview polygons and labels
 
