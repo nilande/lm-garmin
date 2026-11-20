@@ -22,9 +22,12 @@ build, device firmware, scale and result here when a check is complete.
   firm wetlands are still easy to recognize. This covers builds without
   Topografi 100.
 - [ ] **Lake, mountain and town search** ([issue #16](https://github.com/nilande/lm-garmin/issues/16)).
-  Use the same **LM Test** maps. Compare results for Vallentunasjön and both
-  distinct Stormyrtjärnen lakes, noting their positions. Try Norra Sytertoppen
-  for mountain search and Vallentuna as the town-search control.
+  On the installed **LM Test geo-POI** diagnostic, use **Search Near** and
+  **Geographic Points → Water Features** for Vallentunasjön and both distinct
+  Stormyrtjärnen lakes. Try Norra Sytertoppen under land features and Vallentuna
+  under **Cities** as controls. The file contains one Vallentunasjön and two
+  Stormyrtjärnen `0x650d` lake POIs, plus one Norra Sytertoppen `0x6616` peak POI
+  at the detailed level.
 - [ ] **Snowmobile overlay contrast in direct sunlight** ([issue #24](https://github.com/nilande/lm-garmin/issues/24)).
   Check the physical display at normal riding brightness, especially the grey
   dashed routes against snow or open terrain.
@@ -49,7 +52,17 @@ Stor-Laisan per overview level. Their absence on the screen makes label
 priority a follow-up for the next build. The Topografi 100 and 250 deliveries
 contain Stor-Laisan and omit Stoere Laajsere. Retain verified Topografi 50
 aliases where the coarse sources omit an official name as part of the next
-label experiment. Search and redraw timings remain unverified.
+label experiment. Redraw timings remain unverified.
+
+In the subsequent search attempt, **All POIs** stopped responding. The user
+reported finding other features under **Geographic Points → Water Features**
+and no Vallentunasjön. In the two original test builds, Vallentunasjön is a
+map label (`0x2800`), so the diagnostic now uses geographic POI types.
+
+The pale-blue polygons north of Visinge also appear in the Topografi 50 data
+and the Karta 1:50 000 reference. The saturated cyan stroke next to the
+position arrow at Ensta is absent from the compiled test map. The source of
+this device overlay was not confirmed.
 
 ## 2026-11-19 – OSM line visibility and the Täby diagnostic overlay
 
