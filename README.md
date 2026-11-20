@@ -4,10 +4,9 @@ Build a Garmin map (`.img`) from Lantmäteriet's open topographic data
 **Topografi 50 Nedladdning, vektor**, styled to resemble Lantmäteriet's printed
 **Karta 1:50 000**. Primary target device: **Garmin Montana 700**.
 
-> **Status: milestone M1 (MVP) in progress.** `unpack`, `convert`, `build` and `verify`
-> work; the style is a first draft; see [docs/PLAN.md](docs/PLAN.md) and the
-> [milestones](https://github.com/nilande/lm-garmin/milestones). Experiments that informed
-> the plan are in [`spikes/`](spikes) and [docs/spikes.md](docs/spikes.md).
+> Work toward [v0.1 MVP](https://github.com/nilande/lm-garmin/milestone/7) focuses on
+> verifying the nationwide base map and the separate Lantmäteriet snowmobile overlay
+> on the Montana 700. See the [release plan](docs/PLAN.md#v01-mvp).
 
 Map data © Lantmäteriet (CC0). This repository contains **no map data** except small test
 cut-outs in [`tests/data`](tests/data/PROVENANCE.md).
@@ -201,7 +200,9 @@ of any trail in the decoded snowmobile overlay, across all four status values.
 Use an overlay that covers the same region as the reference tracks. The command
 prints aggregate figures. GitHub Actions checks the synthetic track in `tests/data/tracks/`.
 
-The Skoterleder.org regression check is local. Build the same region as the
+The optional Skoterleder.org regression check uses local GPX files for comparison.
+The [optional supplement](#add-the-optional-openstreetmap-snowmobile-supplement)
+reads OpenStreetMap directly. For the comparison, build the same region as the
 [coverage spike](docs/spikes.md#s5--coverage-against-skoterlederorg-gpx-spikes05-coverage):
 
 ```bash
@@ -220,9 +221,9 @@ percentage point below the 45.9% baseline. Keep the reference tracks local.
 1. Connect the device with USB (it appears as a drive), or put its microSD card in a reader.
 2. Copy `lm-topo50.img` and `lm-skoter.img` to the `Garmin/` folder (internal storage or
    SD card). Files must be < 4 GB (FAT32); the build fails above 3.5 GB.
-3. Eject, restart the device, then *Map setup → Map information* (*Kartinställningar →
-   Kartinformation*) to enable/disable the base map and the snowmobile overlay. Disable other
-   maps covering the same area if they hide this one.
+3. Eject, restart the device, then use *Map Manager* to enable or disable the base
+   map and the snowmobile overlay. Disable other maps covering the same area if
+   they hide this one. See the [Montana release checklist](docs/device-testing.md#release-checklist).
 
 ## Licence and attribution
 

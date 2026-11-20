@@ -56,30 +56,14 @@ Data cache: `$LM_GARMIN_CACHE` or `~/.cache/lm-garmin` (unpacked GeoPackages in 
 - Extended types: subtype ≤ `0x1f` (mkgmap rejects more); a fully transparent TYP line is
   rejected (use pattern `label`).
 
-## State (2026-11-19)
+## Release status
 
-Done: M0 planning, M1 #1 #4–#10 (unpack, regions, convert, build, generated style, verify,
-CI fixture builds), device test of the full Sweden map, and Montana 700 style checks in
-Täby and Tärnaby. The dev maps (`--area`, `--dev`) have been used to check road visibility,
-contour labels and the overview. See [device-testing.md](docs/device-testing.md).
-
-Not done / next steps (GitHub issues and milestones are the source of truth):
-
-1. **Device checklist** (#20): turn the repeatable checks and screenshot method in
-   `docs/device-testing.md` into a release checklist.
-2. **Desktop preview**: QMapShack (`brew install --cask qmapshack`) renders `.img` + TYP;
-   **not tried yet**. Our own render/compare against the raster is issue #18.
-3. **Street names**: Topografi 50 has none (`gatunamn` is empty). Candidate sources:
-   Trafikverket NVDB (Lastkajen, open data), Lantmäteriet address/Topografi 10 (check licence),
-   OSM (ODbL). Needs a new issue + matching names to LM road geometry.
-4. M2 style work: #13 translation-table doc, #14 TYP look, #15 overview levels (would also
-   shrink the 2 GB map), #16 labels/search, #17 encoding option, #19 county regions.
-5. M3: #22 snowmobile completeness gate (length per status, done in spike S4), #23 coverage
-   metric (spike S5, baseline 45.9 % within 50 m), #24 overlay device test.
-6. M4: #25 stage cache (style-only rebuilds), #26 perf tracking, #27 chunk `hojd`/`mark` in
-   convert (they dominate the 7.6 min convert step).
-7. #3: check family ids 5750–5753 against other OSM Garmin maps; #11/#12 can be closed with
-   the benchmark in `docs/benchmarks/` and the device results.
+The [v0.1 MVP milestone](https://github.com/nilande/lm-garmin/milestone/7)
+tracks the default nationwide build (#11), Garmin IDs (#3) and one Montana
+device session for the base and overlay (#12, #20, #24). See the
+[release plan](docs/PLAN.md#v01-mvp) and
+[device checklist](docs/device-testing.md#release-checklist). GitHub issues
+track subsequent style, search and performance work.
 
 ## Where things are
 
