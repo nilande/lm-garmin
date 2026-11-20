@@ -16,6 +16,7 @@ from pathlib import Path
 from . import tools
 
 IMGDUMP = Path(__file__).resolve().parents[2] / "java" / "ImgDump.java"
+FEATURE_KINDS = ("point", "line", "polygon")
 
 
 class VerifyError(RuntimeError):
@@ -57,6 +58,9 @@ class Summary:
         default_factory=collections.Counter
     )  # (kind, type) @ level 0
     labels: set[str] = field(default_factory=set)
+    level_counts: dict[int, collections.Counter[str]] = field(
+        default_factory=lambda: collections.defaultdict(collections.Counter)
+    )
 
     def types(self, kind: str | None = None) -> set[str]:
         return {t for (k, t) in self.counts if kind is None or k == kind}
@@ -69,8 +73,10 @@ def summarize(img: Path, dump: Path | None = None) -> Summary:
         for f in decode(img):
             p = f["properties"]
             s.tiles.add(p["tile"])
-            s.levels.add(p["level"])
-            if p["level"] == 0:
+            level = p["level"]
+            s.levels.add(level)
+            s.level_counts[level][p["kind"]] += 1
+            if level == 0:
                 s.counts[(p["kind"], norm_type(p["type"]))] += 1
             if p["label"]:
                 s.labels.add(p["label"])
@@ -85,7 +91,8 @@ def summarize(img: Path, dump: Path | None = None) -> Summary:
 def check(s: Summary, expect: dict) -> list[str]:
     """Compare a summary with expectations; returns a list of problems (empty = OK).
 
-    expect = {"min_tiles": 1, "types": {"line": ["0x20"], ...}, "labels": ["Lövlund"]}
+    Also accepts "max_features_by_level", e.g. {"4": {"polygon": 500,
+    "line": 300, "point": 100}}. Each configured level must be present.
     """
     problems = []
     if len(s.tiles) < expect.get("min_tiles", 1):
@@ -97,10 +104,35 @@ def check(s: Summary, expect: dict) -> list[str]:
     missing_labels = sorted(set(expect.get("labels", [])) - s.labels)
     if missing_labels:
         problems.append(f"{s.img}: missing labels {missing_labels}")
+    budgets = expect.get("max_features_by_level", {})
+    if not isinstance(budgets, dict):
+        return [*problems, f"{s.img}: max_features_by_level must be an object"]
+    for key, limits in budgets.items():
+        try:
+            level = int(key)
+        except (TypeError, ValueError):
+            problems.append(f"{s.img}: invalid budget level {key!r}")
+            continue
+        if str(level) != key or level < 0 or not isinstance(limits, dict) or not limits:
+            problems.append(f"{s.img}: invalid budget for level {key!r}")
+            continue
+        observed = s.level_counts.get(level)
+        if observed is None:
+            problems.append(f"{s.img}: missing budgeted level {level}")
+            continue
+        for kind, limit in limits.items():
+            if kind not in FEATURE_KINDS or type(limit) is not int or limit < 0:
+                problems.append(f"{s.img}: invalid {kind!r} limit at level {level}")
+            elif observed[kind] > limit:
+                problems.append(
+                    f"{s.img}: level {level} {kind} count {observed[kind]} exceeds budget {limit}"
+                )
     return problems
 
 
-def main(imgs: list[Path], expect_path: Path | None, dump: Path | None) -> int:
+def main(
+    imgs: list[Path], expect_path: Path | None, dump: Path | None, *, level_counts: bool = False
+) -> int:
     expect = json.loads(expect_path.read_text(encoding="utf-8")) if expect_path else {}
     problems = []
     for img in imgs:
@@ -112,6 +144,10 @@ def main(imgs: list[Path], expect_path: Path | None, dump: Path | None) -> int:
             f"{img.name}: {len(s.tiles)} tiles, levels {sorted(s.levels)}, "
             f"level 0: {dict(kinds)}, {len(s.types())} types, {len(s.labels)} distinct labels"
         )
+        if level_counts:
+            for level, counts in sorted(s.level_counts.items()):
+                row = ", ".join(f"{kind}={counts[kind]}" for kind in FEATURE_KINDS)
+                print(f"  level {level}: {row}")
         problems += check(s, expect)
     for p in problems:
         print(f"FAIL {p}", file=sys.stderr)

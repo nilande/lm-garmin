@@ -3,6 +3,44 @@
 Reference machine: Apple M5 (10 cores), 16 GB RAM, internal SSD; data on an SMB share (NAS).
 Delivery `LM2026:173692` (data 2026-10-16).
 
+## Decoded object budgets
+
+The default base map has seven detail levels. The counts below are from the
+50 × 50 km Tärnaby extract after the lake and forest overview changes, using
+one Garmin tile. Counts come from the compiled map and include pieces split
+by the Garmin compiler and the tile background polygon.
+
+| Level | Resolution | Points | Lines | Polygons |
+|---|---:|---:|---:|---:|
+| 0 | 24 | 6,148 | 23,005 | 21,207 |
+| 1 | 23 | 6,148 | 22,199 | 20,940 |
+| 2 | 22 | 1,210 | 11,611 | 19,902 |
+| 3 | 21 | 1,042 | 7,621 | 17,586 |
+| 4 | 20 | 201 | 1,729 | 12,521 |
+| 5 | 18 | 4 | 26 | 2,148 |
+| 6 | 16 | 2 | 0 | 1 |
+
+At level 4, firm wetlands, open ground and mountain birch forest are the
+largest polygon classes by count (4,385, 3,745 and 2,315 respectively).
+
+Each upper limit is the measured count plus 15% (rounded up), with room for at
+least two extra objects in nonempty categories. Empty categories have a limit
+of zero. The same rule sets the budgets for the three fixture builds checked
+in CI. Update an individual limit when an intentional style change warrants
+it and report the before and after counts.
+
+```bash
+uv run lm-garmin build --bbox 490000,7265000,540000,7315000 --products topo50 \
+  --max-nodes 4000000 --dev --out dist/tarnaby-overview
+uv run lm-garmin verify dist/tarnaby-overview/lm-dev-topo50.img --level-counts \
+  --expect docs/benchmarks/tarnaby-overview.json
+uv run pytest -q -m local_data -k tarnaby_overview_budget
+```
+
+Set `LM_GARMIN_OVERVIEW_IMG` to check a build at another path. Use the same
+extent, delivery and tile layout when comparing the counts. The local test
+skips if the map has yet to be built.
+
 ## Forest overview around Tärnaby (issue #15)
 
 Reused the 50 × 50 km lake benchmark extent with the same single Garmin tile

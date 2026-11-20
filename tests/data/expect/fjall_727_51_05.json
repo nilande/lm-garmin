@@ -1,1 +1,13 @@
-{"min_tiles": 1, "labels": ["Lövlund", "Våjhtja", "Nedre Björknäs"]}
+{
+  "min_tiles": 1,
+  "labels": ["Lövlund", "Våjhtja", "Nedre Björknäs"],
+  "max_features_by_level": {
+    "0": {"point": 72, "line": 240, "polygon": 232},
+    "1": {"point": 72, "line": 237, "polygon": 226},
+    "2": {"point": 14, "line": 124, "polygon": 213},
+    "3": {"point": 13, "line": 104, "polygon": 187},
+    "4": {"point": 7, "line": 26, "polygon": 97},
+    "5": {"point": 0, "line": 0, "polygon": 18},
+    "6": {"point": 0, "line": 0, "polygon": 3}
+  }
+}
