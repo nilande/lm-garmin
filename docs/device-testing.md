@@ -117,8 +117,10 @@ regional test map. The two views are slightly panned.
 
 The device sample covers SWEREF 99 TM `630000,6540000,730000,6660000` and uses
 Topografi 50 `LM2026:173692` with Topografi 250 `LM2026:174947`. The decoded
-resolution-18 polygons cover 95.6% of the sample window above. Use the
-existing `--topo250-dir` option for the next nationwide candidate.
+resolution-18 polygons cover 95.6% of the sample window above. The
+[nationwide candidate from `70de4e1`](benchmarks/2026-11-20-build-sweden-v0.1-topo250.json)
+uses the same sources and overview level. It was installed and checksum
+verified as **LM Topo50**. The tester accepted the result.
 
 ### Overlay retest ([#24](https://github.com/nilande/lm-garmin/issues/24))
 
@@ -130,8 +132,8 @@ and the light-orange dashed route southwest of **65.84761, 15.33030**. The
 light-orange dashes are visible and have lower contrast against wetland
 hatching. The red 1836 marker is visible in the earlier `439.bmp`.
 
-The tester expects the lines to be readable in daylight. The physical
-display has yet to be tested in daylight at normal brightness. See the
+The tester accepted the result. A separate daylight check at normal
+brightness has not been reported. See the
 [known status locations](#2026-11-19--snowmobile-overlay-issue-24).
 
 ## 2026-11-20 – combined overview polygons and labels
