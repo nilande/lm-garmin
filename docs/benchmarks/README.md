@@ -3,6 +3,27 @@
 Reference machine: Apple M5 (10 cores), 16 GB RAM, internal SSD; data on an SMB share (NAS).
 Delivery `LM2026:173692` (data 2026-10-16).
 
+## 2026-11-20 – Sweden candidate with Topografi 250 (issue #15)
+
+Built `70de4e1` from the same Topografi 50 delivery with Topografi 250
+`LM2026:174947` at resolution 18. The [build report](2026-11-20-build-sweden-v0.1-topo250.json)
+records both inputs, stage timings and output hashes. Topografi 50 conversion
+and the snowmobile overlay were reused from the baseline cache.
+
+| Measurement | Result |
+|---|---:|
+| Build time with cache | 669.47 s (11 min 9 s) |
+| Highest reported process RSS | 4,638.2 MB |
+| Base map bytes | 1,892,188,160 |
+| Base map tiles | 410 |
+| Land and water fill in the Täby sample at resolution 18 | 95.4% (49.1% in the nationwide baseline) |
+| Nationwide polygons at resolution 18 | 157,153 (319,767 in the baseline) |
+
+Both files passed structural verification. The overlay SHA-256 matches
+the baseline. The new base map reuses family
+5750 with tile IDs 57500001–57500410. The separate development map and other
+maps installed on the Montana use distinct IDs.
+
 ## 2026-11-20 – v0.1 Sweden release candidate (issue #11)
 
 Built commit `1140add` with ten jobs and a cold stage cache, using the unpacked

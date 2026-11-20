@@ -98,18 +98,43 @@ decoded sample across Täby (17.99–18.18°E, 59.40–59.53°N) had Topografi 5
 and water polygons over about 99% of the window at resolution 21 and 49% at
 resolution 18. At resolution 18 the sample retains sea, lakes, and coniferous
 and mixed forest. Built-up areas, open ground and fields account for most of
-the missing fill. This suggests testing continuous land fill at the fallback
-overview level.
+the missing fill.
 
-**Overlay follow-up ([#24](https://github.com/nilande/lm-garmin/issues/24)).**
-The archived screens show the overlay enabled. They do not include a matched
-overlay-off capture or show all four statuses side by side. The grey dashed
-line is difficult to separate from adjacent map features, and the light-orange
-dashed status was not identified in the new captures. The on-device contrast
-check remains open. Use the [known status locations](#2026-11-19--snowmobile-overlay-issue-24)
-at 180–250 m and compare the same Syterstugan view with the overlay off and on.
-The candidate's decoded overlay confirms the four line statuses and all 748
-type-1836 markers.
+### Täby overview retest
+
+In matched-size Täby extracts, retaining more Topografi 50 classes at
+resolution 18 increased land and water fill from 47.9% to 76.1% in the
+sample window. Keeping smaller polygons in the compiler raised it to 84.8%
+and produced 12,870 polygons across the extract. The Topografi 250 option
+filled 95.3% with 1,979 polygons, compared with 3,397 in the original
+Topografi 50 extract. The retest uses the official polygons at resolution 18.
+
+The **8 km** Montana capture `56.bmp` shows the Täby–Stockholm area with
+**LM Topo50 (dev)**. The large dark patches seen in `124.bmp` are largely
+gone inside the common mapped area. Roads, towns, shoreline and open land
+remain distinguishable. The dark band at the bottom is the edge of the
+regional test map. The two views are slightly panned.
+
+The device sample covers SWEREF 99 TM `630000,6540000,730000,6660000` and uses
+Topografi 50 `LM2026:173692` with Topografi 250 `LM2026:174947`. The decoded
+resolution-18 polygons cover 95.6% of the sample window above. The
+[nationwide candidate from `70de4e1`](benchmarks/2026-11-20-build-sweden-v0.1-topo250.json)
+uses the same sources and overview level. It was installed and checksum
+verified as **LM Topo50**. The tester accepted the result.
+
+### Overlay retest ([#24](https://github.com/nilande/lm-garmin/issues/24))
+
+The matched Syterstugan views at **180 m** (`212.bmp` off, `223.bmp` on) show
+the winter trail in the base map with the overlay off. Switching on
+**LM Skoterleder** adds the red required route and the grey dashed stretch
+near the hut. At **200 m**, `272.bmp` shows the solid orange permitted route
+and the light-orange dashed route southwest of **65.84761, 15.33030**. The
+light-orange dashes are visible and have lower contrast against wetland
+hatching. The red 1836 marker is visible in the earlier `439.bmp`.
+
+The tester accepted the result. A separate daylight check at normal
+brightness has not been reported. See the
+[known status locations](#2026-11-19--snowmobile-overlay-issue-24).
 
 ## 2026-11-20 – combined overview polygons and labels
 

@@ -1,0 +1,202 @@
+{
+  "commit": "70de4e1d7d1ff48590a165650af4724e2306f382",
+  "sources": {
+    "topo50": {
+      "order": "LM2026:173692",
+      "source_date": "2026-10-16",
+      "metadata_sha256": "b86738fec70b1bce69dd1066da21a54eb423209455e886365ce7db2f15d5909c"
+    },
+    "topo250": {
+      "order": "LM2026:174947",
+      "geopackage_sha256": "6dfc2e4246dca2f302aa062a1dfe5bdc5a7a2b2862e6568b554fe9c4d03e5729",
+      "resolution": 18
+    }
+  },
+  "machine": "Apple M5 (10 cores), 16 GB RAM, internal SSD",
+  "command": "lm-garmin build --region sweden --topo250-dir /path/to/topografi250/gpkg --jobs 10 --out dist/",
+  "java_version": "OpenJDK 27.0.1.1",
+  "build": {
+    "lm_garmin": "0.0.1",
+    "regions": [
+      {
+        "id": "sweden",
+        "bbox_3006": [
+          200000.0,
+          6090000.0,
+          940000.0,
+          7680000.0
+        ]
+      }
+    ],
+    "dev": false,
+    "tools": {
+      "mkgmap": "r4924",
+      "splitter": "r654"
+    },
+    "jobs": 10,
+    "seconds": 669.47,
+    "steps": [
+      {
+        "name": "convert:sweden",
+        "seconds": 0,
+        "max_rss_mb": null,
+        "detail": {
+          "features": 18585717,
+          "pbf": [
+            "administrativindelning.osm.pbf",
+            "anlaggningsomrade.osm.pbf",
+            "byggnadsverk.osm.pbf",
+            "hojd.osm.pbf",
+            "hydrografi.osm.pbf",
+            "kommunikation.osm.pbf",
+            "kulturhistorisklamning.osm.pbf",
+            "ledningar.osm.pbf",
+            "mark.osm.pbf",
+            "militartomrade.osm.pbf",
+            "naturvard.osm.pbf",
+            "norrapolcirkeln.osm.pbf",
+            "text.osm.pbf"
+          ]
+        },
+        "cached": true
+      },
+      {
+        "name": "extract:topo50:sweden",
+        "seconds": 35.03,
+        "max_rss_mb": 0.0,
+        "detail": {
+          "objects": 157507
+        },
+        "cached": false
+      },
+      {
+        "name": "split:topo50:sweden",
+        "seconds": 249.45,
+        "max_rss_mb": 2758.1,
+        "detail": {
+          "tiles": 410
+        },
+        "cached": false
+      },
+      {
+        "name": "compile:topo50",
+        "seconds": 383.96,
+        "max_rss_mb": 4638.2,
+        "detail": {
+          "bytes": 1892188160
+        },
+        "cached": false
+      },
+      {
+        "name": "extract:skoter:sweden",
+        "seconds": 0,
+        "max_rss_mb": null,
+        "detail": {
+          "objects": 10596
+        },
+        "cached": true
+      },
+      {
+        "name": "split:skoter:sweden",
+        "seconds": 0,
+        "max_rss_mb": null,
+        "detail": {
+          "tiles": 1
+        },
+        "cached": true
+      },
+      {
+        "name": "compile:skoter",
+        "seconds": 0,
+        "max_rss_mb": null,
+        "detail": {
+          "bytes": 912384
+        },
+        "cached": true
+      }
+    ],
+    "outputs": {
+      "topo50": {
+        "file": "lm-topo50.img",
+        "bytes": 1892188160,
+        "family_id": 5750,
+        "tiles": 410,
+        "sha256": "b12ddd44e603fc27d1d9f63196ad805fbddaf94392be6878a38d2cd8dfb51dc2"
+      },
+      "skoter": {
+        "file": "lm-skoter.img",
+        "bytes": 912384,
+        "family_id": 5751,
+        "tiles": 1,
+        "sha256": "cf90b2f143ef2d8a232a67979df826971494cf7e4cc26b0866fb2a66f7c10b42"
+      }
+    }
+  },
+  "checks": {
+    "decode": [
+      "lm-topo50.img: 410 tiles, levels [0, 1, 2, 3, 4, 5, 6], level 0: {'polygon': 4654944, 'point': 2519797, 'line': 6995090}, 139 types, 231776 distinct labels",
+      "  level 0: point=2519797, line=6995090, polygon=4654944",
+      "  level 1: point=2519797, line=6788320, polygon=4581179",
+      "  level 2: point=670373, line=3217508, polygon=4242202",
+      "  level 3: point=472191, line=2654481, polygon=3637716",
+      "  level 4: point=35217, line=334392, polygon=2205708",
+      "  level 5: point=1955, line=15595, polygon=157153",
+      "  level 6: point=1153, line=930, polygon=3967",
+      "lm-skoter.img: 1 tiles, levels [0, 1, 2, 3, 4], level 0: {'line': 5920, 'point': 748}, 9 types, 0 distinct labels",
+      "  level 0: point=748, line=5920, polygon=0",
+      "  level 1: point=748, line=5688, polygon=0",
+      "  level 2: point=748, line=5583, polygon=0",
+      "  level 3: point=748, line=5371, polygon=0",
+      "  level 4: point=748, line=4724, polygon=0"
+    ],
+    "taby_level_5_coverage_percent": 95.42,
+    "ids": {
+      "lm-topo50.img": {
+        "family_id": 5750,
+        "first_tile": 57500001,
+        "last_tile": 57500410,
+        "tile_count": 410
+      },
+      "lm-skoter.img": {
+        "family_id": 5751,
+        "first_tile": 57510001,
+        "last_tile": 57510001,
+        "tile_count": 1
+      },
+      "device_files": {
+        "D6184190A.img": {
+          "mps_families": [
+            13545
+          ],
+          "mps_tile_count": 1,
+          "directory_tile_count": 517
+        },
+        "gmapbmap.img": {
+          "mps_families": [],
+          "mps_tile_count": 0,
+          "directory_tile_count": 3
+        },
+        "gmaptz.img": {
+          "mps_families": [],
+          "mps_tile_count": 0,
+          "directory_tile_count": 1
+        },
+        "lm-dev-topo50.img": {
+          "mps_families": [
+            5752
+          ],
+          "mps_tile_count": 13,
+          "directory_tile_count": 13
+        },
+        "lm-test-geo-poi.img": {
+          "mps_families": [
+            5772
+          ],
+          "mps_tile_count": 2,
+          "directory_tile_count": 2
+        }
+      }
+    },
+    "overlay_sha256_matches_topo50_baseline": true
+  }
+}
