@@ -13,7 +13,8 @@ import platform
 import shutil
 import subprocess
 import time
-from dataclasses import dataclass, field
+from dataclasses import asdict, dataclass, field
+from importlib.metadata import version
 from pathlib import Path
 
 import osmium
@@ -22,6 +23,7 @@ from . import __version__, overview, stylegen, tools
 from .convert import convert
 from .products import DEFAULT_PRODUCTS, PRODUCTS, Product, dev_variant
 from .region import Region
+from .stage_cache import StageCache, publish
 
 FAT32_LIMIT = 3_500_000_000  # stay clear of the 4 GiB per-file limit
 SKOTER_TAGS = (("lm:t", "1847"), ("lm:t", "1848"), ("lm:t", "1836"))
@@ -31,8 +33,9 @@ SKOTER_TAGS = (("lm:t", "1847"), ("lm:t", "1848"), ("lm:t", "1836"))
 class Step:
     name: str
     seconds: float
-    max_rss_mb: float = 0.0
+    max_rss_mb: float | None = 0.0
     detail: dict = field(default_factory=dict)
+    cached: bool = False
 
 
 class BuildError(RuntimeError):
@@ -144,23 +147,11 @@ def compile_img(
     return Step(f"compile:{product.key}", round(secs, 2), rss, {"bytes": img.stat().st_size})
 
 
-def generate_style(
-    product: Product, work: Path, overview_resolutions: tuple[int, ...] = ()
-) -> Path:
-    """Write the product's generated style (with its own family id in the TYP) to work/."""
-    out = work / "style" / product.key
-    if out.exists():
-        shutil.rmtree(out)
-    for rel, text in stylegen.generated_files(
-        product.style_dir,
-        product.family_id,
-        product.levels,
-        overview_resolutions=overview_resolutions,
-    ).items():
-        f = out / rel
+def _write_style(style_dir: Path, files: dict[str, str]) -> None:
+    for rel, text in files.items():
+        f = style_dir / rel
         f.parent.mkdir(parents=True, exist_ok=True)
         f.write_text(text, encoding="utf-8")
-    return out
 
 
 def build(
@@ -217,134 +208,238 @@ def build(
         raise BuildError("java not found – install Java 17+ or set LM_GARMIN_JAVA")
     build_id = "+".join(r.id for r in regions) + ("-dev" if dev else "")
     build_id += "".join(f"-topo{scale}" for scale in sources)
-    work = cache / "work" / build_id
+    stage_cache = StageCache(cache)
     out_dir.mkdir(parents=True, exist_ok=True)
     steps: list[Step] = []
     t_all = time.monotonic()
 
-    osm_trails = []
-    if osm is not None:
-        from .osm_skoter import read_trails
-
-        t0 = time.monotonic()
-        work.mkdir(parents=True, exist_ok=True)
-        try:
-            osm_trails = read_trails(osm, work / "osm-trails.osm.pbf")
-        except (RuntimeError, ValueError) as e:
-            raise BuildError(f"Could not read the OSM extract: {e}") from e
+    def run(stage, inputs, produce, name):
+        artifact = stage_cache.run(stage, inputs, lambda dest: asdict(produce(dest)))
+        record = artifact.record
         steps.append(
             Step(
-                "read:skoter-osm",
-                round(time.monotonic() - t0, 2),
-                detail={"ways": len(osm_trails)},
+                name,
+                0 if artifact.cached else record["seconds"],
+                None if artifact.cached else record["max_rss_mb"],
+                record["detail"],
+                artifact.cached,
             )
         )
+        if artifact.cached:
+            log(f"{name}: reused")
+        return artifact
 
-    pbf_dirs = []
-    convert_lm = any(k in DEFAULT_PRODUCTS for k in keys)
-    for reg in regions:
-        if not convert_lm:
-            pbf_dirs.append((reg, cache / "pbf" / reg.id, []))
-            continue
-        t0 = time.monotonic()
-        pbf_dir = cache / "pbf" / reg.id
-        stats = convert(gpkg_dir, reg, pbf_dir, jobs, log=log)
-        steps.append(
-            Step(
-                f"convert:{reg.id}",
-                round(time.monotonic() - t0, 2),
-                max(s.max_rss_mb for s in stats),
-                {"features": sum(s.features for s in stats)},
-            )
+    def implementation(*modules):
+        return [stage_cache.fingerprint(Path(__file__).with_name(f"{m}.py")) for m in modules]
+
+    with stage_cache.lease():
+        convert_lm = any(k in DEFAULT_PRODUCTS for k in keys)
+        data_inputs = [
+            (p.name, stage_cache.fingerprint(p))
+            for p in sorted(gpkg_dir.glob("*.gpkg"))
+            if not p.name.startswith("._")
+        ]
+        # Fingerprint sidecars if a mutable GeoPackage has a write-ahead log.
+        data_inputs.extend(
+            (p.name, stage_cache.fingerprint(p)) for p in sorted(gpkg_dir.glob("*.gpkg-wal"))
         )
-        pbf_dirs.append((reg, pbf_dir, [pbf_dir / s.pbf for s in stats if s.nodes]))
-
-    outputs = {}
-    for k, p in prods.items():
-        tiles: list[Path] = []
-        for i, (reg, pbf_dir, all_inputs) in enumerate(pbf_dirs):
-            if k == "skoter-osm":
-                from .osm_skoter import write_region
-
-                t0 = time.monotonic()
-                supplement = work / "extract" / reg.id / "skoter-osm.osm.pbf"
-                supplement.parent.mkdir(parents=True, exist_ok=True)
-                n = write_region(osm_trails, gpkg_dir, reg, supplement)
-                steps.append(
-                    Step(
-                        f"extract:skoter-osm:{reg.id}",
-                        round(time.monotonic() - t0, 2),
-                        detail={"objects": n},
-                    )
-                )
-                inputs = [supplement] if n else []
-            elif k == "skoter":
-                src = pbf_dir / "kommunikation.osm.pbf"
-                if not src.exists():
-                    continue
-                t0 = time.monotonic()
-                sk = work / "extract" / reg.id / "skoter.osm.pbf"
-                sk.parent.mkdir(parents=True, exist_ok=True)
-                n = skoter_extract(src, sk)
-                steps.append(
-                    Step(
-                        f"extract:skoter:{reg.id}",
-                        round(time.monotonic() - t0, 2),
-                        detail={"objects": n},
-                    )
-                )
-                inputs = [sk] if n else []
-            else:
-                inputs = all_inputs
-                if sources and inputs:
-                    t0 = time.monotonic()
-                    polygons = work / "extract" / reg.id / "overview.osm.pbf"
-                    try:
-                        counts = overview.write_polygons(sources, reg, polygons, mapped)
-                    except (OSError, RuntimeError, ValueError) as e:
-                        raise BuildError(f"Could not prepare overview polygons: {e}") from e
-                    steps.append(
-                        Step(
-                            f"extract:overview:{reg.id}",
-                            round(time.monotonic() - t0, 2),
-                            detail={"polygons": counts},
-                        )
-                    )
-                    inputs = [*inputs, polygons]
-            if not inputs:
-                continue
-            tdir = work / "tiles" / k / reg.id
-            steps.append(split(java, inputs, tdir, p, jobs, max_nodes, p.mapid_base + i * 1000))
-            steps[-1].name += f":{reg.id}"
-            tiles += sorted(tdir.glob("*.osm.pbf"))
-        if not tiles:
-            if k == "topo50":
-                raise BuildError(f"{k}: no data in {build_id}")
-            if k == "skoter-osm":
-                (out_dir / p.filename).unlink(missing_ok=True)
-            log(f"{k}: nothing to build in {build_id}, skipped")
-            continue
-        log(f"{k}: {len(tiles)} tiles")
-        resolutions = (
-            tuple(overview.RESOLUTIONS[scale] for scale in sources) if k == "topo50" else ()
-        )
-        style_dir = generate_style(p, work, resolutions)
-        steps.append(compile_img(java, tiles, style_dir, work / "img" / k, p, jobs, java_mem))
-        img = work / "img" / k / "gmapsupp.img"
-        if img.stat().st_size > FAT32_LIMIT:
-            raise BuildError(
-                f"{k}: {img.stat().st_size / 1e9:.2f} GB is too close to FAT32's "
-                "4 GiB limit – build a smaller region"
-            )
-        dest = out_dir / p.filename
-        shutil.copyfile(img, dest)
-        outputs[k] = {
-            "file": dest.name,
-            "bytes": dest.stat().st_size,
-            "family_id": p.family_id,
-            "tiles": len(tiles),
+        conversion = [
+            __version__,
+            implementation("convert", "tags", "region", "forest_overview", "water_overview"),
+        ]
+        orchestrator = implementation("build")
+        dependencies = {
+            pkg: version(pkg)
+            for pkg in ("pyogrio", "pyproj", "shapely", "osmium", "pyarrow", "numpy")
         }
-        log(f"{k}: {dest} ({dest.stat().st_size / 1e6:.1f} MB) in {steps[-1].seconds}s")
+        conversion.append(dependencies)
+        java_paths = (Path(java), Path(java).resolve().parent.parent / "release")
+        java_input = [stage_cache.fingerprint(path) for path in java_paths if path.is_file()]
+        tool_inputs = {name: tool.sha256 for name, tool in tools.TOOLS.items()}
+        overview_inputs = {
+            scale: stage_cache.fingerprint(source) for scale, source in sources.items()
+        }
+        osm_input = stage_cache.fingerprint(osm) if osm is not None else None
+
+        def region_input(reg):
+            return [reg.id, reg.bbox, reg.geometry.wkb_hex if reg.geometry is not None else None]
+
+        def convert_stage(dest, reg):
+            t0 = time.monotonic()
+            stats = convert(gpkg_dir, reg, dest, jobs, log=log)
+            return Step(
+                "convert",
+                round(time.monotonic() - t0, 2),
+                max((s.max_rss_mb for s in stats), default=0),
+                {
+                    "features": sum(s.features for s in stats),
+                    "pbf": [s.pbf for s in stats if s.nodes],
+                },
+            )
+
+        converted = [
+            run(
+                "convert",
+                [conversion, data_inputs, region_input(reg)],
+                lambda dest, reg=reg: convert_stage(dest, reg),
+                f"convert:{reg.id}",
+            )
+            if convert_lm
+            else None
+            for reg in regions
+        ]
+
+        osm_trails = None
+
+        def extract_stage(dest, product, reg, source):
+            nonlocal osm_trails
+            t0 = time.monotonic()
+            pbf = dest / "extract.osm.pbf"
+            if product == "skoter-osm":
+                from .osm_skoter import read_trails, write_region
+
+                try:
+                    if osm_trails is None:
+                        osm_trails = read_trails(osm, dest / "filtered.osm.pbf")
+                        (dest / "filtered.osm.pbf").unlink()
+                    count = write_region(osm_trails, gpkg_dir, reg, pbf)
+                except (RuntimeError, ValueError) as e:
+                    raise BuildError(f"Could not prepare OSM trails: {e}") from e
+            elif product == "skoter":
+                count = skoter_extract(source, pbf)
+            else:
+                try:
+                    count = sum(overview.write_polygons(sources, reg, pbf, mapped).values())
+                except (OSError, RuntimeError, ValueError) as e:
+                    raise BuildError(f"Could not prepare overview polygons: {e}") from e
+            return Step("extract", round(time.monotonic() - t0, 2), detail={"objects": count})
+
+        outputs = {}
+        for k, p in prods.items():
+            tiles: list[Path] = []
+            tile_inputs = []
+            for i, (reg, lm) in enumerate(zip(regions, converted, strict=True)):
+                inputs = (
+                    [lm.path / filename for filename in lm.record["detail"]["pbf"]] if lm else []
+                )
+                input_keys = [lm.key] if lm else []
+                extract_key = None
+                source = None
+                if k == "skoter-osm":
+                    extract_key = [
+                        osm_input,
+                        data_inputs,
+                        conversion,
+                        implementation("osm_skoter"),
+                        region_input(reg),
+                    ]
+                elif k == "skoter":
+                    source = lm.path / "kommunikation.osm.pbf"
+                    if not source.exists():
+                        continue
+                    extract_key = [lm.key, orchestrator]
+                elif sources and inputs:
+                    extract_key = [
+                        overview_inputs,
+                        region_input(reg),
+                        conversion,
+                        implementation("overview"),
+                        {layer: sorted(codes) for layer, codes in mapped.items()},
+                    ]
+
+                if extract_key is not None:
+                    extract = run(
+                        "extract",
+                        [k, extract_key],
+                        lambda dest, k=k, reg=reg, source=source: extract_stage(
+                            dest, k, reg, source
+                        ),
+                        f"extract:{k}:{reg.id}",
+                    )
+                    extra = (
+                        [extract.path / "extract.osm.pbf"]
+                        if extract.record["detail"]["objects"]
+                        else []
+                    )
+                    if k == "topo50":
+                        inputs += extra
+                        input_keys.append(extract.key)
+                    else:
+                        inputs, input_keys = extra, [extract.key]
+
+                if not inputs:
+                    continue
+                mapid = p.mapid_base + i * 1000
+                split_result = run(
+                    "split",
+                    [
+                        input_keys,
+                        orchestrator,
+                        java_input,
+                        tool_inputs["splitter"],
+                        mapid,
+                        jobs,
+                        max_nodes,
+                    ],
+                    lambda dest, inputs=inputs, p=p, mapid=mapid: split(
+                        java, inputs, dest / "tiles", p, jobs, max_nodes, mapid
+                    ),
+                    f"split:{k}:{reg.id}",
+                )
+                tile_inputs.append(split_result.key)
+                tiles += sorted((split_result.path / "tiles").glob("*.osm.pbf"))
+
+            if not tiles:
+                if k == "topo50":
+                    raise BuildError(f"{k}: no data in {build_id}")
+                if k == "skoter-osm":
+                    (out_dir / p.filename).unlink(missing_ok=True)
+                log(f"{k}: nothing to build in {build_id}, skipped")
+                continue
+
+            resolutions = (
+                tuple(overview.RESOLUTIONS[scale] for scale in sources) if k == "topo50" else ()
+            )
+            style_files = stylegen.generated_files(
+                p.style_dir, p.family_id, p.levels, overview_resolutions=resolutions
+            )
+
+            def compile_stage(dest, style_files=style_files, tiles=tiles, p=p):
+                style_dir = dest / "style"
+                _write_style(style_dir, style_files)
+                return compile_img(java, tiles, style_dir, dest / "img", p, jobs, java_mem)
+
+            compiled = run(
+                "compile",
+                [
+                    tile_inputs,
+                    orchestrator,
+                    java_input,
+                    tool_inputs["mkgmap"],
+                    asdict(p),
+                    style_files,
+                    jobs,
+                    java_mem,
+                ],
+                compile_stage,
+                f"compile:{k}",
+            )
+            img = compiled.path / "img" / "gmapsupp.img"
+            size = img.stat().st_size
+            if size > FAT32_LIMIT:
+                raise BuildError(
+                    f"{k}: {size / 1e9:.2f} GB is too close to FAT32's 4 GiB limit – "
+                    "build a smaller region"
+                )
+            dest = out_dir / p.filename
+            publish(img, dest)
+            outputs[k] = {
+                "file": dest.name,
+                "bytes": size,
+                "family_id": p.family_id,
+                "tiles": len(tiles),
+            }
+            log(f"{k}: {dest} ({size / 1e6:.1f} MB) in {steps[-1].seconds}s")
 
     report = {
         "lm_garmin": __version__,

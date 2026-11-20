@@ -16,6 +16,8 @@ import zipfile
 from dataclasses import asdict, dataclass, field
 from pathlib import Path
 
+from .stage_cache import StageCache
+
 MANIFEST = "manifest.json"
 
 
@@ -27,6 +29,7 @@ class Entry:
     gpkg: str
     gpkg_size: int
     seconds: float
+    zip_sha256: str | None = None
 
 
 @dataclass
@@ -102,6 +105,12 @@ def sha256(path: Path) -> str:
 
 def unpack(delivery: Path, dest: Path, *, log=print) -> list[Result]:
     """Unpack every theme zip in `delivery` to `dest` (one .gpkg per theme)."""
+    fingerprints = StageCache(dest.parent)
+    with fingerprints.lease(exclusive=True):
+        return _unpack(delivery, dest, fingerprints, log)
+
+
+def _unpack(delivery: Path, dest: Path, fingerprints: StageCache, log) -> list[Result]:
     dest.mkdir(parents=True, exist_ok=True)
     mpath = dest / MANIFEST
     manifest = Manifest.load(mpath)
@@ -112,11 +121,11 @@ def unpack(delivery: Path, dest: Path, *, log=print) -> list[Result]:
     results = []
     for zp in delivery_zips(delivery):
         st = zp.stat()
+        digest = fingerprints.fingerprint(zp)
         prev = manifest.entries.get(zp.name)
         if (
             prev
-            and prev.zip_size == st.st_size
-            and prev.zip_mtime == st.st_mtime
+            and prev.zip_sha256 == digest
             and (dest / prev.gpkg).exists()
             and (dest / prev.gpkg).stat().st_size == prev.gpkg_size
         ):
@@ -135,7 +144,7 @@ def unpack(delivery: Path, dest: Path, *, log=print) -> list[Result]:
         dt = time.monotonic() - t0
         rate = st.st_size / 1e6 / dt if dt > 0 else 0.0
         manifest.entries[zp.name] = Entry(
-            zp.name, st.st_size, st.st_mtime, out.name, out.stat().st_size, round(dt, 2)
+            zp.name, st.st_size, st.st_mtime, out.name, out.stat().st_size, round(dt, 2), digest
         )
         manifest.save(mpath)
         results.append(Result(zp.name, out, skipped=False, seconds=dt, mb_per_s=rate))

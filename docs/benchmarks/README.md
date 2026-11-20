@@ -3,6 +3,19 @@
 Reference machine: Apple M5 (10 cores), 16 GB RAM, internal SSD; data on an SMB share (NAS).
 Delivery `LM2026:173692` (data 2026-10-16).
 
+## Stage cache around Storuman (issue #25)
+
+Built the base map for Storuman using Topografi 50, 100 and 250, with four
+jobs and the default splitter configuration. The first build used a fresh
+stage cache, including the initial GeoPackage fingerprints.
+
+| Build | Wall time | Stages executed |
+|---|---:|---|
+| Cold | 108.79 s | Convert, overview extract, split and compile |
+| Identical rebuild | 0.01 s | Reused all cached stages |
+| Changed the water colour | 10.55 s | Compile only |
+
+
 ## Decoded object budgets
 
 The default base map has seven detail levels. The counts below are from the

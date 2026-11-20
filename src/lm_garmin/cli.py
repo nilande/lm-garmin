@@ -69,6 +69,13 @@ def main(argv: list[str] | None = None) -> int:
     u = sub.add_parser("unpack", help="S0: unpack a Topografi 50 delivery into the cache")
     u.add_argument("delivery", type=Path, help="folder with the theme zips (quote the path!)")
 
+    cache_cmd = sub.add_parser("cache", help="inspect or clean cached build stages")
+    cache_actions = cache_cmd.add_subparsers(dest="cache_action", required=True)
+    cache_actions.add_parser("info", help="report stage entries and disk usage")
+    cache_actions.add_parser(
+        "clean", help="remove build outputs while keeping source data and tools"
+    )
+
     c = sub.add_parser("convert", help="S1: convert GeoPackages to OSM PBF for a region")
     _add_region_args(c)
     c.add_argument("--gpkg-dir", type=Path, help="GeoPackages (default: <cache>/gpkg)")
@@ -138,6 +145,22 @@ def main(argv: list[str] | None = None) -> int:
         res = unpack(a.delivery, cache / "gpkg")
         done = [r for r in res if not r.skipped]
         print(f"{len(done)} unpacked, {len(res) - len(done)} unchanged → {cache / 'gpkg'}")
+        return 0
+
+    if a.cmd == "cache":
+        from .stage_cache import StageCache
+
+        stages = StageCache(cache)
+        if a.cache_action == "clean":
+            stages.clean()
+            print(f"Cleaned build stages → {stages.root}")
+        else:
+            with stages.lease():
+                info = stages.info()
+            for name, usage in info.items():
+                print(f"{name}: {usage['entries']} entries, {usage['bytes'] / 1e6:.1f} MB")
+            if not info:
+                print(f"No cached build stages → {stages.root}")
         return 0
 
     if a.cmd == "convert":
