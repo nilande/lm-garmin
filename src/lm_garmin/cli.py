@@ -98,6 +98,7 @@ def main(argv: list[str] | None = None) -> int:
     v.add_argument("img", type=Path, nargs="+", help="tile .img or gmapsupp-style .img files")
     v.add_argument("--expect", type=Path, help="expectations JSON (see tests/data/expect)")
     v.add_argument("--dump", type=Path, help="also write decoded features as GeoJSON lines")
+    v.add_argument("--level-counts", action="store_true", help="print feature counts by level")
 
     coverage = sub.add_parser("coverage", help="measure GPX coverage of a built snowmobile overlay")
     coverage.add_argument("--img", type=Path, required=True, help="snowmobile overlay .img")
@@ -181,7 +182,7 @@ def main(argv: list[str] | None = None) -> int:
     if a.cmd == "verify":
         from .verify import main as verify_main
 
-        return verify_main(a.img, a.expect, a.dump)
+        return verify_main(a.img, a.expect, a.dump, level_counts=a.level_counts)
 
     if a.cmd == "coverage":
         from .coverage import CoverageError, measure

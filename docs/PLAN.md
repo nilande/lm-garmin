@@ -168,13 +168,16 @@ Draft for the bulk of the map (colours from the reference raster, spike S8):
 
 ### 4.1 Zoom levels
 
-Initial levels (tuned against the device): `0:24, 1:23, 2:22, 3:21, 4:20, 5:18, 6:16`.
-Rule of thumb: at a given level, show what Karta 1:50 000 would show when printed at that
-scale; below 1:50 000 (levels ≥ 4) switch to overview features (dissolved land cover, index
-contours only, major roads, Tätort names). mkgmap options `--reduce-point-density`,
-`--min-size-polygon`, `--merge-lines` are tuned per level. Object density per level is
-measured (S4 decode counts) and kept under a budget, because redraw speed on the Montana is
-driven by the number of objects in view.
+Base map levels (tuned against the device): `0:24, 1:23, 2:22, 3:21, 4:20, 5:18, 6:16`.
+Levels 0–1 carry fine contours and labelled index contours. Levels 2–3 show unlabelled
+index contours. Level 4 thins those contours to 100 m intervals and shows merged lake and
+coniferous/mixed-forest polygons. Level 5 uses source lake and forest geometry, and level 6
+retains the broadest features for the overview. Garmin chooses the displayed level on the device.
+
+The integration tests enforce per-level object budgets on the decoded fixture maps. The
+same check is available for the [50 km Tärnaby benchmark](benchmarks/README.md#decoded-object-budgets).
+These counts measure the number of objects in a build; device redraw timings are measured
+separately.
 
 ## 5. Style strategy
 

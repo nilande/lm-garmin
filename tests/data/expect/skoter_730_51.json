@@ -1,1 +1,13 @@
-{"min_tiles": 1, "labels": ["Syterstugan", "Sytertoppen"]}
+{
+  "min_tiles": 1,
+  "labels": ["Syterstugan", "Sytertoppen"],
+  "max_features_by_level": {
+    "0": {"point": 150, "line": 1337, "polygon": 504},
+    "1": {"point": 150, "line": 1323, "polygon": 498},
+    "2": {"point": 61, "line": 621, "polygon": 447},
+    "3": {"point": 55, "line": 496, "polygon": 381},
+    "4": {"point": 9, "line": 117, "polygon": 282},
+    "5": {"point": 0, "line": 0, "polygon": 35},
+    "6": {"point": 0, "line": 0, "polygon": 3}
+  }
+}
