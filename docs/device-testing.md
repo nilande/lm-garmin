@@ -31,6 +31,19 @@ times, search result, and the result of each overlay check. For any rendering
 issue, take a screenshot from the pause menu with the scale bar visible and
 note the location and display conditions. BMPs are stored under `Garmin/scrn/`.
 
+Copy this record for each candidate.
+
+| Check | Result |
+|---|---|
+| Build commit and device firmware | |
+| Enabled maps and startup time | |
+| Täby redraw and legibility at 250 m, 2 km, 8 km | |
+| Hemavan/Syter redraw and legibility at 250 m, 2 km, 8 km | |
+| Vallentuna search using LM Topo50 | |
+| Overlay toggle and 1836 marker | |
+| Four statuses, brightness and lighting | |
+| Screenshot files and follow-up issues | |
+
 ## Pending Montana checks
 
 Enable one test map at a time. For each comparison, keep the same map centre and
