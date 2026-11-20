@@ -22,12 +22,12 @@ build, device firmware, scale and result here when a check is complete.
   firm wetlands are still easy to recognize. This covers builds without
   Topografi 100.
 - [ ] **Lake, mountain and town search** ([issue #16](https://github.com/nilande/lm-garmin/issues/16)).
-  On the installed **LM Test geo-POI** diagnostic, use **Search Near** and
-  **Geographic Points → Water Features** for Vallentunasjön and both distinct
-  Stormyrtjärnen lakes. Try Norra Sytertoppen under land features and Vallentuna
-  under **Cities** as controls. The file contains one Vallentunasjön and two
-  Stormyrtjärnen `0x650d` lake POIs, plus one Norra Sytertoppen `0x6616` peak POI
-  at the detailed level.
+  With only **LM Test sok liten** enabled, try **Search Near → Geographic
+  Points → Water Features → Spell Search** near Vallentunasjön. Search for
+  the synthetic ASCII lake `LakeTest` first, then `Vallentunasjön` if the
+  first search returns. The small Unicode map has exactly three indexed
+  entries, including the town Vallentuna for a **Cities** control. Repeat the
+  mountain and same-name lake checks when the spelling search is understood.
 - [ ] **Snowmobile overlay contrast in direct sunlight** ([issue #24](https://github.com/nilande/lm-garmin/issues/24)).
   Check the physical display at normal riding brightness, especially the grey
   dashed routes against snow or open terrain.
@@ -58,6 +58,13 @@ In the subsequent search attempt, **All POIs** stopped responding. The user
 reported finding other features under **Geographic Points → Water Features**
 and no Vallentunasjön. In the two original test builds, Vallentunasjön is a
 map label (`0x2800`), so the diagnostic now uses geographic POI types.
+
+With the first diagnostic (**LM Test geo-POI**, family 5772), the device
+listed Vallentunasjön in **Water Features** and opened it at the correct lake.
+**Spell Search** stayed on the spinner during the test. The build has an
+embedded MDR index with 5,507 point records. The next diagnostic (family
+5773) keeps the same encoding and has three indexed points to separate the
+large-index case from the device search behavior. Both builds are kept locally.
 
 The pale-blue polygons north of Visinge also appear in the Topografi 50 data
 and the Karta 1:50 000 reference. The saturated cyan stroke next to the
