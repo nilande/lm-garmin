@@ -84,7 +84,7 @@ def main(argv: list[str] | None = None) -> int:
     b.add_argument("--java-mem", default="4g", help="Java heap for mkgmap (default 4g)")
     b.add_argument("--max-nodes", type=int, default=1_600_000, help="splitter --max-nodes")
 
-    s = sub.add_parser("style", help="generate mkgmap style + TYP from styles/<name>/mapping.csv")
+    s = sub.add_parser("style", help="generate mkgmap styles, TYP and the translation table")
     s.add_argument("action", choices=["generate"])
 
     i = sub.add_parser("install", help="copy built .img files to a Garmin device (verified)")
@@ -169,12 +169,15 @@ def main(argv: list[str] | None = None) -> int:
         return 0
 
     if a.cmd == "style":
-        from . import stylegen
+        from . import style_docs, stylegen
         from .products import PRODUCTS
 
         for prod in PRODUCTS.values():
             for f in stylegen.generate(prod.style_dir, prod.family_id, prod.levels):
                 print(f)
+        table = style_docs.TRANSLATION_TABLE
+        table.write_text(style_docs.render_translation_table(), encoding="utf-8")
+        print(table)
         return 0
 
     if a.cmd == "install":

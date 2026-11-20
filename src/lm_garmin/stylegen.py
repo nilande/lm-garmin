@@ -194,11 +194,17 @@ def _typ_point(r: Rule) -> str:
     )
 
 
-def render_typ(rules: list[Rule], family_id: int, product_id: int = 1) -> str:
-    seen: dict[tuple[str, str], Rule] = {}
+def typ_rules(rules: list[Rule]) -> dict[tuple[str, str], Rule]:
+    """Return the first visual definition for each geometry and Garmin type."""
+    seen = {}
     for r in rules:
-        if r.kind in KINDS and (r.kind, r.type) not in seen:
-            seen[(r.kind, r.type)] = r
+        if r.kind in KINDS:
+            seen.setdefault((r.kind, r.type), r)
+    return seen
+
+
+def render_typ(rules: list[Rule], family_id: int, product_id: int = 1) -> str:
+    seen = typ_rules(rules)
     out = [
         HEADER.replace("#", ";"),
         f"[_id]\nFID={family_id}\nProductCode={product_id}\nCodePage=65001\n[end]\n",
