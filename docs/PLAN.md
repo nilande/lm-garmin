@@ -351,7 +351,8 @@ single-file bundle (#51) follow v0.1.
 
 ### v0.2 Everyday map
 
-v0.1.0 was released on 2026-11-20 ([CHANGELOG](../CHANGELOG.md)). The
+**Status: done – v0.2.0 released 2026-11-21** ([CHANGELOG](../CHANGELOG.md)); every item
+below was accepted on the Montana 700. v0.1.0 was released on 2026-11-20. The
 [v0.2 milestone](https://github.com/nilande/lm-garmin/milestone/8) is about a map for
 everyday use, driven by the Montana results. In priority order:
 
@@ -360,12 +361,12 @@ everyday use, driven by the Montana results. In priority order:
    `vaglinje`), decide in an ADR, then implement it in a follow-up issue. *Done:*
    [ADR-0007](adr/0007-street-names-from-nvdb.md), `--nvdb-dir` (#60).
 2. **Label priority and density** ([#16](https://github.com/nilande/lm-garmin/issues/16)):
-   repeated reserve labels and dense labels at 2 km. *Done for v0.2 in #63* (with road
-   shields, #62); long reserve names and `textlinje` remain in #16.
+   repeated reserve labels and dense labels at 2 km. *Done in #63 and #67* (with road
+   shields, #62, and lake/terrain search).
 3. **Look** ([#14](https://github.com/nilande/lm-garmin/issues/14)): hatching against terrain,
    the 800 m street network, and the contrast of the light-orange overlay dashes
-   ([#57](https://github.com/nilande/lm-garmin/issues/57) daylight check). *Street network and
-   hatching done in #64*; legend colours, mm → px widths and night colours remain in #14.
+   ([#57](https://github.com/nilande/lm-garmin/issues/57) daylight check). *Done in #64, #66
+   and #67*; legend colours, mm → px widths and night colours moved to #68.
 
 Parked outside v0.2 (2026-11-21): the **Topografi 50 structure change on 2027-05-04**
 ([#56](https://github.com/nilande/lm-garmin/issues/56)), resumed when Lantmäteriet publishes

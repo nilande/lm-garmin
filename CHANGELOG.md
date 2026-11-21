@@ -1,43 +1,71 @@
 # Changelog
 
-## Unreleased
+## v0.2.0 – 2026-11-21
+
+"Everyday map": a calmer, searchable map tuned on the Montana 700 in town and in the
+mountains, optional street names, and a snowmobile overlay that is readable outdoors. Code,
+styles and build instructions only; maps are built locally from the free deliveries.
 
 ### Added
 
-- Street names from Trafikverket NVDB (CC0) with `build --nvdb-dir` (#60,
+- **Street names** from Trafikverket NVDB (CC0) with `build --nvdb-dir` (#60,
   [ADR-0007](docs/adr/0007-street-names-from-nvdb.md)). Topografi 50 roads are matched to
-  NVDB name lines and split where the name changes. In Täby 96 % of town-street length is
-  named. New tag `lm:gatunamn_nvdb`, tag schema 4. The copyright reads "© Lantmäteriet,
-  Trafikverket (NVDB)" when used.
-- `scripts/street_name_check.py`: local quality check of the matching.
+  NVDB name lines (15 m, ±30°, local direction) and split where the name changes: 96 % of
+  town-street length named in Täby. Names are drawn from about 80 m, like Karta 1:10 000;
+  road numbers stay on every level. The copyright reads "© Lantmäteriet, Trafikverket
+  (NVDB)" when used. `scripts/street_name_check.py` checks the matching locally.
+- **Search for lakes and terrain names** (#16): Hydrografi and Terrängnamn texts are also
+  invisible geographic POIs (`0x6500`, `0x6600`), found under *Where To? → Geographic
+  Points*. Towns and villages stay under *Cities*, now listed as "<name>, SE".
+- **Road-number shields** (#62): upright boxes (`${ref|highway-symbol:hbox}`).
+- `scripts/make_overlay_testgrid.py`: a synthetic snowmobile-trail grid at any point, for
+  outdoor checks (#57).
 
 ### Changed
 
-- Labels (#16): a name split over two lines in Karta 1:50 000 is drawn once (Topografi 50
-  stores the full name on every part: about 23 000 duplicate labels nationwide). Church
-  and protected-area names from resolution 22, so they no longer repeat town and reserve
-  names at the overview levels. Names are thinned by Lantmäteriet's text size class: class ≥ 4 from
-  2 km, class 3 from 650–900 m, class 2 from 400 m (about a quarter of the labels at 1.2 km
-  in Täby compared with v0.1). Place names inside built-up areas (new tag
-  `lm:i_bebyggelse`, tag schema 5) come one zoom step later than in the countryside. Search
-  results read "<name>, SE" instead of mkgmap's default "ABC". Village and farm names
-  (`0x0a00`/`0x0c00`) are drawn without the device's default dot.
-- Look (#14): local streets are 2 px and start at 1.2 km (Lokalgata stor) and 650–900 m
-  (Lokalgata liten), so towns no longer read as a grey mass at 1.2–2 km. Nature reserves
-  and national parks use a hatch of half the density (new pattern `hatch-sparse`).
-- Search (#16): lake, stream and terrain names are also written as invisible geographic
-  POIs (`0x6500` water, `0x6600` land) at the most detailed level, so they can be found
-  under *Where To? → Geographic Points*. The visible name stays a label point.
-- Labels (#16): the Montana cuts labels after about 24 characters; protected-area names
-  abbreviate *naturreservat* → *nr* and *naturvårdsområde* → *naturvårdsomr.* (new style
-  option `relabel`).
-- Look (#14): the 100 m index contours at 2 km use the thin minor-contour type, so steep
-  mountains no longer turn dark at that zoom.
-- Road numbers are drawn as upright box shields (`${ref|highway-symbol:hbox}`), and lines
-  are merged regardless of direction (`--allow-reverse-merge`): 7–10 % fewer lines per
-  level and fewer, steadier road-number labels (#62).
-- Style: road numbers at every level; street names only at resolution 23–24 (about 80 m
-  and closer), like Karta 1:10 000, after the Montana check.
+- **Fewer labels** (#16), accepted on the device after four rounds:
+  - a name split over two lines in Karta 1:50 000 is drawn once (about 23 000 duplicate
+    labels nationwide);
+  - names enter by Lantmäteriet's text size class: class ≥ 4 from 2 km, 3 from
+    650–900 m, 2 from 400 m; church, reserve and information texts from 400 m;
+  - place names inside built-up areas come one zoom step later (new tag
+    `lm:i_bebyggelse`); in Täby about a sixth of the v0.1 labels at 1.2 km;
+  - village and farm names without the device's default dot;
+  - protected-area names abbreviated (*naturreservat* → *nr*, *naturvårdsområde* →
+    *naturvårdsomr.*), because the Montana cuts labels after about 24 characters.
+- **Look** (#14): local streets 2 px and later (1.2 km / 650–900 m), so towns no longer read
+  as a grey mass; half-density hatching for reserves and national parks; thin 100 m
+  contours at 2 km. Lines are merged regardless of direction (`--allow-reverse-merge`):
+  7–10 % fewer lines per level.
+- **Snowmobile overlay outdoors** (#57): *Nej* and *Ingen information* are 5 px two-tone
+  dashes (light dash, dark gap – Garmin line bitmaps have two colours); the 1836 marker
+  has a white ring. Accepted in daylight.
+- Tag schema 5 (`lm:gatunamn_nvdb`, `lm:i_bebyggelse`). Style options `relabel`, point
+  pattern `label`, line patterns `hatch-sparse` and `dash-long`; `colour2` fills the gaps
+  of bitmap lines and rings point icons.
+
+### Measured
+
+| | Result |
+|---|---|
+| All of Sweden with Topografi 250, cold conversion | 22 min 47 s, peak 4.6 GB RSS |
+| Base map / overlay | 1.87 GB (v0.1: 1.89 GB), 410 tiles / 0.9 MB |
+
+See [docs/benchmarks](docs/benchmarks/README.md#2026-11-21--v020-sweden-release-build).
+
+### Device (Montana 700, firmware 25.70)
+
+Every change was tried with a `--dev` map before merging; the record is in
+[device-testing.md](docs/device-testing.md). The Montana has no address or street search, so
+street names are for display only.
+
+### Known limitations
+
+- NVDB street names need a Lastkajen download per county or for Sweden; the release build
+  measured here has none.
+- 256 protected-area names are still longer than the device's label limit.
+- No routing. Legend-sourced colours, mm-based widths and night colours: #68. The
+  Topografi 50 structure change on 2027-05-04 (#56) is parked until test data exist.
 
 ## v0.1.0 – 2026-11-20
 
