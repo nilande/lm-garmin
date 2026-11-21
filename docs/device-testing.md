@@ -55,12 +55,6 @@ build, device firmware, scale and result here when a check is complete.
   [#24](https://github.com/nilande/lm-garmin/issues/24)). Outdoors at normal brightness, check
   that the four trail statuses and the 1836 marker are distinguishable at **180–250 m** near
   Syterstugan, in particular the light-orange *Ingen information* dashes over wetland hatching.
-- [ ] **Street network and reserve hatching** ([#14](https://github.com/nilande/lm-garmin/issues/14)).
-  Dev map with thin local streets that start later and sparser reserve hatching. Check Täby
-  at 2 km, 1.2 km and 650–900 m: towns should read as built-up areas with the main streets,
-  not a grey mass; local streets should still be clear at 400 m and closer. Check the
-  Vindelfjällen reserve north of Hemavan at 2 km and 2.8 km: contours readable through the
-  hatching.
 - [ ] **Retest overview label priority after the next label build**
   ([issue #16](https://github.com/nilande/lm-garmin/issues/16)). Recheck
   Stor-Laisan at **8 km** and Vallentunasjön at **2 km** and **8 km**.
@@ -86,6 +80,17 @@ build, device firmware, scale and result here when a check is complete.
 - [ ] **Snowmobile overlay contrast in direct sunlight** ([issue #24](https://github.com/nilande/lm-garmin/issues/24)).
   Check the physical display at normal riding brightness, especially the grey
   dashed routes against snow or open terrain.
+
+## 2026-11-21 – street network and reserve hatching (#14)
+
+Montana 700, firmware 25.70. Dev map from PR #64. Captures in `dist/montana-look/2026-11-21/`.
+Accepted ("looks fine").
+
+| Area and scale bar | Captures | Observation |
+|---|---|---|
+| Täby 2 km, 1.2 km | `63`, `70` | The town reads as built-up area with the main streets; no grey mass of local streets. |
+| Täby 650 m | `92` | Local streets appear, thin and light; the network is readable. |
+| Hemavan / Vindelfjällen 2 km | `153` | The sparser green hatch leaves the terrain visible. The dark look at Norra Storfjället comes from dense 2 px index contours on steep slopes, not from the hatch – a candidate for later tuning. |
 
 ## 2026-11-21 – labels and road shields (#16, #62)
 
