@@ -3,6 +3,25 @@
 Reference machine: Apple M5 (10 cores), 16 GB RAM, internal SSD; data on an SMB share (NAS).
 Delivery `LM2026:173692` (data 2026-10-16).
 
+## 2026-11-21 – v0.2.0 Sweden release build
+
+Built `1a8f5d6` (main after #67, version 0.2.0) with a cold Topografi 50 conversion (tag
+schema 5) and Topografi 250 `LM2026:174947` at resolution 18; no NVDB. The
+[build report](2026-11-21-build-sweden-v0.2.json) has the stage timings.
+
+| Measurement | Result |
+|---|---:|
+| Build time, cold conversion | 1,367 s (22 min 47 s) |
+| Convert / split / compile (base map) | 583 s / 254 s / 485 s |
+| Highest process RSS (mkgmap) | 4,623 MB |
+| Base map bytes | 1,872,887,808 (v0.1: 1,892,188,160) |
+| Base map tiles | 410 |
+| Overlay bytes | 904,192 |
+| `verify`, both maps | 7 min 22 s, passed |
+
+The base map is 1 % smaller than v0.1 although it adds about 260 000 searchable
+geographic POIs: thinner label sets and `--allow-reverse-merge` outweigh them.
+
 ## 2026-11-20 – Sweden candidate with Topografi 250 (issue #15)
 
 Built `70de4e1` from the same Topografi 50 delivery with Topografi 250

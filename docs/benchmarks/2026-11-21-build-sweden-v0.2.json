@@ -1,0 +1,119 @@
+{
+ "lm_garmin": "0.1.0",
+ "regions": [
+  {
+   "id": "sweden",
+   "bbox_3006": [
+    200000.0,
+    6090000.0,
+    940000.0,
+    7680000.0
+   ]
+  }
+ ],
+ "dev": false,
+ "tools": {
+  "mkgmap": "r4924",
+  "splitter": "r654"
+ },
+ "java": "/opt/homebrew/opt/openjdk/bin/java",
+ "jobs": 10,
+ "seconds": 1367.13,
+ "steps": [
+  {
+   "name": "convert:sweden",
+   "seconds": 582.85,
+   "max_rss_mb": 819.9,
+   "detail": {
+    "features": 18585717,
+    "pbf": [
+     "administrativindelning.osm.pbf",
+     "anlaggningsomrade.osm.pbf",
+     "byggnadsverk.osm.pbf",
+     "hojd.osm.pbf",
+     "hydrografi.osm.pbf",
+     "kommunikation.osm.pbf",
+     "kulturhistorisklamning.osm.pbf",
+     "ledningar.osm.pbf",
+     "mark.osm.pbf",
+     "militartomrade.osm.pbf",
+     "naturvard.osm.pbf",
+     "norrapolcirkeln.osm.pbf",
+     "text.osm.pbf"
+    ]
+   },
+   "cached": false
+  },
+  {
+   "name": "extract:topo50:sweden",
+   "seconds": 32.94,
+   "max_rss_mb": 0.0,
+   "detail": {
+    "objects": 157507
+   },
+   "cached": false
+  },
+  {
+   "name": "split:topo50:sweden",
+   "seconds": 254.14,
+   "max_rss_mb": 2697.9,
+   "detail": {
+    "tiles": 410
+   },
+   "cached": false
+  },
+  {
+   "name": "compile:topo50",
+   "seconds": 485.32,
+   "max_rss_mb": 4622.7,
+   "detail": {
+    "bytes": 1872887808
+   },
+   "cached": false
+  },
+  {
+   "name": "extract:skoter:sweden",
+   "seconds": 3.59,
+   "max_rss_mb": 0.0,
+   "detail": {
+    "objects": 10596
+   },
+   "cached": false
+  },
+  {
+   "name": "split:skoter:sweden",
+   "seconds": 0.71,
+   "max_rss_mb": 354.3,
+   "detail": {
+    "tiles": 1
+   },
+   "cached": false
+  },
+  {
+   "name": "compile:skoter",
+   "seconds": 1.67,
+   "max_rss_mb": 253.8,
+   "detail": {
+    "bytes": 904192
+   },
+   "cached": false
+  }
+ ],
+ "outputs": {
+  "topo50": {
+   "file": "lm-topo50.img",
+   "bytes": 1872887808,
+   "family_id": 5750,
+   "tiles": 410
+  },
+  "skoter": {
+   "file": "lm-skoter.img",
+   "bytes": 904192,
+   "family_id": 5751,
+   "tiles": 1
+  }
+ },
+ "overview_sources": {
+  "250": "/Volumes/scratch/lm-kartdata/LM2026:174947 - Topografi 250 Nedladdning, vektor/gpkg/mark_sverige.gpkg"
+ }
+}

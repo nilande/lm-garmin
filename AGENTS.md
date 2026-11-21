@@ -58,18 +58,22 @@ Data cache: `$LM_GARMIN_CACHE` or `~/.cache/lm-garmin` (unpacked GeoPackages in 
 
 ## Release status
 
-**v0.1.0** (2026-11-20, see [CHANGELOG.md](CHANGELOG.md)): nationwide base map with Topografi 250
-overview polygons and the separate snowmobile overlay, accepted on the Montana 700. Still open
-from the release: a daylight check of the overlay
-([pending checks](docs/device-testing.md#pending-montana-checks)).
+**v0.2.0** (2026-11-21, see [CHANGELOG.md](CHANGELOG.md)): "Everyday map" – labels thinned
+by text size class and harder in towns, searchable lakes and terrain names, optional NVDB
+street names (`--nvdb-dir`, [street-names.md](docs/street-names.md)), road shields, calmer
+street network and hatching, overlay readable outdoors. All accepted on the Montana 700
+([device record](docs/device-testing.md)). v0.1.0 (2026-11-20) was the first release.
 
-Next: the [v0.2 Everyday map milestone](https://github.com/nilande/lm-garmin/milestone/8)
-([plan](docs/PLAN.md#v02-everyday-map)): street names (#55 evaluated, #60 implemented as
-`--nvdb-dir`, device check open; [street-names.md](docs/street-names.md)), label priority and density
-(#16, first part done in #63), look (#14, first part done in #64) and the overlay daylight
-check (#57). The Topografi 50 structure change on 2027-05-04 (#56) is parked until
-Lantmäteriet publishes test data. Routing (#28), packaging (#30), the single-file bundle
-(#51) and CI performance trends (#26, #27) can wait.
+Device lessons added in v0.2: the device's zoom ↔ level mapping (2 km ≈ resolution 20,
+1.2 km ≈ 21, 650–900 m ≈ 22, ≤ 400 m ≈ 23–24); labels are cut after about 24 characters;
+geographic POIs (0x65xx/0x66xx) are searchable but unlabelled, label points (0x28xx) are
+labelled but not searchable; TYP line bitmaps have two colours; `name` never replaces a
+label already set (use `relabel`); there is no address or street search.
+
+Next (no milestone yet): legend colours, mm-based widths and night colours (#68); the
+Topografi 50 structure change on 2027-05-04 (#56) once Lantmäteriet publishes test data;
+routing (#28), packaging (#30), the single-file bundle (#51), CI performance trends (#26,
+#27).
 
 ## Where things are
 

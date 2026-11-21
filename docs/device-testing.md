@@ -77,6 +77,30 @@ build, device firmware, scale and result here when a check is complete.
   Check the physical display at normal riding brightness, especially the grey
   dashed routes against snow or open terrain.
 
+## 2026-11-21 – v0.2.0 Sweden release check
+
+Montana 700, firmware 25.70. Release build `1a8f5d6` (`lm-topo50.img` 1.87 GB, 410 tiles;
+`lm-skoter.img` 0.9 MB), installed with `lm-garmin install` (verified copy, 13 min 55 s).
+Development maps removed from the device. Captures in `dist/montana-release/v0.2.0/`.
+**Accepted** ("everything looks excellent").
+
+| Check | Captures | Result |
+|---|---|---|
+| Täby / Ensta, 250 m | `59` | Streets, names, contours and reserve hatching as in the accepted dev maps. |
+| Stockholm, 8 km | `72` | Main roads with upright shields (E4, E18, 73, 77, 268…), towns readable. |
+| Tärnaby / Hemavan, 8 km | `158` | E12, lakes, reserves; calm overview. |
+| Syterstugan, 250–600 m, overlay on | `226`, `255`, `280` | All trail statuses and the ringed 1836 markers visible; contour labels, "Vindelfjällens nr". |
+| Search, Cities with LM Topo50 selected | `324` | Villages listed as "<name>, SE". Before selecting the map, entries with "SWE" came from another map on the device (TopoActive). |
+| Search result on the map | `360` | Nedre Björknäs opens at the right place. |
+
+| Record | Result |
+|---|---|
+| Build commit and device firmware | `1a8f5d6`, 25.70 |
+| Enabled maps | LM Topo50, LM Skoter (dev maps removed) |
+| Redraw and legibility, Täby and Hemavan/Syter | fast; legible at 250 m – 8 km |
+| Search | towns, villages, lakes and mountains with LM Topo50 selected |
+| Overlay | four statuses and 1836 marker visible |
+
 ## 2026-11-21 – search, reserve names and 2 km contours (#16, #14)
 
 Montana 700, firmware 25.70. Dev map from PR #67. Captures in `dist/montana-search/2026-11-21/`.
