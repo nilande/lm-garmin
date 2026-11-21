@@ -1,0 +1,143 @@
+{
+ "lm_garmin": "0.2.0",
+ "regions": [
+  {
+   "id": "sweden",
+   "bbox_3006": [
+    200000.0,
+    6090000.0,
+    940000.0,
+    7680000.0
+   ]
+  }
+ ],
+ "dev": false,
+ "tools": {
+  "mkgmap": "r4924",
+  "splitter": "r654"
+ },
+ "java": "/opt/homebrew/opt/openjdk/bin/java",
+ "jobs": 10,
+ "seconds": 1389.58,
+ "steps": [
+  {
+   "name": "convert:sweden",
+   "seconds": 626.87,
+   "max_rss_mb": 1636.2,
+   "detail": {
+    "features": 18585717,
+    "pbf": [
+     "administrativindelning.osm.pbf",
+     "anlaggningsomrade.osm.pbf",
+     "byggnadsverk.osm.pbf",
+     "hojd.osm.pbf",
+     "hydrografi.osm.pbf",
+     "kommunikation.osm.pbf",
+     "kulturhistorisklamning.osm.pbf",
+     "ledningar.osm.pbf",
+     "mark.osm.pbf",
+     "militartomrade.osm.pbf",
+     "naturvard.osm.pbf",
+     "norrapolcirkeln.osm.pbf",
+     "text.osm.pbf"
+    ],
+    "street_names": {
+     "nvdb_lines": 897306,
+     "segments": 1832254,
+     "km": 627609.5,
+     "named_share": 0.4022,
+     "split_segments": 26864,
+     "ambiguous_segments": 18909,
+     "named_share_by_class": {
+      "1801": 0.1088,
+      "1802": 0.0753,
+      "1803": 0.1497,
+      "1804": 0.167,
+      "1805": 0.1829,
+      "1806": 0.3675,
+      "1807": 0.399,
+      "1808": 0.8272,
+      "1809": 0.9498,
+      "1810": 0.9781,
+      "1811": 0.8817
+     }
+    }
+   },
+   "cached": false
+  },
+  {
+   "name": "extract:topo50:sweden",
+   "seconds": 39.58,
+   "max_rss_mb": 0.0,
+   "detail": {
+    "objects": 157507
+   },
+   "cached": false
+  },
+  {
+   "name": "split:topo50:sweden",
+   "seconds": 286.95,
+   "max_rss_mb": 2635.2,
+   "detail": {
+    "tiles": 410
+   },
+   "cached": false
+  },
+  {
+   "name": "compile:topo50",
+   "seconds": 431.42,
+   "max_rss_mb": 4667.3,
+   "detail": {
+    "bytes": 1877770240
+   },
+   "cached": false
+  },
+  {
+   "name": "extract:skoter:sweden",
+   "seconds": 1.95,
+   "max_rss_mb": 0.0,
+   "detail": {
+    "objects": 10596
+   },
+   "cached": false
+  },
+  {
+   "name": "split:skoter:sweden",
+   "seconds": 0.59,
+   "max_rss_mb": 357.0,
+   "detail": {
+    "tiles": 1
+   },
+   "cached": false
+  },
+  {
+   "name": "compile:skoter",
+   "seconds": 1.32,
+   "max_rss_mb": 263.1,
+   "detail": {
+    "bytes": 904192
+   },
+   "cached": false
+  }
+ ],
+ "outputs": {
+  "topo50": {
+   "file": "lm-topo50.img",
+   "bytes": 1877770240,
+   "family_id": 5750,
+   "tiles": 410
+  },
+  "skoter": {
+   "file": "lm-skoter.img",
+   "bytes": 904192,
+   "family_id": 5751,
+   "tiles": 1
+  }
+ },
+ "nvdb_sources": [
+  "/Users/anders/.cache/lm-garmin/nvdb/sverige/nvdb-names.gpkg"
+ ],
+ "overview_sources": {
+  "250": "/Volumes/scratch/lm-kartdata/LM2026:174947 - Topografi 250 Nedladdning, vektor/gpkg/mark_sverige.gpkg"
+ }
+}

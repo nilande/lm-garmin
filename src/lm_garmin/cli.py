@@ -137,6 +137,16 @@ def main(argv: list[str] | None = None) -> int:
     coverage.add_argument("--img", type=Path, required=True, help="snowmobile overlay .img")
     coverage.add_argument("--gpx", type=Path, required=True, help="GPX file or directory of files")
 
+    nv = sub.add_parser("nvdb", help="prepare Trafikverket NVDB data for street names")
+    nv_sub = nv.add_subparsers(dest="nvdb_cmd", required=True)
+    nx = nv_sub.add_parser(
+        "extract", help="keep only the name layers of NVDB county files (GeoPackage or FileGDB)"
+    )
+    nx.add_argument("inputs", type=Path, nargs="+", help="county .zip/.gpkg/.gdb files or folders")
+    nx.add_argument(
+        "--out", type=Path, required=True, help="output .gpkg (put it in its own folder)"
+    )
+
     for name, text in NOT_YET.items():
         sub.add_parser(name, help=f"{text} – not implemented yet")
 
@@ -286,6 +296,18 @@ def main(argv: list[str] | None = None) -> int:
         except (CoverageError, VerifyError, OSError) as e:
             print(f"coverage failed: {e}", file=sys.stderr)
             return 1
+        return 0
+
+    if a.cmd == "nvdb":
+        from .nvdb_extract import extract
+
+        try:
+            sources = extract(a.inputs, a.out)
+        except (OSError, ValueError) as e:
+            print(f"nvdb extract failed: {e}", file=sys.stderr)
+            return 1
+        total = sum(sum(s.lines.values()) for s in sources)
+        print(f"{a.out}: {total} name lines from {len(sources)} files")
         return 0
 
     print(f"lm-garmin {a.cmd}: not implemented yet – {NOT_YET[a.cmd]}", file=sys.stderr)

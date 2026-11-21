@@ -70,17 +70,21 @@ uv run pytest
    Without it the map still builds, but large areas at the 8 km zoom show the dark
    background colour ([device test](docs/device-testing.md#täby-overview-retest)).
 5. Optional, for **street names**: Trafikverket's road database **NVDB** (CC0). Create a
-   free account at [Lastkajen](https://www.trafikverket.se/lastkajen), download the NVDB
-   road data per county (*län*) or for all of Sweden in SWEREF 99 TM, format GeoPackage
-   (for example `Stockholms_län_GeoPackage.zip`), and unzip the `.gpkg` files into one
-   folder. Only the layers `NVDB_DK_O_20_Gatunamn` (street names)
-   and `NVDB_DK_O_21_Ovrigt_vagnamn` (other road names) are read, within the region you
-   build. A county file is 1.4–2.2 GB unpacked.
+   free account at [Lastkajen](https://www.trafikverket.se/lastkajen) and open *Färdiga
+   datapaket → 1. Väg → Länsfiler NVDB-data*. Download the **GeoPackage** file of each
+   county you build (`<Län>_geopackage.zip`; all 21 for Sweden). The FileGDB file of a county
+   has the same content and also works; for **Dalarnas län** take the FileGDB file, since its
+   GeoPackage zip on Lastkajen holds no data (2026-11). The nationwide *Sverigefiler utvalda
+   NVDB-data* have **no** street names. A county file is 0.2–2.2 GB unpacked with about 124 layers; keep only the
+   two name layers (`NVDB_DK_O_20_Gatunamn`, `NVDB_DK_O_21_Ovrigt_vagnamn`) in one small
+   GeoPackage, without unpacking the zips yourself:
 
    ```bash
-   mkdir -p "/path/to/nvdb"
-   unzip -j "Stockholms_län_GeoPackage.zip" '*.gpkg' -d "/path/to/nvdb"
+   uv run lm-garmin nvdb extract "/path/to/lastkajen-zips" --out "/path/to/nvdb/nvdb-names.gpkg"
    ```
+
+   Stockholms and Västerbottens län give 180 000 name lines in a 67 MB file (23 s). A
+   sidecar `nvdb-names.json` records the source files and checksums.
 
 6. Optional: **Topografi 100** (same steps) for the 2 km overview level, and
    **Karta 1:50 000 Nedladdning, raster** (GeoTIFF) for visual comparison.
@@ -113,7 +117,8 @@ uv run lm-garmin build --area hemavan --dev --products topo50 \
   --topo100-dir "/path/to/topografi100/gpkg" --topo250-dir "/path/to/topografi250/gpkg"
 ```
 
-Add `--nvdb-dir "/path/to/nvdb"` to name streets and small roads from NVDB. Topografi 50
+Add `--nvdb-dir "/path/to/nvdb"` (the folder with `nvdb-names.gpkg`, or with unpacked county
+GeoPackages) to name streets and small roads from NVDB. Topografi 50
 roads are matched to NVDB name lines by distance (15 m), direction (±30°) and overlap, and
 split where the name changes ([how](docs/street-names.md)). Street names are drawn only at
 the most detailed zoom (about 80 m and closer); roads with a road number keep the number on
