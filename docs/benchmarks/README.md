@@ -3,6 +3,27 @@
 Reference machine: Apple M5 (10 cores), 16 GB RAM, internal SSD; data on an SMB share (NAS).
 Delivery `LM2026:173692` (data 2026-10-16).
 
+## 2026-11-21 – Sweden with nationwide NVDB street names (issue #60)
+
+Built `d8a416a` (PR #70) like the v0.2.0 release build, plus `--nvdb-dir` with the
+nationwide name extract from `lm-garmin nvdb extract` (all 21 county files, Betraktelsedatum
+2026-11-17; 897 306 name lines in the Sweden bbox). The
+[build report](2026-11-21-build-sweden-v0.2-nvdb.json) has the stage timings.
+
+| Measurement | Result |
+|---|---:|
+| Build time, cold conversion | 1,390 s (23 min 10 s) |
+| Convert / split / compile (base map) | 627 s / 287 s / 431 s |
+| `kommunikation` theme with matching | 292 s (runs in parallel with `mark`, 627 s) |
+| Highest process RSS | 4,667 MB (mkgmap); convert 1,636 MB |
+| Base map bytes | 1,877,770,240 (+0.3 % over v0.2.0) |
+| Road length named | 40.2 % of 627,610 km; 1809/1810/1811: 95.0 / 97.8 / 88.2 % |
+| `verify`, both maps | 6 min 24 s, passed |
+
+Street names add 5 MB and no wall time: the matching in the `kommunikation` worker finishes
+well before the `mark` theme. Most unnamed length is rural and forest roads (1801–1807),
+which NVDB does not name either.
+
 ## 2026-11-21 – v0.2.0 Sweden release build
 
 Built `1a8f5d6` (main after #67, version 0.2.0) with a cold Topografi 50 conversion (tag
