@@ -45,11 +45,13 @@ polygon,skyddadnatur,,,0x10f15,18,,Skyddad natur,#5AB032,,,hatch-sparse,5
 # Lines – contours. Only index contours (stödkurvor) get labels, as on the printed map, and only
 # at the same detailed levels as minor contours (resolution 23+).
 # Keep unlabelled index contours at resolutions 21–22, thinning to 100 m intervals at 20.
+# At 20 (2 km) they use the thin minor-contour type: Garmin line widths are fixed per type, and
+# 2 px index contours made steep mountains dark at 2 km (#14).
 # Garmin always reads a contour label as feet and converts to the device's unit, so the
 # label is written in feet (shown as metres on a metric device).
 line,hojdlinje,2402,,0x21,23,,Gropkurva,#A89274,,1,solid,
 line,hojdlinje,2405,,0x21,23,,Gropkurva 10,#A89274,,1,solid,
-line,hojdlinje,,lm:stodkurva=Ja & ele ~ '-?(0|[0-9]*00)',0x22,20-20,,Stödkurva,#907450,,2,solid,,continue
+line,hojdlinje,,lm:stodkurva=Ja & ele ~ '-?(0|[0-9]*00)',0x20,20-20,,Stödkurva (översikt),#A89274,,1,solid,,continue
 line,hojdlinje,,lm:stodkurva=Ja,0x22,21-22,,Stödkurva,#907450,,2,solid,,continue
 line,hojdlinje,,lm:stodkurva=Ja,0x22,23,${ele|conv:m=>ft},Stödkurva,#907450,,2,solid,
 line,hojdlinje,2401,,0x20,23,,Höjdkurva 5 m,#A89274,,1,solid,
@@ -150,6 +152,12 @@ line,textlinje,,,0x10d02,21,${name},Namn längs linje,#D0D0D0,,1,label,
 # Place names inside built-up land cover (lm:i_bebyggelse, set by the converter) are district
 # names in towns: they come one step later still (class ≥ 5 from 2 km, 4 from 650–900 m),
 # and information texts in towns (Skola, Sporthall, …) only at the closest zoom.
+# Search (#16): lake and terrain names are also written as geographic POIs (0x65xx water,
+# 0x66xx land). The device lists them under Where To? → Geographic Points but draws no
+# label for them, so they get an invisible icon and only the most detailed level; the visible
+# name is the 0x2800 label point below (`continue`).
+point,textpunkt,,lm:textdelnr!=2 & lm:textdelnr!=3 & lm:textkategori=Hydrografi,0x6500,24,${name},Vattennamn (sök),,,,label,continue
+point,textpunkt,,lm:textdelnr!=2 & lm:textdelnr!=3 & lm:textkategori=Terrängnamn,0x6600,24,${name},Terrängnamn (sök),,,,label,continue
 point,textpunkt,,lm:textdelnr!=2 & lm:textdelnr!=3 & lm:textkategori=Tätort & lm:textstorleksklass>=7,0x0400,15,${name},Tätort stor,,,,none,
 point,textpunkt,,lm:textdelnr!=2 & lm:textdelnr!=3 & lm:textkategori=Tätort,0x0800,18,${name},Tätort,,,,none,
 point,textpunkt,,lm:textdelnr!=2 & lm:textdelnr!=3 & lm:textkategori=Bebyggelse & lm:i_bebyggelse=yes & lm:textstorleksklass>=5,0x0a00,20,${name},Bebyggelse stor,,,,label,

@@ -711,19 +711,19 @@ Xpm="0 0 1 0"
 [end]
 
 [_line]
+Type=0x20
+String1=0x04,Stödkurva (översikt)
+LineWidth=1
+Xpm="0 0 1 0"
+"a c #A89274"
+[end]
+
+[_line]
 Type=0x22
 String1=0x04,Stödkurva
 LineWidth=2
 Xpm="0 0 1 0"
 "a c #907450"
-[end]
-
-[_line]
-Type=0x20
-String1=0x04,Höjdkurva 5 m
-LineWidth=1
-Xpm="0 0 1 0"
-"a c #A89274"
 [end]
 
 [_line]
@@ -1223,6 +1223,22 @@ Xpm="32 1 2 1"
 "a c #D0D0D0"
 "b c none"
 "abbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+[end]
+
+[_point]
+Type=0x6500
+String1=0x04,Vattennamn (sök)
+Xpm="1 1 1 1"
+"a c none"
+"a"
+[end]
+
+[_point]
+Type=0x6600
+String1=0x04,Terrängnamn (sök)
+Xpm="1 1 1 1"
+"a c none"
+"a"
 [end]
 
 [_point]

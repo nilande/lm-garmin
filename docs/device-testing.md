@@ -51,6 +51,12 @@ orientation and include the scale bar in the screenshots. Use the pause menu to
 capture the screens and keep the BMPs from `Garmin/scrn/` locally. Record the map
 build, device firmware, scale and result here when a check is complete.
 
+- [ ] **Search for lakes and mountains** ([#16](https://github.com/nilande/lm-garmin/issues/16)).
+  Dev map with geographic POIs. Under *Where To? → Geographic Points* (Water Features, Land
+  Features, or Spell Search with the dev map selected under *Select Map*), find
+  Rönningesjön and Stolpaskogen near Täby, and Gakkervattnet and Norra Storfjället near
+  Hemavan. Check that no new icons or duplicate names appear on the map. Also check
+  Norra Storfjället at 2 km: the 100 m contours are now thin.
 - [ ] **Retest overview label priority after the next label build**
   ([issue #16](https://github.com/nilande/lm-garmin/issues/16)). Recheck
   Stor-Laisan at **8 km** and Vallentunasjön at **2 km** and **8 km**.
