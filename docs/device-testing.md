@@ -55,6 +55,12 @@ build, device firmware, scale and result here when a check is complete.
   [#24](https://github.com/nilande/lm-garmin/issues/24)). Outdoors at normal brightness, check
   that the four trail statuses and the 1836 marker are distinguishable at **180–250 m** near
   Syterstugan, in particular the light-orange *Ingen information* dashes over wetland hatching.
+- [ ] **Street network and reserve hatching** ([#14](https://github.com/nilande/lm-garmin/issues/14)).
+  Dev map with thin local streets that start later and sparser reserve hatching. Check Täby
+  at 2 km, 1.2 km and 650–900 m: towns should read as built-up areas with the main streets,
+  not a grey mass; local streets should still be clear at 400 m and closer. Check the
+  Vindelfjällen reserve north of Hemavan at 2 km and 2.8 km: contours readable through the
+  hatching.
 - [ ] **Retest overview label priority after the next label build**
   ([issue #16](https://github.com/nilande/lm-garmin/issues/16)). Recheck
   Stor-Laisan at **8 km** and Vallentunasjön at **2 km** and **8 km**.

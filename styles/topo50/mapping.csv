@@ -40,8 +40,8 @@ polygon,flygplatsomrade,2854,,0x07,20,,Flygplatsområde,#D9D9D9,,,solid,2
 polygon,start_landningsbana,2853,,0x0e,22,,Start- och landningsbana,#F5D2B0,,,solid,6
 polygon,transformatoromrade,1741,,0x10f14,22,,Transformatorområde,#808080,,,hatch,5
 polygon,militart_omrade,,,0x04,18,,Militärt område,#00A0E0,,,hatch,5
-polygon,skyddadnatur,5603,,0x16,16,,Nationalpark,#5AB032,,,hatch,5
-polygon,skyddadnatur,,,0x10f15,18,,Skyddad natur,#5AB032,,,hatch,5
+polygon,skyddadnatur,5603,,0x16,16,,Nationalpark,#5AB032,,,hatch-sparse,5
+polygon,skyddadnatur,,,0x10f15,18,,Skyddad natur,#5AB032,,,hatch-sparse,5
 # Lines – contours. Only index contours (stödkurvor) get labels, as on the printed map, and only
 # at the same detailed levels as minor contours (resolution 23+).
 # Keep unlabelled index contours at resolutions 21–22, thinning to 100 m intervals at 20.
@@ -55,7 +55,8 @@ line,hojdlinje,,lm:stodkurva=Ja,0x22,23,${ele|conv:m=>ft},Stödkurva,#907450,,2,
 line,hojdlinje,2401,,0x20,23,,Höjdkurva 5 m,#A89274,,1,solid,
 line,hojdlinje,2404,,0x20,23,,Höjdkurva 10 m,#A89274,,1,solid,
 # Roads. Standard Garmin road types only: the device draws and treats them as roads even
-# without the TYP. Town streets are visible from resolution 20–21.
+# without the TYP. Local streets are thin (2 px) and start at 1.2 km (1810, resolution 21)
+# and 650–900 m (1811, resolution 22): at 2 km and 1.2 km towns were a grey mass (#14).
 # Labels: road numbers (ref) at every level, like Karta 1:50 000. Street names from NVDB
 # (lm:gatunamn_nvdb, only with --nvdb-dir) only at resolution 23–24 (about 80 m and closer),
 # like Karta 1:10 000: at 250 m they cluttered the map on the Montana (#60). A road without
@@ -81,12 +82,12 @@ line,vaglinje,1808,,0x0b,23,${lm:gatunamn_nvdb},Övergripande länk (namn),#B544
 line,vaglinje,1809,ref=*,0x04,19,${ref|highway-symbol:hbox},Huvudgata,#E89070,#8A3A20,4,solid,
 line,vaglinje,1809,,0x04,19-22,,Huvudgata,#E89070,#8A3A20,4,solid,,continue
 line,vaglinje,1809,,0x04,23,${lm:gatunamn_nvdb},Huvudgata (namn),#E89070,#8A3A20,4,solid,
-line,vaglinje,1810,ref=*,0x06,20,${ref},Lokalgata stor,#7F7F7F,,3,solid,
-line,vaglinje,1810,,0x06,20-22,,Lokalgata stor,#7F7F7F,,3,solid,,continue
-line,vaglinje,1810,,0x06,23,${lm:gatunamn_nvdb},Lokalgata stor (namn),#7F7F7F,,3,solid,
-line,vaglinje,1811,ref=*,0x06,21,${ref},Lokalgata liten,#7F7F7F,,3,solid,
-line,vaglinje,1811,,0x06,21-22,,Lokalgata liten,#7F7F7F,,3,solid,,continue
-line,vaglinje,1811,,0x06,23,${lm:gatunamn_nvdb},Lokalgata liten (namn),#7F7F7F,,3,solid,
+line,vaglinje,1810,ref=*,0x06,21,${ref},Lokalgata stor,#8C8C8C,,2,solid,
+line,vaglinje,1810,,0x06,21-22,,Lokalgata stor,#8C8C8C,,2,solid,,continue
+line,vaglinje,1810,,0x06,23,${lm:gatunamn_nvdb},Lokalgata stor (namn),#8C8C8C,,2,solid,
+line,vaglinje,1811,ref=*,0x06,22,${ref},Lokalgata liten,#8C8C8C,,2,solid,
+line,vaglinje,1811,,0x06,22-22,,Lokalgata liten,#8C8C8C,,2,solid,,continue
+line,vaglinje,1811,,0x06,23,${lm:gatunamn_nvdb},Lokalgata liten (namn),#8C8C8C,,2,solid,
 line,farjeled,1891,,0x1b,18,,Färjeled,#C0392B,,2,dash,
 line,ralstrafik,1861,,0x14,18,,Järnväg,#333333,,2,solid,
 line,ralstrafik,1862,,0x10e0e,20,,Museijärnväg,#555555,,2,dash,
