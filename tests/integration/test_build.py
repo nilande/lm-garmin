@@ -348,7 +348,8 @@ def test_split_names_are_drawn_once(built, fx, data_dir_module):
         ).fetchall()
     if not rows:
         pytest.skip("no split names in fixture")
-    expected = dict(rows)
+    # Protected-area names are abbreviated on the map (#16).
+    expected = {name.replace("naturreservat", "nr"): n for name, n in rows}
     drawn: Counter[str] = Counter()
     for f in decode(out / PRODUCTS["topo50"].filename):
         p = f["properties"]
