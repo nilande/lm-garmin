@@ -164,4 +164,5 @@ names were legible at 80 m but cluttered the map at 250 m. Karta 1:50 000 shows 
 names and Karta 1:10 000 shows all of them, so street names are now drawn only at resolution
 23–24 (about 80 m and closer). Road numbers are drawn on every level. The device's *Where
 to?* menu has no address or street search (only POIs, cities, waypoints and coordinates),
-so no street index is built. A short recheck of the new zoom limit is pending.
+so no street index is built. A recheck confirmed the limit: at 250–300 m the device labels
+only the larger named roads, and from 120 m all streets.

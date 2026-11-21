@@ -55,10 +55,6 @@ build, device firmware, scale and result here when a check is complete.
   [#24](https://github.com/nilande/lm-garmin/issues/24)). Outdoors at normal brightness, check
   that the four trail statuses and the 1836 marker are distinguishable at **180–250 m** near
   Syterstugan, in particular the light-orange *Ingen information* dashes over wetland hatching.
-- [ ] **Street names at the detailed zoom only** ([#60](https://github.com/nilande/lm-garmin/issues/60)).
-  After the [first check](#2026-11-21--street-names-from-nvdb-issue-60), street names were
-  moved to resolution 23–24. In central Täby, check that **250 m** shows no street names (road
-  numbers only) and that **80 m** and **120 m** show them legibly.
 - [ ] **Retest overview label priority after the next label build**
   ([issue #16](https://github.com/nilande/lm-garmin/issues/16)). Recheck
   Stor-Laisan at **8 km** and Vallentunasjön at **2 km** and **8 km**.
@@ -103,6 +99,15 @@ for the detailed zoom. Karta 1:50 000 has no street names at all, and Karta 1:10
 every street. Street names now appear only at resolution 23–24 (the levels that show index
 contour labels, about 80 m and closer). Road numbers stay on every level. Street search is
 not offered by the device's *Where to?* menu, so no search index is built for street names.
+
+**Recheck with names at resolution 23–24** (same day, captures in
+`dist/montana-street-names/2026-11-21b/`):
+
+| Scale bar | Capture | Observation |
+|---|---|---|
+| 80 m, 120 m | `72.bmp`, `65.bmp` | All streets named and legible. |
+| 250–300 m | `122.bmp` | The device already uses resolution 23 here (index contour labels show). It labels only the larger named roads (Turebergsvägen, Stockholmsvägen, Påtåkersvägen, Postvägen); small streets stay unlabelled. Accepted: a hierarchy like the raster maps. |
+| 300 m and out | `122.bmp` | Road numbers (265, 873) follow the line, and which numbered roads are labelled varies. Upright shields and `--merge-lines` are tracked in [#62](https://github.com/nilande/lm-garmin/issues/62). |
 
 ## 2026-11-20 – v0.1 Sweden candidate
 
