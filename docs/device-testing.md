@@ -95,10 +95,15 @@ and våt). Captures in `dist/montana-skoter/2026-11-21/` (250 m, 180 m, 80 m).
 | Ingen information | light-orange 3 px dashes | hard to see |
 | 1836 marker | red 9 px square | lost on the red Påbjuden line |
 
-**Change.** Nej and Ingen information are now 5 px dashes with a dark edge (`colour2` on a
-dashed line draws the edge rows): Nej grey `#9A9A9A` / `#303030`, Ingen information
-`#FFB060` / `#8A4A00`. The 1836 marker is an 11 px red square with a 2 px white ring.
-To be rechecked outdoors with the same grid.
+**First change.** Nej and Ingen information as 5 px dashes with a dark edge row; the 1836
+marker as an 11 px red square with a 2 px white ring.
+
+**Recheck outdoors** (`dist/montana-skoter/2026-11-21b/`, 250 m and 180 m): the ringed 1836
+marker is clearly visible. The dark edge on the dashes was **not drawn**: Garmin line bitmaps
+have two colours (dash and gap), so a third edge colour is dropped. Nej and Ingen information
+are now two-tone long dashes (10 px on, 6 px off, 5 px wide) with the gap filled in a dark
+colour: Nej `#B4B4B4` / `#303030`, Ingen information `#FFB060` / `#7A3A00`. To be rechecked
+outdoors.
 
 ## 2026-11-21 – street network and reserve hatching (#14)
 

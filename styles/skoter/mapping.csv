@@ -3,13 +3,14 @@ kind,layer,t,condition,type,resolution,name,description,colour,colour2,width,pat
 # Give combined hiking/winter trails (1847) and winter trails (1848) distinct Garmin
 # types with identical styling per status so both source types can be checked after compilation.
 # Outdoors on the Montana (#57) the thin dashes of Nej and Ingen information were hard to see:
-# all statuses are now 4–5 px, the dashed ones with a dark edge; 1836 has a white ring.
+# all statuses are now 4–5 px; Nej and Ingen information are two-tone long dashes (light
+# dash, dark gap – Garmin line bitmaps have only two colours); 1836 has a white ring.
 line,ovrig_vag,1847,lm:skoterkorning_tillaten=Påbjuden,0x10e11,16,,Vinterled – skoterkörning påbjuden,#D62000,#600000,5,solid,
 line,ovrig_vag,1848,lm:skoterkorning_tillaten=Påbjuden,0x10e15,16,,Vinterled – skoterkörning påbjuden,#D62000,#600000,5,solid,
 line,ovrig_vag,1847,lm:skoterkorning_tillaten=Ja,0x10e10,16,,Vinterled – skoterkörning tillåten,#FF7A00,#7A3A00,4,solid,
 line,ovrig_vag,1848,lm:skoterkorning_tillaten=Ja,0x10e14,16,,Vinterled – skoterkörning tillåten,#FF7A00,#7A3A00,4,solid,
-line,ovrig_vag,1847,lm:skoterkorning_tillaten=Nej,0x10e12,16,,Vinterled – skoterkörning ej tillåten,#9A9A9A,#303030,5,dash,
-line,ovrig_vag,1848,lm:skoterkorning_tillaten=Nej,0x10e16,16,,Vinterled – skoterkörning ej tillåten,#9A9A9A,#303030,5,dash,
-line,ovrig_vag,1847,,0x10e13,16,,Vinterled – ingen information om skoterkörning,#FFB060,#8A4A00,5,dash,
-line,ovrig_vag,1848,,0x10e17,16,,Vinterled – ingen information om skoterkörning,#FFB060,#8A4A00,5,dash,
+line,ovrig_vag,1847,lm:skoterkorning_tillaten=Nej,0x10e12,16,,Vinterled – skoterkörning ej tillåten,#B4B4B4,#303030,5,dash-long,
+line,ovrig_vag,1848,lm:skoterkorning_tillaten=Nej,0x10e16,16,,Vinterled – skoterkörning ej tillåten,#B4B4B4,#303030,5,dash-long,
+line,ovrig_vag,1847,,0x10e13,16,,Vinterled – ingen information om skoterkörning,#FFB060,#7A3A00,5,dash-long,
+line,ovrig_vag,1848,,0x10e17,16,,Vinterled – ingen information om skoterkörning,#FFB060,#7A3A00,5,dash-long,
 point,ledintressepunkt_fjall,1836,,0x11610,16,,Påbjuden färdväg vid skoteråkning,#D62000,#FFFFFF,11,icon,

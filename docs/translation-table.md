@@ -270,10 +270,10 @@ and object types.
 | `ovrig_vag` | `1848` | Vinterled – skoterkörning påbjuden | `lm:skoterkorning_tillaten=Påbjuden` | line | `0x10e15` | 24, 22, 20, 18, 16 | solid, `#D62000/#600000`, 5 px | — |
 | `ovrig_vag` | `1847` | Vinterled – skoterkörning tillåten | `lm:skoterkorning_tillaten=Ja` | line | `0x10e10` | 24, 22, 20, 18, 16 | solid, `#FF7A00/#7A3A00`, 4 px | — |
 | `ovrig_vag` | `1848` | Vinterled – skoterkörning tillåten | `lm:skoterkorning_tillaten=Ja` | line | `0x10e14` | 24, 22, 20, 18, 16 | solid, `#FF7A00/#7A3A00`, 4 px | — |
-| `ovrig_vag` | `1847` | Vinterled – skoterkörning ej tillåten | `lm:skoterkorning_tillaten=Nej` | line | `0x10e12` | 24, 22, 20, 18, 16 | dash, `#9A9A9A/#303030`, 5 px | — |
-| `ovrig_vag` | `1848` | Vinterled – skoterkörning ej tillåten | `lm:skoterkorning_tillaten=Nej` | line | `0x10e16` | 24, 22, 20, 18, 16 | dash, `#9A9A9A/#303030`, 5 px | — |
-| `ovrig_vag` | `1847` | Vinterled – ingen information om skoterkörning | — | line | `0x10e13` | 24, 22, 20, 18, 16 | dash, `#FFB060/#8A4A00`, 5 px | — |
-| `ovrig_vag` | `1848` | Vinterled – ingen information om skoterkörning | — | line | `0x10e17` | 24, 22, 20, 18, 16 | dash, `#FFB060/#8A4A00`, 5 px | — |
+| `ovrig_vag` | `1847` | Vinterled – skoterkörning ej tillåten | `lm:skoterkorning_tillaten=Nej` | line | `0x10e12` | 24, 22, 20, 18, 16 | dash-long, `#B4B4B4/#303030`, 5 px | — |
+| `ovrig_vag` | `1848` | Vinterled – skoterkörning ej tillåten | `lm:skoterkorning_tillaten=Nej` | line | `0x10e16` | 24, 22, 20, 18, 16 | dash-long, `#B4B4B4/#303030`, 5 px | — |
+| `ovrig_vag` | `1847` | Vinterled – ingen information om skoterkörning | — | line | `0x10e13` | 24, 22, 20, 18, 16 | dash-long, `#FFB060/#7A3A00`, 5 px | — |
+| `ovrig_vag` | `1848` | Vinterled – ingen information om skoterkörning | — | line | `0x10e17` | 24, 22, 20, 18, 16 | dash-long, `#FFB060/#7A3A00`, 5 px | — |
 | `ledintressepunkt_fjall` | `1836` | Påbjuden färdväg vid skoteråkning | — | point | `0x11610` | 24, 22, 20, 18, 16 | icon, `#D62000/#FFFFFF`, 11×11 px | — |
 
 ## OSM Skoterkomplement

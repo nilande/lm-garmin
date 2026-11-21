@@ -50,60 +50,56 @@ Xpm="0 0 2 0"
 Type=0x10e12
 String1=0x04,Vinterled – skoterkörning ej tillåten
 UseOrientation=Y
-Xpm="32 5 3 1"
-"a c #9A9A9A"
-"b c none"
-"c c #303030"
-"cccccbbbcccccbbbcccccbbbcccccbbb"
-"aaaaabbbaaaaabbbaaaaabbbaaaaabbb"
-"aaaaabbbaaaaabbbaaaaabbbaaaaabbb"
-"aaaaabbbaaaaabbbaaaaabbbaaaaabbb"
-"cccccbbbcccccbbbcccccbbbcccccbbb"
+Xpm="32 5 2 1"
+"a c #B4B4B4"
+"b c #303030"
+"aaaaaaaaaabbbbbbaaaaaaaaaabbbbbb"
+"aaaaaaaaaabbbbbbaaaaaaaaaabbbbbb"
+"aaaaaaaaaabbbbbbaaaaaaaaaabbbbbb"
+"aaaaaaaaaabbbbbbaaaaaaaaaabbbbbb"
+"aaaaaaaaaabbbbbbaaaaaaaaaabbbbbb"
 [end]
 
 [_line]
 Type=0x10e16
 String1=0x04,Vinterled – skoterkörning ej tillåten
 UseOrientation=Y
-Xpm="32 5 3 1"
-"a c #9A9A9A"
-"b c none"
-"c c #303030"
-"cccccbbbcccccbbbcccccbbbcccccbbb"
-"aaaaabbbaaaaabbbaaaaabbbaaaaabbb"
-"aaaaabbbaaaaabbbaaaaabbbaaaaabbb"
-"aaaaabbbaaaaabbbaaaaabbbaaaaabbb"
-"cccccbbbcccccbbbcccccbbbcccccbbb"
+Xpm="32 5 2 1"
+"a c #B4B4B4"
+"b c #303030"
+"aaaaaaaaaabbbbbbaaaaaaaaaabbbbbb"
+"aaaaaaaaaabbbbbbaaaaaaaaaabbbbbb"
+"aaaaaaaaaabbbbbbaaaaaaaaaabbbbbb"
+"aaaaaaaaaabbbbbbaaaaaaaaaabbbbbb"
+"aaaaaaaaaabbbbbbaaaaaaaaaabbbbbb"
 [end]
 
 [_line]
 Type=0x10e13
 String1=0x04,Vinterled – ingen information om skoterkörning
 UseOrientation=Y
-Xpm="32 5 3 1"
+Xpm="32 5 2 1"
 "a c #FFB060"
-"b c none"
-"c c #8A4A00"
-"cccccbbbcccccbbbcccccbbbcccccbbb"
-"aaaaabbbaaaaabbbaaaaabbbaaaaabbb"
-"aaaaabbbaaaaabbbaaaaabbbaaaaabbb"
-"aaaaabbbaaaaabbbaaaaabbbaaaaabbb"
-"cccccbbbcccccbbbcccccbbbcccccbbb"
+"b c #7A3A00"
+"aaaaaaaaaabbbbbbaaaaaaaaaabbbbbb"
+"aaaaaaaaaabbbbbbaaaaaaaaaabbbbbb"
+"aaaaaaaaaabbbbbbaaaaaaaaaabbbbbb"
+"aaaaaaaaaabbbbbbaaaaaaaaaabbbbbb"
+"aaaaaaaaaabbbbbbaaaaaaaaaabbbbbb"
 [end]
 
 [_line]
 Type=0x10e17
 String1=0x04,Vinterled – ingen information om skoterkörning
 UseOrientation=Y
-Xpm="32 5 3 1"
+Xpm="32 5 2 1"
 "a c #FFB060"
-"b c none"
-"c c #8A4A00"
-"cccccbbbcccccbbbcccccbbbcccccbbb"
-"aaaaabbbaaaaabbbaaaaabbbaaaaabbb"
-"aaaaabbbaaaaabbbaaaaabbbaaaaabbb"
-"aaaaabbbaaaaabbbaaaaabbbaaaaabbb"
-"cccccbbbcccccbbbcccccbbbcccccbbb"
+"b c #7A3A00"
+"aaaaaaaaaabbbbbbaaaaaaaaaabbbbbb"
+"aaaaaaaaaabbbbbbaaaaaaaaaabbbbbb"
+"aaaaaaaaaabbbbbbaaaaaaaaaabbbbbb"
+"aaaaaaaaaabbbbbbaaaaaaaaaabbbbbb"
+"aaaaaaaaaabbbbbbaaaaaaaaaabbbbbb"
 [end]
 
 [_point]

@@ -8,8 +8,9 @@ Generated files carry a header and are checked by a test to be up to date.
 Columns: kind (point|line|polygon|drop), layer, t (objekttypnr, empty = any), condition
 (extra mkgmap expression), type, resolution, name (label expression, e.g. ${ele}),
 description, colour, colour2, width,
-pattern (solid|solid-bitmap|dash|dot|label|stripe|hatch|hatch-sparse|dots|mottled|icon|none;
-for points `label` draws the label without a symbol),
+pattern (solid|solid-bitmap|dash|dash-long|dot|label|stripe|hatch|hatch-sparse|dots|mottled|
+icon|none; for points `label` draws the label without a symbol; for bitmap lines colour2
+fills the gaps),
 order (polygon draw order 1–8), options (`continue`: keep matching later rules, so one feature
 can be emitted twice, e.g. unlabelled at one resolution range and labelled at another;
 `outline`: pass the layer and object type to inner rings of a multipolygon for a line rule).
@@ -173,20 +174,18 @@ def _typ_line(r: Rule) -> str:
     if r.pattern == "label":
         # Label-only line: mkgmap rejects a fully transparent line, so one faint pixel in 32.
         s += "UseOrientation=Y\n" + _xpm(["a" + "b" * 31], {"a": r.colour, "b": "none"})
-    elif r.pattern in ("dash", "dot", "solid-bitmap"):
-        length = {"dash": 5, "dot": 2, "solid-bitmap": 7}[r.pattern]
-        dash = "".join("a" if i % 8 < length else "b" for i in range(32))
+    elif r.pattern in ("dash", "dash-long", "dot", "solid-bitmap"):
+        length, period = {"dash": (5, 8), "dash-long": (10, 16), "dot": (2, 8)}.get(
+            r.pattern, (7, 8)
+        )
+        dash = "".join("a" if i % period < length else "b" for i in range(32))
         rows = [dash] * w
         if r.pattern == "solid-bitmap":
             # Keep a continuous centre while using the same bitmap format as dashed lines.
             rows[w // 2] = "a" * 32
-        colours = {"a": r.colour, "b": "none"}
-        if r.colour2 and w >= 3:
-            # Dark edge on each dash, so light dashes stay visible on any background (#57).
-            edge = dash.replace("a", "c")
-            rows = [edge, *rows[1:-1], edge]
-            colours["c"] = r.colour2
-        s += "UseOrientation=Y\n" + _xpm(rows, colours)
+        # Garmin line bitmaps have two colours: with colour2 the gaps are filled (a two-tone
+        # line that stays visible on any background, #57); without, they are transparent.
+        s += "UseOrientation=Y\n" + _xpm(rows, {"a": r.colour, "b": r.colour2 or "none"})
     elif r.colour2:
         s += f'LineWidth={w}\nBorderWidth=1\nXpm="0 0 2 0"\n"a c {r.colour}"\n"b c {r.colour2}"\n'
     else:
