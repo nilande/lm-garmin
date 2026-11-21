@@ -56,7 +56,8 @@ build, device firmware, scale and result here when a check is complete.
   Features, or Spell Search with the dev map selected under *Select Map*), find
   Rönningesjön and Stolpaskogen near Täby, and Gakkervattnet and Norra Storfjället near
   Hemavan. Check that no new icons or duplicate names appear on the map. Also check
-  Norra Storfjället at 2 km: the 100 m contours are now thin.
+  Norra Storfjället at 2 km: the 100 m contours are now thin. Reserve names read
+  "Rinkebyskogens nr", "Vindelfjällens nr" and are no longer cut.
 - [ ] **Retest overview label priority after the next label build**
   ([issue #16](https://github.com/nilande/lm-garmin/issues/16)). Recheck
   Stor-Laisan at **8 km** and Vallentunasjön at **2 km** and **8 km**.

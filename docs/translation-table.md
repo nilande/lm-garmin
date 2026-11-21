@@ -173,7 +173,7 @@ and object types.
 | `textpunkt` | Any | Upplysningstext i tätort | `lm:textdelnr!=2 & lm:textdelnr!=3 & lm:textkategori=Upplysningstext & lm:i_bebyggelse=yes` | point | `0x2800` | 24 | Garmin default | `${name}` |
 | `textpunkt` | Any | Upplysningstext | `lm:textdelnr!=2 & lm:textdelnr!=3 & (lm:textkategori=Upplysningstext \| lm:textkategori=Fjällupplysningstext)` | point | `0x2800` | 24, 23 | Garmin default | `${name}` |
 | `textpunkt` | Any | Kyrka | `lm:textdelnr!=2 & lm:textdelnr!=3 & lm:textkategori=Kyrka` | point | `0x2800` | 24, 23 | Garmin default | `${name}` |
-| `textpunkt` | Any | Skyddad natur | `lm:textdelnr!=2 & lm:textdelnr!=3 & lm:textkategori='Skyddad natur'` | point | `0x2800` | 24, 23 | Garmin default | `${name}` |
+| `textpunkt` | Any | Skyddad natur | `lm:textdelnr!=2 & lm:textdelnr!=3 & lm:textkategori='Skyddad natur'` | point | `0x2800` | 24, 23 | Garmin default | `${name\|subst:naturreservat=>nr\|subst:naturvårdsområde=>naturvårdsomr.}`, `relabel` |
 | `textpunkt` | Any | Namn stort | `lm:textdelnr!=2 & lm:textdelnr!=3 & lm:textstorleksklass>=4` | point | `0x2800` | 24, 23, 22, 21, 20 | Garmin default | `${name}` |
 | `textpunkt` | Any | Namn | `lm:textdelnr!=2 & lm:textdelnr!=3 & lm:textstorleksklass>=3` | point | `0x2800` | 24, 23, 22 | Garmin default | `${name}` |
 | `textpunkt` | Any | Namn litet | `lm:textdelnr!=2 & lm:textdelnr!=3 & lm:textstorleksklass>=2` | point | `0x2800` | 24, 23 | Garmin default | `${name}` |

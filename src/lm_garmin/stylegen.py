@@ -13,7 +13,8 @@ icon|none; for points `label` draws the label without a symbol; for bitmap lines
 fills the gaps),
 order (polygon draw order 1–8), options (`continue`: keep matching later rules, so one feature
 can be emitted twice, e.g. unlabelled at one resolution range and labelled at another;
-`outline`: pass the layer and object type to inner rings of a multipolygon for a line rule).
+`outline`: pass the layer and object type to inner rings of a multipolygon for a line rule;
+`relabel`: replace the label already set from `name`, e.g. to abbreviate it).
 A resolution may be a range, e.g. `20-21`.
 """
 
@@ -54,7 +55,12 @@ class Rule:
         return " & ".join(parts)
 
     def mkgmap_rule(self) -> str:
-        action = f" {{ name '{self.name}' }}" if self.name else ""
+        if self.name and "relabel" in self.options.split():
+            # `name` never replaces a label that is already set (the generic name=* rule sets
+            # it first); write the label tag directly to transform the name.
+            action = f" {{ set mkgmap:label:1='{self.name}' }}"
+        else:
+            action = f" {{ name '{self.name}' }}" if self.name else ""
         cont = " continue" if "continue" in self.options.split() else ""
         return f"{self.expression()}{action} [{self.type} resolution {self.resolution}{cont}]"
 

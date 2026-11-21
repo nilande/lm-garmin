@@ -144,6 +144,8 @@ line,textlinje,,,0x10d02,21,${name},Namn längs linje,#D0D0D0,,1,label,
 # Points – map texts. On the Montana 700 only city types (0x01–0x11) and label points (0x28) show labels.
 # A name split over two lines in Karta 1:50 000 (textdelnr 1, 2, 3) has one point per part, and
 # each part carries the full name in textstrang: only the first part is drawn (#16).
+# The Montana cuts labels after about 24 characters: protected-area names abbreviate
+# naturreservat → nr and naturvårdsområde → naturvårdsomr. (2 988 names; 256 still longer).
 # Names are thinned by textstorleksklass (the raster map's text size), because the device
 # draws every name much larger than Karta 1:50 000 does (#16). Montana scale bars seen on the
 # device: 2 km ≈ resolution 20, 1.2 km ≈ 21, 650–900 m ≈ 22, 400 m and closer ≈ 23–24.
@@ -170,7 +172,7 @@ point,textpunkt,,lm:textdelnr!=2 & lm:textdelnr!=3 & lm:textkategori=Bebyggelse,
 point,textpunkt,,lm:textdelnr!=2 & lm:textdelnr!=3 & lm:textkategori=Upplysningstext & lm:i_bebyggelse=yes,0x2800,24,${name},Upplysningstext i tätort,,,,none,
 point,textpunkt,,lm:textdelnr!=2 & lm:textdelnr!=3 & (lm:textkategori=Upplysningstext | lm:textkategori=Fjällupplysningstext),0x2800,23,${name},Upplysningstext,,,,none,
 point,textpunkt,,lm:textdelnr!=2 & lm:textdelnr!=3 & lm:textkategori=Kyrka,0x2800,23,${name},Kyrka,,,,none,
-point,textpunkt,,lm:textdelnr!=2 & lm:textdelnr!=3 & lm:textkategori='Skyddad natur',0x2800,23,${name},Skyddad natur,,,,none,
+point,textpunkt,,lm:textdelnr!=2 & lm:textdelnr!=3 & lm:textkategori='Skyddad natur',0x2800,23,${name|subst:naturreservat=>nr|subst:naturvårdsområde=>naturvårdsomr.},Skyddad natur,,,,none,,relabel
 point,textpunkt,,lm:textdelnr!=2 & lm:textdelnr!=3 & lm:textstorleksklass>=4,0x2800,19,${name},Namn stort,,,,none,
 point,textpunkt,,lm:textdelnr!=2 & lm:textdelnr!=3 & lm:textstorleksklass>=3,0x2800,22,${name},Namn,,,,none,
 point,textpunkt,,lm:textdelnr!=2 & lm:textdelnr!=3 & lm:textstorleksklass>=2,0x2800,23,${name},Namn litet,,,,none,

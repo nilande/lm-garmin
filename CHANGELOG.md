@@ -28,6 +28,9 @@
 - Search (#16): lake, stream and terrain names are also written as invisible geographic
   POIs (`0x6500` water, `0x6600` land) at the most detailed level, so they can be found
   under *Where To? → Geographic Points*. The visible name stays a label point.
+- Labels (#16): the Montana cuts labels after about 24 characters; protected-area names
+  abbreviate *naturreservat* → *nr* and *naturvårdsområde* → *naturvårdsomr.* (new style
+  option `relabel`).
 - Look (#14): the 100 m index contours at 2 km use the thin minor-contour type, so steep
   mountains no longer turn dark at that zoom.
 - Road numbers are drawn as upright box shields (`${ref|highway-symbol:hbox}`), and lines

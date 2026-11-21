@@ -14,7 +14,7 @@ lm:l=textpunkt & (lm:textdelnr!=2 & lm:textdelnr!=3 & lm:textkategori=Bebyggelse
 lm:l=textpunkt & (lm:textdelnr!=2 & lm:textdelnr!=3 & lm:textkategori=Upplysningstext & lm:i_bebyggelse=yes) { name '${name}' } [0x2800 resolution 24]
 lm:l=textpunkt & (lm:textdelnr!=2 & lm:textdelnr!=3 & (lm:textkategori=Upplysningstext | lm:textkategori=Fjällupplysningstext)) { name '${name}' } [0x2800 resolution 23]
 lm:l=textpunkt & (lm:textdelnr!=2 & lm:textdelnr!=3 & lm:textkategori=Kyrka) { name '${name}' } [0x2800 resolution 23]
-lm:l=textpunkt & (lm:textdelnr!=2 & lm:textdelnr!=3 & lm:textkategori='Skyddad natur') { name '${name}' } [0x2800 resolution 23]
+lm:l=textpunkt & (lm:textdelnr!=2 & lm:textdelnr!=3 & lm:textkategori='Skyddad natur') { set mkgmap:label:1='${name|subst:naturreservat=>nr|subst:naturvårdsområde=>naturvårdsomr.}' } [0x2800 resolution 23]
 lm:l=textpunkt & (lm:textdelnr!=2 & lm:textdelnr!=3 & lm:textstorleksklass>=4) { name '${name}' } [0x2800 resolution 19]
 lm:l=textpunkt & (lm:textdelnr!=2 & lm:textdelnr!=3 & lm:textstorleksklass>=3) { name '${name}' } [0x2800 resolution 22]
 lm:l=textpunkt & (lm:textdelnr!=2 & lm:textdelnr!=3 & lm:textstorleksklass>=2) { name '${name}' } [0x2800 resolution 23]
