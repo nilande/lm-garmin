@@ -114,8 +114,9 @@ uv run lm-garmin build --area hemavan --dev --products topo50 \
 
 Add `--nvdb-dir "/path/to/nvdb"` to name streets and small roads from NVDB. Topografi 50
 roads are matched to NVDB name lines by distance (15 m), direction (±30°) and overlap, and
-split where the name changes ([how](docs/street-names.md)). Roads with a road number keep
-the number. The base map's copyright then reads "© Lantmäteriet, Trafikverket (NVDB)".
+split where the name changes ([how](docs/street-names.md)). Street names are drawn only at
+the most detailed zoom (about 80 m and closer); roads with a road number keep the number on
+every level. The base map's copyright then reads "© Lantmäteriet, Trafikverket (NVDB)".
 Matching adds about 20 s per county; the result is cached per region and NVDB file.
 
 ```bash

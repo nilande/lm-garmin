@@ -10,7 +10,8 @@
   named. New tag `lm:gatunamn_nvdb`, tag schema 4. The copyright reads "© Lantmäteriet,
   Trafikverket (NVDB)" when used.
 - `scripts/street_name_check.py`: local quality check of the matching.
-- Style: name alternatives in `mapping.csv` (`${ref}|${lm:gatunamn_nvdb}`).
+- Style: road numbers at every level; street names only at resolution 23–24 (about 80 m
+  and closer), like Karta 1:10 000, after the Montana check.
 
 ## v0.1.0 – 2026-11-20
 

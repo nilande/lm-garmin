@@ -3,7 +3,7 @@
 Status: **implemented** (issue #60, 2026-11-21) as `lm-garmin build --nvdb-dir`. Decision:
 [ADR-0007](adr/0007-street-names-from-nvdb.md) (NVDB, accepted). The evaluation (#55) is
 kept below; the [implementation section](#implementation-issue-60) has the final method and
-results. Open: the device check.
+results and the device check.
 
 ## Problem
 
@@ -109,9 +109,10 @@ Code: `src/lm_garmin/street_names.py`, called by the converter for `vaglinje` wh
 
 Both NVDB name layers are read: `NVDB_DK_O_20_Gatunamn` and `NVDB_DK_O_21_Ovrigt_vagnamn`
 (forestry and other roads). Lines duplicated across county files are read once. The name is
-written as `lm:gatunamn_nvdb` ([tag schema](tag-schema.md) version 4). The style labels
-1804–1809 with the road number if there is one, otherwise the street name, and 1810–1811
-with the street name. Motorways and *mötesfri väg* (1801–1803) keep the number only.
+written as `lm:gatunamn_nvdb` ([tag schema](tag-schema.md) version 4). In the style, roads
+with a number (`ref`) are labelled with it on every level. Other roads of classes 1804–1811
+get the street name at resolution 23–24 only (see the device check below). Motorways and
+*mötesfri väg* (1801–1803) keep the number only.
 
 ### Quality check
 
@@ -156,11 +157,11 @@ cover parallel, crossing, overlapping, split, curved and ambiguous cases on synt
 lines. The integration test (`tests/integration/test_build_street_names.py`) builds the
 fixture with `--nvdb-dir` and checks that decoded town streets carry NVDB names.
 
-### Device check (open)
+### Device check (2026-11-21)
 
-Build `--area taby --dev --nvdb-dir …`, then check on the Montana 700:
-
-- Legibility and density of street names at the 250 m and 800 m zoom.
-- Whether street names can be searched (*Where to? → Addresses* or *Find by name*).
-  mkgmap only builds a street index with `--route`/`--net` and city data, so search is
-  likely to need more work. Record the result in [device-testing.md](device-testing.md).
+On the Montana 700 ([record](device-testing.md#2026-11-21--street-names-from-nvdb-issue-60)):
+names were legible at 80 m but cluttered the map at 250 m. Karta 1:50 000 shows no street
+names and Karta 1:10 000 shows all of them, so street names are now drawn only at resolution
+23–24 (about 80 m and closer). Road numbers are drawn on every level. The device's *Where
+to?* menu has no address or street search (only POIs, cities, waypoints and coordinates),
+so no street index is built. A short recheck of the new zoom limit is pending.

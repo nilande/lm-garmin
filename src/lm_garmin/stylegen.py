@@ -6,8 +6,7 @@ writes the mkgmap rule files (`points`, `lines`, `polygons`, …) and `typ/<name
 Generated files carry a header and are checked by a test to be up to date.
 
 Columns: kind (point|line|polygon|drop), layer, t (objekttypnr, empty = any), condition
-(extra mkgmap expression), type, resolution, name (label expression, e.g. ${ele}; alternatives
-separated by `|` take the first whose tags are set, e.g. `${ref}|${lm:gatunamn_nvdb}`),
+(extra mkgmap expression), type, resolution, name (label expression, e.g. ${ele}),
 description, colour, colour2, width,
 pattern (solid|solid-bitmap|dash|dot|label|stripe|hatch|dots|mottled|icon|none),
 order (polygon draw order 1–8), options (`continue`: keep matching later rules, so one feature
@@ -19,7 +18,6 @@ A resolution may be a range, e.g. `20-21`.
 from __future__ import annotations
 
 import csv
-import re
 from dataclasses import dataclass, replace
 from pathlib import Path
 
@@ -54,10 +52,7 @@ class Rule:
         return " & ".join(parts)
 
     def mkgmap_rule(self) -> str:
-        # `${ref}|${name}`: the first alternative whose tags are all set (mkgmap syntax).
-        # A `|` inside `${…}` is an mkgmap filter (`${ele|conv:m=>ft}`), not an alternative.
-        alternatives = " | ".join(f"'{n.strip()}'" for n in re.split(r"\|(?![^{]*\})", self.name))
-        action = f" {{ name {alternatives} }}" if self.name else ""
+        action = f" {{ name '{self.name}' }}" if self.name else ""
         cont = " continue" if "continue" in self.options.split() else ""
         return f"{self.expression()}{action} [{self.type} resolution {self.resolution}{cont}]"
 

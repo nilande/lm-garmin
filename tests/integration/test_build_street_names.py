@@ -64,6 +64,20 @@ def test_street_names_on_decoded_roads(named_build):
     assert len(labels) > 50
 
 
+def test_street_names_only_on_detailed_levels(named_build):
+    """Street names at resolution 23–24 only (levels 0–1); road numbers on all levels."""
+    out, _ = named_build
+    by_level: dict[int, set[str]] = {}
+    for f in decode(out / PRODUCTS["topo50"].filename):
+        p = f["properties"]
+        if p["kind"] == "line" and p["type"] in ROAD_TYPES:
+            by_level.setdefault(p["level"], set()).add(p["label"])
+    assert any(len(label) > 4 for label in by_level[1])  # names at resolution 23
+    for level, labels in by_level.items():
+        if level >= 2:
+            assert all(not label or label.isdigit() for label in labels), (level, labels)
+
+
 def test_report_and_copyright(named_build):
     out, report = named_build
     convert = next(s for s in report["steps"] if s["name"].startswith("convert"))
