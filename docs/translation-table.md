@@ -162,12 +162,15 @@ and object types.
 | `textpunkt` | Any | Tätort stor | `lm:textdelnr!=2 & lm:textdelnr!=3 & lm:textkategori=Tätort & lm:textstorleksklass>=7` | point | `0x0400` | 24, 23, 22, 21, 20, 18, 16 | Garmin default | `${name}` |
 | `textpunkt` | Any | Tätort | `lm:textdelnr!=2 & lm:textdelnr!=3 & lm:textkategori=Tätort` | point | `0x0800` | 24, 23, 22, 21, 20, 18 | Garmin default | `${name}` |
 | `textpunkt` | Any | Bebyggelse stor | `lm:textdelnr!=2 & lm:textdelnr!=3 & lm:textkategori=Bebyggelse & lm:textstorleksklass>=4` | point | `0x0a00` | 24, 23, 22, 21, 20 | label only (no symbol) | `${name}` |
-| `textpunkt` | Any | Bebyggelse | `lm:textdelnr!=2 & lm:textdelnr!=3 & lm:textkategori=Bebyggelse` | point | `0x0c00` | 24, 23, 22, 21 | label only (no symbol) | `${name}` |
+| `textpunkt` | Any | Bebyggelse | `lm:textdelnr!=2 & lm:textdelnr!=3 & lm:textkategori=Bebyggelse & lm:textstorleksklass>=3` | point | `0x0c00` | 24, 23, 22, 21 | label only (no symbol) | `${name}` |
+| `textpunkt` | Any | Bebyggelse liten | `lm:textdelnr!=2 & lm:textdelnr!=3 & lm:textkategori=Bebyggelse` | point | `0x0c00` | 24, 23, 22 | label only (no symbol) | `${name}` |
 | `textpunkt` | Any | Upplysningstext | `lm:textdelnr!=2 & lm:textdelnr!=3 & (lm:textkategori=Upplysningstext \| lm:textkategori=Fjällupplysningstext)` | point | `0x2800` | 24, 23 | Garmin default | `${name}` |
 | `textpunkt` | Any | Kyrka | `lm:textdelnr!=2 & lm:textdelnr!=3 & lm:textkategori=Kyrka` | point | `0x2800` | 24, 23, 22 | Garmin default | `${name}` |
-| `textpunkt` | Any | Skyddad natur | `lm:textdelnr!=2 & lm:textdelnr!=3 & lm:textkategori='Skyddad natur'` | point | `0x2800` | 24, 23, 22, 21 | Garmin default | `${name}` |
+| `textpunkt` | Any | Skyddad natur | `lm:textdelnr!=2 & lm:textdelnr!=3 & lm:textkategori='Skyddad natur'` | point | `0x2800` | 24, 23, 22 | Garmin default | `${name}` |
 | `textpunkt` | Any | Namn stort | `lm:textdelnr!=2 & lm:textdelnr!=3 & lm:textstorleksklass>=4` | point | `0x2800` | 24, 23, 22, 21, 20 | Garmin default | `${name}` |
-| `textpunkt` | Any | Namn | `lm:textdelnr!=2 & lm:textdelnr!=3` | point | `0x2800` | 24, 23, 22, 21 | Garmin default | `${name}` |
+| `textpunkt` | Any | Namn | `lm:textdelnr!=2 & lm:textdelnr!=3 & lm:textstorleksklass>=3` | point | `0x2800` | 24, 23, 22, 21 | Garmin default | `${name}` |
+| `textpunkt` | Any | Namn litet | `lm:textdelnr!=2 & lm:textdelnr!=3 & lm:textstorleksklass>=2` | point | `0x2800` | 24, 23, 22 | Garmin default | `${name}` |
+| `textpunkt` | Any | Namn minsta | `lm:textdelnr!=2 & lm:textdelnr!=3` | point | `0x2800` | 24, 23 | Garmin default | `${name}` |
 | `hojdpunkt` | `2412` | Triangelpunkt | — | point | `0x6616` | 24, 23, 22, 21 | icon, `#000000`, 5×5 px | `${ele}` |
 | `hojdpunkt` | Any | Höjdvärde | — | point | `0x2800` | 24, 23 | Garmin default | `${ele}` |
 | `riksrose` | `5121` | Riksröse | — | point | `0x11500` | 24, 23, 22, 21, 20 | icon, `#C080E0`, 5×5 px | — |

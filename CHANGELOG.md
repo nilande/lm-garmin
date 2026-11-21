@@ -15,8 +15,10 @@
 
 - Labels (#16): a name split over two lines in Karta 1:50 000 is drawn once (Topografi 50
   stores the full name on every part: about 23 000 duplicate labels nationwide). Church
-  names from resolution 22 and protected-area names from resolution 21, so they no longer
-  repeat town and reserve names at the overview levels. Village and farm names
+  and protected-area names from resolution 22, so they no longer repeat town and reserve
+  names at the overview levels. Names are thinned by Lantmäteriet's text size class: at
+  800 m–1.2 km (resolution 21) only class ≥ 3, about half as many labels in Täby. Search
+  results read "<name>, SE" instead of mkgmap's default "ABC". Village and farm names
   (`0x0a00`/`0x0c00`) are drawn without the device's default dot.
 - Road numbers are drawn as upright box shields (`${ref|highway-symbol:hbox}`), and lines
   are merged regardless of direction (`--allow-reverse-merge`): 7–10 % fewer lines per

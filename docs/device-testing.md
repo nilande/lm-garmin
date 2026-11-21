@@ -55,12 +55,10 @@ build, device firmware, scale and result here when a check is complete.
   [#24](https://github.com/nilande/lm-garmin/issues/24)). Outdoors at normal brightness, check
   that the four trail statuses and the 1836 marker are distinguishable at **180–250 m** near
   Syterstugan, in particular the light-orange *Ingen information* dashes over wetland hatching.
-- [ ] **Labels and road shields** ([#16](https://github.com/nilande/lm-garmin/issues/16),
-  [#62](https://github.com/nilande/lm-garmin/issues/62)). Dev map with the label changes.
-  Check: road numbers as upright boxes (E18, 265 in Täby; E12 at Tärnaby) at 300 m, 800 m
-  and 2 km; village names (e.g. Visinge, Lovisedal) without a green dot at 800 m; names
-  such as reserves and split names (e.g. Vindelfjällens naturreservat) drawn once; no
-  church "Täby" next to the town at 2 km. Village names must still be found under *Cities*.
+- [ ] **Names thinned by size class** ([#16](https://github.com/nilande/lm-garmin/issues/16)).
+  After the [first label check](#2026-11-21--labels-and-road-shields-16-62): compare Täby and
+  Tärnaby at 600 m, 800 m–1.2 km and 2 km with the captures there. Is the map calmer
+  without losing names needed outdoors? Search results should read "<name>, SE".
 - [ ] **Retest overview label priority after the next label build**
   ([issue #16](https://github.com/nilande/lm-garmin/issues/16)). Recheck
   Stor-Laisan at **8 km** and Vallentunasjön at **2 km** and **8 km**.
@@ -86,6 +84,26 @@ build, device firmware, scale and result here when a check is complete.
 - [ ] **Snowmobile overlay contrast in direct sunlight** ([issue #24](https://github.com/nilande/lm-garmin/issues/24)).
   Check the physical display at normal riding brightness, especially the grey
   dashed routes against snow or open terrain.
+
+## 2026-11-21 – labels and road shields (#16, #62)
+
+Montana 700, firmware 25.70. Dev map from PR #63 (first commit). Captures in
+`dist/montana-labels/2026-11-21/`.
+
+| Area and scale bar | Captures | Observation |
+|---|---|---|
+| Täby 650 m – 2 km, Tärnaby 300 m – 2 km | `61`, `71`, `82`, `107`, `116`, `160`, `178`, `202` | Road numbers are **upright boxes** (E18, 262, 265, 951, E4; E12, 1113, 1117). |
+| Täby 600 m – 1.2 km | `71`, `82`, `107` | Village names have no dot; town names (Täby, Danderyd, Sollentuna) keep theirs. Split names and reserves are drawn once. Reserve names are cut at about 24 characters (*Rinkebyskogens naturrese*). |
+| Täby 2 km | `116` | No church "Täby" next to the town. |
+| Täby 110–300 m | `88`, `97` | Street names, shields and contour labels fit. |
+| Search, *Cities* | `253` | Village names are found, but every result reads "<name>, ABC": mkgmap's default country abbreviation. |
+
+**Assessment.** The tester found the map too busy overall for outdoor navigation, above all in
+town. At 800 m–1.2 km (resolution 21) nearly every Topografi 50 name was drawn, at a much
+larger size than on Karta 1:50 000. The next build thins names by `textstorleksklass`:
+class ≥ 3 at resolution 21, ≥ 2 at 22, all at 23; church and reserve names from 22. In the
+dev map this drops the labelled points at resolution 21 from 288 to 137 in Täby and from
+511 to 306 around Hemavan. The country is set to Sverige/SE.
 
 ## 2026-11-21 – street names from NVDB (issue #60)
 
