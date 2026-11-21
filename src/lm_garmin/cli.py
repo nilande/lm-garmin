@@ -140,9 +140,9 @@ def main(argv: list[str] | None = None) -> int:
     nv = sub.add_parser("nvdb", help="prepare Trafikverket NVDB data for street names")
     nv_sub = nv.add_subparsers(dest="nvdb_cmd", required=True)
     nx = nv_sub.add_parser(
-        "extract", help="keep only the name layers of NVDB county files (zip or GeoPackage)"
+        "extract", help="keep only the name layers of NVDB county files (GeoPackage or FileGDB)"
     )
-    nx.add_argument("inputs", type=Path, nargs="+", help="county .zip/.gpkg files or folders")
+    nx.add_argument("inputs", type=Path, nargs="+", help="county .zip/.gpkg/.gdb files or folders")
     nx.add_argument(
         "--out", type=Path, required=True, help="output .gpkg (put it in its own folder)"
     )

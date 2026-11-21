@@ -6,8 +6,13 @@ unpacked GeoPackages) one at a time and writes one small GeoPackage with
 `NVDB_DK_O_20_Gatunamn` and `NVDB_DK_O_21_Ovrigt_vagnamn` (name column only, 2D lines),
 which `--nvdb-dir` then uses. A JSON sidecar records the sources and counts.
 
+Each county comes as a GeoPackage zip and a File Geodatabase zip with the same content. Both
+are read; the FileGDB names the layers `TNE_FT_Gatunamn_1` and `TNE_FT_Ovrigt_vagnamn_1` and
+the name column `Namn_<n>`. (The Lastkajen GeoPackage zip of Dalarnas län has no .gpkg, so
+that county needs the FileGDB.)
+
 The nationwide *Sverigefiler utvalda NVDB-data* have no name layers; the 21 county
-packages (GeoPackage format) together cover Sweden.
+packages together cover Sweden.
 """
 
 from __future__ import annotations
@@ -15,6 +20,7 @@ from __future__ import annotations
 import json
 import shutil
 import tempfile
+import warnings
 import zipfile
 from dataclasses import asdict, dataclass, field
 from pathlib import Path
@@ -23,8 +29,11 @@ import numpy as np
 import pyogrio
 import shapely
 
-from .street_names import GATUNAMN, LAYERS, NAME_FIELD, tables
+from .street_names import GATUNAMN, LAYERS, NAME_FIELD, OVRIGT_VAGNAMN, tables
 from .tools import sha256_file
+
+# FileGDB layer names of the same NVDB name layers.
+FILEGDB_LAYERS = {GATUNAMN: "TNE_FT_Gatunamn_1", OVRIGT_VAGNAMN: "TNE_FT_Ovrigt_vagnamn_1"}
 
 
 @dataclass
@@ -42,30 +51,60 @@ def _gpkg_members(zf: zipfile.ZipFile) -> list[zipfile.ZipInfo]:
     ]
 
 
+def _gdb_dirs(zf: zipfile.ZipFile) -> list[str]:
+    """Top-level-or-nested `*.gdb` folders in a zip, as paths inside the zip."""
+    dirs = set()
+    for name in zf.namelist():
+        parts = name.split("/")
+        for i, part in enumerate(parts[:-1]):
+            if part.lower().endswith(".gdb") and not part.startswith("._"):
+                dirs.add("/".join(parts[: i + 1]))
+                break
+    return sorted(dirs)
+
+
+def _is_input(f: Path) -> bool:
+    return not f.name.startswith("._") and f.suffix.lower() in (".zip", ".gpkg", ".gdb")
+
+
 def _inputs(paths: list[Path]) -> list[Path]:
     files: list[Path] = []
     for p in paths:
-        if p.is_dir():
-            files += sorted(
-                f
-                for f in p.iterdir()
-                if f.suffix.lower() in (".zip", ".gpkg") and not f.name.startswith("._")
-            )
+        if p.is_dir() and p.suffix.lower() != ".gdb":
+            files += sorted(f for f in p.iterdir() if _is_input(f))
         else:
             files.append(p)
     if not files:
-        raise FileNotFoundError("no .zip or .gpkg inputs")
+        raise FileNotFoundError("no .zip, .gpkg or .gdb inputs")
     return files
 
 
-def _copy_layers(gpkg: Path, out: Path, source: Source) -> None:
-    available = tables(gpkg)
-    if GATUNAMN not in available:
+def _layers(src: str) -> dict[str, tuple[str, str]]:
+    """Map each available NVDB name layer to (source layer, name column) in `src`."""
+    if src.lower().endswith(".gpkg"):
+        available = tables(Path(src))
+        return {lyr: (lyr, NAME_FIELD) for lyr in LAYERS if lyr in available}
+    with warnings.catch_warnings():
+        warnings.filterwarnings("ignore", "Measured", UserWarning)
+        available = set(pyogrio.list_layers(src)[:, 0])
+    found: dict[str, tuple[str, str]] = {}
+    for lyr, gdb_layer in FILEGDB_LAYERS.items():
+        if gdb_layer in available:
+            fields = pyogrio.read_info(src, layer=gdb_layer)["fields"]
+            name = next((f for f in fields if f == NAME_FIELD or f.startswith("Namn_")), None)
+            if name:
+                found[lyr] = (gdb_layer, name)
+    return found
+
+
+def _copy_layers(src: str, out: Path, source: Source) -> None:
+    layers = _layers(src)
+    if GATUNAMN not in layers:
         raise ValueError(f"{source.file}: no layer {GATUNAMN} – is it an NVDB county file?")
-    for layer in LAYERS:
-        if layer not in available:
-            continue
-        meta, _, wkb, fields = pyogrio.raw.read(gpkg, layer=layer, columns=[NAME_FIELD])
+    for layer, (src_layer, name_field) in layers.items():
+        with warnings.catch_warnings():  # FileGDB lines are measured (M); M is dropped
+            warnings.filterwarnings("ignore", "Measured", UserWarning)
+            meta, _, wkb, fields = pyogrio.raw.read(src, layer=src_layer, columns=[name_field])
         if meta["crs"] != "EPSG:3006":
             raise ValueError(f"{source.file}:{layer} must use SWEREF 99 TM (EPSG:3006)")
         geoms = shapely.force_2d(shapely.from_wkb(wkb)) if wkb is not None else np.array([])
@@ -80,16 +119,38 @@ def _copy_layers(gpkg: Path, out: Path, source: Source) -> None:
         source.lines[layer] = int(keep.sum())
         if not keep.any():
             continue
+        # FileGDB delivers MultiLineStrings: store single lines, as the layer type says.
+        parts, index = shapely.get_parts(geoms[keep], return_index=True)
         pyogrio.raw.write(
             out,
-            geometry=shapely.to_wkb(geoms[keep]),
-            field_data=[names[keep]],
+            geometry=shapely.to_wkb(parts),
+            field_data=[names[keep][index]],
             fields=[NAME_FIELD],
             layer=layer,
             driver="GPKG",
             geometry_type="LineString",
             crs="EPSG:3006",
             append=layer in tables(out) if out.exists() else False,
+        )
+
+
+def _copy_zip(f: Path, out: Path, source: Source) -> None:
+    """A county zip with one GeoPackage (unpacked to a temp file) or one FileGDB (read in place)."""
+    with zipfile.ZipFile(f) as zf:
+        members = _gpkg_members(zf)
+        gdbs = _gdb_dirs(zf)
+    if len(members) == 1:
+        with zipfile.ZipFile(f) as zf, tempfile.TemporaryDirectory(dir=out.parent) as td:
+            target = Path(td) / "county.gpkg"
+            with zf.open(members[0]) as src, target.open("wb") as dst:
+                shutil.copyfileobj(src, dst, 16 * 1024 * 1024)
+            _copy_layers(str(target), out, source)
+    elif not members and len(gdbs) == 1:
+        _copy_layers(f"/vsizip/{f.resolve()}/{gdbs[0]}", out, source)
+    else:
+        raise ValueError(
+            f"{f.name}: expected one .gpkg or one .gdb, found {len(members)} .gpkg "
+            f"and {len(gdbs)} .gdb – Lastkajen's Dalarna GeoPackage zip is empty; use its FileGDB"
         )
 
 
@@ -102,18 +163,15 @@ def extract(paths: list[Path], out: Path, log=print) -> list[Source]:
     sources: list[Source] = []
     try:
         for f in files:
-            source = Source(f.name, sha256_file(f))
-            if f.suffix.lower() == ".gpkg":
-                _copy_layers(f, tmp_out, source)
+            if f.suffix.lower() == ".gdb":
+                source = Source(f.name, "")  # a folder: no single checksum
+                _copy_layers(str(f), tmp_out, source)
+            elif f.suffix.lower() == ".gpkg":
+                source = Source(f.name, sha256_file(f))
+                _copy_layers(str(f), tmp_out, source)
             else:
-                with zipfile.ZipFile(f) as zf, tempfile.TemporaryDirectory(dir=out.parent) as td:
-                    members = _gpkg_members(zf)
-                    if len(members) != 1:
-                        raise ValueError(f"{f.name}: expected one .gpkg, found {len(members)}")
-                    target = Path(td) / "county.gpkg"
-                    with zf.open(members[0]) as src, target.open("wb") as dst:
-                        shutil.copyfileobj(src, dst, 16 * 1024 * 1024)
-                    _copy_layers(target, tmp_out, source)
+                source = Source(f.name, sha256_file(f))
+                _copy_zip(f, tmp_out, source)
             sources.append(source)
             log(f"{f.name}: " + ", ".join(f"{k} {v}" for k, v in source.lines.items()))
         tmp_out.replace(out)

@@ -154,7 +154,9 @@ Lastkajen offers street names only in the county packages (*Länsfiler NVDB-data
 GeoPackage and one FileGDB zip per county with the same content); the nationwide
 *Sverigefiler utvalda NVDB-data* have only functional class, speed limit, surface, width,
 road authority and the road network. `lm-garmin nvdb extract` reads the county zips one at
-a time and keeps the two name layers (name column, 2D) in one GeoPackage with a JSON
+a time – GeoPackage zips are unpacked to a temp file, FileGDB zips are read in place
+(layers `TNE_FT_Gatunamn_1` and `TNE_FT_Ovrigt_vagnamn_1`, name column `Namn_<n>`,
+MultiLineStrings with M values) – and keeps the two name layers (name column, 2D) in one GeoPackage with a JSON
 sidecar of sources and checksums. Stockholms + Västerbottens län: 179 637 lines, 67 MB,
 23 s; the Täby quality check gives the same result as with the full county files.
 

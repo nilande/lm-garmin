@@ -73,8 +73,9 @@ uv run pytest
    free account at [Lastkajen](https://www.trafikverket.se/lastkajen) and open *Färdiga
    datapaket → 1. Väg → Länsfiler NVDB-data*. Download the **GeoPackage** file of each
    county you build (`<Län>_geopackage.zip`; all 21 for Sweden). The FileGDB file of a county
-   has the same content, and the nationwide *Sverigefiler utvalda NVDB-data* have **no**
-   street names. A county file is 0.2–2.2 GB unpacked with about 124 layers; keep only the
+   has the same content and also works; for **Dalarnas län** take the FileGDB file, since its
+   GeoPackage zip on Lastkajen holds no data (2026-11). The nationwide *Sverigefiler utvalda
+   NVDB-data* have **no** street names. A county file is 0.2–2.2 GB unpacked with about 124 layers; keep only the
    two name layers (`NVDB_DK_O_20_Gatunamn`, `NVDB_DK_O_21_Ovrigt_vagnamn`) in one small
    GeoPackage, without unpacking the zips yourself:
 
