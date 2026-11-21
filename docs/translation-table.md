@@ -84,25 +84,25 @@ and object types.
 | `hojdlinje` | Any | Stödkurva | `lm:stodkurva=Ja` | line | `0x22` | 24, 23 | solid, `#907450`, 2 px | `${ele\|conv:m=>ft}` |
 | `hojdlinje` | `2401` | Höjdkurva 5 m | — | line | `0x20` | 24, 23 | solid, `#A89274`, 1 px | — |
 | `hojdlinje` | `2404` | Höjdkurva 10 m | — | line | `0x20` | 24, 23 | solid, `#A89274`, 1 px | — |
-| `vaglinje` | `1801` | Motorväg | — | line | `0x01` | 24, 23, 22, 21, 20, 18, 16 | solid, `#C0392B/#7A1F15`, 7 px | `${ref}` |
-| `vaglinje` | `1802` | Motortrafikled | — | line | `0x02` | 24, 23, 22, 21, 20, 18, 16 | solid, `#C0392B/#7A1F15`, 6 px | `${ref}` |
-| `vaglinje` | `1803` | Mötesfri väg | — | line | `0x03` | 24, 23, 22, 21, 20, 18 | solid, `#D35A3A/#7A1F15`, 6 px | `${ref}` |
-| `vaglinje` | `1804` | Landsväg | `ref=*` | line | `0x03` | 24, 23, 22, 21, 20, 18 | solid, `#D35A3A/#7A1F15`, 6 px | `${ref}` |
+| `vaglinje` | `1801` | Motorväg | — | line | `0x01` | 24, 23, 22, 21, 20, 18, 16 | solid, `#C0392B/#7A1F15`, 7 px | `${ref\|highway-symbol:hbox}` |
+| `vaglinje` | `1802` | Motortrafikled | — | line | `0x02` | 24, 23, 22, 21, 20, 18, 16 | solid, `#C0392B/#7A1F15`, 6 px | `${ref\|highway-symbol:hbox}` |
+| `vaglinje` | `1803` | Mötesfri väg | — | line | `0x03` | 24, 23, 22, 21, 20, 18 | solid, `#D35A3A/#7A1F15`, 6 px | `${ref\|highway-symbol:hbox}` |
+| `vaglinje` | `1804` | Landsväg | `ref=*` | line | `0x03` | 24, 23, 22, 21, 20, 18 | solid, `#D35A3A/#7A1F15`, 6 px | `${ref\|highway-symbol:hbox}` |
 | `vaglinje` | `1804` | Landsväg | — | line | `0x03` | 22, 21, 20, 18 | solid, `#D35A3A/#7A1F15`, 6 px | `continue` |
 | `vaglinje` | `1804` | Landsväg (namn) | — | line | `0x03` | 24, 23 | solid, `#D35A3A/#7A1F15`, 6 px | `${lm:gatunamn_nvdb}` |
-| `vaglinje` | `1805` | Landsväg liten | `ref=*` | line | `0x04` | 24, 23, 22, 21, 20 | solid, `#E89070/#8A3A20`, 4 px | `${ref}` |
+| `vaglinje` | `1805` | Landsväg liten | `ref=*` | line | `0x04` | 24, 23, 22, 21, 20 | solid, `#E89070/#8A3A20`, 4 px | `${ref\|highway-symbol:hbox}` |
 | `vaglinje` | `1805` | Landsväg liten | — | line | `0x04` | 22, 21, 20 | solid, `#E89070/#8A3A20`, 4 px | `continue` |
 | `vaglinje` | `1805` | Landsväg liten (namn) | — | line | `0x04` | 24, 23 | solid, `#E89070/#8A3A20`, 4 px | `${lm:gatunamn_nvdb}` |
-| `vaglinje` | `1806` | Småväg | `ref=*` | line | `0x05` | 24, 23, 22, 21, 20 | solid, `#7F7F7F`, 3 px | `${ref}` |
+| `vaglinje` | `1806` | Småväg | `ref=*` | line | `0x05` | 24, 23, 22, 21, 20 | solid, `#7F7F7F`, 3 px | `${ref\|highway-symbol:hbox}` |
 | `vaglinje` | `1806` | Småväg | — | line | `0x05` | 22, 21, 20 | solid, `#7F7F7F`, 3 px | `continue` |
 | `vaglinje` | `1806` | Småväg (namn) | — | line | `0x05` | 24, 23 | solid, `#7F7F7F`, 3 px | `${lm:gatunamn_nvdb}` |
-| `vaglinje` | `1807` | Småväg enkel standard | `ref=*` | line | `0x07` | 24, 23, 22, 21 | solid, `#A0A0A0`, 2 px | `${ref}` |
+| `vaglinje` | `1807` | Småväg enkel standard | `ref=*` | line | `0x07` | 24, 23, 22, 21 | solid, `#A0A0A0`, 2 px | `${ref\|highway-symbol:hbox}` |
 | `vaglinje` | `1807` | Småväg enkel standard | — | line | `0x07` | 22, 21 | solid, `#A0A0A0`, 2 px | `continue` |
 | `vaglinje` | `1807` | Småväg enkel standard (namn) | — | line | `0x07` | 24, 23 | solid, `#A0A0A0`, 2 px | `${lm:gatunamn_nvdb}` |
-| `vaglinje` | `1808` | Övergripande länk | `ref=*` | line | `0x0b` | 24, 23, 22, 21, 20 | solid, `#B5442B`, 4 px | `${ref}` |
+| `vaglinje` | `1808` | Övergripande länk | `ref=*` | line | `0x0b` | 24, 23, 22, 21, 20 | solid, `#B5442B`, 4 px | `${ref\|highway-symbol:hbox}` |
 | `vaglinje` | `1808` | Övergripande länk | — | line | `0x0b` | 22, 21, 20 | solid, `#B5442B`, 4 px | `continue` |
 | `vaglinje` | `1808` | Övergripande länk (namn) | — | line | `0x0b` | 24, 23 | solid, `#B5442B`, 4 px | `${lm:gatunamn_nvdb}` |
-| `vaglinje` | `1809` | Huvudgata | `ref=*` | line | `0x04` | 24, 23, 22, 21, 20 | solid, `#E89070/#8A3A20`, 4 px | `${ref}` |
+| `vaglinje` | `1809` | Huvudgata | `ref=*` | line | `0x04` | 24, 23, 22, 21, 20 | solid, `#E89070/#8A3A20`, 4 px | `${ref\|highway-symbol:hbox}` |
 | `vaglinje` | `1809` | Huvudgata | — | line | `0x04` | 22, 21, 20 | solid, `#E89070/#8A3A20`, 4 px | `continue` |
 | `vaglinje` | `1809` | Huvudgata (namn) | — | line | `0x04` | 24, 23 | solid, `#E89070/#8A3A20`, 4 px | `${lm:gatunamn_nvdb}` |
 | `vaglinje` | `1810` | Lokalgata stor | `ref=*` | line | `0x06` | 24, 23, 22, 21, 20 | solid, `#7F7F7F`, 3 px | `${ref}` |
@@ -159,13 +159,15 @@ and object types.
 | `naturvardslinje` | `5641` | Naturreservat linje | — | line | `0x10d00` | 24, 23, 22, 21, 20 | solid, `#5AB032`, 2 px | — |
 | `polcirkeln` | `1881` | Norra polcirkeln | — | line | `0x10d01` | 24, 23, 22, 21, 20, 18, 16 | dash, `#333333`, 1 px | — |
 | `textlinje` | Any | Namn längs linje | — | line | `0x10d02` | 24, 23, 22, 21 | label, `#D0D0D0`, 1 px | `${name}` |
-| `textpunkt` | Any | Tätort stor | `lm:textkategori=Tätort & lm:textstorleksklass>=7` | point | `0x0400` | 24, 23, 22, 21, 20, 18, 16 | Garmin default | `${name}` |
-| `textpunkt` | Any | Tätort | `lm:textkategori=Tätort` | point | `0x0800` | 24, 23, 22, 21, 20, 18 | Garmin default | `${name}` |
-| `textpunkt` | Any | Bebyggelse stor | `lm:textkategori=Bebyggelse & lm:textstorleksklass>=4` | point | `0x0a00` | 24, 23, 22, 21, 20 | Garmin default | `${name}` |
-| `textpunkt` | Any | Bebyggelse | `lm:textkategori=Bebyggelse` | point | `0x0c00` | 24, 23, 22, 21 | Garmin default | `${name}` |
-| `textpunkt` | Any | Upplysningstext | `lm:textkategori=Upplysningstext \| lm:textkategori=Fjällupplysningstext` | point | `0x2800` | 24, 23 | Garmin default | `${name}` |
-| `textpunkt` | Any | Namn stort | `lm:textstorleksklass>=4` | point | `0x2800` | 24, 23, 22, 21, 20 | Garmin default | `${name}` |
-| `textpunkt` | Any | Namn | — | point | `0x2800` | 24, 23, 22, 21 | Garmin default | `${name}` |
+| `textpunkt` | Any | Tätort stor | `lm:textdelnr!=2 & lm:textdelnr!=3 & lm:textkategori=Tätort & lm:textstorleksklass>=7` | point | `0x0400` | 24, 23, 22, 21, 20, 18, 16 | Garmin default | `${name}` |
+| `textpunkt` | Any | Tätort | `lm:textdelnr!=2 & lm:textdelnr!=3 & lm:textkategori=Tätort` | point | `0x0800` | 24, 23, 22, 21, 20, 18 | Garmin default | `${name}` |
+| `textpunkt` | Any | Bebyggelse stor | `lm:textdelnr!=2 & lm:textdelnr!=3 & lm:textkategori=Bebyggelse & lm:textstorleksklass>=4` | point | `0x0a00` | 24, 23, 22, 21, 20 | label only (no symbol) | `${name}` |
+| `textpunkt` | Any | Bebyggelse | `lm:textdelnr!=2 & lm:textdelnr!=3 & lm:textkategori=Bebyggelse` | point | `0x0c00` | 24, 23, 22, 21 | label only (no symbol) | `${name}` |
+| `textpunkt` | Any | Upplysningstext | `lm:textdelnr!=2 & lm:textdelnr!=3 & (lm:textkategori=Upplysningstext \| lm:textkategori=Fjällupplysningstext)` | point | `0x2800` | 24, 23 | Garmin default | `${name}` |
+| `textpunkt` | Any | Kyrka | `lm:textdelnr!=2 & lm:textdelnr!=3 & lm:textkategori=Kyrka` | point | `0x2800` | 24, 23, 22 | Garmin default | `${name}` |
+| `textpunkt` | Any | Skyddad natur | `lm:textdelnr!=2 & lm:textdelnr!=3 & lm:textkategori='Skyddad natur'` | point | `0x2800` | 24, 23, 22, 21 | Garmin default | `${name}` |
+| `textpunkt` | Any | Namn stort | `lm:textdelnr!=2 & lm:textdelnr!=3 & lm:textstorleksklass>=4` | point | `0x2800` | 24, 23, 22, 21, 20 | Garmin default | `${name}` |
+| `textpunkt` | Any | Namn | `lm:textdelnr!=2 & lm:textdelnr!=3` | point | `0x2800` | 24, 23, 22, 21 | Garmin default | `${name}` |
 | `hojdpunkt` | `2412` | Triangelpunkt | — | point | `0x6616` | 24, 23, 22, 21 | icon, `#000000`, 5×5 px | `${ele}` |
 | `hojdpunkt` | Any | Höjdvärde | — | point | `0x2800` | 24, 23 | Garmin default | `${ele}` |
 | `riksrose` | `5121` | Riksröse | — | point | `0x11500` | 24, 23, 22, 21, 20 | icon, `#C080E0`, 5×5 px | — |

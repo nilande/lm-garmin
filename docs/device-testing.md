@@ -55,6 +55,12 @@ build, device firmware, scale and result here when a check is complete.
   [#24](https://github.com/nilande/lm-garmin/issues/24)). Outdoors at normal brightness, check
   that the four trail statuses and the 1836 marker are distinguishable at **180–250 m** near
   Syterstugan, in particular the light-orange *Ingen information* dashes over wetland hatching.
+- [ ] **Labels and road shields** ([#16](https://github.com/nilande/lm-garmin/issues/16),
+  [#62](https://github.com/nilande/lm-garmin/issues/62)). Dev map with the label changes.
+  Check: road numbers as upright boxes (E18, 265 in Täby; E12 at Tärnaby) at 300 m, 800 m
+  and 2 km; village names (e.g. Visinge, Lovisedal) without a green dot at 800 m; names
+  such as reserves and split names (e.g. Vindelfjällens naturreservat) drawn once; no
+  church "Täby" next to the town at 2 km. Village names must still be found under *Cities*.
 - [ ] **Retest overview label priority after the next label build**
   ([issue #16](https://github.com/nilande/lm-garmin/issues/16)). Recheck
   Stor-Laisan at **8 km** and Vallentunasjön at **2 km** and **8 km**.

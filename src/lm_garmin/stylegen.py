@@ -8,7 +8,8 @@ Generated files carry a header and are checked by a test to be up to date.
 Columns: kind (point|line|polygon|drop), layer, t (objekttypnr, empty = any), condition
 (extra mkgmap expression), type, resolution, name (label expression, e.g. ${ele}),
 description, colour, colour2, width,
-pattern (solid|solid-bitmap|dash|dot|label|stripe|hatch|dots|mottled|icon|none),
+pattern (solid|solid-bitmap|dash|dot|label|stripe|hatch|dots|mottled|icon|none; for points
+`label` draws the label without a symbol),
 order (polygon draw order 1–8), options (`continue`: keep matching later rules, so one feature
 can be emitted twice, e.g. unlabelled at one resolution range and labelled at another;
 `outline`: pass the layer and object type to inner rings of a multipolygon for a line rule).
@@ -185,13 +186,13 @@ def _typ_line(r: Rule) -> str:
 
 
 def _typ_point(r: Rule) -> str:
-    n = max(int(r.width or 5), 1)
-    rows = ["a" * n] * n
-    return (
-        f"[_point]\nType={r.type}\nString1=0x04,{r.description}\n"
-        + _xpm(rows, {"a": r.colour})
-        + "[end]\n"
-    )
+    if r.pattern == "label":
+        # Label without a symbol: replaces the device's default dot with a transparent pixel.
+        icon = _xpm(["a"], {"a": "none"})
+    else:
+        n = max(int(r.width or 5), 1)
+        icon = _xpm(["a" * n] * n, {"a": r.colour})
+    return f"[_point]\nType={r.type}\nString1=0x04,{r.description}\n" + icon + "[end]\n"
 
 
 def typ_rules(rules: list[Rule]) -> dict[tuple[str, str], Rule]:

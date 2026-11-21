@@ -1226,6 +1226,22 @@ Xpm="32 1 2 1"
 [end]
 
 [_point]
+Type=0x0a00
+String1=0x04,Bebyggelse stor
+Xpm="1 1 1 1"
+"a c none"
+"a"
+[end]
+
+[_point]
+Type=0x0c00
+String1=0x04,Bebyggelse
+Xpm="1 1 1 1"
+"a c none"
+"a"
+[end]
+
+[_point]
 Type=0x6616
 String1=0x04,Triangelpunkt
 Xpm="5 5 1 1"

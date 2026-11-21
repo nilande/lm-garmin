@@ -133,6 +133,9 @@ def compile_img(
         f"--copyright-message={product.copyright}",
         "--unicode",
         "--lower-case",
+        # Line merging is on by default, but only joins lines that run end-to-start.
+        # Topografi 50 segments have no common direction: allow reversing (#62).
+        "--allow-reverse-merge",
         "--gmapsupp",
         f"--max-jobs={jobs}",
     ]

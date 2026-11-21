@@ -329,3 +329,24 @@ def test_restriction_area_draws_outer_and_inner_boundaries(tmp_path):
     for x, y in ((516000, 7272500), (517000, 7272500)):
         point = Point(project.transform(x, y))
         assert min(line.distance(point) for line in boundaries) < 0.0001
+
+
+@pytest.mark.parametrize("fx", FIXTURES)
+def test_split_names_are_drawn_once(built, fx, data_dir_module):
+    """A name split over lines (textdelnr 1, 2, …) has full textstrang on every part (#16)."""
+    out, _ = built[fx]
+    with sqlite3.connect(data_dir_module / f"{fx}.gpkg") as c:
+        rows = c.execute(
+            "SELECT textstrang, sum(textdelnr IN (0, 1)) FROM textpunkt "
+            "WHERE textkategori NOT IN ('Upplysningstext', 'Fjällupplysningstext') "
+            "GROUP BY 1 HAVING sum(textdelnr >= 2) > 0"
+        ).fetchall()
+    if not rows:
+        pytest.skip("no split names in fixture")
+    expected = dict(rows)
+    drawn: Counter[str] = Counter()
+    for f in decode(out / PRODUCTS["topo50"].filename):
+        p = f["properties"]
+        if p["kind"] == "point" and p["level"] == 0 and p["label"] in expected:
+            drawn[p["label"]] += 1
+    assert drawn == {name: n for name, n in expected.items() if n}
