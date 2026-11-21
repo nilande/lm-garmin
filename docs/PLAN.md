@@ -247,7 +247,11 @@ fixtures — they are CC0 and ~1–3 MB each.)
   **Cities** with **LM Topo50** selected as the search map. Lake and mountain search
   passed in the diagnostic map. Production integration is tracked in
   [#16](https://github.com/nilande/lm-garmin/issues/16).
-- **Routing** (not MVP): needs a connected network. Plan: road layers converted with shared
+- **Street search** ([#72](https://github.com/nilande/lm-garmin/issues/72), v0.3): the
+  Montana 700 shows *Where to? › Addresses* only for maps with NET data. mkgmap writes it
+  with `--net` (or `--route`) for lines tagged as roads, and the street index needs
+  `mkgmap:city`/region per road. Street names come from NVDB (#60). No house numbers.
+- **Routing** ([#28](https://github.com/nilande/lm-garmin/issues/28), v0.3): needs a connected network. Plan: road layers converted with shared
   nodes at identical coordinates (node de-duplication in S1 for `vaglinje`, later
   `ovrig_vag` 1847/1848 for winter routing), `mkgmap:road-class`/`road-speed` from vägklass,
   `--route`. The S1 tag schema already carries everything needed; only node sharing and
@@ -372,9 +376,34 @@ Parked outside v0.2 (2026-11-21): the **Topografi 50 structure change on 2027-05
 ([#56](https://github.com/nilande/lm-garmin/issues/56)), resumed when Lantmäteriet publishes
 test data for the new structure.
 
-Deferred until there is a need: routing (#28), packaging (#30), the single-file bundle (#51),
-CI performance trends (#26) and further build tuning (#27). Each style change is tried with
-a `--dev` map on the device before it is merged.
+Each style change is tried with a `--dev` map on the device before it is merged.
+
+### v0.3 Navigation and 2027 readiness
+
+The [v0.3 milestone](https://github.com/nilande/lm-garmin/milestone/9) (planned 2026-11-21)
+makes the map useful for finding and reaching a street, and keeps it working after
+Lantmäteriet's structure change. In priority order:
+
+1. **Street names in the release map** ([#71](https://github.com/nilande/lm-garmin/issues/71)).
+   The nationwide NVDB extract and Sweden build already exist (23 min 10 s, `verify` passed);
+   what is left is the release instructions and the device check.
+2. **Topografi 50 structure change on 2027-05-04**
+   ([#56](https://github.com/nilande/lm-garmin/issues/56)). The FTP test data shows the new
+   structure but no real data yet: adapt the schema and decide how to support both
+   structures now; check against real data when it arrives, possibly in a v0.3.x before May.
+3. **Street search** ([#72](https://github.com/nilande/lm-garmin/issues/72)). Roads as roads,
+   `--net`, `mkgmap:city` per road; device check of *Where to? › Addresses*.
+4. **Routing on roads** ([#28](https://github.com/nilande/lm-garmin/issues/28)). Shared nodes,
+   road class and speed, `--route`; starts as a `--dev` Täby spike, and moves to a later
+   release if the device result or the cost does not hold up.
+
+If time allows: legend colours, mm → px widths and night colours
+([#68](https://github.com/nilande/lm-garmin/issues/68)), and packaging with `uv tool`/`pipx`
+([#30](https://github.com/nilande/lm-garmin/issues/30)).
+
+M5 Later: the single-file bundle (#51), cp1252 labels (#17), CI performance trends (#26) and
+the unmeasured style-only rebuild target (#27). Milestones M0–M4 were closed on 2026-11-21;
+#15 was closed as done.
 
 ### Original milestones
 
