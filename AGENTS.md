@@ -64,7 +64,8 @@ from the release: a daylight check of the overlay
 ([pending checks](docs/device-testing.md#pending-montana-checks)).
 
 Next: the [v0.2 Everyday map milestone](https://github.com/nilande/lm-garmin/milestone/8)
-([plan](docs/PLAN.md#v02-everyday-map)): street names (#55), label priority and density
+([plan](docs/PLAN.md#v02-everyday-map)): street names (#55 evaluated, #60 implemented as
+`--nvdb-dir`, device check open; [street-names.md](docs/street-names.md)), label priority and density
 (#16), look (#14), overlay daylight check (#57) and the Topografi 50 structure change on
 2027-05-04 (#56). Routing (#28), packaging (#30), the single-file bundle (#51) and CI
 performance trends (#26, #27) can wait.

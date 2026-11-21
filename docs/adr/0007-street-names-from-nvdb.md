@@ -1,6 +1,6 @@
 # 0007 – Street names from Trafikverket NVDB
 
-Status: **Proposed for acceptance** · 2026-11-20 (issue #55; matching test done – merging this ADR accepts it)
+Status: **Accepted** · 2026-11-20 (issue #55, merged in PR #59; implemented in issue #60)
 
 ## Context
 Topografi 50 has no street names (`vaglinje.gatunamn` is empty). Users in towns need named
@@ -17,7 +17,7 @@ streets. The evaluation is in [docs/street-names.md](../street-names.md).
 3. **OpenStreetMap.** Good coverage, but ODbL share-alike. Possible as a local-only optional
    source, like the OSM snowmobile supplement.
 
-## Decision (proposed)
+## Decision
 Use **NVDB** as an optional input (`--nvdb-dir`, like `--topo250-dir`), matched to
 Topografi 50 roads by buffer, bearing and overlap. Do not use Topografi 10. OSM names may be
 added later as a local-only fallback.

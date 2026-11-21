@@ -109,3 +109,26 @@ def test_roads_use_standard_garmin_road_types():
     for r in rules:
         if r.layer == "vaglinje":
             assert int(r.type, 16) <= 0x13, f"{r.t} {r.description}: {r.type}"
+
+
+def test_name_alternatives_keep_filters():
+    from lm_garmin.stylegen import Rule
+
+    base = dict(
+        kind="line",
+        layer="vaglinje",
+        t="1810",
+        condition="",
+        type="0x06",
+        resolution="20",
+        description="",
+        colour="",
+        colour2="",
+        width="",
+        pattern="solid",
+        order="",
+    )
+    r = Rule(**base, name="${ref}|${lm:gatunamn_nvdb}")
+    assert "{ name '${ref}' | '${lm:gatunamn_nvdb}' }" in r.mkgmap_rule()
+    r = Rule(**base, name="${ele|conv:m=>ft}")
+    assert "{ name '${ele|conv:m=>ft}' }" in r.mkgmap_rule()

@@ -81,6 +81,7 @@ def main(argv: list[str] | None = None) -> int:
     c.add_argument("--gpkg-dir", type=Path, help="GeoPackages (default: <cache>/gpkg)")
     c.add_argument("--out", type=Path, help="output folder (default: <cache>/pbf/<region>)")
     c.add_argument("--jobs", type=int, help="parallel themes (default: CPU count)")
+    c.add_argument("--nvdb-dir", type=Path, help="NVDB GeoPackages for street names (Lastkajen)")
 
     b = sub.add_parser("build", help="S1–S3: build the Garmin maps for a region")
     _add_region_args(b, multi=True)
@@ -90,6 +91,11 @@ def main(argv: list[str] | None = None) -> int:
     b.add_argument("--gpkg-dir", type=Path, help="GeoPackages (default: <cache>/gpkg)")
     b.add_argument("--topo100-dir", type=Path, help="unpacked Topografi 100 nationwide GeoPackages")
     b.add_argument("--topo250-dir", type=Path, help="unpacked Topografi 250 nationwide GeoPackages")
+    b.add_argument(
+        "--nvdb-dir",
+        type=Path,
+        help="unpacked Trafikverket NVDB GeoPackages (Lastkajen) for street names",
+    )
     b.add_argument("--out", type=Path, default=Path("dist"), help="output folder (default: dist)")
     b.add_argument(
         "--products",
@@ -181,7 +187,15 @@ def main(argv: list[str] | None = None) -> int:
         except (ValueError, RuntimeError) as e:
             p.error(str(e))
         out = a.out or cache / "pbf" / reg.id
-        stats = convert(gpkg_dir, reg, out, a.jobs)
+        nvdb = None
+        if a.nvdb_dir:
+            from . import street_names
+
+            try:
+                nvdb = street_names.sources(a.nvdb_dir)
+            except (OSError, ValueError) as e:
+                p.error(str(e))
+        stats = convert(gpkg_dir, reg, out, a.jobs, nvdb=nvdb)
         total = sum(s.features for s in stats)
         print(f"{total} features in {len(stats)} themes → {out}")
         return 0
@@ -208,6 +222,7 @@ def main(argv: list[str] | None = None) -> int:
                 osm=a.osm,
                 topo100_dir=a.topo100_dir,
                 topo250_dir=a.topo250_dir,
+                nvdb_dir=a.nvdb_dir,
             )
         except BuildError as e:
             print(f"build failed: {e}", file=sys.stderr)

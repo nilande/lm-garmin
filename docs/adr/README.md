@@ -11,4 +11,4 @@ All accepted 2026-11-18 (0005 after the device test in issue #1).
 | [0004](0004-snowmobile-overlay-separate-family.md) | Snowmobile trails as a separate transparent map | Accepted |
 | [0005](0005-label-encoding.md) | Label encoding: Unicode (confirmed on the Montana 700) | Accepted |
 | [0006](0006-verify-by-decoding-img.md) | Verify the built `.img` by decoding it with mkgmap's reader | Accepted |
-| [0007](0007-street-names-from-nvdb.md) | Street names from Trafikverket NVDB | Proposed |
+| [0007](0007-street-names-from-nvdb.md) | Street names from Trafikverket NVDB | Accepted |

@@ -68,7 +68,20 @@ uv run pytest
 
    Without it the map still builds, but large areas at the 8 km zoom show the dark
    background colour ([device test](docs/device-testing.md#täby-overview-retest)).
-5. Optional: **Topografi 100** (same steps) for the 2 km overview level, and
+5. Optional, for **street names**: Trafikverket's road database **NVDB** (CC0). Create a
+   free account at [Lastkajen](https://www.trafikverket.se/lastkajen), download the NVDB
+   road data per county (*län*) or for all of Sweden in SWEREF 99 TM, format GeoPackage
+   (for example `Stockholms_län_GeoPackage.zip`), and unzip the `.gpkg` files into one
+   folder. Only the layers `NVDB_DK_O_20_Gatunamn` (street names)
+   and `NVDB_DK_O_21_Ovrigt_vagnamn` (other road names) are read, within the region you
+   build. A county file is 1.4–2.2 GB unpacked.
+
+   ```bash
+   mkdir -p "/path/to/nvdb"
+   unzip -j "Stockholms_län_GeoPackage.zip" '*.gpkg' -d "/path/to/nvdb"
+   ```
+
+6. Optional: **Topografi 100** (same steps) for the 2 km overview level, and
    **Karta 1:50 000 Nedladdning, raster** (GeoTIFF) for visual comparison.
 
 Keep the delivery anywhere; paths may contain spaces and colons
@@ -97,6 +110,16 @@ overview levels. Each directory must contain its delivery's `mark_sverige.gpkg`.
 ```bash
 uv run lm-garmin build --area hemavan --dev --products topo50 \
   --topo100-dir "/path/to/topografi100/gpkg" --topo250-dir "/path/to/topografi250/gpkg"
+```
+
+Add `--nvdb-dir "/path/to/nvdb"` to name streets and small roads from NVDB. Topografi 50
+roads are matched to NVDB name lines by distance (15 m), direction (±30°) and overlap, and
+split where the name changes ([how](docs/street-names.md)). Roads with a road number keep
+the number. The base map's copyright then reads "© Lantmäteriet, Trafikverket (NVDB)".
+Matching adds about 20 s per county; the result is cached per region and NVDB file.
+
+```bash
+uv run lm-garmin build --area taby --dev --nvdb-dir "/path/to/nvdb" --out dist/dev
 ```
 
 Topografi 100 replaces land cover, water surfaces and wetlands at resolution 20.
@@ -243,6 +266,8 @@ percentage point below the 45.9% baseline. Keep the reference tracks local.
 
 Code, styles and TYP sources: [MIT](LICENSE). Map data: Lantmäteriet, CC0 – attribution is
 not required, but maps built with this tool carry "© Lantmäteriet" and we ask you to keep it.
+Street names (optional): Trafikverket NVDB, CC0; maps built with them also carry
+"Trafikverket (NVDB)".
 mkgmap and splitter (GPL-2.0) are downloaded at build time and run as separate programs.
 
 ---
@@ -256,7 +281,8 @@ påbjuden eller förbjuden) byggs som ett eget genomskinligt lager som kan slås
 i enheten. Ortnamn blir sökbara.
 
 Data hämtas gratis från Geotorget (se ovan): Topografi 50 och, för översiktsnivåerna,
-Topografi 250. Hela Sverige byggs på cirka 20 minuter till en karta på 1,9 GB. Version
+Topografi 250. Gatunamn kan läggas till från Trafikverkets NVDB (Lastkajen, CC0) med
+`--nvdb-dir`. Hela Sverige byggs på cirka 20 minuter till en karta på 1,9 GB. Version
 0.1.0 är provad och godkänd på en Montana 700. Repot innehåller ingen kartdata utöver små
 testutsnitt. Planen finns i [docs/PLAN.md](docs/PLAN.md), läget och nästa steg i
 [AGENTS.md](AGENTS.md), och arbetet följs i GitHub Issues. Koden är MIT-licensierad;

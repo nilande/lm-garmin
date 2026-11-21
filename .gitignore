@@ -17,6 +17,7 @@
 *.geojsonl
 *.zip
 !tests/data/*.gpkg
+!tests/data/nvdb/*.gpkg
 !tests/data/*.ref50k.tif
 !tests/data/tracks/*.gpx
 !docs/**/*.png

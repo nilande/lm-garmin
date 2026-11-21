@@ -87,14 +87,14 @@ and object types.
 | `vaglinje` | `1801` | Motorväg | — | line | `0x01` | 24, 23, 22, 21, 20, 18, 16 | solid, `#C0392B/#7A1F15`, 7 px | `${ref}` |
 | `vaglinje` | `1802` | Motortrafikled | — | line | `0x02` | 24, 23, 22, 21, 20, 18, 16 | solid, `#C0392B/#7A1F15`, 6 px | `${ref}` |
 | `vaglinje` | `1803` | Mötesfri väg | — | line | `0x03` | 24, 23, 22, 21, 20, 18 | solid, `#D35A3A/#7A1F15`, 6 px | `${ref}` |
-| `vaglinje` | `1804` | Landsväg | — | line | `0x03` | 24, 23, 22, 21, 20, 18 | solid, `#D35A3A/#7A1F15`, 6 px | `${ref}` |
-| `vaglinje` | `1805` | Landsväg liten | — | line | `0x04` | 24, 23, 22, 21, 20 | solid, `#E89070/#8A3A20`, 4 px | `${ref}` |
-| `vaglinje` | `1806` | Småväg | — | line | `0x05` | 24, 23, 22, 21, 20 | solid, `#7F7F7F`, 3 px | `${ref}` |
-| `vaglinje` | `1807` | Småväg enkel standard | — | line | `0x07` | 24, 23, 22, 21 | solid, `#A0A0A0`, 2 px | `${ref}` |
-| `vaglinje` | `1808` | Övergripande länk | — | line | `0x0b` | 24, 23, 22, 21, 20 | solid, `#B5442B`, 4 px | `${ref}` |
-| `vaglinje` | `1809` | Huvudgata | — | line | `0x04` | 24, 23, 22, 21, 20 | solid, `#E89070/#8A3A20`, 4 px | `${ref}` |
-| `vaglinje` | `1810` | Lokalgata stor | — | line | `0x06` | 24, 23, 22, 21, 20 | solid, `#7F7F7F`, 3 px | — |
-| `vaglinje` | `1811` | Lokalgata liten | — | line | `0x06` | 24, 23, 22, 21 | solid, `#7F7F7F`, 3 px | — |
+| `vaglinje` | `1804` | Landsväg | — | line | `0x03` | 24, 23, 22, 21, 20, 18 | solid, `#D35A3A/#7A1F15`, 6 px | `${ref}\|${lm:gatunamn_nvdb}` |
+| `vaglinje` | `1805` | Landsväg liten | — | line | `0x04` | 24, 23, 22, 21, 20 | solid, `#E89070/#8A3A20`, 4 px | `${ref}\|${lm:gatunamn_nvdb}` |
+| `vaglinje` | `1806` | Småväg | — | line | `0x05` | 24, 23, 22, 21, 20 | solid, `#7F7F7F`, 3 px | `${ref}\|${lm:gatunamn_nvdb}` |
+| `vaglinje` | `1807` | Småväg enkel standard | — | line | `0x07` | 24, 23, 22, 21 | solid, `#A0A0A0`, 2 px | `${ref}\|${lm:gatunamn_nvdb}` |
+| `vaglinje` | `1808` | Övergripande länk | — | line | `0x0b` | 24, 23, 22, 21, 20 | solid, `#B5442B`, 4 px | `${ref}\|${lm:gatunamn_nvdb}` |
+| `vaglinje` | `1809` | Huvudgata | — | line | `0x04` | 24, 23, 22, 21, 20 | solid, `#E89070/#8A3A20`, 4 px | `${ref}\|${lm:gatunamn_nvdb}` |
+| `vaglinje` | `1810` | Lokalgata stor | — | line | `0x06` | 24, 23, 22, 21, 20 | solid, `#7F7F7F`, 3 px | `${lm:gatunamn_nvdb}` |
+| `vaglinje` | `1811` | Lokalgata liten | — | line | `0x06` | 24, 23, 22, 21 | solid, `#7F7F7F`, 3 px | `${lm:gatunamn_nvdb}` |
 | `farjeled` | `1891` | Färjeled | — | line | `0x1b` | 24, 23, 22, 21, 20, 18 | dash, `#C0392B`, 2 px | — |
 | `ralstrafik` | `1861` | Järnväg | — | line | `0x14` | 24, 23, 22, 21, 20, 18 | solid, `#333333`, 2 px | — |
 | `ralstrafik` | `1862` | Museijärnväg | — | line | `0x10e0e` | 24, 23, 22, 21, 20 | dash, `#555555`, 2 px | — |

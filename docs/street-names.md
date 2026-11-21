@@ -1,7 +1,9 @@
 # Street names – source evaluation (issue #55)
 
-Status: **evaluation done** (2026-11-20). Licence, content and a matching test in Täby are
-done. Proposed decision: [ADR-0007](adr/0007-street-names-from-nvdb.md) (NVDB).
+Status: **implemented** (issue #60, 2026-11-21) as `lm-garmin build --nvdb-dir`. Decision:
+[ADR-0007](adr/0007-street-names-from-nvdb.md) (NVDB, accepted). The evaluation (#55) is
+kept below; the [implementation section](#implementation-issue-60) has the final method and
+results. Open: the device check.
 
 ## Problem
 
@@ -90,13 +92,75 @@ the crop. Too few to judge the error rate. The implementation issue needs an aut
 Known spike bug: overlapping pieces of the same name could be counted twice (one share of
 1.47). The production code must union per name before measuring.
 
-## Next steps
+## Implementation (issue #60)
 
-1. Accept ADR-0007 (or revise it).
-2. Implementation issue: `--nvdb-dir` (reads only the name layers, cached per region), matching
-   with 15 m / 30° / share ≥ 0.5. Split Topografi 50 segments where the name changes, instead
-   of dropping partly covered segments. Add the tag `lm:gatunamn_nvdb` (tag schema bump), road
-   name rules in the style, a small CC0 NVDB fixture for the Täby fixture area, and an automated
-   name check. Then a device check of label density at 250 m and 800 m, and of whether street
-   names become searchable.
-3. Västerbotten data is available for a check in a sparser area (Tärnaby, Storuman).
+Code: `src/lm_garmin/street_names.py`, called by the converter for `vaglinje` when
+`--nvdb-dir` is given. It differs from the spike in three ways:
+
+- **Local direction.** The spike compared the bearing of the whole Topografi 50 segment with
+  the whole NVDB line, so curved roads lost names. Now each covered stretch is compared with
+  the part of the NVDB line next to it (±30°). Crossing streets still do not count.
+- **Union per name.** Covered stretches are projected onto the segment as intervals and
+  unioned per name before measuring, so overlapping NVDB lines are not counted twice.
+- **Split instead of drop.** Each stretch gets the name that covers it (the larger total
+  cover wins where names overlap). Stretches under 30 m join a neighbour. One name covering
+  ≥ 50 % names the whole segment; otherwise the segment is split where the name changes and
+  uncovered parts stay unnamed.
+
+Both NVDB name layers are read: `NVDB_DK_O_20_Gatunamn` and `NVDB_DK_O_21_Ovrigt_vagnamn`
+(forestry and other roads). Lines duplicated across county files are read once. The name is
+written as `lm:gatunamn_nvdb` ([tag schema](tag-schema.md) version 4). The style labels
+1804–1809 with the road number if there is one, otherwise the street name, and 1810–1811
+with the street name. Motorways and *mötesfri väg* (1801–1803) keep the number only.
+
+### Quality check
+
+`scripts/street_name_check.py` (local data, not CI) matches an area and checks (1) ≥ 90 % of
+town-street length (1809–1811) named and (2) a seeded sample of 100 named town-street
+pieces: 20 m in from each end, the nearest NVDB name line within 15 m must carry the same
+name. At most 2 disagreements are allowed.
+
+```bash
+uv run python scripts/street_name_check.py \
+  ~/.cache/lm-garmin/gpkg/kommunikation_sverige.gpkg /path/to/nvdb --area taby
+```
+
+Täby dev area, NVDB 2026-11-17 (2026-11-21):
+
+| Class | km | Spike (0.6) | Implementation |
+|---|---:|---:|---:|
+| 1809 Huvudgata | 128.6 | 97.6 % | 98.5 % |
+| 1810 Lokalgata stor | 99.8 | 97.2 % | 99.3 % |
+| 1811 Lokalgata liten | 823.5 | 86.6 % | 95.4 % |
+| **Town streets 1809–1811** | 1 051.9 | 89.0 % | **96.2 %** ✅ (≥ 90 %) |
+| 1804 / 1805 Landsväg | 32.3 | 85–87 % | 91 / 96 % |
+| 1806 / 1807 Småväg | 120.5 | – | 69 / 46 % |
+| 1801 / 1803 Motorväg, Mötesfri väg | 112.8 | 24–25 % | 23–27 % (labelled with the road number) |
+
+- Sample: **0 of 100** named pieces disagree with the nearest NVDB name at either end ✅.
+- 265 of 9 151 segments were split where the name changes. 148 have two names over ≥ 30 %
+  of their length (parallel streets, double names); the larger cover wins.
+- Hemavan (Västerbotten): 37 % of 464 km road named. Mostly rural roads without NVDB
+  names, as expected. Town streets in Hemavan: 83–100 %.
+
+Runtime: 1.6 s for Täby. Stockholms län, as a bbox around the county: the `kommunikation`
+theme takes 24 s instead of 6 s. The matching runs in that theme's worker, in parallel with
+the other themes. The result is part of the convert stage, cached per region and NVDB checksum.
+
+### Test data
+
+`tests/data/nvdb/tatort_659_67_00.nvdb.gpkg` is a CC0 cut-out of both name layers (2 040
+street-name lines, name columns only) for the `tatort_659_67_00` fixture, made by
+`scripts/make_fixtures.py --nvdb-dir`. Unit tests (`tests/unit/test_street_names.py`)
+cover parallel, crossing, overlapping, split, curved and ambiguous cases on synthetic
+lines. The integration test (`tests/integration/test_build_street_names.py`) builds the
+fixture with `--nvdb-dir` and checks that decoded town streets carry NVDB names.
+
+### Device check (open)
+
+Build `--area taby --dev --nvdb-dir …`, then check on the Montana 700:
+
+- Legibility and density of street names at the 250 m and 800 m zoom.
+- Whether street names can be searched (*Where to? → Addresses* or *Find by name*).
+  mkgmap only builds a street index with `--route`/`--net` and city data, so search is
+  likely to need more work. Record the result in [device-testing.md](device-testing.md).

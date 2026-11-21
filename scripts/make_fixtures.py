@@ -6,12 +6,16 @@ gdal_translate for the raster cut-outs:
     uv run python scripts/make_fixtures.py \
         --gpkg-dir ~/.cache/lm-garmin/gpkg \
         --raster-dir "/Volumes/scratch/lm-kartdata/raster 1-50k" \
-        --delivery-id "LM2026:173692"
+        --delivery-id "LM2026:173692" \
+        --nvdb-dir ~/.cache/lm-garmin/nvdb/stockholm --nvdb-date 2026-11-17
 
 Every fixture is a clip of all layers of all themes into one GeoPackage. Features are
 selected with the R-tree index and cut to the bbox with shapely.clip_by_rect; only parts
 with the layer's own dimension are kept (a contour touching the edge does not become a
 point). Where a 1:50 000 raster exists, a cut-out of the reference raster is written too.
+With --nvdb-dir, the NVDB street-name layers (Trafikverket, CC0) are cut out for the fixtures
+that have `nvdb=True` into tests/data/nvdb/<name>.nvdb.gpkg: whole lines selected with the
+R-tree within the bbox plus NVDB_PAD, only the name columns.
 PROVENANCE.md is (re)written with bboxes, method, data dates and checksums.
 """
 
@@ -39,6 +43,7 @@ class Fixture:
     bbox: tuple[int, int, int, int]  # xmin, ymin, xmax, ymax in EPSG:3006
     raster: str | None  # 1:50 000 raster file that contains the bbox
     why: str
+    nvdb: bool = False  # also cut out NVDB street names (needs --nvdb-dir)
 
 
 FIXTURES = [
@@ -53,6 +58,7 @@ FIXTURES = [
         (670000, 6590000, 675000, 6595000),
         "65_6_55.tif",
         "urban area and archipelago; same extent as the 1:10 000 reference 659_67_00",
+        nvdb=True,
     ),
     Fixture(
         "skoter_730_51",
@@ -62,6 +68,12 @@ FIXTURES = [
         "skoterkorning_tillaten, plus 3 points of type 1836",
     ),
 ]
+
+NVDB_LAYERS = {
+    "NVDB_DK_O_20_Gatunamn": ["ELEMENT_ID", "Namn"],
+    "NVDB_DK_O_21_Ovrigt_vagnamn": ["ELEMENT_ID", "Namn", "Namnsattande_organisation"],
+}
+NVDB_PAD = 100  # m around the fixture bbox, so roads at the edge have their name lines
 
 DIMENSION = {"POINT": 0, "LINESTRING": 1, "POLYGON": 2}
 OGR_MULTI = {0: "MultiPoint", 1: "MultiLineString", 2: "MultiPolygon"}
@@ -133,6 +145,32 @@ def clip_vector(fx: Fixture, gpkg_dir: Path) -> Path:
     return out
 
 
+def clip_nvdb(fx: Fixture, nvdb_dir: Path) -> Path | None:
+    if not fx.nvdb:
+        return None
+    (src,) = sorted(p for p in nvdb_dir.glob("*.gpkg") if not p.name.startswith("._"))
+    out = OUT / "nvdb" / f"{fx.name}.nvdb.gpkg"
+    out.parent.mkdir(exist_ok=True)
+    out.unlink(missing_ok=True)
+    x0, y0, x1, y1 = fx.bbox
+    bbox = (x0 - NVDB_PAD, y0 - NVDB_PAD, x1 + NVDB_PAD, y1 + NVDB_PAD)
+    for layer, columns in NVDB_LAYERS.items():
+        meta, _, wkb, fields = pyogrio.raw.read(src, layer=layer, bbox=bbox, columns=columns)
+        geoms = shapely.force_2d(shapely.from_wkb(wkb))
+        pyogrio.raw.write(
+            out,
+            geometry=shapely.to_wkb(geoms),
+            field_data=list(fields),
+            fields=meta["fields"],
+            layer=layer,
+            driver="GPKG",
+            geometry_type="LineString",
+            crs=meta["crs"],
+            append=out.exists(),
+        )
+    return out
+
+
 def clip_raster(fx: Fixture, raster_dir: Path) -> Path | None:
     if not fx.raster:
         return None
@@ -169,6 +207,8 @@ def main() -> int:
     ap.add_argument(
         "--delivery-id", default="unknown", help="Geotorget order id, e.g. LM2026:173692"
     )
+    ap.add_argument("--nvdb-dir", type=Path, help="folder with one NVDB GeoPackage (Lastkajen)")
+    ap.add_argument("--nvdb-date", default="unknown", help="NVDB betraktelsedatum, e.g. 2026-11-17")
     a = ap.parse_args()
 
     if not theme_files(a.gpkg_dir):
@@ -179,9 +219,10 @@ def main() -> int:
     for fx in FIXTURES:
         v = clip_vector(fx, a.gpkg_dir)
         r = clip_raster(fx, a.raster_dir) if a.raster_dir else None
-        for p in (v, r):
+        n = clip_nvdb(fx, a.nvdb_dir) if a.nvdb_dir else None
+        for p in (v, r, n):
             if p:
-                rows.append((p.name, fx, p.stat().st_size, sha256(p)))
+                rows.append((p.relative_to(OUT).as_posix(), fx, p.stat().st_size, sha256(p)))
         print(f"{fx.name}: {v.stat().st_size / 1e6:.1f} MB" + (f", raster {r.name}" if r else ""))
 
     lines = [
@@ -196,6 +237,9 @@ def main() -> int:
         "- Vector: every layer of every theme; features selected by R-tree, cut with "
         "`shapely.clip_by_rect`, only parts of the layer's own dimension kept; EPSG:3006.",
         "- Raster: `gdal_translate -projwin <bbox>` from the 1:50 000 GeoTIFF (5 m/px), DEFLATE.",
+        "- Street names: Trafikverket, *NVDB* from Lastkajen (CC0 1.0), betraktelsedatum "
+        f"{a.nvdb_date}; layers {', '.join(f'`{k}`' for k in NVDB_LAYERS)}, name columns only, "
+        f"whole lines within the bbox plus {NVDB_PAD} m, 2D.",
         "",
         "| File | Bbox (EPSG:3006) | Purpose | Bytes | SHA-256 |",
         "|---|---|---|---:|---|",
