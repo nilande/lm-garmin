@@ -47,6 +47,8 @@ def _code(text: str) -> str:
 def _appearance(rule: Rule) -> str:
     if rule.kind == "point" and rule.pattern == "none":
         return "Garmin default"
+    if rule.kind == "point" and rule.pattern == "label":
+        return "label only (no symbol)"
     colours = "/".join(filter(None, (rule.colour, rule.colour2)))
     parts = [rule.pattern or "solid"]
     if colours:

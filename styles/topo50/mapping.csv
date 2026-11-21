@@ -60,25 +60,25 @@ line,hojdlinje,2404,,0x20,23,,Höjdkurva 10 m,#A89274,,1,solid,
 # (lm:gatunamn_nvdb, only with --nvdb-dir) only at resolution 23–24 (about 80 m and closer),
 # like Karta 1:10 000: at 250 m they cluttered the map on the Montana (#60). A road without
 # a number is emitted unlabelled up to resolution 22 and again with its name from 23.
-line,vaglinje,1801,,0x01,16,${ref},Motorväg,#C0392B,#7A1F15,7,solid,
-line,vaglinje,1802,,0x02,16,${ref},Motortrafikled,#C0392B,#7A1F15,6,solid,
-line,vaglinje,1803,,0x03,17,${ref},Mötesfri väg,#D35A3A,#7A1F15,6,solid,
-line,vaglinje,1804,ref=*,0x03,18,${ref},Landsväg,#E07850,#8A3A20,5,solid,
+line,vaglinje,1801,,0x01,16,${ref|highway-symbol:hbox},Motorväg,#C0392B,#7A1F15,7,solid,
+line,vaglinje,1802,,0x02,16,${ref|highway-symbol:hbox},Motortrafikled,#C0392B,#7A1F15,6,solid,
+line,vaglinje,1803,,0x03,17,${ref|highway-symbol:hbox},Mötesfri väg,#D35A3A,#7A1F15,6,solid,
+line,vaglinje,1804,ref=*,0x03,18,${ref|highway-symbol:hbox},Landsväg,#E07850,#8A3A20,5,solid,
 line,vaglinje,1804,,0x03,18-22,,Landsväg,#E07850,#8A3A20,5,solid,,continue
 line,vaglinje,1804,,0x03,23,${lm:gatunamn_nvdb},Landsväg (namn),#E07850,#8A3A20,5,solid,
-line,vaglinje,1805,ref=*,0x04,19,${ref},Landsväg liten,#E89070,#8A3A20,4,solid,
+line,vaglinje,1805,ref=*,0x04,19,${ref|highway-symbol:hbox},Landsväg liten,#E89070,#8A3A20,4,solid,
 line,vaglinje,1805,,0x04,19-22,,Landsväg liten,#E89070,#8A3A20,4,solid,,continue
 line,vaglinje,1805,,0x04,23,${lm:gatunamn_nvdb},Landsväg liten (namn),#E89070,#8A3A20,4,solid,
-line,vaglinje,1806,ref=*,0x05,20,${ref},Småväg,#7F7F7F,,3,solid,
+line,vaglinje,1806,ref=*,0x05,20,${ref|highway-symbol:hbox},Småväg,#7F7F7F,,3,solid,
 line,vaglinje,1806,,0x05,20-22,,Småväg,#7F7F7F,,3,solid,,continue
 line,vaglinje,1806,,0x05,23,${lm:gatunamn_nvdb},Småväg (namn),#7F7F7F,,3,solid,
-line,vaglinje,1807,ref=*,0x07,21,${ref},Småväg enkel standard,#A0A0A0,,2,solid,
+line,vaglinje,1807,ref=*,0x07,21,${ref|highway-symbol:hbox},Småväg enkel standard,#A0A0A0,,2,solid,
 line,vaglinje,1807,,0x07,21-22,,Småväg enkel standard,#A0A0A0,,2,solid,,continue
 line,vaglinje,1807,,0x07,23,${lm:gatunamn_nvdb},Småväg enkel standard (namn),#A0A0A0,,2,solid,
-line,vaglinje,1808,ref=*,0x0b,19,${ref},Övergripande länk,#B5442B,,4,solid,
+line,vaglinje,1808,ref=*,0x0b,19,${ref|highway-symbol:hbox},Övergripande länk,#B5442B,,4,solid,
 line,vaglinje,1808,,0x0b,19-22,,Övergripande länk,#B5442B,,4,solid,,continue
 line,vaglinje,1808,,0x0b,23,${lm:gatunamn_nvdb},Övergripande länk (namn),#B5442B,,4,solid,
-line,vaglinje,1809,ref=*,0x04,19,${ref},Huvudgata,#E89070,#8A3A20,4,solid,
+line,vaglinje,1809,ref=*,0x04,19,${ref|highway-symbol:hbox},Huvudgata,#E89070,#8A3A20,4,solid,
 line,vaglinje,1809,,0x04,19-22,,Huvudgata,#E89070,#8A3A20,4,solid,,continue
 line,vaglinje,1809,,0x04,23,${lm:gatunamn_nvdb},Huvudgata (namn),#E89070,#8A3A20,4,solid,
 line,vaglinje,1810,ref=*,0x06,20,${ref},Lokalgata stor,#7F7F7F,,3,solid,
@@ -138,14 +138,34 @@ line,ledningslinje,1707,,0x10e1f,22,,Telefonledning,#555555,,1,dash,
 line,naturvardslinje,5641,,0x10d00,20,,Naturreservat linje,#5AB032,,2,solid,
 line,polcirkeln,1881,,0x10d01,14,,Norra polcirkeln,#333333,,1,dash,
 line,textlinje,,,0x10d02,21,${name},Namn längs linje,#D0D0D0,,1,label,
-# Points – map texts. On the Montana 700 only city types (0x01–0x11) and label points (0x28) show labels
-point,textpunkt,,lm:textkategori=Tätort & lm:textstorleksklass>=7,0x0400,15,${name},Tätort stor,,,,none,
-point,textpunkt,,lm:textkategori=Tätort,0x0800,18,${name},Tätort,,,,none,
-point,textpunkt,,lm:textkategori=Bebyggelse & lm:textstorleksklass>=4,0x0a00,20,${name},Bebyggelse stor,,,,none,
-point,textpunkt,,lm:textkategori=Bebyggelse,0x0c00,21,${name},Bebyggelse,,,,none,
-point,textpunkt,,lm:textkategori=Upplysningstext | lm:textkategori=Fjällupplysningstext,0x2800,23,${name},Upplysningstext,,,,none,
-point,textpunkt,,lm:textstorleksklass>=4,0x2800,19,${name},Namn stort,,,,none,
-point,textpunkt,,,0x2800,21,${name},Namn,,,,none,
+# Points – map texts. On the Montana 700 only city types (0x01–0x11) and label points (0x28) show labels.
+# A name split over two lines in Karta 1:50 000 (textdelnr 1, 2, 3) has one point per part, and
+# each part carries the full name in textstrang: only the first part is drawn (#16).
+# Names are thinned by textstorleksklass (the raster map's text size), because the device
+# draws every name much larger than Karta 1:50 000 does (#16). Montana scale bars seen on the
+# device: 2 km ≈ resolution 20, 1.2 km ≈ 21, 650–900 m ≈ 22, 400 m and closer ≈ 23–24.
+# Class ≥ 4 from 2 km, class 3 from 650–900 m, class 2 and church, reserve and information
+# texts from 400 m, class 1 only at the closest zoom. Village and farm names have no symbol.
+# Place names inside built-up land cover (lm:i_bebyggelse, set by the converter) are district
+# names in towns: they come one step later still (class ≥ 5 from 2 km, 4 from 650–900 m),
+# and information texts in towns (Skola, Sporthall, …) only at the closest zoom.
+point,textpunkt,,lm:textdelnr!=2 & lm:textdelnr!=3 & lm:textkategori=Tätort & lm:textstorleksklass>=7,0x0400,15,${name},Tätort stor,,,,none,
+point,textpunkt,,lm:textdelnr!=2 & lm:textdelnr!=3 & lm:textkategori=Tätort,0x0800,18,${name},Tätort,,,,none,
+point,textpunkt,,lm:textdelnr!=2 & lm:textdelnr!=3 & lm:textkategori=Bebyggelse & lm:i_bebyggelse=yes & lm:textstorleksklass>=5,0x0a00,20,${name},Bebyggelse stor,,,,label,
+point,textpunkt,,lm:textdelnr!=2 & lm:textdelnr!=3 & lm:textkategori=Bebyggelse & lm:i_bebyggelse=yes & lm:textstorleksklass>=4,0x0c00,22,${name},Bebyggelse,,,,label,
+point,textpunkt,,lm:textdelnr!=2 & lm:textdelnr!=3 & lm:textkategori=Bebyggelse & lm:i_bebyggelse=yes & lm:textstorleksklass>=3,0x0c00,23,${name},Bebyggelse liten,,,,label,
+point,textpunkt,,lm:textdelnr!=2 & lm:textdelnr!=3 & lm:textkategori=Bebyggelse & lm:i_bebyggelse=yes,0x0c00,24,${name},Bebyggelse liten,,,,label,
+point,textpunkt,,lm:textdelnr!=2 & lm:textdelnr!=3 & lm:textkategori=Bebyggelse & lm:textstorleksklass>=4,0x0a00,20,${name},Bebyggelse stor,,,,label,
+point,textpunkt,,lm:textdelnr!=2 & lm:textdelnr!=3 & lm:textkategori=Bebyggelse & lm:textstorleksklass>=3,0x0c00,22,${name},Bebyggelse,,,,label,
+point,textpunkt,,lm:textdelnr!=2 & lm:textdelnr!=3 & lm:textkategori=Bebyggelse,0x0c00,23,${name},Bebyggelse liten,,,,label,
+point,textpunkt,,lm:textdelnr!=2 & lm:textdelnr!=3 & lm:textkategori=Upplysningstext & lm:i_bebyggelse=yes,0x2800,24,${name},Upplysningstext i tätort,,,,none,
+point,textpunkt,,lm:textdelnr!=2 & lm:textdelnr!=3 & (lm:textkategori=Upplysningstext | lm:textkategori=Fjällupplysningstext),0x2800,23,${name},Upplysningstext,,,,none,
+point,textpunkt,,lm:textdelnr!=2 & lm:textdelnr!=3 & lm:textkategori=Kyrka,0x2800,23,${name},Kyrka,,,,none,
+point,textpunkt,,lm:textdelnr!=2 & lm:textdelnr!=3 & lm:textkategori='Skyddad natur',0x2800,23,${name},Skyddad natur,,,,none,
+point,textpunkt,,lm:textdelnr!=2 & lm:textdelnr!=3 & lm:textstorleksklass>=4,0x2800,19,${name},Namn stort,,,,none,
+point,textpunkt,,lm:textdelnr!=2 & lm:textdelnr!=3 & lm:textstorleksklass>=3,0x2800,22,${name},Namn,,,,none,
+point,textpunkt,,lm:textdelnr!=2 & lm:textdelnr!=3 & lm:textstorleksklass>=2,0x2800,23,${name},Namn litet,,,,none,
+point,textpunkt,,lm:textdelnr!=2 & lm:textdelnr!=3,0x2800,24,${name},Namn minsta,,,,none,
 point,hojdpunkt,2412,,0x6616,21,${ele},Triangelpunkt,#000000,,5,icon,
 point,hojdpunkt,,,0x2800,23,${ele},Höjdvärde,,,,none,
 point,riksrose,5121,,0x11500,20,,Riksröse,#C080E0,,5,icon,

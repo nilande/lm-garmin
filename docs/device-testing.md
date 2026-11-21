@@ -81,6 +81,49 @@ build, device firmware, scale and result here when a check is complete.
   Check the physical display at normal riding brightness, especially the grey
   dashed routes against snow or open terrain.
 
+## 2026-11-21 – labels and road shields (#16, #62)
+
+Montana 700, firmware 25.70. Dev map from PR #63 (first commit). Captures in
+`dist/montana-labels/2026-11-21/`.
+
+| Area and scale bar | Captures | Observation |
+|---|---|---|
+| Täby 650 m – 2 km, Tärnaby 300 m – 2 km | `61`, `71`, `82`, `107`, `116`, `160`, `178`, `202` | Road numbers are **upright boxes** (E18, 262, 265, 951, E4; E12, 1113, 1117). |
+| Täby 600 m – 1.2 km | `71`, `82`, `107` | Village names have no dot; town names (Täby, Danderyd, Sollentuna) keep theirs. Split names and reserves are drawn once. Reserve names are cut at about 24 characters (*Rinkebyskogens naturrese*). |
+| Täby 2 km | `116` | No church "Täby" next to the town. |
+| Täby 110–300 m | `88`, `97` | Street names, shields and contour labels fit. |
+| Search, *Cities* | `253` | Village names are found, but every result reads "<name>, ABC": mkgmap's default country abbreviation. |
+
+**Assessment.** The tester found the map too busy overall for outdoor navigation, above all in
+town. At 800 m–1.2 km (resolution 21) nearly every Topografi 50 name was drawn, at a much
+larger size than on Karta 1:50 000. The next build thins names by `textstorleksklass`:
+class ≥ 3 at resolution 21, ≥ 2 at 22, all at 23; church and reserve names from 22. In the
+dev map this drops the labelled points at resolution 21 from 288 to 137 in Täby and from
+511 to 306 around Hemavan. The country is set to Sverige/SE.
+
+**Second check** (captures in `dist/montana-labels/2026-11-21b/`, Täby 150 m – 2 km, Tärnaby
+400 m – 2.8 km). 2 km looked right; every closer zoom was still too busy, in Täby and around
+Hemavan. The captures also give the device's zoom-to-level mapping: index contour labels and
+reserve names appear at 400 m and at 800–900 m, so **650–900 m is resolution 22, 1.2 km is
+21, 2 km is 20** – one step coarser than assumed. The thresholds move one step: class ≥ 4
+from 2 km, class 3 from 650–900 m, class 2 plus church, reserve and information texts from
+400 m, class 1 only at the closest zoom. Labelled points at resolution 22: Täby 266 → 137,
+Hemavan 488 → 306; at 21: Täby 137 → 68, Hemavan 306 → 125.
+
+**Third check** (captures in `dist/montana-labels/2026-11-21c/`). Hemavan looked about right
+at every zoom. Täby was still on the busy side at 400 m – 1.2 km; most labels there are
+district names (Ensta, Tibble, Täby park, Näsbypark, Enebyberg). The search list now shows
+"<name>, SE" for the dev map; "ABC" entries come from the v0.1 map on the device and "SWE"
+from another map. The converter now tags map texts inside built-up land cover
+(`lm:i_bebyggelse`, tag schema 5), and place names there come one step later (class ≥ 5
+from 2 km, 4 from 650–900 m, 3 from 400 m); information texts in towns only at the closest
+zoom. Hemavan is unchanged. Labelled points in Täby: 650–900 m 137 → 107, 1.2 km 68 → 44,
+2 km 67 → 43. Nationwide the tagging adds 1.8 s to the text theme.
+
+**Fourth check – accepted** (captures in `dist/montana-labels/2026-11-21d/`, Täby 400 m –
+2 km, Hemavan 1.2 km). The tester found the label density OK in both Täby and Hemavan.
+Remaining from #16: reserve names longer than about 24 characters are cut by the device.
+
 ## 2026-11-21 – street names from NVDB (issue #60)
 
 Montana 700, firmware 25.70. Dev map from PR #61 (`--area taby --area hemavan --dev

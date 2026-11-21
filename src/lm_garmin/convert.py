@@ -78,6 +78,9 @@ THEMES = list(THEME_LAYERS)
 LAYER_THEME = {layer: theme for theme, layers in THEME_LAYERS.items() for layer in layers}
 ID_STRIDE = 10**10  # ids of theme i are in [(i + 1) * ID_STRIDE, (i + 2) * ID_STRIDE)
 BATCH_SIZE = 20_000
+# Built-up land cover (mark): sluten, hög, låg bebyggelse, industri- och handelsbebyggelse.
+BUILTUP_TYPES = (2636, 2637, 2638, 2639)
+BUILTUP_TAG = "lm:i_bebyggelse"
 
 
 def id_base(theme: str) -> int:
@@ -194,6 +197,7 @@ def _write_batch(
     region: Region,
     names: street_names.NameIndex | None = None,
     name_stats: street_names.MatchStats | None = None,
+    builtup: shapely.STRtree | None = None,
 ) -> int:
     geoms = shapely.from_wkb(batch.column(geom_col).to_numpy(zero_copy_only=False))
     if region.geometry is not None:
@@ -202,15 +206,20 @@ def _write_batch(
         batch = batch.filter(keep)
     if names is not None and layer == "vaglinje":
         return _write_named_roads(sink, layer, columns, batch, geoms, tr, names, name_stats)
+    inside = np.zeros(len(geoms), dtype=bool)
+    if builtup is not None and len(geoms):
+        inside[builtup.query(geoms, predicate="within")[0]] = True
     geoms = _to_wgs84(geoms, tr)
     values = [batch.column(c).to_pylist() for c in columns]
     rows = list(zip(*values, strict=True)) if values else [()] * len(geoms)
     n = 0
     fids = batch.column(fid_col).to_pylist() if forest_fids else [None] * len(geoms)
-    for g, row, fid in zip(geoms, rows, fids, strict=True):
+    for g, row, fid, built in zip(geoms, rows, fids, inside, strict=True):
         if g is None or g.is_empty:
             continue
         tags = feature_tags(layer, columns, row)
+        if built:
+            tags[BUILTUP_TAG] = "yes"
         if fid in forest_fids or (
             lake_ids and tags.get("lm:t") == LAKE_TYPE and tags.get("lm:vattenytaid") in lake_ids
         ):
@@ -256,6 +265,19 @@ def _write_named_roads(
     return n
 
 
+def builtup_index(mark: list[Path], region: Region) -> shapely.STRtree | None:
+    """Built-up land-cover polygons of the region, to tag map texts inside towns."""
+    polygons = []
+    where = f"objekttypnr IN ({', '.join(map(str, BUILTUP_TYPES))})"
+    for gpkg in mark:
+        _, _, wkb, _ = pyogrio.raw.read(
+            gpkg, layer="mark", bbox=region.bbox, where=where, columns=[]
+        )
+        if wkb is not None and len(wkb):
+            polygons.extend(shapely.get_parts(shapely.from_wkb(wkb)))
+    return shapely.STRtree(polygons) if polygons else None
+
+
 def _max_rss_mb() -> float:
     rss = resource.getrusage(resource.RUSAGE_SELF).ru_maxrss
     return round(rss / (1e6 if os.uname().sysname == "Darwin" else 1e3), 1)
@@ -267,6 +289,7 @@ def convert_theme(
     region: Region,
     out_dir: Path,
     nvdb: list[Path] | None = None,
+    mark: list[Path] | None = None,
 ) -> ThemeStats:
     """Convert the given (gpkg, layer) pairs of one theme into <out_dir>/<theme>.osm.pbf."""
     t0 = time.monotonic()
@@ -280,6 +303,9 @@ def convert_theme(
     if nvdb and any(layer == "vaglinje" for _, layer in sources):
         names = street_names.NameIndex.read(nvdb, region.bbox)
         name_stats = street_names.MatchStats()
+    builtup = None
+    if mark and any(layer == "textpunkt" for _, layer in sources):
+        builtup = builtup_index(mark, region)
     with TemporaryFile(dir=out_dir) as forest_overviews:
         sink = OsmSink(out, id_base(theme), (lon[0], lat[0], lon[1], lat[1]))
         try:
@@ -324,6 +350,7 @@ def convert_theme(
                             region,
                             names,
                             name_stats,
+                            builtup if layer == "textpunkt" else None,
                         )
                 stats.layers[layer] = stats.layers.get(layer, 0) + count
                 stats.features += count
@@ -394,13 +421,14 @@ def convert(
     out_dir.mkdir(parents=True, exist_ok=True)
     plan = plan_sources(gpkg_dir)
     t0 = time.monotonic()
+    mark = [gpkg for gpkg, layer in plan.get("mark", []) if layer == "mark"]
 
     def weight(theme: str) -> int:  # biggest first, so hojd/mark start immediately
         return -sum(p.stat().st_size for p, _ in plan[theme]) * len(plan[theme])
 
     with ProcessPoolExecutor(max_workers=jobs or os.cpu_count()) as ex:
         futures = {
-            t: ex.submit(convert_theme, t, plan[t], region, out_dir, nvdb)
+            t: ex.submit(convert_theme, t, plan[t], region, out_dir, nvdb, mark)
             for t in sorted(plan, key=weight)
         }
         for t in sorted(plan, key=weight):
