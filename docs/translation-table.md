@@ -79,7 +79,7 @@ and object types.
 | `skyddadnatur` | Any | Skyddad natur | — | polygon | `0x10f15` | 24, 23, 22, 21, 20, 18 | hatch-sparse, `#5AB032`, order 5 | — |
 | `hojdlinje` | `2402` | Gropkurva | — | line | `0x21` | 24, 23 | solid, `#A89274`, 1 px | — |
 | `hojdlinje` | `2405` | Gropkurva 10 | — | line | `0x21` | 24, 23 | solid, `#A89274`, 1 px | — |
-| `hojdlinje` | Any | Stödkurva | `lm:stodkurva=Ja & ele ~ '-?(0\|[0-9]*00)'` | line | `0x22` | 20 | solid, `#907450`, 2 px | `continue` |
+| `hojdlinje` | Any | Stödkurva (översikt) | `lm:stodkurva=Ja & ele ~ '-?(0\|[0-9]*00)'` | line | `0x20` | 20 | solid, `#A89274`, 1 px | `continue` |
 | `hojdlinje` | Any | Stödkurva | `lm:stodkurva=Ja` | line | `0x22` | 22, 21 | solid, `#907450`, 2 px | `continue` |
 | `hojdlinje` | Any | Stödkurva | `lm:stodkurva=Ja` | line | `0x22` | 24, 23 | solid, `#907450`, 2 px | `${ele\|conv:m=>ft}` |
 | `hojdlinje` | `2401` | Höjdkurva 5 m | — | line | `0x20` | 24, 23 | solid, `#A89274`, 1 px | — |
@@ -159,6 +159,8 @@ and object types.
 | `naturvardslinje` | `5641` | Naturreservat linje | — | line | `0x10d00` | 24, 23, 22, 21, 20 | solid, `#5AB032`, 2 px | — |
 | `polcirkeln` | `1881` | Norra polcirkeln | — | line | `0x10d01` | 24, 23, 22, 21, 20, 18, 16 | dash, `#333333`, 1 px | — |
 | `textlinje` | Any | Namn längs linje | — | line | `0x10d02` | 24, 23, 22, 21 | label, `#D0D0D0`, 1 px | `${name}` |
+| `textpunkt` | Any | Vattennamn (sök) | `lm:textdelnr!=2 & lm:textdelnr!=3 & lm:textkategori=Hydrografi` | point | `0x6500` | 24 | label only (no symbol) | `${name}` |
+| `textpunkt` | Any | Terrängnamn (sök) | `lm:textdelnr!=2 & lm:textdelnr!=3 & lm:textkategori=Terrängnamn` | point | `0x6600` | 24 | label only (no symbol) | `${name}` |
 | `textpunkt` | Any | Tätort stor | `lm:textdelnr!=2 & lm:textdelnr!=3 & lm:textkategori=Tätort & lm:textstorleksklass>=7` | point | `0x0400` | 24, 23, 22, 21, 20, 18, 16 | Garmin default | `${name}` |
 | `textpunkt` | Any | Tätort | `lm:textdelnr!=2 & lm:textdelnr!=3 & lm:textkategori=Tätort` | point | `0x0800` | 24, 23, 22, 21, 20, 18 | Garmin default | `${name}` |
 | `textpunkt` | Any | Bebyggelse stor | `lm:textdelnr!=2 & lm:textdelnr!=3 & lm:textkategori=Bebyggelse & lm:i_bebyggelse=yes & lm:textstorleksklass>=5` | point | `0x0a00` | 24, 23, 22, 21, 20 | label only (no symbol) | `${name}` |
@@ -171,7 +173,7 @@ and object types.
 | `textpunkt` | Any | Upplysningstext i tätort | `lm:textdelnr!=2 & lm:textdelnr!=3 & lm:textkategori=Upplysningstext & lm:i_bebyggelse=yes` | point | `0x2800` | 24 | Garmin default | `${name}` |
 | `textpunkt` | Any | Upplysningstext | `lm:textdelnr!=2 & lm:textdelnr!=3 & (lm:textkategori=Upplysningstext \| lm:textkategori=Fjällupplysningstext)` | point | `0x2800` | 24, 23 | Garmin default | `${name}` |
 | `textpunkt` | Any | Kyrka | `lm:textdelnr!=2 & lm:textdelnr!=3 & lm:textkategori=Kyrka` | point | `0x2800` | 24, 23 | Garmin default | `${name}` |
-| `textpunkt` | Any | Skyddad natur | `lm:textdelnr!=2 & lm:textdelnr!=3 & lm:textkategori='Skyddad natur'` | point | `0x2800` | 24, 23 | Garmin default | `${name}` |
+| `textpunkt` | Any | Skyddad natur | `lm:textdelnr!=2 & lm:textdelnr!=3 & lm:textkategori='Skyddad natur'` | point | `0x2800` | 24, 23 | Garmin default | `${name\|subst:naturreservat=>nr\|subst:naturvårdsområde=>naturvårdsomr.}`, `relabel` |
 | `textpunkt` | Any | Namn stort | `lm:textdelnr!=2 & lm:textdelnr!=3 & lm:textstorleksklass>=4` | point | `0x2800` | 24, 23, 22, 21, 20 | Garmin default | `${name}` |
 | `textpunkt` | Any | Namn | `lm:textdelnr!=2 & lm:textdelnr!=3 & lm:textstorleksklass>=3` | point | `0x2800` | 24, 23, 22 | Garmin default | `${name}` |
 | `textpunkt` | Any | Namn litet | `lm:textdelnr!=2 & lm:textdelnr!=3 & lm:textstorleksklass>=2` | point | `0x2800` | 24, 23 | Garmin default | `${name}` |

@@ -2,7 +2,7 @@
 name=* { name '${name}' }
 lm:l=hojdlinje & lm:t=2402 [0x21 resolution 23]
 lm:l=hojdlinje & lm:t=2405 [0x21 resolution 23]
-lm:l=hojdlinje & (lm:stodkurva=Ja & ele ~ '-?(0|[0-9]*00)') [0x22 resolution 20-20 continue]
+lm:l=hojdlinje & (lm:stodkurva=Ja & ele ~ '-?(0|[0-9]*00)') [0x20 resolution 20-20 continue]
 lm:l=hojdlinje & (lm:stodkurva=Ja) [0x22 resolution 21-22 continue]
 lm:l=hojdlinje & (lm:stodkurva=Ja) { name '${ele|conv:m=>ft}' } [0x22 resolution 23]
 lm:l=hojdlinje & lm:t=2401 [0x20 resolution 23]

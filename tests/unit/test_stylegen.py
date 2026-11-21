@@ -109,3 +109,25 @@ def test_roads_use_standard_garmin_road_types():
     for r in rules:
         if r.layer == "vaglinje":
             assert int(r.type, 16) <= 0x13, f"{r.t} {r.description}: {r.type}"
+
+
+def test_relabel_overrides_the_generic_name():
+    from lm_garmin.stylegen import Rule
+
+    base = dict(
+        kind="point",
+        layer="textpunkt",
+        t="",
+        condition="",
+        type="0x2800",
+        resolution="23",
+        description="",
+        colour="",
+        colour2="",
+        width="",
+        pattern="none",
+        order="",
+    )
+    rule = Rule(**base, name="${name|subst:naturreservat=>nr}", options="relabel")
+    assert "{ set mkgmap:label:1='${name|subst:naturreservat=>nr}' }" in rule.mkgmap_rule()
+    assert "{ name '${name}' }" in Rule(**base, name="${name}").mkgmap_rule()

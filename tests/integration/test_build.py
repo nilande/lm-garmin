@@ -238,20 +238,25 @@ def test_contour_detail_and_labels_by_zoom_level(built, data_dir_module):
     out, _ = built["fjall_727_51_05"]
     labels: dict[tuple[int, str], set[str]] = defaultdict(set)
     index_counts: Counter[int] = Counter()
+    counts: Counter[tuple[int, str]] = Counter()
     for f in decode(out / PRODUCTS["topo50"].filename):
         p = f["properties"]
         if p["kind"] == "line" and p["type"] in {"0x20", "0x21", "0x22"}:
             labels[p["level"], p["type"]].add(p["label"])
+            counts[p["level"], p["type"]] += 1
             if p["type"] == "0x22":
                 index_counts[p["level"]] += 1
     for level in (0, 1):
         assert labels[level, "0x20"] == {""}
         assert labels[level, "0x21"] <= {""}
-    for level in (2, 3, 4):
+    for level in (2, 3):
         assert labels[level, "0x22"] == {""}
         assert not labels[level, "0x20"]
         assert not labels[level, "0x21"]
-    assert 0 < index_counts[4] < index_counts[3]
+    # At 2 km (level 4) the 100 m index contours use the thin minor type 0x20 (#14).
+    assert labels[4, "0x20"] == {""}
+    assert not labels[4, "0x22"]
+    assert 0 < counts[4, "0x20"] < index_counts[3]
     with sqlite3.connect(data_dir_module / "fjall_727_51_05.gpkg") as c:
         heights = {
             int(r[0])
@@ -343,10 +348,26 @@ def test_split_names_are_drawn_once(built, fx, data_dir_module):
         ).fetchall()
     if not rows:
         pytest.skip("no split names in fixture")
-    expected = dict(rows)
+    # Protected-area names are abbreviated on the map (#16).
+    expected = {name.replace("naturreservat", "nr"): n for name, n in rows}
     drawn: Counter[str] = Counter()
     for f in decode(out / PRODUCTS["topo50"].filename):
         p = f["properties"]
         if p["kind"] == "point" and p["level"] == 0 and p["label"] in expected:
             drawn[p["label"]] += 1
     assert drawn == {name: n for name, n in expected.items() if n}
+
+
+def test_lake_and_terrain_names_are_searchable_pois(built):
+    """Hydrografi and Terrängnamn texts are also geographic POIs, at the detailed level only."""
+    out, _ = built["fjall_727_51_05"]
+    pois: Counter[tuple[str, int]] = Counter()
+    labels = set()
+    for f in decode(out / PRODUCTS["topo50"].filename):
+        p = f["properties"]
+        if p["kind"] == "point" and p["type"] in {"0x6500", "0x6600"}:
+            pois[p["type"], p["level"]] += 1
+            labels.add(p["label"])
+    assert pois["0x6500", 0] and pois["0x6600", 0]
+    assert not any(level for _, level in pois)
+    assert all(labels)

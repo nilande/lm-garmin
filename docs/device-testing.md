@@ -77,6 +77,18 @@ build, device firmware, scale and result here when a check is complete.
   Check the physical display at normal riding brightness, especially the grey
   dashed routes against snow or open terrain.
 
+## 2026-11-21 – search, reserve names and 2 km contours (#16, #14)
+
+Montana 700, firmware 25.70. Dev map from PR #67. Captures in `dist/montana-search/2026-11-21/`.
+Accepted.
+
+| Check | Captures | Result |
+|---|---|---|
+| Search: Rönningesjön, Stolpaskogen (Täby) | `114`, `123` | **Found** under Geographic Points, with distance and direction. |
+| Search: Norra Storfjället, Gakkervattnet (Hemavan) | `213`, `232` | **Found** (also Norra Sytertoppen, Lill-Gakkervattnet, Gakkerbäcken). Results with ", 1768 M" come from another map on the device. |
+| Map at 110–400 m, Täby | `257`, `279`, `294`, `354`, `360` | No new icons or duplicate names from the search POIs. Reserve names read "Täby prästgårds nr", "Rinkebyskogens nr" in full. |
+| Norra Storfjället, 2 km | `492` | The 100 m contours are thin; the mountain no longer turns dark. The dark band at the top is outside the dev map. |
+
 ## 2026-11-21 – snowmobile overlay outdoors, synthetic grid at Ensta (#57)
 
 Montana 700, firmware 25.70, outdoors in daylight at Ensta, Täby. Dev map with the synthetic
