@@ -161,9 +161,14 @@ and object types.
 | `textlinje` | Any | Namn längs linje | — | line | `0x10d02` | 24, 23, 22, 21 | label, `#D0D0D0`, 1 px | `${name}` |
 | `textpunkt` | Any | Tätort stor | `lm:textdelnr!=2 & lm:textdelnr!=3 & lm:textkategori=Tätort & lm:textstorleksklass>=7` | point | `0x0400` | 24, 23, 22, 21, 20, 18, 16 | Garmin default | `${name}` |
 | `textpunkt` | Any | Tätort | `lm:textdelnr!=2 & lm:textdelnr!=3 & lm:textkategori=Tätort` | point | `0x0800` | 24, 23, 22, 21, 20, 18 | Garmin default | `${name}` |
+| `textpunkt` | Any | Bebyggelse stor | `lm:textdelnr!=2 & lm:textdelnr!=3 & lm:textkategori=Bebyggelse & lm:i_bebyggelse=yes & lm:textstorleksklass>=5` | point | `0x0a00` | 24, 23, 22, 21, 20 | label only (no symbol) | `${name}` |
+| `textpunkt` | Any | Bebyggelse | `lm:textdelnr!=2 & lm:textdelnr!=3 & lm:textkategori=Bebyggelse & lm:i_bebyggelse=yes & lm:textstorleksklass>=4` | point | `0x0c00` | 24, 23, 22 | label only (no symbol) | `${name}` |
+| `textpunkt` | Any | Bebyggelse liten | `lm:textdelnr!=2 & lm:textdelnr!=3 & lm:textkategori=Bebyggelse & lm:i_bebyggelse=yes & lm:textstorleksklass>=3` | point | `0x0c00` | 24, 23 | label only (no symbol) | `${name}` |
+| `textpunkt` | Any | Bebyggelse liten | `lm:textdelnr!=2 & lm:textdelnr!=3 & lm:textkategori=Bebyggelse & lm:i_bebyggelse=yes` | point | `0x0c00` | 24 | label only (no symbol) | `${name}` |
 | `textpunkt` | Any | Bebyggelse stor | `lm:textdelnr!=2 & lm:textdelnr!=3 & lm:textkategori=Bebyggelse & lm:textstorleksklass>=4` | point | `0x0a00` | 24, 23, 22, 21, 20 | label only (no symbol) | `${name}` |
 | `textpunkt` | Any | Bebyggelse | `lm:textdelnr!=2 & lm:textdelnr!=3 & lm:textkategori=Bebyggelse & lm:textstorleksklass>=3` | point | `0x0c00` | 24, 23, 22 | label only (no symbol) | `${name}` |
 | `textpunkt` | Any | Bebyggelse liten | `lm:textdelnr!=2 & lm:textdelnr!=3 & lm:textkategori=Bebyggelse` | point | `0x0c00` | 24, 23 | label only (no symbol) | `${name}` |
+| `textpunkt` | Any | Upplysningstext i tätort | `lm:textdelnr!=2 & lm:textdelnr!=3 & lm:textkategori=Upplysningstext & lm:i_bebyggelse=yes` | point | `0x2800` | 24 | Garmin default | `${name}` |
 | `textpunkt` | Any | Upplysningstext | `lm:textdelnr!=2 & lm:textdelnr!=3 & (lm:textkategori=Upplysningstext \| lm:textkategori=Fjällupplysningstext)` | point | `0x2800` | 24, 23 | Garmin default | `${name}` |
 | `textpunkt` | Any | Kyrka | `lm:textdelnr!=2 & lm:textdelnr!=3 & lm:textkategori=Kyrka` | point | `0x2800` | 24, 23 | Garmin default | `${name}` |
 | `textpunkt` | Any | Skyddad natur | `lm:textdelnr!=2 & lm:textdelnr!=3 & lm:textkategori='Skyddad natur'` | point | `0x2800` | 24, 23 | Garmin default | `${name}` |

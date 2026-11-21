@@ -55,10 +55,10 @@ build, device firmware, scale and result here when a check is complete.
   [#24](https://github.com/nilande/lm-garmin/issues/24)). Outdoors at normal brightness, check
   that the four trail statuses and the 1836 marker are distinguishable at **180–250 m** near
   Syterstugan, in particular the light-orange *Ingen information* dashes over wetland hatching.
-- [ ] **Names thinned one more zoom step** ([#16](https://github.com/nilande/lm-garmin/issues/16)).
-  After the [second label check](#2026-11-21--labels-and-road-shields-16-62): compare Täby and
-  Tärnaby at 400 m, 650–900 m and 1.2 km with the captures in
-  `dist/montana-labels/2026-11-21b/`. Search results should read "<name>, SE".
+- [ ] **Town place names thinned harder** ([#16](https://github.com/nilande/lm-garmin/issues/16)).
+  After the [third label check](#2026-11-21--labels-and-road-shields-16-62): compare Täby at
+  400 m, 650–900 m, 1.2 km and 2 km with `dist/montana-labels/2026-11-21c/`. Hemavan should
+  look the same as in that check.
 - [ ] **Retest overview label priority after the next label build**
   ([issue #16](https://github.com/nilande/lm-garmin/issues/16)). Recheck
   Stor-Laisan at **8 km** and Vallentunasjön at **2 km** and **8 km**.
@@ -113,6 +113,16 @@ reserve names appear at 400 m and at 800–900 m, so **650–900 m is resolution
 from 2 km, class 3 from 650–900 m, class 2 plus church, reserve and information texts from
 400 m, class 1 only at the closest zoom. Labelled points at resolution 22: Täby 266 → 137,
 Hemavan 488 → 306; at 21: Täby 137 → 68, Hemavan 306 → 125.
+
+**Third check** (captures in `dist/montana-labels/2026-11-21c/`). Hemavan looked about right
+at every zoom. Täby was still on the busy side at 400 m – 1.2 km; most labels there are
+district names (Ensta, Tibble, Täby park, Näsbypark, Enebyberg). The search list now shows
+"<name>, SE" for the dev map; "ABC" entries come from the v0.1 map on the device and "SWE"
+from another map. The converter now tags map texts inside built-up land cover
+(`lm:i_bebyggelse`, tag schema 5), and place names there come one step later (class ≥ 5
+from 2 km, 4 from 650–900 m, 3 from 400 m); information texts in towns only at the closest
+zoom. Hemavan is unchanged. Labelled points in Täby: 650–900 m 137 → 107, 1.2 km 68 → 44,
+2 km 67 → 43. Nationwide the tagging adds 1.8 s to the text theme.
 
 ## 2026-11-21 – street names from NVDB (issue #60)
 

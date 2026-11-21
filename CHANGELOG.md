@@ -18,7 +18,8 @@
   and protected-area names from resolution 22, so they no longer repeat town and reserve
   names at the overview levels. Names are thinned by Lantmäteriet's text size class: class ≥ 4 from
   2 km, class 3 from 650–900 m, class 2 from 400 m (about a quarter of the labels at 1.2 km
-  in Täby compared with v0.1). Search
+  in Täby compared with v0.1). Place names inside built-up areas (new tag
+  `lm:i_bebyggelse`, tag schema 5) come one zoom step later than in the countryside. Search
   results read "<name>, SE" instead of mkgmap's default "ABC". Village and farm names
   (`0x0a00`/`0x0c00`) are drawn without the device's default dot.
 - Road numbers are drawn as upright box shields (`${ref|highway-symbol:hbox}`), and lines

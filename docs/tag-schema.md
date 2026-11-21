@@ -1,4 +1,4 @@
-# Tag schema (version 4)
+# Tag schema (version 5)
 
 The converter (stage S1, `lm_garmin.convert`) writes Topografi 50 as OSM PBF. The OSM tags
 only re-encode Lantmäteriet's own data ([ADR-0003](adr/0003-style-independent-intermediate-and-cache.md));
@@ -38,6 +38,7 @@ selected by the GeoPackage R-tree; geometries are **not** clipped to the region.
 | `ele` | `hojdvarde` | contours and spot heights |
 | `ref` | `vardvagnummer` | road number |
 | `lm:gatunamn_nvdb` | Trafikverket NVDB street name (only with `--nvdb-dir`) | on `vaglinje` ways matched to an NVDB name line ([street names](street-names.md#implementation-issue-60)). Not a Lantmäteriet attribute. A road segment where the name changes is split into one way per name; the pieces keep all other tags. |
+| `lm:i_bebyggelse` | derived: the point lies in built-up land cover (`mark` 2636–2639) | `yes` on `textpunkt` inside sluten, hög, låg or industri- och handelsbebyggelse in the same region. Lets styles thin place names in towns harder than in the countryside (#16). |
 | `lm:ov` | derived overview geometry | `yes` on the merged shape and `detail` on the source fragments it replaces at overview resolution. Untagged features use their source geometry at every supported level. |
 
 Not carried: `fid`, `geom`, `objektidentitet`, `skapad`, `objekttyp` (redundant with `lm:t`).
@@ -61,7 +62,7 @@ It works in aligned 50 km blocks, with joins confined to each block. The union
 preserves clearings, water and other holes in the source forest. The default
 style uses it at resolution 20.
 
-Schema history: 4 adds `lm:gatunamn_nvdb` (issue #60); 3 adds `lm:ov`.
+Schema history: 5 adds `lm:i_bebyggelse` (#16); 4 adds `lm:gatunamn_nvdb` (issue #60); 3 adds `lm:ov`.
 
 ## Example
 

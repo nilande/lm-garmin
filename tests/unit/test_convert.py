@@ -2,6 +2,7 @@
 
 import collections
 import sqlite3
+from collections import Counter
 
 import osmium
 import pytest
@@ -104,3 +105,21 @@ def test_theme_order_is_frozen():
     # Changing the order changes all OSM ids – append new themes at the end instead.
     assert THEMES[:3] == ["administrativindelning", "anlaggningsomrade", "byggnadsverk"]
     assert THEMES[-1] == "text"
+
+
+def test_texts_in_built_up_areas_are_tagged(tmp_path, request):
+    """Place names inside built-up land cover get lm:i_bebyggelse=yes (#16)."""
+    from pathlib import Path
+
+    data = Path(request.config.rootpath) / "tests" / "data"
+    (tmp_path / "src").mkdir()
+    (tmp_path / "src" / "tatort_659_67_00.gpkg").symlink_to(data / "tatort_659_67_00.gpkg")
+    region = Region("t", (670000, 6590000, 675000, 6595000))
+    convert(tmp_path / "src", region, tmp_path / "pbf", jobs=2, log=lambda *_: None)
+    texts = [o for o in objects(tmp_path / "pbf" / "text.osm.pbf") if o.kind == "n"]
+    inside = Counter(o.tags.get("lm:textkategori") for o in texts if "lm:i_bebyggelse" in o.tags)
+    outside = Counter(
+        o.tags.get("lm:textkategori") for o in texts if "lm:i_bebyggelse" not in o.tags
+    )
+    assert inside["Bebyggelse"] >= 5
+    assert outside["Hydrografi"] > inside["Hydrografi"]
