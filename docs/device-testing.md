@@ -208,7 +208,7 @@ Captures are kept locally in `dist/montana-street-names/2026-11-21/`.
 | Täby, 800 m | `62.bmp` | No street names (town streets start at resolution 20–21); place names and E18 as before. |
 | Täby centrum, 250 m | `72.bmp` | Street names are legible but large and dense; they dominate the map at this scale. |
 | Täby, 80 m and 70 m | `88.bmp`, `271.bmp` | Street names fit well and follow the lines. Norrortsleden shows its road number **265**. Index contour labels are visible. |
-| *Where to?* menu | `179.bmp`, `186.bmp`, `188.bmp` | No address or street search: the menu has Recent Finds, Waypoints, Coordinates, All POIs, Cities and POI categories only. |
+| *Where to?* menu | `179.bmp`, `186.bmp`, `188.bmp` | No address or street search: the menu has Recent Finds, Waypoints, Coordinates, All POIs, Cities and POI categories only. *Later finding:* *Addresses* appears only for maps with NET data (`--net`/`--route`), which this map lacks – see #72. |
 
 **Decision.** The Montana is mainly for navigation off-road, so street names are a bonus
 for the detailed zoom. Karta 1:50 000 has no street names at all, and Karta 1:10 000 names
@@ -453,7 +453,7 @@ Worldwide DEM Basemap NR, TopoActive Europe East 2026.11.
 | Overlay styles (Påbjuden, Ja, Nej, Ingen information, 1836 points) | **All visible** once placed on all zoom levels (v3) |
 | Labels on `0x650d` (lake) and `0x6614` (land feature) POIs | **Not drawn** (icon only) |
 | Labels on `0x0c00` (city) and `0x2800` (label) points | Drawn |
-| Address search | Not available – Topografi 50 has no addresses or street names (expected) |
+| Address search | Not available – Topografi 50 has no addresses or street names (expected); the menu also needs a map with NET data (#72) |
 | Place search (Lövlund, Enebyberg, Sätra) | **Works** |
 | Redraw speed, colours | Fast and smooth; colours fine |
 | Activity profile (Hiking vs Boating) | **No effect** on which label rows were drawn |
