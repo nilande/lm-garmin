@@ -158,7 +158,10 @@ a time – GeoPackage zips are unpacked to a temp file, FileGDB zips are read in
 (layers `TNE_FT_Gatunamn_1` and `TNE_FT_Ovrigt_vagnamn_1`, name column `Namn_<n>`,
 MultiLineStrings with M values) – and keeps the two name layers (name column, 2D) in one GeoPackage with a JSON
 sidecar of sources and checksums. Stockholms + Västerbottens län: 179 637 lines, 67 MB,
-23 s; the Täby quality check gives the same result as with the full county files.
+23 s; the Täby quality check gives the same result as with the full county files. All 21
+counties (20 GeoPackage zips and Dalarna's FileGDB zip, Betraktelsedatum 2026-11-17, read
+from a network share): 898 273 lines, 356 MB, 2 min 40 s; town streets named 96.2 % in Täby
+and 91.0 % in Falun (from the FileGDB), 0 of 100 sample disagreements in both.
 
 ### Test data
 
