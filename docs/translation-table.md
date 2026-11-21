@@ -75,8 +75,8 @@ and object types.
 | `start_landningsbana` | `2853` | Start- och landningsbana | — | polygon | `0x0e` | 24, 23, 22 | solid, `#F5D2B0`, order 6 | — |
 | `transformatoromrade` | `1741` | Transformatorområde | — | polygon | `0x10f14` | 24, 23, 22 | hatch, `#808080`, order 5 | — |
 | `militart_omrade` | Any | Militärt område | — | polygon | `0x04` | 24, 23, 22, 21, 20, 18 | hatch, `#00A0E0`, order 5 | — |
-| `skyddadnatur` | `5603` | Nationalpark | — | polygon | `0x16` | 24, 23, 22, 21, 20, 18, 16 | hatch, `#5AB032`, order 5 | — |
-| `skyddadnatur` | Any | Skyddad natur | — | polygon | `0x10f15` | 24, 23, 22, 21, 20, 18 | hatch, `#5AB032`, order 5 | — |
+| `skyddadnatur` | `5603` | Nationalpark | — | polygon | `0x16` | 24, 23, 22, 21, 20, 18, 16 | hatch-sparse, `#5AB032`, order 5 | — |
+| `skyddadnatur` | Any | Skyddad natur | — | polygon | `0x10f15` | 24, 23, 22, 21, 20, 18 | hatch-sparse, `#5AB032`, order 5 | — |
 | `hojdlinje` | `2402` | Gropkurva | — | line | `0x21` | 24, 23 | solid, `#A89274`, 1 px | — |
 | `hojdlinje` | `2405` | Gropkurva 10 | — | line | `0x21` | 24, 23 | solid, `#A89274`, 1 px | — |
 | `hojdlinje` | Any | Stödkurva | `lm:stodkurva=Ja & ele ~ '-?(0\|[0-9]*00)'` | line | `0x22` | 20 | solid, `#907450`, 2 px | `continue` |
@@ -105,12 +105,12 @@ and object types.
 | `vaglinje` | `1809` | Huvudgata | `ref=*` | line | `0x04` | 24, 23, 22, 21, 20 | solid, `#E89070/#8A3A20`, 4 px | `${ref\|highway-symbol:hbox}` |
 | `vaglinje` | `1809` | Huvudgata | — | line | `0x04` | 22, 21, 20 | solid, `#E89070/#8A3A20`, 4 px | `continue` |
 | `vaglinje` | `1809` | Huvudgata (namn) | — | line | `0x04` | 24, 23 | solid, `#E89070/#8A3A20`, 4 px | `${lm:gatunamn_nvdb}` |
-| `vaglinje` | `1810` | Lokalgata stor | `ref=*` | line | `0x06` | 24, 23, 22, 21, 20 | solid, `#7F7F7F`, 3 px | `${ref}` |
-| `vaglinje` | `1810` | Lokalgata stor | — | line | `0x06` | 22, 21, 20 | solid, `#7F7F7F`, 3 px | `continue` |
-| `vaglinje` | `1810` | Lokalgata stor (namn) | — | line | `0x06` | 24, 23 | solid, `#7F7F7F`, 3 px | `${lm:gatunamn_nvdb}` |
-| `vaglinje` | `1811` | Lokalgata liten | `ref=*` | line | `0x06` | 24, 23, 22, 21 | solid, `#7F7F7F`, 3 px | `${ref}` |
-| `vaglinje` | `1811` | Lokalgata liten | — | line | `0x06` | 22, 21 | solid, `#7F7F7F`, 3 px | `continue` |
-| `vaglinje` | `1811` | Lokalgata liten (namn) | — | line | `0x06` | 24, 23 | solid, `#7F7F7F`, 3 px | `${lm:gatunamn_nvdb}` |
+| `vaglinje` | `1810` | Lokalgata stor | `ref=*` | line | `0x06` | 24, 23, 22, 21 | solid, `#8C8C8C`, 2 px | `${ref}` |
+| `vaglinje` | `1810` | Lokalgata stor | — | line | `0x06` | 22, 21 | solid, `#8C8C8C`, 2 px | `continue` |
+| `vaglinje` | `1810` | Lokalgata stor (namn) | — | line | `0x06` | 24, 23 | solid, `#8C8C8C`, 2 px | `${lm:gatunamn_nvdb}` |
+| `vaglinje` | `1811` | Lokalgata liten | `ref=*` | line | `0x06` | 24, 23, 22 | solid, `#8C8C8C`, 2 px | `${ref}` |
+| `vaglinje` | `1811` | Lokalgata liten | — | line | `0x06` | 22 | solid, `#8C8C8C`, 2 px | `continue` |
+| `vaglinje` | `1811` | Lokalgata liten (namn) | — | line | `0x06` | 24, 23 | solid, `#8C8C8C`, 2 px | `${lm:gatunamn_nvdb}` |
 | `farjeled` | `1891` | Färjeled | — | line | `0x1b` | 24, 23, 22, 21, 20, 18 | dash, `#C0392B`, 2 px | — |
 | `ralstrafik` | `1861` | Järnväg | — | line | `0x14` | 24, 23, 22, 21, 20, 18 | solid, `#333333`, 2 px | — |
 | `ralstrafik` | `1862` | Museijärnväg | — | line | `0x10e0e` | 24, 23, 22, 21, 20 | dash, `#555555`, 2 px | — |

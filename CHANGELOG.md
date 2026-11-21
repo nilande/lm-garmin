@@ -22,6 +22,9 @@
   `lm:i_bebyggelse`, tag schema 5) come one zoom step later than in the countryside. Search
   results read "<name>, SE" instead of mkgmap's default "ABC". Village and farm names
   (`0x0a00`/`0x0c00`) are drawn without the device's default dot.
+- Look (#14): local streets are 2 px and start at 1.2 km (Lokalgata stor) and 650–900 m
+  (Lokalgata liten), so towns no longer read as a grey mass at 1.2–2 km. Nature reserves
+  and national parks use a hatch of half the density (new pattern `hatch-sparse`).
 - Road numbers are drawn as upright box shields (`${ref|highway-symbol:hbox}`), and lines
   are merged regardless of direction (`--allow-reverse-merge`): 7–10 % fewer lines per
   level and fewer, steadier road-number labels (#62).
