@@ -13,13 +13,13 @@ import platform
 import shutil
 import subprocess
 import time
-from dataclasses import asdict, dataclass, field
+from dataclasses import asdict, dataclass, field, replace
 from importlib.metadata import version
 from pathlib import Path
 
 import osmium
 
-from . import __version__, overview, stylegen, tools
+from . import __version__, overview, street_names, stylegen, tools
 from .convert import convert
 from .products import DEFAULT_PRODUCTS, PRODUCTS, Product, dev_variant
 from .region import Region
@@ -169,6 +169,7 @@ def build(
     *,
     topo100_dir: Path | None = None,
     topo250_dir: Path | None = None,
+    nvdb_dir: Path | None = None,
 ) -> dict:
     """Build the products for one region, or several regions combined into one map.
 
@@ -202,12 +203,26 @@ def build(
             for scale in sources
             for layer in overview.LAYERS
         }
+    nvdb: list[Path] = []
+    if nvdb_dir is not None:
+        if "topo50" not in keys:
+            raise BuildError("--nvdb-dir requires topo50 in --products")
+        try:
+            nvdb = street_names.sources(nvdb_dir)
+        except (OSError, ValueError) as e:
+            raise BuildError(f"NVDB: {e}") from e
     prods = {k: dev_variant(PRODUCTS[k]) if dev else PRODUCTS[k] for k in keys}
+    if nvdb:
+        prods["topo50"] = replace(
+            prods["topo50"],
+            copyright=f"{prods['topo50'].copyright}, {street_names.COPYRIGHT}",
+        )
     java = tools.find_java()
     if not java:
         raise BuildError("java not found – install Java 17+ or set LM_GARMIN_JAVA")
     build_id = "+".join(r.id for r in regions) + ("-dev" if dev else "")
     build_id += "".join(f"-topo{scale}" for scale in sources)
+    build_id += "-nvdb" if nvdb else ""
     stage_cache = StageCache(cache)
     out_dir.mkdir(parents=True, exist_ok=True)
     steps: list[Step] = []
@@ -245,8 +260,12 @@ def build(
         )
         conversion = [
             __version__,
-            implementation("convert", "tags", "region", "forest_overview", "water_overview"),
+            implementation(
+                "convert", "tags", "region", "forest_overview", "water_overview", "street_names"
+            ),
         ]
+        # NVDB is part of the conversion key: names are cached per region and NVDB checksum.
+        nvdb_inputs = [(p.name, stage_cache.fingerprint(p)) for p in nvdb]
         orchestrator = implementation("build")
         dependencies = {
             pkg: version(pkg)
@@ -266,7 +285,8 @@ def build(
 
         def convert_stage(dest, reg):
             t0 = time.monotonic()
-            stats = convert(gpkg_dir, reg, dest, jobs, log=log)
+            stats = convert(gpkg_dir, reg, dest, jobs, log=log, nvdb=nvdb or None)
+            names = next((s.street_names for s in stats if s.street_names), None)
             return Step(
                 "convert",
                 round(time.monotonic() - t0, 2),
@@ -274,13 +294,14 @@ def build(
                 {
                     "features": sum(s.features for s in stats),
                     "pbf": [s.pbf for s in stats if s.nodes],
+                    **({"street_names": names} if names else {}),
                 },
             )
 
         converted = [
             run(
                 "convert",
-                [conversion, data_inputs, region_input(reg)],
+                [conversion, data_inputs, region_input(reg), *([nvdb_inputs] if nvdb else [])],
                 lambda dest, reg=reg: convert_stage(dest, reg),
                 f"convert:{reg.id}",
             )
@@ -459,6 +480,8 @@ def build(
         "steps": [s.__dict__ for s in steps],
         "outputs": outputs,
     }
+    if nvdb:
+        report["nvdb_sources"] = [str(p) for p in nvdb]
     if sources:
         report["overview_sources"] = {str(scale): str(path) for scale, path in sources.items()}
     (out_dir / "build-report.json").write_text(json.dumps(report, indent=1), encoding="utf-8")

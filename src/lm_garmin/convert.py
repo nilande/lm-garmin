@@ -25,7 +25,7 @@ import pyogrio
 import shapely
 from pyproj import Transformer
 
-from . import __version__
+from . import __version__, street_names
 from .forest_overview import FOREST_TYPE, merged_forests
 from .region import Region
 from .tags import SCHEMA_VERSION, feature_tags, read_columns
@@ -97,6 +97,7 @@ class ThemeStats:
     layers: dict[str, int] = field(default_factory=dict)
     merged_lakes: int = 0
     merged_forests: int = 0
+    street_names: dict = field(default_factory=dict)
 
 
 class OsmSink:
@@ -191,12 +192,16 @@ def _write_batch(
     forest_fids: set[int],
     fid_col: str,
     region: Region,
+    names: street_names.NameIndex | None = None,
+    name_stats: street_names.MatchStats | None = None,
 ) -> int:
     geoms = shapely.from_wkb(batch.column(geom_col).to_numpy(zero_copy_only=False))
     if region.geometry is not None:
         keep = shapely.intersects(region.geometry, geoms)
         geoms = geoms[keep]
         batch = batch.filter(keep)
+    if names is not None and layer == "vaglinje":
+        return _write_named_roads(sink, layer, columns, batch, geoms, tr, names, name_stats)
     geoms = _to_wgs84(geoms, tr)
     values = [batch.column(c).to_pylist() for c in columns]
     rows = list(zip(*values, strict=True)) if values else [()] * len(geoms)
@@ -223,13 +228,45 @@ def _write_batch(
     return n
 
 
+def _write_named_roads(
+    sink: OsmSink,
+    layer: str,
+    columns: list[str],
+    batch,
+    geoms: np.ndarray,
+    tr: Transformer,
+    names: street_names.NameIndex,
+    stats: street_names.MatchStats,
+) -> int:
+    """Roads with NVDB street names: match in EPSG:3006, split where the name changes."""
+    values = [batch.column(c).to_pylist() for c in columns]
+    n = 0
+    for g, row in zip(geoms, zip(*values, strict=True), strict=True):
+        if g is None or g.is_empty:
+            continue
+        tags = feature_tags(layer, columns, row)
+        n += 1
+        for part in shapely.get_parts(g):
+            m = names.match(part)
+            named = sum(p.length for p, nm in m.pieces if nm)
+            stats.add(tags.get("lm:t", ""), part.length, named, m)
+            for piece, name in m.pieces:
+                t = {**tags, street_names.TAG: name} if name else tags
+                sink.way(shapely.get_coordinates(_to_wgs84(piece, tr)), t)
+    return n
+
+
 def _max_rss_mb() -> float:
     rss = resource.getrusage(resource.RUSAGE_SELF).ru_maxrss
     return round(rss / (1e6 if os.uname().sysname == "Darwin" else 1e3), 1)
 
 
 def convert_theme(
-    theme: str, sources: list[tuple[Path, str]], region: Region, out_dir: Path
+    theme: str,
+    sources: list[tuple[Path, str]],
+    region: Region,
+    out_dir: Path,
+    nvdb: list[Path] | None = None,
 ) -> ThemeStats:
     """Convert the given (gpkg, layer) pairs of one theme into <out_dir>/<theme>.osm.pbf."""
     t0 = time.monotonic()
@@ -239,6 +276,10 @@ def convert_theme(
     stats = ThemeStats(theme, out.name)
     if region.geometry is not None:
         shapely.prepare(region.geometry)
+    names = name_stats = None
+    if nvdb and any(layer == "vaglinje" for _, layer in sources):
+        names = street_names.NameIndex.read(nvdb, region.bbox)
+        name_stats = street_names.MatchStats()
     with TemporaryFile(dir=out_dir) as forest_overviews:
         sink = OsmSink(out, id_base(theme), (lon[0], lat[0], lon[1], lat[1]))
         try:
@@ -281,6 +322,8 @@ def convert_theme(
                             forest_fids,
                             meta["fid_column"],
                             region,
+                            names,
+                            name_stats,
                         )
                 stats.layers[layer] = stats.layers.get(layer, 0) + count
                 stats.features += count
@@ -307,6 +350,8 @@ def convert_theme(
                     )
         finally:
             sink.close()
+    if name_stats is not None:
+        stats.street_names = {"nvdb_lines": len(names), **name_stats.as_dict()}
     stats.nodes, stats.ways, stats.relations = sink.nodes, sink.ways, sink.relations
     stats.seconds = round(time.monotonic() - t0, 2)
     stats.max_rss_mb = _max_rss_mb()
@@ -337,7 +382,13 @@ def plan_sources(gpkg_dir: Path) -> dict[str, list[tuple[Path, str]]]:
 
 
 def convert(
-    gpkg_dir: Path, region: Region, out_dir: Path, jobs: int | None = None, *, log=print
+    gpkg_dir: Path,
+    region: Region,
+    out_dir: Path,
+    jobs: int | None = None,
+    *,
+    log=print,
+    nvdb: list[Path] | None = None,
 ) -> list[ThemeStats]:
     """Convert all themes in parallel. Returns stats in theme order; writes convert-report.json."""
     out_dir.mkdir(parents=True, exist_ok=True)
@@ -349,17 +400,21 @@ def convert(
 
     with ProcessPoolExecutor(max_workers=jobs or os.cpu_count()) as ex:
         futures = {
-            t: ex.submit(convert_theme, t, plan[t], region, out_dir)
+            t: ex.submit(convert_theme, t, plan[t], region, out_dir, nvdb)
             for t in sorted(plan, key=weight)
         }
         for t in sorted(plan, key=weight):
             s = futures[t].result()
             log(f"{s.theme}: {s.features} features, {s.nodes} nodes in {s.seconds}s")
+            if s.street_names:
+                sn = s.street_names
+                log(f"  street names: {sn['named_share']:.1%} of {sn['km']} km road named")
     stats = [futures[t].result() for t in plan]
     report = {
         "lm_garmin": __version__,
         "tag_schema": SCHEMA_VERSION,
         "region": {"id": region.id, "bbox_3006": region.bbox},
+        "nvdb": [p.name for p in nvdb or []],
         "seconds": round(time.monotonic() - t0, 2),
         "themes": [asdict(s) for s in stats],
     }

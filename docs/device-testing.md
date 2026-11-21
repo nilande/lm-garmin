@@ -81,6 +81,34 @@ build, device firmware, scale and result here when a check is complete.
   Check the physical display at normal riding brightness, especially the grey
   dashed routes against snow or open terrain.
 
+## 2026-11-21 – street names from NVDB (issue #60)
+
+Montana 700, firmware 25.70. Dev map from PR #61 (`--area taby --area hemavan --dev
+--nvdb-dir`, NVDB 2026-11-17), street names on every level where streets are drawn.
+Captures are kept locally in `dist/montana-street-names/2026-11-21/`.
+
+| Area and scale bar | Captures | Observation |
+|---|---|---|
+| Täby, 800 m | `62.bmp` | No street names (town streets start at resolution 20–21); place names and E18 as before. |
+| Täby centrum, 250 m | `72.bmp` | Street names are legible but large and dense; they dominate the map at this scale. |
+| Täby, 80 m and 70 m | `88.bmp`, `271.bmp` | Street names fit well and follow the lines. Norrortsleden shows its road number **265**. Index contour labels are visible. |
+| *Where to?* menu | `179.bmp`, `186.bmp`, `188.bmp` | No address or street search: the menu has Recent Finds, Waypoints, Coordinates, All POIs, Cities and POI categories only. |
+
+**Decision.** The Montana is mainly for navigation off-road, so street names are a bonus
+for the detailed zoom. Karta 1:50 000 has no street names at all, and Karta 1:10 000 names
+every street. Street names now appear only at resolution 23–24 (the levels that show index
+contour labels, about 80 m and closer). Road numbers stay on every level. Street search is
+not offered by the device's *Where to?* menu, so no search index is built for street names.
+
+**Recheck with names at resolution 23–24** (same day, captures in
+`dist/montana-street-names/2026-11-21b/`):
+
+| Scale bar | Capture | Observation |
+|---|---|---|
+| 80 m, 120 m | `72.bmp`, `65.bmp` | All streets named and legible. |
+| 250–300 m | `122.bmp` | The device already uses resolution 23 here (index contour labels show). It labels only the larger named roads (Turebergsvägen, Stockholmsvägen, Påtåkersvägen, Postvägen); small streets stay unlabelled. Accepted: a hierarchy like the raster maps. |
+| 300 m and out | `122.bmp` | Road numbers (265, 873) follow the line, and which numbered roads are labelled varies. Upright shields and `--merge-lines` are tracked in [#62](https://github.com/nilande/lm-garmin/issues/62). |
+
 ## 2026-11-20 – v0.1 Sweden candidate
 
 Montana 700, firmware 25.70. Used the [nationwide build from `1140add`](benchmarks/2026-11-20-build-sweden-v0.1-rc.json).

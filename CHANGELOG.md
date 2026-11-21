@@ -1,5 +1,18 @@
 # Changelog
 
+## Unreleased
+
+### Added
+
+- Street names from Trafikverket NVDB (CC0) with `build --nvdb-dir` (#60,
+  [ADR-0007](docs/adr/0007-street-names-from-nvdb.md)). Topografi 50 roads are matched to
+  NVDB name lines and split where the name changes. In Täby 96 % of town-street length is
+  named. New tag `lm:gatunamn_nvdb`, tag schema 4. The copyright reads "© Lantmäteriet,
+  Trafikverket (NVDB)" when used.
+- `scripts/street_name_check.py`: local quality check of the matching.
+- Style: road numbers at every level; street names only at resolution 23–24 (about 80 m
+  and closer), like Karta 1:10 000, after the Montana check.
+
 ## v0.1.0 – 2026-11-20
 
 First release: a nationwide Garmin map from Lantmäteriet's Topografi 50, with a separate
