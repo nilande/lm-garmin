@@ -81,6 +81,17 @@ build, device firmware, scale and result here when a check is complete.
   Check the physical display at normal riding brightness, especially the grey
   dashed routes against snow or open terrain.
 
+## 2026-11-21 – street network and reserve hatching (#14)
+
+Montana 700, firmware 25.70. Dev map from PR #64. Captures in `dist/montana-look/2026-11-21/`.
+Accepted ("looks fine").
+
+| Area and scale bar | Captures | Observation |
+|---|---|---|
+| Täby 2 km, 1.2 km | `63`, `70` | The town reads as built-up area with the main streets; no grey mass of local streets. |
+| Täby 650 m | `92` | Local streets appear, thin and light; the network is readable. |
+| Hemavan / Vindelfjällen 2 km | `153` | The sparser green hatch leaves the terrain visible. The dark look at Norra Storfjället comes from dense 2 px index contours on steep slopes, not from the hatch – a candidate for later tuning. |
+
 ## 2026-11-21 – labels and road shields (#16, #62)
 
 Montana 700, firmware 25.70. Dev map from PR #63 (first commit). Captures in

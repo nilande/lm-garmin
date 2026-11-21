@@ -8,8 +8,8 @@ Generated files carry a header and are checked by a test to be up to date.
 Columns: kind (point|line|polygon|drop), layer, t (objekttypnr, empty = any), condition
 (extra mkgmap expression), type, resolution, name (label expression, e.g. ${ele}),
 description, colour, colour2, width,
-pattern (solid|solid-bitmap|dash|dot|label|stripe|hatch|dots|mottled|icon|none; for points
-`label` draws the label without a symbol),
+pattern (solid|solid-bitmap|dash|dot|label|stripe|hatch|hatch-sparse|dots|mottled|icon|none;
+for points `label` draws the label without a symbol),
 order (polygon draw order 1–8), options (`continue`: keep matching later rules, so one feature
 can be emitted twice, e.g. unlabelled at one resolution range and labelled at another;
 `outline`: pass the layer and object type to inner rings of a multipolygon for a line rule).
@@ -123,6 +123,9 @@ def _xpm(rows: list[str], colours: dict[str, str]) -> str:
 def _pattern(kind: str) -> list[str]:
     if kind == "stripe":
         return [("a" * 32 if y % 4 == 0 else "b" * 32) for y in range(32)]
+    if kind == "hatch-sparse":
+        # Half the density of `hatch`, for large areas drawn over terrain (#14).
+        return ["".join("a" if (x + y) % 16 == 0 else "b" for x in range(32)) for y in range(32)]
     if kind == "hatch":
         return ["".join("a" if (x + y) % 8 == 0 else "b" for x in range(32)) for y in range(32)]
     if kind == "dots":
