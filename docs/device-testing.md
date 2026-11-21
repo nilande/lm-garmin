@@ -55,6 +55,11 @@ build, device firmware, scale and result here when a check is complete.
   [#24](https://github.com/nilande/lm-garmin/issues/24)). Outdoors at normal brightness, check
   that the four trail statuses and the 1836 marker are distinguishable at **180–250 m** near
   Syterstugan, in particular the light-orange *Ingen information* dashes over wetland hatching.
+  A synthetic grid can be placed anywhere: `scripts/make_overlay_testgrid.py` writes eight
+  trails (1847/1848 × four statuses, labelled "1847 Ja" … at the north end), three 1836
+  markers on "1847 Påbj", and bands of sankmark våt (south third) and fast (middle third).
+  Build it together with the real data (see the script's docstring) as a `--dev` map. On
+  2026-11-21 a grid centred at Ensta, Täby (59.45398 N, 18.06204 E) was installed.
 - [ ] **Retest overview label priority after the next label build**
   ([issue #16](https://github.com/nilande/lm-garmin/issues/16)). Recheck
   Stor-Laisan at **8 km** and Vallentunasjön at **2 km** and **8 km**.
