@@ -55,10 +55,10 @@ build, device firmware, scale and result here when a check is complete.
   [#24](https://github.com/nilande/lm-garmin/issues/24)). Outdoors at normal brightness, check
   that the four trail statuses and the 1836 marker are distinguishable at **180–250 m** near
   Syterstugan, in particular the light-orange *Ingen information* dashes over wetland hatching.
-- [ ] **Names thinned by size class** ([#16](https://github.com/nilande/lm-garmin/issues/16)).
-  After the [first label check](#2026-11-21--labels-and-road-shields-16-62): compare Täby and
-  Tärnaby at 600 m, 800 m–1.2 km and 2 km with the captures there. Is the map calmer
-  without losing names needed outdoors? Search results should read "<name>, SE".
+- [ ] **Names thinned one more zoom step** ([#16](https://github.com/nilande/lm-garmin/issues/16)).
+  After the [second label check](#2026-11-21--labels-and-road-shields-16-62): compare Täby and
+  Tärnaby at 400 m, 650–900 m and 1.2 km with the captures in
+  `dist/montana-labels/2026-11-21b/`. Search results should read "<name>, SE".
 - [ ] **Retest overview label priority after the next label build**
   ([issue #16](https://github.com/nilande/lm-garmin/issues/16)). Recheck
   Stor-Laisan at **8 km** and Vallentunasjön at **2 km** and **8 km**.
@@ -104,6 +104,15 @@ larger size than on Karta 1:50 000. The next build thins names by `textstorleksk
 class ≥ 3 at resolution 21, ≥ 2 at 22, all at 23; church and reserve names from 22. In the
 dev map this drops the labelled points at resolution 21 from 288 to 137 in Täby and from
 511 to 306 around Hemavan. The country is set to Sverige/SE.
+
+**Second check** (captures in `dist/montana-labels/2026-11-21b/`, Täby 150 m – 2 km, Tärnaby
+400 m – 2.8 km). 2 km looked right; every closer zoom was still too busy, in Täby and around
+Hemavan. The captures also give the device's zoom-to-level mapping: index contour labels and
+reserve names appear at 400 m and at 800–900 m, so **650–900 m is resolution 22, 1.2 km is
+21, 2 km is 20** – one step coarser than assumed. The thresholds move one step: class ≥ 4
+from 2 km, class 3 from 650–900 m, class 2 plus church, reserve and information texts from
+400 m, class 1 only at the closest zoom. Labelled points at resolution 22: Täby 266 → 137,
+Hemavan 488 → 306; at 21: Täby 137 → 68, Hemavan 306 → 125.
 
 ## 2026-11-21 – street names from NVDB (issue #60)
 

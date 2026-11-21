@@ -142,21 +142,22 @@ line,textlinje,,,0x10d02,21,${name},Namn längs linje,#D0D0D0,,1,label,
 # A name split over two lines in Karta 1:50 000 (textdelnr 1, 2, 3) has one point per part, and
 # each part carries the full name in textstrang: only the first part is drawn (#16).
 # Names are thinned by textstorleksklass (the raster map's text size), because the device
-# draws every name much larger than Karta 1:50 000 does (#16): at about 800 m–1.2 km
-# (resolution 21) only class ≥ 3, at 300 m (22) class ≥ 2, the rest from 23. Village and
-# farm names have no symbol (pattern label); church and protected-area names from 22.
+# draws every name much larger than Karta 1:50 000 does (#16). Montana scale bars seen on the
+# device: 2 km ≈ resolution 20, 1.2 km ≈ 21, 650–900 m ≈ 22, 400 m and closer ≈ 23–24.
+# Class ≥ 4 from 2 km, class 3 from 650–900 m, class 2 and church, reserve and information
+# texts from 400 m, class 1 only at the closest zoom. Village and farm names have no symbol.
 point,textpunkt,,lm:textdelnr!=2 & lm:textdelnr!=3 & lm:textkategori=Tätort & lm:textstorleksklass>=7,0x0400,15,${name},Tätort stor,,,,none,
 point,textpunkt,,lm:textdelnr!=2 & lm:textdelnr!=3 & lm:textkategori=Tätort,0x0800,18,${name},Tätort,,,,none,
 point,textpunkt,,lm:textdelnr!=2 & lm:textdelnr!=3 & lm:textkategori=Bebyggelse & lm:textstorleksklass>=4,0x0a00,20,${name},Bebyggelse stor,,,,label,
-point,textpunkt,,lm:textdelnr!=2 & lm:textdelnr!=3 & lm:textkategori=Bebyggelse & lm:textstorleksklass>=3,0x0c00,21,${name},Bebyggelse,,,,label,
-point,textpunkt,,lm:textdelnr!=2 & lm:textdelnr!=3 & lm:textkategori=Bebyggelse,0x0c00,22,${name},Bebyggelse liten,,,,label,
+point,textpunkt,,lm:textdelnr!=2 & lm:textdelnr!=3 & lm:textkategori=Bebyggelse & lm:textstorleksklass>=3,0x0c00,22,${name},Bebyggelse,,,,label,
+point,textpunkt,,lm:textdelnr!=2 & lm:textdelnr!=3 & lm:textkategori=Bebyggelse,0x0c00,23,${name},Bebyggelse liten,,,,label,
 point,textpunkt,,lm:textdelnr!=2 & lm:textdelnr!=3 & (lm:textkategori=Upplysningstext | lm:textkategori=Fjällupplysningstext),0x2800,23,${name},Upplysningstext,,,,none,
-point,textpunkt,,lm:textdelnr!=2 & lm:textdelnr!=3 & lm:textkategori=Kyrka,0x2800,22,${name},Kyrka,,,,none,
-point,textpunkt,,lm:textdelnr!=2 & lm:textdelnr!=3 & lm:textkategori='Skyddad natur',0x2800,22,${name},Skyddad natur,,,,none,
+point,textpunkt,,lm:textdelnr!=2 & lm:textdelnr!=3 & lm:textkategori=Kyrka,0x2800,23,${name},Kyrka,,,,none,
+point,textpunkt,,lm:textdelnr!=2 & lm:textdelnr!=3 & lm:textkategori='Skyddad natur',0x2800,23,${name},Skyddad natur,,,,none,
 point,textpunkt,,lm:textdelnr!=2 & lm:textdelnr!=3 & lm:textstorleksklass>=4,0x2800,19,${name},Namn stort,,,,none,
-point,textpunkt,,lm:textdelnr!=2 & lm:textdelnr!=3 & lm:textstorleksklass>=3,0x2800,21,${name},Namn,,,,none,
-point,textpunkt,,lm:textdelnr!=2 & lm:textdelnr!=3 & lm:textstorleksklass>=2,0x2800,22,${name},Namn litet,,,,none,
-point,textpunkt,,lm:textdelnr!=2 & lm:textdelnr!=3,0x2800,23,${name},Namn minsta,,,,none,
+point,textpunkt,,lm:textdelnr!=2 & lm:textdelnr!=3 & lm:textstorleksklass>=3,0x2800,22,${name},Namn,,,,none,
+point,textpunkt,,lm:textdelnr!=2 & lm:textdelnr!=3 & lm:textstorleksklass>=2,0x2800,23,${name},Namn litet,,,,none,
+point,textpunkt,,lm:textdelnr!=2 & lm:textdelnr!=3,0x2800,24,${name},Namn minsta,,,,none,
 point,hojdpunkt,2412,,0x6616,21,${ele},Triangelpunkt,#000000,,5,icon,
 point,hojdpunkt,,,0x2800,23,${ele},Höjdvärde,,,,none,
 point,riksrose,5121,,0x11500,20,,Riksröse,#C080E0,,5,icon,
