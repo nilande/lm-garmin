@@ -102,8 +102,12 @@ marker as an 11 px red square with a 2 px white ring.
 marker is clearly visible. The dark edge on the dashes was **not drawn**: Garmin line bitmaps
 have two colours (dash and gap), so a third edge colour is dropped. Nej and Ingen information
 are now two-tone long dashes (10 px on, 6 px off, 5 px wide) with the gap filled in a dark
-colour: Nej `#B4B4B4` / `#303030`, Ingen information `#FFB060` / `#7A3A00`. To be rechecked
-outdoors.
+colour: Nej `#B4B4B4` / `#303030`, Ingen information `#FFB060` / `#7A3A00`.
+
+**Third check outdoors** (`dist/montana-skoter/2026-11-21c/`, 180 m and 80 m): both
+two-tone lines are clearly visible over built-up ground, firm wetland and wet wetland, and
+easy to tell apart from each other and from the solid Ja and Påbjuden lines. The 1836
+markers stay visible. This closes the daylight check of #57.
 
 ## 2026-11-21 – street network and reserve hatching (#14)
 
