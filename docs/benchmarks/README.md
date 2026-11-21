@@ -20,7 +20,7 @@ nationwide name extract from `lm-garmin nvdb extract` (all 21 county files, Betr
 | Road length named | 40.2 % of 627,610 km; 1809/1810/1811: 95.0 / 97.8 / 88.2 % |
 | `verify`, both maps | 6 min 24 s, passed |
 
-Street names add 5 MB and no wall time: the matching in the `kommunikation` worker finishes
+Street names add 5 MB and about 20 s: the matching in the `kommunikation` worker finishes
 well before the `mark` theme. Most unnamed length is rural and forest roads (1801–1807),
 which NVDB does not name either.
 
