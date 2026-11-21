@@ -51,15 +51,6 @@ orientation and include the scale bar in the screenshots. Use the pause menu to
 capture the screens and keep the BMPs from `Garmin/scrn/` locally. Record the map
 build, device firmware, scale and result here when a check is complete.
 
-- [ ] **Daylight check of the snowmobile overlay** (left open when v0.1.0 was released,
-  [#24](https://github.com/nilande/lm-garmin/issues/24)). Outdoors at normal brightness, check
-  that the four trail statuses and the 1836 marker are distinguishable at **180–250 m** near
-  Syterstugan, in particular the light-orange *Ingen information* dashes over wetland hatching.
-  A synthetic grid can be placed anywhere: `scripts/make_overlay_testgrid.py` writes eight
-  trails (1847/1848 × four statuses, labelled "1847 Ja" … at the north end), three 1836
-  markers on "1847 Påbj", and bands of sankmark våt (south third) and fast (middle third).
-  Build it together with the real data (see the script's docstring) as a `--dev` map. On
-  2026-11-21 a grid centred at Ensta, Täby (59.45398 N, 18.06204 E) was installed.
 - [ ] **Retest overview label priority after the next label build**
   ([issue #16](https://github.com/nilande/lm-garmin/issues/16)). Recheck
   Stor-Laisan at **8 km** and Vallentunasjön at **2 km** and **8 km**.
@@ -85,6 +76,36 @@ build, device firmware, scale and result here when a check is complete.
 - [ ] **Snowmobile overlay contrast in direct sunlight** ([issue #24](https://github.com/nilande/lm-garmin/issues/24)).
   Check the physical display at normal riding brightness, especially the grey
   dashed routes against snow or open terrain.
+
+## 2026-11-21 – snowmobile overlay outdoors, synthetic grid at Ensta (#57)
+
+Montana 700, firmware 25.70, outdoors in daylight at Ensta, Täby. Dev map with the synthetic
+grid from `scripts/make_overlay_testgrid.py`: eight trails (1847/1848 × four statuses,
+labelled "1847 Ja" … at the north end), three 1836 markers on "1847 Påbj", and bands of
+sankmark våt (south third) and fast (middle third), centred at 59.45398 N, 18.06204 E. The
+script places the grid anywhere; build it together with the real data as a `--dev` map. Captures in `dist/montana-skoter/2026-11-21/` (250 m, 180 m, 80 m).
+
+| Status | Look (v0.1) | Outdoors |
+|---|---|---|
+| Påbjuden | red 5 px, dark edge | clearly visible |
+| Ja | orange 4 px, dark edge | clearly visible |
+| Nej | grey 3 px dashes | hard to see, above all over wetland hatching |
+| Ingen information | light-orange 3 px dashes | hard to see |
+| 1836 marker | red 9 px square | lost on the red Påbjuden line |
+
+**First change.** Nej and Ingen information as 5 px dashes with a dark edge row; the 1836
+marker as an 11 px red square with a 2 px white ring.
+
+**Recheck outdoors** (`dist/montana-skoter/2026-11-21b/`, 250 m and 180 m): the ringed 1836
+marker is clearly visible. The dark edge on the dashes was **not drawn**: Garmin line bitmaps
+have two colours (dash and gap), so a third edge colour is dropped. Nej and Ingen information
+are now two-tone long dashes (10 px on, 6 px off, 5 px wide) with the gap filled in a dark
+colour: Nej `#B4B4B4` / `#303030`, Ingen information `#FFB060` / `#7A3A00`.
+
+**Third check outdoors** (`dist/montana-skoter/2026-11-21c/`, 180 m and 80 m): both
+two-tone lines are clearly visible over built-up ground, firm wetland and wet wetland, and
+easy to tell apart from each other and from the solid Ja and Påbjuden lines. The 1836
+markers stay visible. This closes the daylight check of #57.
 
 ## 2026-11-21 – street network and reserve hatching (#14)
 
