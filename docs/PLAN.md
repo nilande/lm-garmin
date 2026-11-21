@@ -357,15 +357,19 @@ everyday use, driven by the Montana results. In priority order:
 
 1. **Street names** ([#55](https://github.com/nilande/lm-garmin/issues/55)). Topografi 50 has
    none. Evaluate NVDB, Lantmäteriet address data and OSM (licence, coverage, matching to
-   `vaglinje`), decide in an ADR, then implement it in a follow-up issue.
+   `vaglinje`), decide in an ADR, then implement it in a follow-up issue. *Done:*
+   [ADR-0007](adr/0007-street-names-from-nvdb.md), `--nvdb-dir` (#60).
 2. **Label priority and density** ([#16](https://github.com/nilande/lm-garmin/issues/16)):
-   repeated reserve labels and dense labels at 2 km.
+   repeated reserve labels and dense labels at 2 km. *Done for v0.2 in #63* (with road
+   shields, #62); long reserve names and `textlinje` remain in #16.
 3. **Look** ([#14](https://github.com/nilande/lm-garmin/issues/14)): hatching against terrain,
    the 800 m street network, and the contrast of the light-orange overlay dashes
-   ([#57](https://github.com/nilande/lm-garmin/issues/57) daylight check).
-4. **Topografi 50 structure change on 2027-05-04**
-   ([#56](https://github.com/nilande/lm-garmin/issues/56)): test against Lantmäteriet's test
-   data and support the new structure in time.
+   ([#57](https://github.com/nilande/lm-garmin/issues/57) daylight check). *Street network and
+   hatching done in #64*; legend colours, mm → px widths and night colours remain in #14.
+
+Parked outside v0.2 (2026-11-21): the **Topografi 50 structure change on 2027-05-04**
+([#56](https://github.com/nilande/lm-garmin/issues/56)), resumed when Lantmäteriet publishes
+test data for the new structure.
 
 Deferred until there is a need: routing (#28), packaging (#30), the single-file bundle (#51),
 CI performance trends (#26) and further build tuning (#27). Each style change is tried with
