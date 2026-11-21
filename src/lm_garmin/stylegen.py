@@ -180,7 +180,13 @@ def _typ_line(r: Rule) -> str:
         if r.pattern == "solid-bitmap":
             # Keep a continuous centre while using the same bitmap format as dashed lines.
             rows[w // 2] = "a" * 32
-        s += "UseOrientation=Y\n" + _xpm(rows, {"a": r.colour, "b": "none"})
+        colours = {"a": r.colour, "b": "none"}
+        if r.colour2 and w >= 3:
+            # Dark edge on each dash, so light dashes stay visible on any background (#57).
+            edge = dash.replace("a", "c")
+            rows = [edge, *rows[1:-1], edge]
+            colours["c"] = r.colour2
+        s += "UseOrientation=Y\n" + _xpm(rows, colours)
     elif r.colour2:
         s += f'LineWidth={w}\nBorderWidth=1\nXpm="0 0 2 0"\n"a c {r.colour}"\n"b c {r.colour2}"\n'
     else:
@@ -192,6 +198,11 @@ def _typ_point(r: Rule) -> str:
     if r.pattern == "label":
         # Label without a symbol: replaces the device's default dot with a transparent pixel.
         icon = _xpm(["a"], {"a": "none"})
+    elif r.colour2:
+        # Square with a 2 px ring in colour2, to stand out on a line of the same colour (#57).
+        n = max(int(r.width or 5), 5)
+        rows = ["b" * n, "b" * n, *("bb" + "a" * (n - 4) + "bb" for _ in range(n - 4))]
+        icon = _xpm([*rows, "b" * n, "b" * n], {"a": r.colour, "b": r.colour2})
     else:
         n = max(int(r.width or 5), 1)
         icon = _xpm(["a" * n] * n, {"a": r.colour})

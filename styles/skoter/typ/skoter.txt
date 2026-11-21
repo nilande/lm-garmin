@@ -50,62 +50,77 @@ Xpm="0 0 2 0"
 Type=0x10e12
 String1=0x04,Vinterled – skoterkörning ej tillåten
 UseOrientation=Y
-Xpm="32 3 2 1"
-"a c #7A7A7A"
+Xpm="32 5 3 1"
+"a c #9A9A9A"
 "b c none"
+"c c #303030"
+"cccccbbbcccccbbbcccccbbbcccccbbb"
 "aaaaabbbaaaaabbbaaaaabbbaaaaabbb"
 "aaaaabbbaaaaabbbaaaaabbbaaaaabbb"
 "aaaaabbbaaaaabbbaaaaabbbaaaaabbb"
+"cccccbbbcccccbbbcccccbbbcccccbbb"
 [end]
 
 [_line]
 Type=0x10e16
 String1=0x04,Vinterled – skoterkörning ej tillåten
 UseOrientation=Y
-Xpm="32 3 2 1"
-"a c #7A7A7A"
+Xpm="32 5 3 1"
+"a c #9A9A9A"
 "b c none"
+"c c #303030"
+"cccccbbbcccccbbbcccccbbbcccccbbb"
 "aaaaabbbaaaaabbbaaaaabbbaaaaabbb"
 "aaaaabbbaaaaabbbaaaaabbbaaaaabbb"
 "aaaaabbbaaaaabbbaaaaabbbaaaaabbb"
+"cccccbbbcccccbbbcccccbbbcccccbbb"
 [end]
 
 [_line]
 Type=0x10e13
 String1=0x04,Vinterled – ingen information om skoterkörning
 UseOrientation=Y
-Xpm="32 3 2 1"
+Xpm="32 5 3 1"
 "a c #FFB060"
 "b c none"
+"c c #8A4A00"
+"cccccbbbcccccbbbcccccbbbcccccbbb"
 "aaaaabbbaaaaabbbaaaaabbbaaaaabbb"
 "aaaaabbbaaaaabbbaaaaabbbaaaaabbb"
 "aaaaabbbaaaaabbbaaaaabbbaaaaabbb"
+"cccccbbbcccccbbbcccccbbbcccccbbb"
 [end]
 
 [_line]
 Type=0x10e17
 String1=0x04,Vinterled – ingen information om skoterkörning
 UseOrientation=Y
-Xpm="32 3 2 1"
+Xpm="32 5 3 1"
 "a c #FFB060"
 "b c none"
+"c c #8A4A00"
+"cccccbbbcccccbbbcccccbbbcccccbbb"
 "aaaaabbbaaaaabbbaaaaabbbaaaaabbb"
 "aaaaabbbaaaaabbbaaaaabbbaaaaabbb"
 "aaaaabbbaaaaabbbaaaaabbbaaaaabbb"
+"cccccbbbcccccbbbcccccbbbcccccbbb"
 [end]
 
 [_point]
 Type=0x11610
 String1=0x04,Påbjuden färdväg vid skoteråkning
-Xpm="9 9 1 1"
+Xpm="11 11 2 1"
 "a c #D62000"
-"aaaaaaaaa"
-"aaaaaaaaa"
-"aaaaaaaaa"
-"aaaaaaaaa"
-"aaaaaaaaa"
-"aaaaaaaaa"
-"aaaaaaaaa"
-"aaaaaaaaa"
-"aaaaaaaaa"
+"b c #FFFFFF"
+"bbbbbbbbbbb"
+"bbbbbbbbbbb"
+"bbaaaaaaabb"
+"bbaaaaaaabb"
+"bbaaaaaaabb"
+"bbaaaaaaabb"
+"bbaaaaaaabb"
+"bbaaaaaaabb"
+"bbaaaaaaabb"
+"bbbbbbbbbbb"
+"bbbbbbbbbbb"
 [end]

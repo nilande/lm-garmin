@@ -81,6 +81,25 @@ build, device firmware, scale and result here when a check is complete.
   Check the physical display at normal riding brightness, especially the grey
   dashed routes against snow or open terrain.
 
+## 2026-11-21 – snowmobile overlay outdoors, synthetic grid at Ensta (#57)
+
+Montana 700, firmware 25.70, outdoors in daylight at Ensta, Täby. Dev map with the synthetic
+grid from `scripts/make_overlay_testgrid.py` (eight trails over real ground, sankmark fast
+and våt). Captures in `dist/montana-skoter/2026-11-21/` (250 m, 180 m, 80 m).
+
+| Status | Look (v0.1) | Outdoors |
+|---|---|---|
+| Påbjuden | red 5 px, dark edge | clearly visible |
+| Ja | orange 4 px, dark edge | clearly visible |
+| Nej | grey 3 px dashes | hard to see, above all over wetland hatching |
+| Ingen information | light-orange 3 px dashes | hard to see |
+| 1836 marker | red 9 px square | lost on the red Påbjuden line |
+
+**Change.** Nej and Ingen information are now 5 px dashes with a dark edge (`colour2` on a
+dashed line draws the edge rows): Nej grey `#9A9A9A` / `#303030`, Ingen information
+`#FFB060` / `#8A4A00`. The 1836 marker is an 11 px red square with a 2 px white ring.
+To be rechecked outdoors with the same grid.
+
 ## 2026-11-21 – street network and reserve hatching (#14)
 
 Montana 700, firmware 25.70. Dev map from PR #64. Captures in `dist/montana-look/2026-11-21/`.
