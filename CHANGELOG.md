@@ -1,5 +1,13 @@
 # Changelog
 
+## Unreleased
+
+### Added
+
+- `lm-garmin nvdb extract`: keeps only the two NVDB name layers of Lastkajen county zips
+  in one small GeoPackage for `--nvdb-dir` (two counties: 67 MB instead of 3.4 GB
+  unpacked). README: which Lastkajen files to download for all of Sweden.
+
 ## v0.2.0 – 2026-11-21
 
 "Everyday map": a calmer, searchable map tuned on the Montana 700 in town and in the

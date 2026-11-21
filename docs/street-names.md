@@ -148,6 +148,16 @@ Runtime: 1.6 s for Täby. Stockholms län, as a bbox around the county: the `kom
 theme takes 24 s instead of 6 s. The matching runs in that theme's worker, in parallel with
 the other themes. The result is part of the convert stage, cached per region and NVDB checksum.
 
+### Preparing NVDB for a build
+
+Lastkajen offers street names only in the county packages (*Länsfiler NVDB-data*, one
+GeoPackage and one FileGDB zip per county with the same content); the nationwide
+*Sverigefiler utvalda NVDB-data* have only functional class, speed limit, surface, width,
+road authority and the road network. `lm-garmin nvdb extract` reads the county zips one at
+a time and keeps the two name layers (name column, 2D) in one GeoPackage with a JSON
+sidecar of sources and checksums. Stockholms + Västerbottens län: 179 637 lines, 67 MB,
+23 s; the Täby quality check gives the same result as with the full county files.
+
 ### Test data
 
 `tests/data/nvdb/tatort_659_67_00.nvdb.gpkg` is a CC0 cut-out of both name layers (2 040
