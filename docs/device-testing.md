@@ -103,7 +103,8 @@ a non-numeric `order`. Storuman build: `0x2800` labels at level 0 from 176 to 3 
 Device settings tried at the same time: *Text Size › Map Points* None → Small made no visible
 difference on our maps (so the unlabelled `0x65xx`/`0x66xx` points are not explained by that
 setting), and *Street Label* Medium → Small made no visible difference to our street names in
-Täby (TYP `FontStyle=SmallFont` already sets them).
+Täby (TYP `FontStyle=SmallFont` already sets them; captures `291`, `314`, `322` at 65–150 m in
+`dist/montana-release/v0.3-labels-fixed/`).
 
 Device settings during this and the earlier checks (profile *Hike*, *Map Setup › Advanced
 Setup*): Detail = Normal; Text Size: Map Points = None, User Waypoints = Small,
