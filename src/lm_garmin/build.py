@@ -20,6 +20,7 @@ from pathlib import Path
 import osmium
 
 from . import __version__, overview, street_names, stylegen, tools
+from . import convert as convert_mod
 from .convert import convert
 from .products import DEFAULT_PRODUCTS, PRODUCTS, Product, dev_variant
 from .region import Region
@@ -223,6 +224,16 @@ def build(
             prods["topo50"],
             copyright=f"{prods['topo50'].copyright}, {street_names.COPYRIGHT}",
         )
+    needed: dict[str, set[str]] = {}
+    for k in keys:
+        if k in DEFAULT_PRODUCTS:
+            for layer, tags in stylegen.source_tags(
+                stylegen.load(PRODUCTS[k].style_dir / "mapping.csv")
+            ).items():
+                needed.setdefault(layer, set()).update(tags)
+    missing = convert_mod.missing_columns(gpkg_dir, needed) if needed else {}
+    for layer, tags in missing.items():
+        log(f"WARNING: {layer} has no column for {', '.join(tags)} – the style reads it (#56)")
     java = tools.find_java()
     if not java:
         raise BuildError("java not found – install Java 17+ or set LM_GARMIN_JAVA")
@@ -486,6 +497,8 @@ def build(
         "steps": [s.__dict__ for s in steps],
         "outputs": outputs,
     }
+    if missing:
+        report["missing_columns"] = missing
     if nvdb:
         report["nvdb_sources"] = [str(p) for p in nvdb]
     if sources:

@@ -1259,7 +1259,7 @@ Xpm="1 1 1 1"
 
 [_point]
 Type=0x6616
-String1=0x04,Triangelpunkt
+String1=0x04,Triangelpunkt/Planpunkt
 Xpm="5 5 1 1"
 "a c #000000"
 "aaaaa"

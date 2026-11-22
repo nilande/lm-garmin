@@ -6,7 +6,7 @@ from pathlib import Path
 import pytest
 
 from lm_garmin import style_docs, stylegen
-from lm_garmin.convert import LAYER_THEME
+from lm_garmin.convert import LAYER_THEME, LAYERS_2027
 from lm_garmin.products import PRODUCTS
 
 ROOT = Path(__file__).parents[2]
@@ -44,7 +44,7 @@ def test_every_object_type_has_a_rule_or_is_dropped_explicitly():
     missing = sorted(lt for lt in inventory if not covered(rules, *lt))
     assert missing == []
     layers = set(LAYER_THEME)
-    assert layers == {layer for layer, _ in inventory} | LAYERS_WITHOUT_TYPES
+    assert layers == {layer for layer, _ in inventory} | LAYERS_WITHOUT_TYPES | LAYERS_2027
     assert layers <= {rule.layer for rule in rules}
 
 
