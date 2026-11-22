@@ -53,6 +53,9 @@ Data cache: `$LM_GARMIN_CACHE` or `~/.cache/lm-garmin` (unpacked GeoPackages in 
 - Roads must use standard road types (`0x01`–`0x13`); extended line types were not visible.
 - Contour labels are read as **feet** by the device → label `${ele|conv:m=>ft}`.
 - TYP line widths are fixed pixels, independent of zoom.
+- Street names can be switched off per activity profile: *Map Setup › Advanced Setup ›
+  Zoom Levels › Street Label = Off* hides them while place names and road-number shields stay
+  (2026-11-22, #81). Text sizes in that menu do not change our labels.
 - TYP `FontStyle` works on **lines only** (SmallFont is clearly smaller); point labels ignore
   TYP font size and colour, city types `0x0e00`–`0x1100` get no label, and label colour on
   lines had no visible effect (label kit, 2026-11-22).

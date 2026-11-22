@@ -85,6 +85,27 @@ build, device firmware, scale and result here when a check is complete.
   Check the physical display at normal riding brightness, especially the grey
   dashed routes against snow or open terrain.
 
+## 2026-11-22 – street names switched off per activity profile (#81, #77)
+
+Montana 700, 25.70, the v0.3 candidate `lm-topo50.img` (`--nvdb-dir`). Captures in
+`dist/montana-release/street-label-zoom-off/`.
+
+*Map Setup › Advanced Setup* offers two street-label settings per activity profile:
+
+| Setting | Choices | Effect on our map |
+|---|---|---|
+| *Text Size › Street Label* (`StreetLabelText`) | Small, Medium, Large – **no None** (`52`) | none visible (TYP `FontStyle=SmallFont` wins) |
+| *Zoom Levels › Street Label* (`StreetLabelZoom`) | **Off**, Auto, 5 m, 8 m, 10 m … (`70`) | **Off hides the NVDB street names**; Auto = 1, Off = 0 in the profile |
+
+With *Street Label* zoom = Off, Täby at 500 m and 200 m (`153`, `173`) keeps town and
+settlement names, road-number shields (E18, 262, E18.20), *Naturreservat* and contour labels;
+only the street names are gone. *Map Points* and *Land Cover* text sizes do have a None
+(`56`, `61`).
+
+So a calm map and a town map need no separate builds: street names can be switched per
+activity profile on the device. This answers the first test of #81 and makes the
+street-name overlay (#77) optional rather than required.
+
 ## 2026-11-22 – lake and mountain names missing in the Sweden map
 
 Montana 700, 25.70, the v0.3 candidate `lm-topo50.img` (`dist/sweden-v0.3-nvdb`, `--nvdb-dir`, Topografi 250). Captures in
