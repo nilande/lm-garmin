@@ -2,7 +2,7 @@
   "min_tiles": 1,
   "labels": ["Syterstugan", "Sytertoppen"],
   "max_features_by_level": {
-    "0": {"point": 150, "line": 1337, "polygon": 504},
+    "0": {"point": 170, "line": 1337, "polygon": 504},
     "1": {"point": 150, "line": 1323, "polygon": 498},
     "2": {"point": 61, "line": 621, "polygon": 447},
     "3": {"point": 55, "line": 496, "polygon": 381},
