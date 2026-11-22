@@ -14,6 +14,11 @@
 
 ### Changed
 
+- Street names use the device's small line font (`font=small` in `mapping.csv`), so they
+  compete less with place names and name changes along a street fit (#71, label kit in
+  docs/device-testing.md).
+- Copyright messages no longer start with "©": the device adds its own (map info showed
+  "©© Lantmäteriet").
 - The release build includes NVDB street names: README and PLAN give the `--nvdb-dir` step
   for all of Sweden (#71).
 

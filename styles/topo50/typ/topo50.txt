@@ -750,7 +750,6 @@ Xpm="0 0 2 0"
 Type=0x03
 String1=0x04,Mötesfri väg
 FontStyle=SmallFont
-DayCustomColor=#505050
 LineWidth=6
 BorderWidth=1
 Xpm="0 0 2 0"
@@ -762,7 +761,6 @@ Xpm="0 0 2 0"
 Type=0x04
 String1=0x04,Landsväg liten
 FontStyle=SmallFont
-DayCustomColor=#505050
 LineWidth=4
 BorderWidth=1
 Xpm="0 0 2 0"
@@ -774,7 +772,6 @@ Xpm="0 0 2 0"
 Type=0x05
 String1=0x04,Småväg
 FontStyle=SmallFont
-DayCustomColor=#505050
 LineWidth=3
 Xpm="0 0 1 0"
 "a c #7F7F7F"
@@ -784,7 +781,6 @@ Xpm="0 0 1 0"
 Type=0x07
 String1=0x04,Småväg enkel standard
 FontStyle=SmallFont
-DayCustomColor=#505050
 LineWidth=2
 Xpm="0 0 1 0"
 "a c #A0A0A0"
@@ -794,7 +790,6 @@ Xpm="0 0 1 0"
 Type=0x0b
 String1=0x04,Övergripande länk
 FontStyle=SmallFont
-DayCustomColor=#505050
 LineWidth=4
 Xpm="0 0 1 0"
 "a c #B5442B"
@@ -804,7 +799,6 @@ Xpm="0 0 1 0"
 Type=0x06
 String1=0x04,Lokalgata stor
 FontStyle=SmallFont
-DayCustomColor=#505050
 LineWidth=2
 Xpm="0 0 1 0"
 "a c #8C8C8C"
@@ -1254,47 +1248,8 @@ Xpm="1 1 1 1"
 [end]
 
 [_point]
-Type=0x0400
-String1=0x04,Tätort stor
-FontStyle=LargeFont
-Xpm="9 9 3 1"
-"a c #3FA34D"
-"b c #1E5C27"
-"c c none"
-"cccbbbccc"
-"cbbbbbbbc"
-"cbbaaabbc"
-"bbaaaaabb"
-"bbaaaaabb"
-"bbaaaaabb"
-"cbbaaabbc"
-"cbbbbbbbc"
-"cccbbbccc"
-[end]
-
-[_point]
-Type=0x0800
-String1=0x04,Tätort
-FontStyle=LargeFont
-Xpm="9 9 3 1"
-"a c #3FA34D"
-"b c #1E5C27"
-"c c none"
-"cccbbbccc"
-"cbbbbbbbc"
-"cbbaaabbc"
-"bbaaaaabb"
-"bbaaaaabb"
-"bbaaaaabb"
-"cbbaaabbc"
-"cbbbbbbbc"
-"cccbbbccc"
-[end]
-
-[_point]
 Type=0x0a00
 String1=0x04,Bebyggelse stor
-FontStyle=NormalFont
 Xpm="1 1 1 1"
 "a c none"
 "a"
@@ -1303,7 +1258,6 @@ Xpm="1 1 1 1"
 [_point]
 Type=0x0c00
 String1=0x04,Bebyggelse
-FontStyle=NormalFont
 Xpm="1 1 1 1"
 "a c none"
 "a"

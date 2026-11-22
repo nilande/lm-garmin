@@ -107,12 +107,31 @@ street changes name the labels do not fit, so the change is not visible.
 Dev build with `FontStyle=SmallFont` on the street-name types (captures in
 `dist/montana-release/v0.3-small-font/`: `47`, `55` Täby at 120 m and 65 m; `84`, `86`, `94`
 Falun at 120 m, 50 m and 180 m): name changes along a street now show (Ilervägen/Mårdvägen,
-Svärdsjögatan/Kristinegatan), but street names now have the same size and weight as town,
-settlement and waypoint labels – SmallFont is the smallest TYP size, and the device has no
-TYP setting for weight. Next: street names in dark grey (`DayCustomColor=#505050`), towns
-(`0x0400`, `0x0800`) in LargeFont and settlements (`0x0a00`, `0x0c00`) in NormalFont
-(`font=` and `label-colour=` options in `mapping.csv`). mkgmap needs a bitmap in every TYP
-point section, so styled town points get a drawn green dot instead of the device's own.
+Svärdsjögatan/Kristinegatan), but street names look as large and bold as town and waypoint
+labels. A second dev build with `DayCustomColor=#505050` on streets and `LargeFont` /
+`NormalFont` on town and settlement points (`dist/montana-release/v0.3-grey/`: `32`, `44`)
+looked **the same**. TopoActive Europe at the same place (`51`, `71`, `82`, `94`) draws
+street names large and bold like our first build, but Täby larger and "Ella gård" in a
+compact font.
+
+### Label kit (`spikes/10-label-sizes`, 2026-11-22)
+
+One small map (`lm-labelkit.img`, family 5759) near Täby, shown alone, night colours.
+Captures in `dist/montana-release/labelkit/` (`80`–`133`, at 120 m and 50 m).
+
+| Object | Result |
+|---|---|
+| City points `0x0100`–`0x0d00` | Same bold label for all types; only the dot shrinks |
+| City points `0x0e00`–`0x1100` | Dot, **no label** |
+| Label points `0x2800`–`0x2804` with TYP `FontStyle` Small/Normal/Large, `DayCustomColor` | Same small, thinner label for all: TYP font and colour are **ignored on points** |
+| Road lines `0x01`–`0x13` without TYP | Same bold label (the default line font) |
+| Lines with TYP `FontStyle` | **Honoured**: SmallFont clearly smaller, NormalFont = default, LargeFont larger |
+| Line with `DayCustomColor` red | Not seen in night colours; with the grey dev build in day colours, streets stayed black |
+| Streams, rivers (`0x18`, `0x1f`) | Small font by default; boundary and railway use the default line font |
+
+Decision: street-name road types keep `FontStyle=SmallFont` (`font=small` in `mapping.csv`,
+lines only); the grey colour and town fonts are dropped. The device offers no TYP control
+over point labels, so the town–street hierarchy cannot be widened further from the TYP.
 
 ## 2026-11-21 – v0.2.0 Sweden release check
 

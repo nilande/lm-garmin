@@ -15,15 +15,15 @@ order (polygon draw order 1–8), options (`continue`: keep matching later rules
 can be emitted twice, e.g. unlabelled at one resolution range and labelled at another;
 `outline`: pass the layer and object type to inner rings of a multipolygon for a line rule;
 `relabel`: replace the label already set from `name`, e.g. to abbreviate it;
-`font=small|normal|large` and `label-colour=#rrggbb`: label font size and day colour of the
-Garmin type – TYP settings, so they apply to every rule of the type).
+`font=small|normal|large`: label size of a line type – a TYP setting, so it applies to every
+rule of the type. The Montana 700 ignores TYP font size and label colour on points and label
+colour on lines, so only line font sizes are supported; see docs/device-testing.md).
 A resolution may be a range, e.g. `20-21`.
 """
 
 from __future__ import annotations
 
 import csv
-import re
 from dataclasses import dataclass, replace
 from pathlib import Path
 
@@ -181,20 +181,19 @@ FONTS = {"small": "SmallFont", "normal": "NormalFont", "large": "LargeFont"}
 
 
 def label_style(rules: list[Rule]) -> dict[tuple[str, str], str]:
-    """TYP label lines (`FontStyle`, `DayCustomColor`) per geometry and type, from options."""
-    out: dict[tuple[str, str], dict[str, str]] = {}
+    """TYP `FontStyle` line per line type, from `font=` options."""
+    out: dict[tuple[str, str], str] = {}
     for r in rules:
         for opt in r.options.split():
             key, _, value = opt.partition("=")
-            if key == "font":
-                if value not in FONTS:
-                    raise ValueError(f"{r.description}: font must be one of {sorted(FONTS)}")
-                out.setdefault((r.kind, r.type), {})["FontStyle"] = FONTS[value]
-            elif key == "label-colour":
-                if not re.fullmatch(r"#[0-9A-Fa-f]{6}", value):
-                    raise ValueError(f"{r.description}: label-colour must be #rrggbb")
-                out.setdefault((r.kind, r.type), {})["DayCustomColor"] = value.upper()
-    return {k: "".join(f"{a}={b}\n" for a, b in v.items()) for k, v in out.items()}
+            if key != "font":
+                continue
+            if r.kind != "line":
+                raise ValueError(f"{r.description}: font= works only on lines on the device")
+            if value not in FONTS:
+                raise ValueError(f"{r.description}: font must be one of {sorted(FONTS)}")
+            out[(r.kind, r.type)] = f"FontStyle={FONTS[value]}\n"
+    return out
 
 
 def _typ_line(r: Rule, label: str = "") -> str:
@@ -222,21 +221,8 @@ def _typ_line(r: Rule, label: str = "") -> str:
     return s + "[end]\n"
 
 
-def _typ_point(r: Rule, label: str = "") -> str:
-    if r.pattern == "none":
-        # A TYP point needs a bitmap: with only a label style, draw a round dot like the
-        # device's default town symbol (green, dark ring).
-        n = 9
-        c = (n - 1) / 2
-        rows = [
-            "".join(
-                "a" if d <= c - 1.2 else "b" if d <= c + 0.3 else "c"
-                for d in (((x - c) ** 2 + (y - c) ** 2) ** 0.5 for x in range(n))
-            )
-            for y in range(n)
-        ]
-        icon = _xpm(rows, {"a": r.colour or "#3FA34D", "b": r.colour2 or "#1E5C27", "c": "none"})
-    elif r.pattern == "label":
+def _typ_point(r: Rule) -> str:
+    if r.pattern == "label":
         # Label without a symbol: replaces the device's default dot with a transparent pixel.
         icon = _xpm(["a"], {"a": "none"})
     elif r.colour2:
@@ -247,7 +233,7 @@ def _typ_point(r: Rule, label: str = "") -> str:
     else:
         n = max(int(r.width or 5), 1)
         icon = _xpm(["a" * n] * n, {"a": r.colour})
-    return f"[_point]\nType={r.type}\nString1=0x04,{r.description}\n" + label + icon + "[end]\n"
+    return f"[_point]\nType={r.type}\nString1=0x04,{r.description}\n" + icon + "[end]\n"
 
 
 def typ_rules(rules: list[Rule]) -> dict[tuple[str, str], Rule]:
@@ -275,8 +261,8 @@ def render_typ(rules: list[Rule], family_id: int, product_id: int = 1) -> str:
             out.append(_typ_polygon(r))
         elif kind == "line":
             out.append(_typ_line(r, labels.get((kind, r.type), "")))
-        elif r.pattern != "none" or (kind, r.type) in labels:
-            out.append(_typ_point(r, labels.get((kind, r.type), "")))
+        elif r.pattern != "none":
+            out.append(_typ_point(r))
     return "\n".join(out)
 
 

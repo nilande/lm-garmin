@@ -186,3 +186,11 @@ data-inventory). Rasters are anti-aliased; comparison must classify to nearest p
 `match.py` matches Topografi 50 `vaglinje` to NVDB `NVDB_DK_O_20_Gatunamn` (buffer, bearing,
 covered share). Täby: 90.0 % of town-street length named in 0.5 s. Results and next steps are in
 [street-names.md](street-names.md).
+
+## S10 – Label size kit (`spikes/10-label-sizes`, 2026-11-22)
+
+`make_kit.py` builds one small map near Täby with every city point type, label points and
+road and other line types, each labelled with its type and TYP setting (`FontStyle`,
+`DayCustomColor`). Result on the Montana 700: TYP font size works on lines only; points
+ignore it. Record and table in
+[device-testing.md](device-testing.md#label-kit-spikes10-label-sizes-2026-11-22).

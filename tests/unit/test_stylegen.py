@@ -133,25 +133,21 @@ def test_relabel_overrides_the_generic_name():
     assert "{ name '${name}' }" in Rule(**base, name="${name}").mkgmap_rule()
 
 
-def test_street_names_are_small_and_grey_and_towns_larger():
-    """Street labels competed with town names on the Montana (#71): small grey streets,
-    larger towns and settlements."""
+def test_street_name_types_use_the_small_font():
+    """Street labels competed with town names on the Montana (#71). The device honours TYP
+    FontStyle only on lines (label kit, docs/device-testing.md)."""
     rules = stylegen.load(ROOT / "styles" / "topo50" / "mapping.csv")
     typ = stylegen.render_typ(rules, 5750)
     lines = {s.split("\n")[0]: s for s in typ.split("[_line]\n")[1:]}
-    points = {s.split("\n")[0]: s for s in typ.split("[_point]\n")[1:]}
     named = {r.type for r in rules if r.name == "${lm:gatunamn_nvdb}"}
     assert named
     for t in named:
-        assert "FontStyle=SmallFont\nDayCustomColor=#505050\n" in lines[f"Type={t}"], t
+        assert "FontStyle=SmallFont\n" in lines[f"Type={t}"], t
     assert "FontStyle" not in lines["Type=0x01"]  # motorway shields keep the default font
-    assert "FontStyle=LargeFont\n" in points["Type=0x0800"]
-    assert "Xpm" in points["Type=0x0800"]  # mkgmap needs a bitmap: a round town dot
-    assert "FontStyle=NormalFont\n" in points["Type=0x0c00"]
+    assert "FontStyle" not in typ.split("[_line]")[0]  # no point sections are touched
 
 
-@pytest.mark.parametrize("opt", ["font=tiny", "label-colour=grey"])
-def test_invalid_label_options_rejected(opt):
+def _rule(**kw):
     base = dict.fromkeys(
         [
             "layer",
@@ -168,6 +164,10 @@ def test_invalid_label_options_rejected(opt):
         ],
         "",
     )
-    base.update(kind="line", type="0x06")
+    return stylegen.Rule(**{**base, **kw})
+
+
+@pytest.mark.parametrize("kind,opt", [("line", "font=tiny"), ("point", "font=large")])
+def test_invalid_font_options_rejected(kind, opt):
     with pytest.raises(ValueError):
-        stylegen.label_style([stylegen.Rule(**base, options=opt)])
+        stylegen.label_style([_rule(kind=kind, type="0x06", options=opt)])

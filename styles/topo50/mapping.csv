@@ -68,28 +68,28 @@ line,vaglinje,1802,,0x02,16,${ref|highway-symbol:hbox},Motortrafikled,#C0392B,#7
 line,vaglinje,1803,,0x03,17,${ref|highway-symbol:hbox},Mötesfri väg,#D35A3A,#7A1F15,6,solid,
 line,vaglinje,1804,ref=*,0x03,18,${ref|highway-symbol:hbox},Landsväg,#E07850,#8A3A20,5,solid,
 line,vaglinje,1804,,0x03,18-22,,Landsväg,#E07850,#8A3A20,5,solid,,continue
-line,vaglinje,1804,,0x03,23,${lm:gatunamn_nvdb},Landsväg (namn),#E07850,#8A3A20,5,solid,,font=small label-colour=#505050
+line,vaglinje,1804,,0x03,23,${lm:gatunamn_nvdb},Landsväg (namn),#E07850,#8A3A20,5,solid,,font=small
 line,vaglinje,1805,ref=*,0x04,19,${ref|highway-symbol:hbox},Landsväg liten,#E89070,#8A3A20,4,solid,
 line,vaglinje,1805,,0x04,19-22,,Landsväg liten,#E89070,#8A3A20,4,solid,,continue
-line,vaglinje,1805,,0x04,23,${lm:gatunamn_nvdb},Landsväg liten (namn),#E89070,#8A3A20,4,solid,,font=small label-colour=#505050
+line,vaglinje,1805,,0x04,23,${lm:gatunamn_nvdb},Landsväg liten (namn),#E89070,#8A3A20,4,solid,,font=small
 line,vaglinje,1806,ref=*,0x05,20,${ref|highway-symbol:hbox},Småväg,#7F7F7F,,3,solid,
 line,vaglinje,1806,,0x05,20-22,,Småväg,#7F7F7F,,3,solid,,continue
-line,vaglinje,1806,,0x05,23,${lm:gatunamn_nvdb},Småväg (namn),#7F7F7F,,3,solid,,font=small label-colour=#505050
+line,vaglinje,1806,,0x05,23,${lm:gatunamn_nvdb},Småväg (namn),#7F7F7F,,3,solid,,font=small
 line,vaglinje,1807,ref=*,0x07,21,${ref|highway-symbol:hbox},Småväg enkel standard,#A0A0A0,,2,solid,
 line,vaglinje,1807,,0x07,21-22,,Småväg enkel standard,#A0A0A0,,2,solid,,continue
-line,vaglinje,1807,,0x07,23,${lm:gatunamn_nvdb},Småväg enkel standard (namn),#A0A0A0,,2,solid,,font=small label-colour=#505050
+line,vaglinje,1807,,0x07,23,${lm:gatunamn_nvdb},Småväg enkel standard (namn),#A0A0A0,,2,solid,,font=small
 line,vaglinje,1808,ref=*,0x0b,19,${ref|highway-symbol:hbox},Övergripande länk,#B5442B,,4,solid,
 line,vaglinje,1808,,0x0b,19-22,,Övergripande länk,#B5442B,,4,solid,,continue
-line,vaglinje,1808,,0x0b,23,${lm:gatunamn_nvdb},Övergripande länk (namn),#B5442B,,4,solid,,font=small label-colour=#505050
+line,vaglinje,1808,,0x0b,23,${lm:gatunamn_nvdb},Övergripande länk (namn),#B5442B,,4,solid,,font=small
 line,vaglinje,1809,ref=*,0x04,19,${ref|highway-symbol:hbox},Huvudgata,#E89070,#8A3A20,4,solid,
 line,vaglinje,1809,,0x04,19-22,,Huvudgata,#E89070,#8A3A20,4,solid,,continue
-line,vaglinje,1809,,0x04,23,${lm:gatunamn_nvdb},Huvudgata (namn),#E89070,#8A3A20,4,solid,,font=small label-colour=#505050
+line,vaglinje,1809,,0x04,23,${lm:gatunamn_nvdb},Huvudgata (namn),#E89070,#8A3A20,4,solid,,font=small
 line,vaglinje,1810,ref=*,0x06,21,${ref},Lokalgata stor,#8C8C8C,,2,solid,
 line,vaglinje,1810,,0x06,21-22,,Lokalgata stor,#8C8C8C,,2,solid,,continue
-line,vaglinje,1810,,0x06,23,${lm:gatunamn_nvdb},Lokalgata stor (namn),#8C8C8C,,2,solid,,font=small label-colour=#505050
+line,vaglinje,1810,,0x06,23,${lm:gatunamn_nvdb},Lokalgata stor (namn),#8C8C8C,,2,solid,,font=small
 line,vaglinje,1811,ref=*,0x06,22,${ref},Lokalgata liten,#8C8C8C,,2,solid,
 line,vaglinje,1811,,0x06,22-22,,Lokalgata liten,#8C8C8C,,2,solid,,continue
-line,vaglinje,1811,,0x06,23,${lm:gatunamn_nvdb},Lokalgata liten (namn),#8C8C8C,,2,solid,,font=small label-colour=#505050
+line,vaglinje,1811,,0x06,23,${lm:gatunamn_nvdb},Lokalgata liten (namn),#8C8C8C,,2,solid,,font=small
 line,farjeled,1891,,0x1b,18,,Färjeled,#C0392B,,2,dash,
 line,ralstrafik,1861,,0x14,18,,Järnväg,#333333,,2,solid,
 line,ralstrafik,1862,,0x10e0e,20,,Museijärnväg,#555555,,2,dash,
@@ -160,15 +160,15 @@ line,textlinje,,,0x10d02,21,${name},Namn längs linje,#D0D0D0,,1,label,
 # name is the 0x2800 label point below (`continue`).
 point,textpunkt,,lm:textdelnr!=2 & lm:textdelnr!=3 & lm:textkategori=Hydrografi,0x6500,24,${name},Vattennamn (sök),,,,label,continue
 point,textpunkt,,lm:textdelnr!=2 & lm:textdelnr!=3 & lm:textkategori=Terrängnamn,0x6600,24,${name},Terrängnamn (sök),,,,label,continue
-point,textpunkt,,lm:textdelnr!=2 & lm:textdelnr!=3 & lm:textkategori=Tätort & lm:textstorleksklass>=7,0x0400,15,${name},Tätort stor,,,,none,,font=large
-point,textpunkt,,lm:textdelnr!=2 & lm:textdelnr!=3 & lm:textkategori=Tätort,0x0800,18,${name},Tätort,,,,none,,font=large
-point,textpunkt,,lm:textdelnr!=2 & lm:textdelnr!=3 & lm:textkategori=Bebyggelse & lm:i_bebyggelse=yes & lm:textstorleksklass>=5,0x0a00,20,${name},Bebyggelse stor,,,,label,,font=normal
-point,textpunkt,,lm:textdelnr!=2 & lm:textdelnr!=3 & lm:textkategori=Bebyggelse & lm:i_bebyggelse=yes & lm:textstorleksklass>=4,0x0c00,22,${name},Bebyggelse,,,,label,,font=normal
-point,textpunkt,,lm:textdelnr!=2 & lm:textdelnr!=3 & lm:textkategori=Bebyggelse & lm:i_bebyggelse=yes & lm:textstorleksklass>=3,0x0c00,23,${name},Bebyggelse liten,,,,label,,font=normal
-point,textpunkt,,lm:textdelnr!=2 & lm:textdelnr!=3 & lm:textkategori=Bebyggelse & lm:i_bebyggelse=yes,0x0c00,24,${name},Bebyggelse liten,,,,label,,font=normal
-point,textpunkt,,lm:textdelnr!=2 & lm:textdelnr!=3 & lm:textkategori=Bebyggelse & lm:textstorleksklass>=4,0x0a00,20,${name},Bebyggelse stor,,,,label,,font=normal
-point,textpunkt,,lm:textdelnr!=2 & lm:textdelnr!=3 & lm:textkategori=Bebyggelse & lm:textstorleksklass>=3,0x0c00,22,${name},Bebyggelse,,,,label,,font=normal
-point,textpunkt,,lm:textdelnr!=2 & lm:textdelnr!=3 & lm:textkategori=Bebyggelse,0x0c00,23,${name},Bebyggelse liten,,,,label,,font=normal
+point,textpunkt,,lm:textdelnr!=2 & lm:textdelnr!=3 & lm:textkategori=Tätort & lm:textstorleksklass>=7,0x0400,15,${name},Tätort stor,,,,none,
+point,textpunkt,,lm:textdelnr!=2 & lm:textdelnr!=3 & lm:textkategori=Tätort,0x0800,18,${name},Tätort,,,,none,
+point,textpunkt,,lm:textdelnr!=2 & lm:textdelnr!=3 & lm:textkategori=Bebyggelse & lm:i_bebyggelse=yes & lm:textstorleksklass>=5,0x0a00,20,${name},Bebyggelse stor,,,,label,
+point,textpunkt,,lm:textdelnr!=2 & lm:textdelnr!=3 & lm:textkategori=Bebyggelse & lm:i_bebyggelse=yes & lm:textstorleksklass>=4,0x0c00,22,${name},Bebyggelse,,,,label,
+point,textpunkt,,lm:textdelnr!=2 & lm:textdelnr!=3 & lm:textkategori=Bebyggelse & lm:i_bebyggelse=yes & lm:textstorleksklass>=3,0x0c00,23,${name},Bebyggelse liten,,,,label,
+point,textpunkt,,lm:textdelnr!=2 & lm:textdelnr!=3 & lm:textkategori=Bebyggelse & lm:i_bebyggelse=yes,0x0c00,24,${name},Bebyggelse liten,,,,label,
+point,textpunkt,,lm:textdelnr!=2 & lm:textdelnr!=3 & lm:textkategori=Bebyggelse & lm:textstorleksklass>=4,0x0a00,20,${name},Bebyggelse stor,,,,label,
+point,textpunkt,,lm:textdelnr!=2 & lm:textdelnr!=3 & lm:textkategori=Bebyggelse & lm:textstorleksklass>=3,0x0c00,22,${name},Bebyggelse,,,,label,
+point,textpunkt,,lm:textdelnr!=2 & lm:textdelnr!=3 & lm:textkategori=Bebyggelse,0x0c00,23,${name},Bebyggelse liten,,,,label,
 point,textpunkt,,lm:textdelnr!=2 & lm:textdelnr!=3 & lm:textkategori=Upplysningstext & lm:i_bebyggelse=yes,0x2800,24,${name},Upplysningstext i tätort,,,,none,
 point,textpunkt,,lm:textdelnr!=2 & lm:textdelnr!=3 & (lm:textkategori=Upplysningstext | lm:textkategori=Fjällupplysningstext),0x2800,23,${name},Upplysningstext,,,,none,
 point,textpunkt,,lm:textdelnr!=2 & lm:textdelnr!=3 & lm:textkategori=Kyrka,0x2800,23,${name},Kyrka,,,,none,
