@@ -148,7 +148,8 @@ def compile_img(
     if product.transparent:
         cmd += ["--transparent", f"--draw-priority={product.draw_priority}"]
     else:
-        cmd += ["--index"]
+        # --net: street data for Where to? › Addresses (named roads, #72).
+        cmd += ["--index", "--net"]
     if dem:
         # Elevation tiles (SRTM-style .hgt) for terrain shading on the device (#90).
         # Devices need one DEM distance per map level (BaseCamp needs one): start at

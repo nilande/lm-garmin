@@ -291,6 +291,9 @@ def _write_named_roads(
             stats.add(tags.get("lm:t", ""), part.length, named, m)
             for piece, name in m.pieces:
                 t = {**tags, street_names.TAG: name} if name else tags
+                place = names.place(piece, name) if name else None
+                if place:
+                    t = {**t, street_names.CITY_TAG: place[0], street_names.REGION_TAG: place[1]}
                 sink.way(shapely.get_coordinates(_to_wgs84(piece, tr)), t)
     return n
 

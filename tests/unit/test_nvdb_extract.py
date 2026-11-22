@@ -4,6 +4,7 @@ import json
 import zipfile
 from pathlib import Path
 
+import numpy as np
 import pyogrio
 import pytest
 import shapely
@@ -34,7 +35,11 @@ def test_extract_from_zips_and_gpkg(tmp_path):
     assert [s.file for s in sources] == ["a_geopackage.zip", "b_geopackage.zip", FIXTURE.name]
     n = pyogrio.read_info(FIXTURE, layer=street_names.GATUNAMN)["features"]
     assert pyogrio.read_info(out, layer=street_names.GATUNAMN)["features"] == 3 * n
-    assert pyogrio.read_info(out, layer=street_names.GATUNAMN)["fields"].tolist() == ["Namn"]
+    assert pyogrio.read_info(out, layer=street_names.GATUNAMN)["fields"].tolist() == [
+        "Namn",
+        "Kommun",
+        "Lan",
+    ]
     assert street_names.sources(out.parent) == [out]
     meta = json.loads(out.with_suffix(".json").read_text(encoding="utf-8"))
     assert len(meta["sources"]) == 3 and all(len(s["sha256"]) == 64 for s in meta["sources"])
@@ -96,7 +101,7 @@ def test_extract_from_filegdb_zip(tmp_path):
     assert s.lines == {street_names.GATUNAMN: n}
     assert s.betraktelsedatum is None  # Lastkajen's FileGDB zips have no delivery info
     info = pyogrio.read_info(out, layer=street_names.GATUNAMN)
-    assert info["fields"].tolist() == ["Namn"]
+    assert info["fields"].tolist() == ["Namn", "Kommun", "Lan"]
     assert info["geometry_type"] == "LineString"
     # FileGDB snaps coordinates to its grid, so compare length rather than exact lines.
     length = shapely.length(shapely.from_wkb(pyogrio.raw.read(out, layer=info["layer_name"])[2]))
@@ -113,3 +118,39 @@ def test_rejects_empty_county_zip(tmp_path):
         zf.writestr("Licensinformation.txt", "CC0")
     with pytest.raises(ValueError, match="FileGDB"):
         extract([z], tmp_path / "out.gpkg", log=lambda *_: None)
+
+
+def test_extract_joins_municipality_and_county(tmp_path):
+    """KommunLanReg gives each name line its municipality and county (#72)."""
+    import shutil
+
+    from lm_garmin.nvdb_extract import PLACES_LAYER
+
+    county = tmp_path / "county.gpkg"
+    shutil.copy(FIXTURE, county)
+    _, _, wkb, fields = pyogrio.raw.read(
+        FIXTURE, layer=street_names.GATUNAMN, columns=["ELEMENT_ID"]
+    )
+    ids = fields[0]
+    pyogrio.raw.write(
+        county,
+        geometry=wkb,
+        field_data=[
+            ids,
+            np.array(["Täby"] * len(ids), dtype=object),
+            np.array(["Stockholms län"] * len(ids), dtype=object),
+        ],
+        fields=["ELEMENT_ID", "Kommunnamn", "Lansnamn"],
+        layer=PLACES_LAYER,
+        driver="GPKG",
+        geometry_type="LineString",
+        crs="EPSG:3006",
+        append=True,
+    )
+    out = tmp_path / "out" / "nvdb-names.gpkg"
+    (s,) = extract([county], out, log=lambda *_: None)
+    assert s.placed[street_names.GATUNAMN] == s.lines[street_names.GATUNAMN]
+    _, _, _, f = pyogrio.raw.read(out, layer=street_names.GATUNAMN, read_geometry=False)
+    assert set(f[1]) == {"Täby"} and set(f[2]) == {"Stockholms län"}
+    index = street_names.NameIndex.read([out], (670000, 6590000, 675000, 6595000))
+    assert set(index.places) == {("Täby", "Stockholms län")}
