@@ -115,6 +115,7 @@ and object types.
 | `ralstrafik` | `1861` | Järnväg | — | line | `0x14` | 24, 23, 22, 21, 20, 18 | solid, `#333333`, 2 px | — |
 | `ralstrafik` | `1862` | Museijärnväg | — | line | `0x10e0e` | 24, 23, 22, 21, 20 | dash, `#555555`, 2 px | — |
 | `ovrig_vag` | `1623` | Cykelväg | — | line | `0x10e00` | 24, 23, 22, 21 | dash, `#8A6A3A`, 2 px | — |
+| `cykelvaglinje` | `1623` | Cykelväg (2027) | — | line | `0x10e00` | 24, 23, 22, 21 | dash, `#8A6A3A`, 2 px | — |
 | `ovrig_vag` | `1624` | Gångstig | — | line | `0x16` | 24, 23, 22, 21 | dash, `#333333`, 2 px | — |
 | `ovrig_vag` | `1625` | Elljusspår | — | line | `0x10e01` | 24, 23, 22, 21 | dash, `#C8B400`, 2 px | — |
 | `ovrig_vag` | `1628` | Traktorväg | — | line | `0x0a` | 24, 23, 22, 21 | dash, `#606060`, 3 px | — |
@@ -178,7 +179,7 @@ and object types.
 | `textpunkt` | Any | Namn | `lm:textdelnr!=2 & lm:textdelnr!=3 & lm:textstorleksklass>=3` | point | `0x2800` | 24, 23, 22 | Garmin default | `${name}` |
 | `textpunkt` | Any | Namn litet | `lm:textdelnr!=2 & lm:textdelnr!=3 & lm:textstorleksklass>=2` | point | `0x2800` | 24, 23 | Garmin default | `${name}` |
 | `textpunkt` | Any | Namn minsta | `lm:textdelnr!=2 & lm:textdelnr!=3` | point | `0x2800` | 24 | Garmin default | `${name}` |
-| `hojdpunkt` | `2412` | Triangelpunkt | — | point | `0x6616` | 24, 23, 22, 21 | icon, `#000000`, 5×5 px | `${ele}` |
+| `hojdpunkt` | `2412` | Triangelpunkt/Planpunkt | — | point | `0x6616` | 24, 23, 22, 21 | icon, `#000000`, 5×5 px | `${ele}` |
 | `hojdpunkt` | Any | Höjdvärde | — | point | `0x2800` | 24, 23 | Garmin default | `${ele}` |
 | `riksrose` | `5121` | Riksröse | — | point | `0x11500` | 24, 23, 22, 21, 20 | icon, `#C080E0`, 5×5 px | — |
 | `byggnadspunkt` | `2045` | Byggnad | — | point | `0x6402` | 24, 23 | icon, `#464646`, 3×3 px | — |

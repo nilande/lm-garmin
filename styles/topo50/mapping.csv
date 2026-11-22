@@ -95,6 +95,7 @@ line,ralstrafik,1861,,0x14,18,,Järnväg,#333333,,2,solid,
 line,ralstrafik,1862,,0x10e0e,20,,Museijärnväg,#555555,,2,dash,
 # Paths and trails (ovrig_vag). Winter trails are drawn as in Karta 1:50 000; the overlay adds snowmobile status
 line,ovrig_vag,1623,,0x10e00,21,,Cykelväg,#8A6A3A,,2,dash,
+line,cykelvaglinje,1623,,0x10e00,21,,Cykelväg (2027),#8A6A3A,,2,dash,
 line,ovrig_vag,1624,,0x16,21,,Gångstig,#333333,,2,dash,
 line,ovrig_vag,1625,,0x10e01,21,,Elljusspår,#C8B400,,2,dash,
 line,ovrig_vag,1628,,0x0a,21,,Traktorväg,#606060,,3,dash,
@@ -177,7 +178,7 @@ point,textpunkt,,lm:textdelnr!=2 & lm:textdelnr!=3 & lm:textstorleksklass>=4,0x2
 point,textpunkt,,lm:textdelnr!=2 & lm:textdelnr!=3 & lm:textstorleksklass>=3,0x2800,22,${name},Namn,,,,none,
 point,textpunkt,,lm:textdelnr!=2 & lm:textdelnr!=3 & lm:textstorleksklass>=2,0x2800,23,${name},Namn litet,,,,none,
 point,textpunkt,,lm:textdelnr!=2 & lm:textdelnr!=3,0x2800,24,${name},Namn minsta,,,,none,
-point,hojdpunkt,2412,,0x6616,21,${ele},Triangelpunkt,#000000,,5,icon,
+point,hojdpunkt,2412,,0x6616,21,${ele},Triangelpunkt/Planpunkt,#000000,,5,icon,
 point,hojdpunkt,,,0x2800,23,${ele},Höjdvärde,,,,none,
 point,riksrose,5121,,0x11500,20,,Riksröse,#C080E0,,5,icon,
 # Points – buildings and facilities (icons are placeholders until M2)
