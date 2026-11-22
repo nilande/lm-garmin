@@ -96,6 +96,10 @@ def load(mapping: Path) -> list[Rule]:
             if not (rule.type and rule.resolution):
                 raise ValueError(f"{mapping}:{i}: type and resolution are required")
             check_type(rule.type, f"{mapping}:{i}")
+        # A value one column off (e.g. `continue` in `order`) is silently ignored by mkgmap
+        # rules: lake and terrain names lost their labels that way in v0.2.0.
+        if rule.order and not rule.order.isdigit():
+            raise ValueError(f"{mapping}:{i}: order must be a number, got {rule.order!r}")
         rules.append(rule)
     return rules
 

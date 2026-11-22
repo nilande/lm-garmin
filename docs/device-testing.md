@@ -85,6 +85,31 @@ build, device firmware, scale and result here when a check is complete.
   Check the physical display at normal riding brightness, especially the grey
   dashed routes against snow or open terrain.
 
+## 2026-11-22 – lake and mountain names missing in the Sweden map
+
+Montana 700, 25.70, the v0.3 candidate `lm-topo50.img` (`dist/sweden-v0.3-nvdb`, `--nvdb-dir`, Topografi 250). Captures in
+`dist/montana-release/v0.3-labels-missing/`: Täby at 300 m and 150 m (`234`, `240`) look as
+before; around Tärnaby–Hemavan at 800 m–1.6 km (`256`, `260`, `266`, `272`) villages and
+road numbers show, but **no lake or mountain names**.
+
+Cause: since `b3b45d7` (2026-11-21, #16, so already in v0.2.0) the `continue` of the
+searchable `0x6500`/`0x6600` rows sat in the `order` column of `mapping.csv` (one comma
+short). Every Hydrografi and Terrängnamn text stopped at its invisible search point and never
+reached the `0x2800` label rules. Fixed by moving it to `options`; `stylegen.load` now rejects
+a non-numeric `order`. Storuman build: `0x2800` labels at level 0 from 176 to 3 803
+(Laxfjället, Norra Sytertoppen, Stenträsk, Juktån labelled again). **Device recheck
+(Storuman dev map with the fix): lake and mountain names show.**
+
+Device settings tried at the same time: *Text Size › Map Points* None → Small made no visible
+difference on our maps (so the unlabelled `0x65xx`/`0x66xx` points are not explained by that
+setting), and *Street Label* Medium → Small made no visible difference to our street names in
+Täby (TYP `FontStyle=SmallFont` already sets them; captures `291`, `314`, `322` at 65–150 m in
+`dist/montana-release/v0.3-labels-fixed/`).
+
+Device settings during this and the earlier checks (profile *Hike*, *Map Setup › Advanced
+Setup*): Detail = Normal; Text Size: Map Points = None, User Waypoints = Small,
+Street Label = Medium, Land Cover = Small.
+
 ## 2026-11-22 – Sweden map with NVDB street names (#71)
 
 Montana 700, firmware 25.70. Build `c732baf` (`lm-topo50.img` 1.88 GB, 410 tiles, NVDB

@@ -171,3 +171,26 @@ def _rule(**kw):
 def test_invalid_font_options_rejected(kind, opt):
     with pytest.raises(ValueError):
         stylegen.label_style([_rule(kind=kind, type="0x06", options=opt)])
+
+
+def test_lake_and_terrain_names_are_searchable_and_labelled():
+    """The 0x6500/0x6600 search points must `continue`, or the 0x2800 label rules never
+    see lake and terrain names (lost since v0.2.0 by a value in the wrong column)."""
+    rules = stylegen.load(ROOT / "styles" / "topo50" / "mapping.csv")
+    for kategori, t in (("Hydrografi", "0x6500"), ("Terrängnamn", "0x6600")):
+        (search,) = [r for r in rules if r.type == t and kategori in r.condition]
+        assert "continue" in search.options.split()
+        assert search.mkgmap_rule().endswith("continue]")
+    labels = [r for r in rules if r.layer == "textpunkt" and r.type == "0x2800"]
+    assert any("textkategori" not in r.condition for r in labels)  # generic name rules
+
+
+def test_order_must_be_numeric(tmp_path):
+    csv_file = tmp_path / "mapping.csv"
+    header = (
+        "kind,layer,t,condition,type,resolution,name,description,"
+        "colour,colour2,width,pattern,order,options\n"
+    )
+    csv_file.write_text(header + "point,textpunkt,,,0x2800,24,${name},X,,,,label,continue\n")
+    with pytest.raises(ValueError, match="order must be a number"):
+        stylegen.load(csv_file)

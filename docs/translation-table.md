@@ -160,8 +160,8 @@ and object types.
 | `naturvardslinje` | `5641` | Naturreservat linje | — | line | `0x10d00` | 24, 23, 22, 21, 20 | solid, `#5AB032`, 2 px | — |
 | `polcirkeln` | `1881` | Norra polcirkeln | — | line | `0x10d01` | 24, 23, 22, 21, 20, 18, 16 | dash, `#333333`, 1 px | — |
 | `textlinje` | Any | Namn längs linje | — | line | `0x10d02` | 24, 23, 22, 21 | label, `#D0D0D0`, 1 px | `${name}` |
-| `textpunkt` | Any | Vattennamn (sök) | `lm:textdelnr!=2 & lm:textdelnr!=3 & lm:textkategori=Hydrografi` | point | `0x6500` | 24 | label only (no symbol) | `${name}` |
-| `textpunkt` | Any | Terrängnamn (sök) | `lm:textdelnr!=2 & lm:textdelnr!=3 & lm:textkategori=Terrängnamn` | point | `0x6600` | 24 | label only (no symbol) | `${name}` |
+| `textpunkt` | Any | Vattennamn (sök) | `lm:textdelnr!=2 & lm:textdelnr!=3 & lm:textkategori=Hydrografi` | point | `0x6500` | 24 | label only (no symbol) | `${name}`, `continue` |
+| `textpunkt` | Any | Terrängnamn (sök) | `lm:textdelnr!=2 & lm:textdelnr!=3 & lm:textkategori=Terrängnamn` | point | `0x6600` | 24 | label only (no symbol) | `${name}`, `continue` |
 | `textpunkt` | Any | Tätort stor | `lm:textdelnr!=2 & lm:textdelnr!=3 & lm:textkategori=Tätort & lm:textstorleksklass>=7` | point | `0x0400` | 24, 23, 22, 21, 20, 18, 16 | Garmin default | `${name}` |
 | `textpunkt` | Any | Tätort | `lm:textdelnr!=2 & lm:textdelnr!=3 & lm:textkategori=Tätort` | point | `0x0800` | 24, 23, 22, 21, 20, 18 | Garmin default | `${name}` |
 | `textpunkt` | Any | Bebyggelse stor | `lm:textdelnr!=2 & lm:textdelnr!=3 & lm:textkategori=Bebyggelse & lm:i_bebyggelse=yes & lm:textstorleksklass>=5` | point | `0x0a00` | 24, 23, 22, 21, 20 | label only (no symbol) | `${name}` |

@@ -159,8 +159,8 @@ line,textlinje,,,0x10d02,21,${name},Namn längs linje,#D0D0D0,,1,label,
 # 0x66xx land). The device lists them under Where To? → Geographic Points but draws no
 # label for them, so they get an invisible icon and only the most detailed level; the visible
 # name is the 0x2800 label point below (`continue`).
-point,textpunkt,,lm:textdelnr!=2 & lm:textdelnr!=3 & lm:textkategori=Hydrografi,0x6500,24,${name},Vattennamn (sök),,,,label,continue
-point,textpunkt,,lm:textdelnr!=2 & lm:textdelnr!=3 & lm:textkategori=Terrängnamn,0x6600,24,${name},Terrängnamn (sök),,,,label,continue
+point,textpunkt,,lm:textdelnr!=2 & lm:textdelnr!=3 & lm:textkategori=Hydrografi,0x6500,24,${name},Vattennamn (sök),,,,label,,continue
+point,textpunkt,,lm:textdelnr!=2 & lm:textdelnr!=3 & lm:textkategori=Terrängnamn,0x6600,24,${name},Terrängnamn (sök),,,,label,,continue
 point,textpunkt,,lm:textdelnr!=2 & lm:textdelnr!=3 & lm:textkategori=Tätort & lm:textstorleksklass>=7,0x0400,15,${name},Tätort stor,,,,none,
 point,textpunkt,,lm:textdelnr!=2 & lm:textdelnr!=3 & lm:textkategori=Tätort,0x0800,18,${name},Tätort,,,,none,
 point,textpunkt,,lm:textdelnr!=2 & lm:textdelnr!=3 & lm:textkategori=Bebyggelse & lm:i_bebyggelse=yes & lm:textstorleksklass>=5,0x0a00,20,${name},Bebyggelse stor,,,,label,

@@ -26,6 +26,13 @@
 - The release build includes NVDB street names: README and PLAN give the `--nvdb-dir` step
   for all of Sweden (#71).
 
+### Fixed
+
+- Lake and mountain names are labelled on the map again. Since v0.2.0 the searchable
+  `0x6500`/`0x6600` rows lacked their `continue` (the value sat in the `order` column), so
+  the names were only invisible search points. `style generate` now rejects a non-numeric
+  `order`.
+
 ## v0.2.0 – 2026-11-21
 
 "Everyday map": a calmer, searchable map tuned on the Montana 700 in town and in the
