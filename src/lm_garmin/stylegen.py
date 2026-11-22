@@ -15,6 +15,8 @@ order (polygon draw order 1–8), options (`continue`: keep matching later rules
 can be emitted twice, e.g. unlabelled at one resolution range and labelled at another;
 `outline`: pass the layer and object type to inner rings of a multipolygon for a line rule;
 `relabel`: replace the label already set from `name`, e.g. to abbreviate it;
+`road`: write the line as a road (mkgmap `road_class`/`road_speed` from the Garmin type), so
+it goes into the NET data the device's address search needs (#72);
 `font=small|normal|large`: label size of a line type – a TYP setting, so it applies to every
 rule of the type. The Montana 700 ignores TYP font size and label colour on points and label
 colour on lines, so only line font sizes are supported; see docs/device-testing.md).
@@ -65,7 +67,11 @@ class Rule:
         else:
             action = f" {{ name '{self.name}' }}" if self.name else ""
         cont = " continue" if "continue" in self.options.split() else ""
-        return f"{self.expression()}{action} [{self.type} resolution {self.resolution}{cont}]"
+        road = ""
+        if "road" in self.options.split():
+            road_class, road_speed = ROADS[self.type]
+            road = f" road_class={road_class} road_speed={road_speed}"
+        return f"{self.expression()}{action} [{self.type}{road} resolution {self.resolution}{cont}]"
 
 
 def check_type(type_: str, where: str = "") -> None:
@@ -176,6 +182,18 @@ def _typ_polygon(r: Rule) -> str:
         s += _xpm(_pattern(r.pattern), {"a": fg, "b": bg})
     return s + "[end]\n"
 
+
+# Road class (0–4) and speed class (0–7) per standard Garmin road type, for `road` rules.
+ROADS = {
+    "0x01": (4, 7),
+    "0x02": (3, 6),
+    "0x03": (3, 5),
+    "0x04": (2, 4),
+    "0x05": (1, 3),
+    "0x06": (0, 2),
+    "0x07": (0, 1),
+    "0x0b": (2, 4),
+}
 
 FONTS = {"small": "SmallFont", "normal": "NormalFont", "large": "LargeFont"}
 

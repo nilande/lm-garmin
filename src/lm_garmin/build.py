@@ -145,7 +145,8 @@ def compile_img(
     if product.transparent:
         cmd += ["--transparent", f"--draw-priority={product.draw_priority}"]
     else:
-        cmd += ["--index"]
+        # --net: street data for Where to? › Addresses (named roads, #72).
+        cmd += ["--index", "--net"]
     # Tile files are named <mapid>.osm.pbf by splitter; mkgmap takes the map number from it.
     cmd += [*map(str, tiles), str(style_dir / "typ" / f"{product.style}.txt")]
     secs, rss = run_tool(cmd, work / "mkgmap.log")

@@ -31,11 +31,22 @@ import numpy as np
 import pyogrio
 import shapely
 
-from .street_names import GATUNAMN, LAYERS, NAME_FIELD, OVRIGT_VAGNAMN, tables
+from .street_names import (
+    CITY_FIELD,
+    GATUNAMN,
+    LAYERS,
+    NAME_FIELD,
+    OVRIGT_VAGNAMN,
+    REGION_FIELD,
+    tables,
+)
 from .tools import sha256_file
 
 # FileGDB layer names of the same NVDB name layers.
 FILEGDB_LAYERS = {GATUNAMN: "TNE_FT_Gatunamn_1", OVRIGT_VAGNAMN: "TNE_FT_Ovrigt_vagnamn_1"}
+# Municipality and county per road element (#72): GeoPackage and FileGDB form.
+PLACES_LAYER = "AGGREGAT_O_5_KommunLanReg"
+PLACES_FILEGDB = "TNE_FT_KOMMUNLANREG_5_100106"
 
 
 @dataclass
@@ -44,6 +55,7 @@ class Source:
     sha256: str
     lines: dict[str, int] = field(default_factory=dict)
     betraktelsedatum: str | None = None
+    placed: dict[str, int] = field(default_factory=dict)  # lines with municipality and county
 
 
 _DATE = re.compile(r"Betraktelsedatum:\s*(\d{4}-\d{2}-\d{2})")
@@ -114,18 +126,58 @@ def _layers(src: str) -> dict[str, tuple[str, str]]:
     return found
 
 
+def _key_field(fields) -> str | None:
+    """Road-element id: ELEMENT_ID in GeoPackages, ROUTE_ID in FileGDBs (same values)."""
+    return next((f for f in ("ELEMENT_ID", "ROUTE_ID") if f in fields), None)
+
+
+def _places(src: str) -> dict[str, tuple[str, str]]:
+    """Road-element id → (municipality, county) from KommunLanReg; {} if the layer is missing."""
+    gpkg = src.lower().endswith(".gpkg")
+    with warnings.catch_warnings():
+        warnings.filterwarnings("ignore", "Measured", UserWarning)
+        available = tables(Path(src)) if gpkg else set(pyogrio.list_layers(src)[:, 0])
+        layer = PLACES_LAYER if gpkg else PLACES_FILEGDB
+        if layer not in available:
+            return {}
+        fields = list(pyogrio.read_info(src, layer=layer)["fields"])
+        key = _key_field(fields)
+        if gpkg:
+            city, region = "Kommunnamn", "Lansnamn"
+        else:  # numbered columns: Kommu_<n> holds the name, Kommu_<n+1> the code
+            city = min((f for f in fields if f.startswith("Kommu_")), default=None)
+            region = next((f for f in fields if f.startswith("Lansn_")), None)
+        if not key or city not in fields or region not in fields:
+            return {}
+        meta, _, _, data = pyogrio.raw.read(
+            src, layer=layer, read_geometry=False, columns=[key, city, region]
+        )
+    cols = dict(zip(list(meta["fields"]), data, strict=True))
+    out: dict[str, tuple[str, str]] = {}
+    for k, c, r in zip(cols[key], cols[city], cols[region], strict=True):
+        if k and c and r:
+            out.setdefault(str(k), (str(c), str(r)))
+    return out
+
+
 def _copy_layers(src: str, out: Path, source: Source) -> None:
     layers = _layers(src)
+    places = _places(src)
     if GATUNAMN not in layers:
         raise ValueError(f"{source.file}: no layer {GATUNAMN} – is it an NVDB county file?")
     for layer, (src_layer, name_field) in layers.items():
         with warnings.catch_warnings():  # FileGDB lines are measured (M); M is dropped
             warnings.filterwarnings("ignore", "Measured", UserWarning)
-            meta, _, wkb, fields = pyogrio.raw.read(src, layer=src_layer, columns=[name_field])
+            key = _key_field(pyogrio.read_info(src, layer=src_layer)["fields"])
+            meta, _, wkb, fields = pyogrio.raw.read(
+                src, layer=src_layer, columns=[name_field, *([key] if key else [])]
+            )
         if meta["crs"] != "EPSG:3006":
             raise ValueError(f"{source.file}:{layer} must use SWEREF 99 TM (EPSG:3006)")
         geoms = shapely.force_2d(shapely.from_wkb(wkb)) if wkb is not None else np.array([])
-        names = np.asarray(fields[0], dtype=object)
+        # pyogrio returns columns in source order, not in the order asked for.
+        cols = dict(zip(list(meta["fields"]), fields, strict=True))
+        names = np.asarray(cols[name_field], dtype=object)
         keep = np.array(
             [
                 g is not None and not g.is_empty and bool((n or "").strip())
@@ -136,13 +188,17 @@ def _copy_layers(src: str, out: Path, source: Source) -> None:
         source.lines[layer] = int(keep.sum())
         if not keep.any():
             continue
+        found = [places.get(str(k)) for k in cols[key]] if key else [None] * len(names)
+        city = np.array([p[0] if p else None for p in found], dtype=object)
+        region = np.array([p[1] if p else None for p in found], dtype=object)
+        source.placed[layer] = sum(1 for p, k in zip(found, keep, strict=True) if p and k)
         # FileGDB delivers MultiLineStrings: store single lines, as the layer type says.
         parts, index = shapely.get_parts(geoms[keep], return_index=True)
         pyogrio.raw.write(
             out,
             geometry=shapely.to_wkb(parts),
-            field_data=[names[keep][index]],
-            fields=[NAME_FIELD],
+            field_data=[names[keep][index], city[keep][index], region[keep][index]],
+            fields=[NAME_FIELD, CITY_FIELD, REGION_FIELD],
             layer=layer,
             driver="GPKG",
             geometry_type="LineString",

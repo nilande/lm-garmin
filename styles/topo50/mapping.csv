@@ -68,28 +68,28 @@ line,vaglinje,1802,,0x02,16,${ref|highway-symbol:hbox},Motortrafikled,#C0392B,#7
 line,vaglinje,1803,,0x03,17,${ref|highway-symbol:hbox},Mötesfri väg,#D35A3A,#7A1F15,6,solid,
 line,vaglinje,1804,ref=*,0x03,18,${ref|highway-symbol:hbox},Landsväg,#E07850,#8A3A20,5,solid,
 line,vaglinje,1804,,0x03,18-22,,Landsväg,#E07850,#8A3A20,5,solid,,continue
-line,vaglinje,1804,,0x03,23,${lm:gatunamn_nvdb},Landsväg (namn),#E07850,#8A3A20,5,solid,,font=small
+line,vaglinje,1804,,0x03,23,${lm:gatunamn_nvdb},Landsväg (namn),#E07850,#8A3A20,5,solid,,font=small road
 line,vaglinje,1805,ref=*,0x04,19,${ref|highway-symbol:hbox},Landsväg liten,#E89070,#8A3A20,4,solid,
 line,vaglinje,1805,,0x04,19-22,,Landsväg liten,#E89070,#8A3A20,4,solid,,continue
-line,vaglinje,1805,,0x04,23,${lm:gatunamn_nvdb},Landsväg liten (namn),#E89070,#8A3A20,4,solid,,font=small
+line,vaglinje,1805,,0x04,23,${lm:gatunamn_nvdb},Landsväg liten (namn),#E89070,#8A3A20,4,solid,,font=small road
 line,vaglinje,1806,ref=*,0x05,20,${ref|highway-symbol:hbox},Småväg,#7F7F7F,,3,solid,
 line,vaglinje,1806,,0x05,20-22,,Småväg,#7F7F7F,,3,solid,,continue
-line,vaglinje,1806,,0x05,23,${lm:gatunamn_nvdb},Småväg (namn),#7F7F7F,,3,solid,,font=small
+line,vaglinje,1806,,0x05,23,${lm:gatunamn_nvdb},Småväg (namn),#7F7F7F,,3,solid,,font=small road
 line,vaglinje,1807,ref=*,0x07,21,${ref|highway-symbol:hbox},Småväg enkel standard,#A0A0A0,,2,solid,
 line,vaglinje,1807,,0x07,21-22,,Småväg enkel standard,#A0A0A0,,2,solid,,continue
-line,vaglinje,1807,,0x07,23,${lm:gatunamn_nvdb},Småväg enkel standard (namn),#A0A0A0,,2,solid,,font=small
+line,vaglinje,1807,,0x07,23,${lm:gatunamn_nvdb},Småväg enkel standard (namn),#A0A0A0,,2,solid,,font=small road
 line,vaglinje,1808,ref=*,0x0b,19,${ref|highway-symbol:hbox},Övergripande länk,#B5442B,,4,solid,
 line,vaglinje,1808,,0x0b,19-22,,Övergripande länk,#B5442B,,4,solid,,continue
-line,vaglinje,1808,,0x0b,23,${lm:gatunamn_nvdb},Övergripande länk (namn),#B5442B,,4,solid,,font=small
+line,vaglinje,1808,,0x0b,23,${lm:gatunamn_nvdb},Övergripande länk (namn),#B5442B,,4,solid,,font=small road
 line,vaglinje,1809,ref=*,0x04,19,${ref|highway-symbol:hbox},Huvudgata,#E89070,#8A3A20,4,solid,
 line,vaglinje,1809,,0x04,19-22,,Huvudgata,#E89070,#8A3A20,4,solid,,continue
-line,vaglinje,1809,,0x04,23,${lm:gatunamn_nvdb},Huvudgata (namn),#E89070,#8A3A20,4,solid,,font=small
+line,vaglinje,1809,,0x04,23,${lm:gatunamn_nvdb},Huvudgata (namn),#E89070,#8A3A20,4,solid,,font=small road
 line,vaglinje,1810,ref=*,0x06,21,${ref},Lokalgata stor,#8C8C8C,,2,solid,
 line,vaglinje,1810,,0x06,21-22,,Lokalgata stor,#8C8C8C,,2,solid,,continue
-line,vaglinje,1810,,0x06,23,${lm:gatunamn_nvdb},Lokalgata stor (namn),#8C8C8C,,2,solid,,font=small
+line,vaglinje,1810,,0x06,23,${lm:gatunamn_nvdb},Lokalgata stor (namn),#8C8C8C,,2,solid,,font=small road
 line,vaglinje,1811,ref=*,0x06,22,${ref},Lokalgata liten,#8C8C8C,,2,solid,
 line,vaglinje,1811,,0x06,22-22,,Lokalgata liten,#8C8C8C,,2,solid,,continue
-line,vaglinje,1811,,0x06,23,${lm:gatunamn_nvdb},Lokalgata liten (namn),#8C8C8C,,2,solid,,font=small
+line,vaglinje,1811,,0x06,23,${lm:gatunamn_nvdb},Lokalgata liten (namn),#8C8C8C,,2,solid,,font=small road
 line,farjeled,1891,,0x1b,18,,Färjeled,#C0392B,,2,dash,
 line,ralstrafik,1861,,0x14,18,,Järnväg,#333333,,2,solid,
 line,ralstrafik,1862,,0x10e0e,20,,Museijärnväg,#555555,,2,dash,
