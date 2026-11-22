@@ -28,7 +28,7 @@ from pyproj import Transformer
 from . import __version__, street_names
 from .forest_overview import FOREST_TYPE, merged_forests
 from .region import Region
-from .tags import SCHEMA_VERSION, feature_tags, read_columns
+from .tags import ALIASES, SCHEMA_VERSION, feature_tags, read_columns, tag_key
 from .water_overview import LAKE_TYPE, merged_lakes
 
 # Theme → layers, as delivered by Lantmäteriet (product version 2026.05).
@@ -65,6 +65,7 @@ THEME_LAYERS: dict[str, tuple[str, ...]] = {
         "ledintressepunkt_fjall",
         "ralstrafik",
         "ralstrafikstation",
+        "cykelvaglinje",  # 2027.05: cycle paths (1623) moved here from ovrig_vag (#56)
     ),
     "kulturhistorisklamning": ("kultur_lamning_linje", "kultur_lamning_punkt"),
     "ledningar": ("ledningslinje", "transformatoromrade", "transformatoromradespunkt"),
@@ -74,6 +75,8 @@ THEME_LAYERS: dict[str, tuple[str, ...]] = {
     "norrapolcirkeln": ("polcirkeln",),
     "text": ("textpunkt", "textlinje"),
 }
+# Layers of Topografi 50 2027.05 (from 2027-05-04) that the current delivery lacks (#56).
+LAYERS_2027 = frozenset({"cykelvaglinje"})
 THEMES = list(THEME_LAYERS)
 LAYER_THEME = {layer: theme for theme, layers in THEME_LAYERS.items() for layer in layers}
 ID_STRIDE = 10**10  # ids of theme i are in [(i + 1) * ID_STRIDE, (i + 2) * ID_STRIDE)
@@ -81,6 +84,8 @@ BATCH_SIZE = 20_000
 # Built-up land cover (mark): sluten, hög, låg bebyggelse, industri- och handelsbebyggelse.
 BUILTUP_TYPES = (2636, 2637, 2638, 2639)
 BUILTUP_TAG = "lm:i_bebyggelse"
+# Tags the converter adds itself; the others come from source columns (tags.py).
+GENERATED_TAGS = frozenset({"lm:ov", BUILTUP_TAG, "lm:gatunamn_nvdb"})
 
 
 def id_base(theme: str) -> int:
@@ -406,6 +411,28 @@ def plan_sources(gpkg_dir: Path) -> dict[str, list[tuple[Path, str]]]:
     if unknown:
         raise ValueError(f"unknown layers (add them to THEME_LAYERS): {unknown}")
     return {t: plan[t] for t in THEMES if t in plan}
+
+
+def missing_columns(gpkg_dir: Path, needed: dict[str, set[str]]) -> dict[str, list[str]]:
+    """Tags a style reads that no source column of the layer provides (#56).
+
+    Lantmäteriet's 2027 test data dropped `vardvagnummer` from `vaglinje`: every road number
+    would vanish without an error. Layers absent from the delivery are not reported.
+    """
+    found: dict[str, set[str]] = {}
+    for files in plan_sources(gpkg_dir).values():
+        for f, layer in files:
+            cols = pyogrio.read_info(f, layer=layer)["fields"]
+            have = found.setdefault(layer, set())
+            have.update(tag_key(c) for c in cols)
+            have.update(ALIASES[c] for c in cols if c in ALIASES)
+    out = {}
+    for layer, tags in needed.items():
+        if layer in found:
+            missing = sorted(t for t in tags - GENERATED_TAGS if t not in found[layer])
+            if missing:
+                out[layer] = missing
+    return out
 
 
 def convert(

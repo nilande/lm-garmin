@@ -21,6 +21,7 @@ A resolution may be a range, e.g. `20-21`.
 from __future__ import annotations
 
 import csv
+import re
 from dataclasses import dataclass, replace
 from pathlib import Path
 
@@ -212,6 +213,18 @@ def _typ_point(r: Rule) -> str:
         n = max(int(r.width or 5), 1)
         icon = _xpm(["a" * n] * n, {"a": r.colour})
     return f"[_point]\nType={r.type}\nString1=0x04,{r.description}\n" + icon + "[end]\n"
+
+
+def source_tags(rules: list[Rule]) -> dict[str, set[str]]:
+    """Tags each layer's rules read in conditions and labels (besides lm:l and lm:t)."""
+    out: dict[str, set[str]] = {}
+    for r in rules:
+        text = f"{r.condition} {r.name}"
+        tags = {f"lm:{t}" for t in re.findall(r"lm:(\w+)", text)} - {"lm:l", "lm:t"}
+        tags |= {a for a in ("ref", "name", "ele") if re.search(rf"(?<![\w:]){a}\b", text)}
+        if tags:
+            out.setdefault(r.layer, set()).update(tags)
+    return out
 
 
 def typ_rules(rules: list[Rule]) -> dict[tuple[str, str], Rule]:

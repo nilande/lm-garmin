@@ -5,9 +5,10 @@ import sqlite3
 from collections import Counter
 
 import osmium
+import pyogrio
 import pytest
 
-from lm_garmin.convert import ID_STRIDE, LAYER_THEME, THEMES, convert, id_base
+from lm_garmin.convert import ID_STRIDE, LAYER_THEME, LAYERS_2027, THEMES, convert, id_base
 from lm_garmin.region import Region
 
 BBOX = (510000, 7300000, 520000, 7310000)
@@ -46,7 +47,7 @@ def objects(path):
 def test_every_layer_has_a_theme(data_dir):
     with sqlite3.connect(data_dir / "skoter_730_51.gpkg") as c:
         layers = {r[0] for r in c.execute("SELECT table_name FROM gpkg_contents")}
-    assert layers == set(LAYER_THEME)
+    assert layers == set(LAYER_THEME) - LAYERS_2027
 
 
 def test_feature_counts_match_source(converted):
@@ -123,3 +124,27 @@ def test_texts_in_built_up_areas_are_tagged(tmp_path, request):
     )
     assert inside["Bebyggelse"] >= 5
     assert outside["Hydrografi"] > inside["Hydrografi"]
+
+
+def test_missing_columns_reports_style_tags_without_source(tmp_path, data_dir):
+    """Topografi 50 2027 test data has no `vardvagnummer`: road numbers would vanish (#56)."""
+    from lm_garmin import stylegen
+    from lm_garmin.convert import missing_columns
+    from lm_garmin.products import PRODUCTS
+
+    needed = stylegen.source_tags(stylegen.load(PRODUCTS["topo50"].style_dir / "mapping.csv"))
+    assert "ref" in needed["vaglinje"] and "lm:textkategori" in needed["textpunkt"]
+    src = data_dir / "tatort_659_67_00.gpkg"
+    assert missing_columns(data_dir, needed) == {}
+    meta, _, wkb, fields = pyogrio.raw.read(src, layer="vaglinje", columns=["objekttypnr"])
+    pyogrio.raw.write(
+        tmp_path / "kommunikation_2027.gpkg",
+        geometry=wkb,
+        field_data=[fields[0]],
+        fields=["objekttypnr"],
+        layer="vaglinje",
+        driver="GPKG",
+        geometry_type=meta["geometry_type"],
+        crs=meta["crs"],
+    )
+    assert missing_columns(tmp_path, needed) == {"vaglinje": ["ref"]}

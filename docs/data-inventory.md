@@ -164,6 +164,35 @@ This supports the stated OSM provenance for this export and window. The result i
 to the sampled area and compares alignments in two snapshots. Only the aggregate figures
 leave the local analysis.
 
+## Structure change 2027.05 (from 2027-05-04, issue #56)
+
+Lantmäteriet's *Produktförändringar våren 2027* changes Topografi 50 and 100 on
+**2027-05-04**. Sources, read 2026-11-22:
+
+- Product description **2027.05 (Kommande)**: Geotorget → *Topografi 50 Nedladdning, vektor*
+  → *Dokumentation* → version 2027.05, static pages at
+  `https://geotorget.lantmateriet.se/dokument/projects/topografi-50-nedladdning-vektor/released/2027.05/`
+  (`Förändringsförteckning.html`, `Tema-Kommunikation.html`, `Tema-Höjd.html`).
+- Test data: `https://www.lantmateriet.se/geodata_data/demodata_testdata/Testdata/Vektorrelease_2027/`
+  (files dated 2026-11-03; Topografi 50 `hojd_ln01.zip`, `kommunikation_ln01.zip`,
+  Topografi 100 `hojd_ln01.zip`; Stockholms län), archived locally in
+  `/Volumes/scratch/lm-kartdata/Vektorrelease 2027 - testdata/` with `SHA256SUMS.txt`.
+  Lantmäteriet: the test data shows the structure, but no data reflects the changes yet.
+
+| Change (2027.05 description) | Test data (`ln01`) | lm-garmin |
+|---|---|---|
+| New layer `cykelvaglinje` (theme `kommunikation`): object type 1623 *Cykelväg*, attributes `objektidentitet`, `skapad`, `objekttypnr`, `objekttyp`, `bro_och_tunnel`; cycle paths come directly from Trafikverket | layer present, **0 features** | `THEME_LAYERS` (appended, ids unchanged), style row as for `ovrig_vag` 1623; `LAYERS_2027` in `convert.py` |
+| `ovrig_vag` no longer holds 1623 *Cykelväg* | no 1623 | the old row stays for current deliveries |
+| `hojdpunkt` 2412 *Triangelpunkt* renamed *Planpunkt* (GNSS point in the national reference network; number unchanged) | 79 *Planpunkt* | rule on 2412 unchanged, description "Triangelpunkt/Planpunkt" |
+| `vaglinje` attributes: **unchanged** in the description (`vardvagnummer`, `gatunamn`, `cirkulationsplats` …) | **only** `objekttypnr`, `objekttyp`, `bro_och_tunnel` – the road numbers are missing | `build` warns and records `missing_columns` when the style reads a tag that no source column provides |
+| Lake attribute in `mark` (news page) | – (no `mark` in the test data) | not in the 2027.05 change list for Topografi 50 |
+
+Täby built from the test data (`hojd` and `kommunikation` replaced, other themes current):
+all road-number labels (`0x01`–`0x0b`, 390 lines) and all 1 012 cycle-path lines are gone;
+other features differ by under 1 % (the test data snapshot is from 2026-06). The road-number
+gap contradicts the description; ask Lantmäteriet (geodatasupport@lm.se) before May 2027.
+Topografi 100 `hojd` test data: same 2412 rename.
+
 ## Full table inventory
 
 All layers: SRS 3006, R-tree index `rtree_<table>_geom`, geometry without Z/M.

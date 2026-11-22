@@ -9,6 +9,10 @@
   unpacked). Reads GeoPackage and FileGDB zips; Dalarnas län needs the FileGDB, since its
   GeoPackage zip on Lastkajen is empty. README: which Lastkajen files to download for all
   of Sweden.
+- Topografi 50 2027.05 (from 2027-05-04, #56): the new layer `cykelvaglinje` is converted
+  and drawn like today's cycle paths; `build` warns and records `missing_columns` in the
+  build report when the style reads an attribute the delivery lacks (Lantmäteriet's 2027
+  test data has no road numbers in `vaglinje`).
 
 ## v0.2.0 – 2026-11-21
 
