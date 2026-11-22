@@ -131,3 +131,43 @@ def test_relabel_overrides_the_generic_name():
     rule = Rule(**base, name="${name|subst:naturreservat=>nr}", options="relabel")
     assert "{ set mkgmap:label:1='${name|subst:naturreservat=>nr}' }" in rule.mkgmap_rule()
     assert "{ name '${name}' }" in Rule(**base, name="${name}").mkgmap_rule()
+
+
+def test_street_name_types_use_the_small_font():
+    """Street labels competed with town names on the Montana (#71). The device honours TYP
+    FontStyle only on lines (label kit, docs/device-testing.md)."""
+    rules = stylegen.load(ROOT / "styles" / "topo50" / "mapping.csv")
+    typ = stylegen.render_typ(rules, 5750)
+    lines = {s.split("\n")[0]: s for s in typ.split("[_line]\n")[1:]}
+    named = {r.type for r in rules if r.name == "${lm:gatunamn_nvdb}"}
+    assert named
+    for t in named:
+        assert "FontStyle=SmallFont\n" in lines[f"Type={t}"], t
+    assert "FontStyle" not in lines["Type=0x01"]  # motorway shields keep the default font
+    assert "FontStyle" not in typ.split("[_line]")[0]  # no point sections are touched
+
+
+def _rule(**kw):
+    base = dict.fromkeys(
+        [
+            "layer",
+            "t",
+            "condition",
+            "resolution",
+            "name",
+            "description",
+            "colour",
+            "colour2",
+            "width",
+            "pattern",
+            "order",
+        ],
+        "",
+    )
+    return stylegen.Rule(**{**base, **kw})
+
+
+@pytest.mark.parametrize("kind,opt", [("line", "font=tiny"), ("point", "font=large")])
+def test_invalid_font_options_rejected(kind, opt):
+    with pytest.raises(ValueError):
+        stylegen.label_style([_rule(kind=kind, type="0x06", options=opt)])

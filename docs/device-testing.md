@@ -21,6 +21,13 @@ Use the same verified `lm-topo50.img` and `lm-skoter.img` for both
   from the search menu. Find **Vallentuna** in the list or with **Spell Search**.
   The search-map setting is independent of **Map Manager**. Record which method
   worked and roughly how long it took.
+- [ ] For a build with `--nvdb-dir`: at **120 m** or closer, check that streets carry NVDB
+  names in **Täby / Ensta** and in **Falun centrum** (60.6065, 15.6355; Dalarna is read from
+  the FileGDB) and that names follow the street where it changes name. At **250 m**, only
+  the larger named roads should be labelled
+  ([earlier result](#2026-11-21--street-names-from-nvdb-issue-60)). In **Map Manager →
+  LM Topo50 → map info**, check that the copyright lists **Trafikverket (NVDB)** next to
+  Lantmäteriet.
 - [ ] In daylight at normal brightness, enable the snowmobile overlay in
   **Map Manager**. At the [Syter example locations](#2026-11-19--snowmobile-overlay-issue-24),
   check the four line styles and the red 1836 marker at **180–250 m**. Toggle the
@@ -40,6 +47,7 @@ Copy this record for each candidate.
 | Täby redraw and legibility at 250 m, 2 km, 8 km | |
 | Hemavan/Syter redraw and legibility at 250 m, 2 km, 8 km | |
 | Vallentuna search using LM Topo50 | |
+| NVDB street names in Täby and Falun; Trafikverket in map info | |
 | Overlay toggle and 1836 marker | |
 | Four statuses, brightness and lighting | |
 | Screenshot files and follow-up issues | |
@@ -76,6 +84,54 @@ build, device firmware, scale and result here when a check is complete.
 - [ ] **Snowmobile overlay contrast in direct sunlight** ([issue #24](https://github.com/nilande/lm-garmin/issues/24)).
   Check the physical display at normal riding brightness, especially the grey
   dashed routes against snow or open terrain.
+
+## 2026-11-22 – Sweden map with NVDB street names (#71)
+
+Montana 700, firmware 25.70. Build `c732baf` (`lm-topo50.img` 1.88 GB, 410 tiles, NVDB
+Betraktelsedatum 2026-11-17; `lm-skoter.img` unchanged from v0.2.0), installed with
+`lm-garmin install` (verified copy, 13 min 55 s). Captures in `dist/montana-release/v0.3-nvdb/`.
+**Works as intended**, with one style finding.
+
+| Check | Captures | Result |
+|---|---|---|
+| Täby / Ensta, 120 m and 65 m | `217`, `226` | Streets named from NVDB (Sportvägen, Lindvägen, Djäknevägen …). |
+| Falun centrum, 120 m and 60 m (FileGDB) | `279`, `282`, `286` | Streets named (Svärdsjögatan, Östra Hamngatan, Åsgatan …). |
+| Täby, 800 m | `354` | Towns and road shields only, no street names. |
+| Map info | `307` | "©© Lantmäteriet, Trafikverket (NVDB)": the device prints its own "©", so the message must not start with one. |
+| Search, Cities | `394` | Vallentuna, SE, 8.97 km N. |
+
+Finding: street labels use the device's default line font, which is larger and bolder than
+the town labels (compare "Ensta" and "Falun"). They compete with place names, and where a
+street changes name the labels do not fit, so the change is not visible. 
+
+Dev build with `FontStyle=SmallFont` on the street-name types (captures in
+`dist/montana-release/v0.3-small-font/`: `47`, `55` Täby at 120 m and 65 m; `84`, `86`, `94`
+Falun at 120 m, 50 m and 180 m): name changes along a street now show (Ilervägen/Mårdvägen,
+Svärdsjögatan/Kristinegatan), but street names look as large and bold as town and waypoint
+labels. A second dev build with `DayCustomColor=#505050` on streets and `LargeFont` /
+`NormalFont` on town and settlement points (`dist/montana-release/v0.3-grey/`: `32`, `44`)
+looked **the same**. TopoActive Europe at the same place (`51`, `71`, `82`, `94`) draws
+street names large and bold like our first build, but Täby larger and "Ella gård" in a
+compact font.
+
+### Label kit (`spikes/10-label-sizes`, 2026-11-22)
+
+One small map (`lm-labelkit.img`, family 5759) near Täby, shown alone, night colours.
+Captures in `dist/montana-release/labelkit/` (`80`–`133`, at 120 m and 50 m).
+
+| Object | Result |
+|---|---|
+| City points `0x0100`–`0x0d00` | Same bold label for all types; only the dot shrinks |
+| City points `0x0e00`–`0x1100` | Dot, **no label** |
+| Label points `0x2800`–`0x2804` with TYP `FontStyle` Small/Normal/Large, `DayCustomColor` | Same small, thinner label for all: TYP font and colour are **ignored on points** |
+| Road lines `0x01`–`0x13` without TYP | Same bold label (the default line font) |
+| Lines with TYP `FontStyle` | **Honoured**: SmallFont clearly smaller, NormalFont = default, LargeFont larger |
+| Line with `DayCustomColor` red | Not seen in night colours; with the grey dev build in day colours, streets stayed black |
+| Streams, rivers (`0x18`, `0x1f`) | Small font by default; boundary and railway use the default line font |
+
+Decision: street-name road types keep `FontStyle=SmallFont` (`font=small` in `mapping.csv`,
+lines only); the grey colour and town fonts are dropped. The device offers no TYP control
+over point labels, so the town–street hierarchy cannot be widened further from the TYP.
 
 ## 2026-11-21 – v0.2.0 Sweden release check
 

@@ -749,6 +749,7 @@ Xpm="0 0 2 0"
 [_line]
 Type=0x03
 String1=0x04,Mötesfri väg
+FontStyle=SmallFont
 LineWidth=6
 BorderWidth=1
 Xpm="0 0 2 0"
@@ -759,6 +760,7 @@ Xpm="0 0 2 0"
 [_line]
 Type=0x04
 String1=0x04,Landsväg liten
+FontStyle=SmallFont
 LineWidth=4
 BorderWidth=1
 Xpm="0 0 2 0"
@@ -769,6 +771,7 @@ Xpm="0 0 2 0"
 [_line]
 Type=0x05
 String1=0x04,Småväg
+FontStyle=SmallFont
 LineWidth=3
 Xpm="0 0 1 0"
 "a c #7F7F7F"
@@ -777,6 +780,7 @@ Xpm="0 0 1 0"
 [_line]
 Type=0x07
 String1=0x04,Småväg enkel standard
+FontStyle=SmallFont
 LineWidth=2
 Xpm="0 0 1 0"
 "a c #A0A0A0"
@@ -785,6 +789,7 @@ Xpm="0 0 1 0"
 [_line]
 Type=0x0b
 String1=0x04,Övergripande länk
+FontStyle=SmallFont
 LineWidth=4
 Xpm="0 0 1 0"
 "a c #B5442B"
@@ -793,6 +798,7 @@ Xpm="0 0 1 0"
 [_line]
 Type=0x06
 String1=0x04,Lokalgata stor
+FontStyle=SmallFont
 LineWidth=2
 Xpm="0 0 1 0"
 "a c #8C8C8C"

@@ -158,7 +158,10 @@ road authority and the road network. `lm-garmin nvdb extract` reads the county z
 a time – GeoPackage zips are unpacked to a temp file, FileGDB zips are read in place
 (layers `TNE_FT_Gatunamn_1` and `TNE_FT_Ovrigt_vagnamn_1`, name column `Namn_<n>`,
 MultiLineStrings with M values) – and keeps the two name layers (name column, 2D) in one GeoPackage with a JSON
-sidecar of sources and checksums. Stockholms + Västerbottens län: 179 637 lines, 67 MB,
+sidecar of sources, checksums and *Betraktelsedatum*. The date comes from the
+`Leveransinformation_*.txt` in each GeoPackage zip; Lastkajen's FileGDB zips have no such
+file, so those sources are dated `null`. `build` copies the dates into `build-report.json`
+(`nvdb.betraktelsedatum`, and `nvdb.undated` for sources without one). Stockholms + Västerbottens län: 179 637 lines, 67 MB,
 23 s; the Täby quality check gives the same result as with the full county files. All 21
 counties (20 GeoPackage zips and Dalarna's FileGDB zip, Betraktelsedatum 2026-11-17, read
 from a network share): 898 273 lines, 356 MB, 2 min 40 s; town streets named 96.2 % in Täby

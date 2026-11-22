@@ -20,6 +20,7 @@ All geometry is in SWEREF 99 TM (EPSG:3006), in metres.
 
 from __future__ import annotations
 
+import json
 import math
 import sqlite3
 from collections import defaultdict
@@ -116,6 +117,27 @@ def sources(nvdb_dir: Path) -> list[Path]:
         if GATUNAMN not in tables(f):
             raise ValueError(f"{f} has no layer {GATUNAMN} – is it an NVDB delivery?")
     return files
+
+
+def provenance(files: list[Path]) -> dict:
+    """Betraktelsedatum of the deliveries behind NVDB GeoPackages, from `nvdb extract` sidecars.
+
+    Files without a sidecar (unpacked county GeoPackages) and sidecar sources without a date
+    (FileGDB zips) are listed under `undated`.
+    """
+    dates: set[str] = set()
+    undated: list[str] = []
+    for f in files:
+        sidecar = f.with_suffix(".json")
+        if not sidecar.exists():
+            undated.append(f.name)
+            continue
+        for s in json.loads(sidecar.read_text(encoding="utf-8")).get("sources", []):
+            if s.get("betraktelsedatum"):
+                dates.add(s["betraktelsedatum"])
+            else:
+                undated.append(s["file"])
+    return {"betraktelsedatum": sorted(dates), "undated": undated}
 
 
 def tables(gpkg: Path) -> set[str]:

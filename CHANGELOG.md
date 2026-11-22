@@ -9,10 +9,22 @@
   unpacked). Reads GeoPackage and FileGDB zips; Dalarnas län needs the FileGDB, since its
   GeoPackage zip on Lastkajen is empty. README: which Lastkajen files to download for all
   of Sweden.
+- `nvdb extract` records each delivery's *Betraktelsedatum* (from Lastkajen's
+  `Leveransinformation_*.txt`), and `build-report.json` lists the dates under `nvdb` (#71).
 - Topografi 50 2027.05 (from 2027-05-04, #56): the new layer `cykelvaglinje` is converted
   and drawn like today's cycle paths; `build` warns and records `missing_columns` in the
   build report when the style reads an attribute the delivery lacks (Lantmäteriet's 2027
   test data has no road numbers in `vaglinje`).
+
+### Changed
+
+- Street names use the device's small line font (`font=small` in `mapping.csv`), so they
+  compete less with place names and name changes along a street fit (#71, label kit in
+  docs/device-testing.md).
+- Copyright messages no longer start with "©": the device adds its own (map info showed
+  "©© Lantmäteriet").
+- The release build includes NVDB street names: README and PLAN give the `--nvdb-dir` step
+  for all of Sweden (#71).
 
 ## v0.2.0 – 2026-11-21
 

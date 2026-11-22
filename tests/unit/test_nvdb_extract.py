@@ -19,6 +19,11 @@ def county_zip(tmp_path: Path, name: str) -> Path:
     z = tmp_path / f"{name}_geopackage.zip"
     with zipfile.ZipFile(z, "w") as zf:
         zf.write(FIXTURE, f"{name}/nvdb_{name}.gpkg")
+        # As Lastkajen writes it: UTF-8 with BOM.
+        zf.writestr(
+            "Leveransinformation_1.txt",
+            "\ufeffInformation om beställning\nBetraktelsedatum: 2026-11-17\nFormat: GeoPackage\n",
+        )
     return z
 
 
@@ -33,6 +38,12 @@ def test_extract_from_zips_and_gpkg(tmp_path):
     assert street_names.sources(out.parent) == [out]
     meta = json.loads(out.with_suffix(".json").read_text(encoding="utf-8"))
     assert len(meta["sources"]) == 3 and all(len(s["sha256"]) == 64 for s in meta["sources"])
+    assert [s["betraktelsedatum"] for s in meta["sources"]] == ["2026-11-17", "2026-11-17", None]
+    assert street_names.provenance([out]) == {
+        "betraktelsedatum": ["2026-11-17"],
+        "undated": [FIXTURE.name],
+    }
+    assert street_names.provenance([FIXTURE]) == {"betraktelsedatum": [], "undated": [FIXTURE.name]}
     # Counties overlap at their borders: the index reads each line once.
     index = street_names.NameIndex.read([out], (670000, 6590000, 675000, 6595000))
     single = street_names.NameIndex.read([FIXTURE], (670000, 6590000, 675000, 6595000))
@@ -83,6 +94,7 @@ def test_extract_from_filegdb_zip(tmp_path):
     (s,) = extract([z], out, log=lambda *_: None)
     n = pyogrio.read_info(FIXTURE, layer=street_names.GATUNAMN)["features"]
     assert s.lines == {street_names.GATUNAMN: n}
+    assert s.betraktelsedatum is None  # Lastkajen's FileGDB zips have no delivery info
     info = pyogrio.read_info(out, layer=street_names.GATUNAMN)
     assert info["fields"].tolist() == ["Namn"]
     assert info["geometry_type"] == "LineString"

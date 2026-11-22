@@ -27,7 +27,8 @@ class Product:
     transparent: bool = False
     draw_priority: int = 25
     output: str = ""
-    copyright: str = "© Lantmäteriet"
+    # The device prints "©" before the copyright message itself.
+    copyright: str = "Lantmäteriet"
 
     @property
     def style_dir(self) -> Path:
@@ -71,7 +72,7 @@ PRODUCTS: dict[str, Product] = {
         transparent=True,
         draw_priority=29,
         output="osm-skoter.img",
-        copyright="© OpenStreetMap contributors (ODbL) | openstreetmap.org/copyright",
+        copyright="OpenStreetMap contributors (ODbL) | openstreetmap.org/copyright",
     ),
 }
 

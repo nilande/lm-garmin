@@ -4,7 +4,8 @@ A county GeoPackage from Lastkajen (*Länsfiler NVDB-data*) is 0.2–2.2 GB unpa
 about 124 layers; street names need two of them. `extract` reads the county zips (or
 unpacked GeoPackages) one at a time and writes one small GeoPackage with
 `NVDB_DK_O_20_Gatunamn` and `NVDB_DK_O_21_Ovrigt_vagnamn` (name column only, 2D lines),
-which `--nvdb-dir` then uses. A JSON sidecar records the sources and counts.
+which `--nvdb-dir` then uses. A JSON sidecar records the sources, counts and each delivery's
+*Betraktelsedatum* (from `Leveransinformation_*.txt`; FileGDB zips have no such file).
 
 Each county comes as a GeoPackage zip and a File Geodatabase zip with the same content. Both
 are read; the FileGDB names the layers `TNE_FT_Gatunamn_1` and `TNE_FT_Ovrigt_vagnamn_1` and
@@ -18,6 +19,7 @@ packages together cover Sweden.
 from __future__ import annotations
 
 import json
+import re
 import shutil
 import tempfile
 import warnings
@@ -41,6 +43,21 @@ class Source:
     file: str
     sha256: str
     lines: dict[str, int] = field(default_factory=dict)
+    betraktelsedatum: str | None = None
+
+
+_DATE = re.compile(r"Betraktelsedatum:\s*(\d{4}-\d{2}-\d{2})")
+
+
+def _delivery_date(zf: zipfile.ZipFile) -> str | None:
+    """Betraktelsedatum from Lastkajen's `Leveransinformation_*.txt`, if the zip has one."""
+    for m in zf.infolist():
+        name = Path(m.filename).name
+        if name.startswith("Leveransinformation") and name.lower().endswith(".txt"):
+            found = _DATE.search(zf.read(m).decode("utf-8-sig", errors="replace"))
+            if found:
+                return found.group(1)
+    return None
 
 
 def _gpkg_members(zf: zipfile.ZipFile) -> list[zipfile.ZipInfo]:
@@ -139,6 +156,7 @@ def _copy_zip(f: Path, out: Path, source: Source) -> None:
     with zipfile.ZipFile(f) as zf:
         members = _gpkg_members(zf)
         gdbs = _gdb_dirs(zf)
+        source.betraktelsedatum = _delivery_date(zf)
     if len(members) == 1:
         with zipfile.ZipFile(f) as zf, tempfile.TemporaryDirectory(dir=out.parent) as td:
             target = Path(td) / "county.gpkg"
@@ -173,7 +191,8 @@ def extract(paths: list[Path], out: Path, log=print) -> list[Source]:
                 source = Source(f.name, sha256_file(f))
                 _copy_zip(f, tmp_out, source)
             sources.append(source)
-            log(f"{f.name}: " + ", ".join(f"{k} {v}" for k, v in source.lines.items()))
+            date = source.betraktelsedatum or "no Betraktelsedatum"
+            log(f"{f.name} ({date}): " + ", ".join(f"{k} {v}" for k, v in source.lines.items()))
         tmp_out.replace(out)
     finally:
         tmp_out.unlink(missing_ok=True)

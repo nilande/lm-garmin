@@ -14,7 +14,10 @@ fills the gaps),
 order (polygon draw order 1–8), options (`continue`: keep matching later rules, so one feature
 can be emitted twice, e.g. unlabelled at one resolution range and labelled at another;
 `outline`: pass the layer and object type to inner rings of a multipolygon for a line rule;
-`relabel`: replace the label already set from `name`, e.g. to abbreviate it).
+`relabel`: replace the label already set from `name`, e.g. to abbreviate it;
+`font=small|normal|large`: label size of a line type – a TYP setting, so it applies to every
+rule of the type. The Montana 700 ignores TYP font size and label colour on points and label
+colour on lines, so only line font sizes are supported; see docs/device-testing.md).
 A resolution may be a range, e.g. `20-21`.
 """
 
@@ -175,9 +178,28 @@ def _typ_polygon(r: Rule) -> str:
     return s + "[end]\n"
 
 
-def _typ_line(r: Rule) -> str:
+FONTS = {"small": "SmallFont", "normal": "NormalFont", "large": "LargeFont"}
+
+
+def label_style(rules: list[Rule]) -> dict[tuple[str, str], str]:
+    """TYP `FontStyle` line per line type, from `font=` options."""
+    out: dict[tuple[str, str], str] = {}
+    for r in rules:
+        for opt in r.options.split():
+            key, _, value = opt.partition("=")
+            if key != "font":
+                continue
+            if r.kind != "line":
+                raise ValueError(f"{r.description}: font= works only on lines on the device")
+            if value not in FONTS:
+                raise ValueError(f"{r.description}: font must be one of {sorted(FONTS)}")
+            out[(r.kind, r.type)] = f"FontStyle={FONTS[value]}\n"
+    return out
+
+
+def _typ_line(r: Rule, label: str = "") -> str:
     w = max(int(r.width or 1), 1)
-    s = f"[_line]\nType={r.type}\nString1=0x04,{r.description}\n"
+    s = f"[_line]\nType={r.type}\nString1=0x04,{r.description}\n" + label
     if r.pattern == "label":
         # Label-only line: mkgmap rejects a fully transparent line, so one faint pixel in 32.
         s += "UseOrientation=Y\n" + _xpm(["a" + "b" * 31], {"a": r.colour, "b": "none"})
@@ -238,6 +260,7 @@ def typ_rules(rules: list[Rule]) -> dict[tuple[str, str], Rule]:
 
 def render_typ(rules: list[Rule], family_id: int, product_id: int = 1) -> str:
     seen = typ_rules(rules)
+    labels = label_style(rules)
     out = [
         HEADER.replace("#", ";"),
         f"[_id]\nFID={family_id}\nProductCode={product_id}\nCodePage=65001\n[end]\n",
@@ -250,7 +273,7 @@ def render_typ(rules: list[Rule], family_id: int, product_id: int = 1) -> str:
         if kind == "polygon":
             out.append(_typ_polygon(r))
         elif kind == "line":
-            out.append(_typ_line(r))
+            out.append(_typ_line(r, labels.get((kind, r.type), "")))
         elif r.pattern != "none":
             out.append(_typ_point(r))
     return "\n".join(out)
