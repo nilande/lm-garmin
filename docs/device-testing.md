@@ -97,7 +97,13 @@ searchable `0x6500`/`0x6600` rows sat in the `order` column of `mapping.csv` (on
 short). Every Hydrografi and Terrängnamn text stopped at its invisible search point and never
 reached the `0x2800` label rules. Fixed by moving it to `options`; `stylegen.load` now rejects
 a non-numeric `order`. Storuman build: `0x2800` labels at level 0 from 176 to 3 803
-(Laxfjället, Norra Sytertoppen, Stenträsk, Juktån labelled again). Device recheck pending.
+(Laxfjället, Norra Sytertoppen, Stenträsk, Juktån labelled again). **Device recheck
+(Storuman dev map with the fix): lake and mountain names show.**
+
+Device settings tried at the same time: *Text Size › Map Points* None → Small made no visible
+difference on our maps (so the unlabelled `0x65xx`/`0x66xx` points are not explained by that
+setting), and *Street Label* Medium → Small made no visible difference to our street names in
+Täby (TYP `FontStyle=SmallFont` already sets them).
 
 Device settings during this and the earlier checks (profile *Hike*, *Map Setup › Advanced
 Setup*): Detail = Normal; Text Size: Map Points = None, User Waypoints = Small,
