@@ -102,9 +102,17 @@ Betraktelsedatum 2026-11-17; `lm-skoter.img` unchanged from v0.2.0), installed w
 
 Finding: street labels use the device's default line font, which is larger and bolder than
 the town labels (compare "Ensta" and "Falun"). They compete with place names, and where a
-street changes name the labels do not fit, so the change is not visible. Next: the street
-name types use `FontStyle=SmallFont` (`small-font` in `mapping.csv`); check a `--dev` build
-of Täby and Falun.
+street changes name the labels do not fit, so the change is not visible. 
+
+Dev build with `FontStyle=SmallFont` on the street-name types (captures in
+`dist/montana-release/v0.3-small-font/`: `47`, `55` Täby at 120 m and 65 m; `84`, `86`, `94`
+Falun at 120 m, 50 m and 180 m): name changes along a street now show (Ilervägen/Mårdvägen,
+Svärdsjögatan/Kristinegatan), but street names now have the same size and weight as town,
+settlement and waypoint labels – SmallFont is the smallest TYP size, and the device has no
+TYP setting for weight. Next: street names in dark grey (`DayCustomColor=#505050`), towns
+(`0x0400`, `0x0800`) in LargeFont and settlements (`0x0a00`, `0x0c00`) in NormalFont
+(`font=` and `label-colour=` options in `mapping.csv`). mkgmap needs a bitmap in every TYP
+point section, so styled town points get a drawn green dot instead of the device's own.
 
 ## 2026-11-21 – v0.2.0 Sweden release check
 

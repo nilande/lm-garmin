@@ -133,17 +133,41 @@ def test_relabel_overrides_the_generic_name():
     assert "{ name '${name}' }" in Rule(**base, name="${name}").mkgmap_rule()
 
 
-def test_street_name_types_use_the_small_font():
-    """Street labels were too large and bold next to town names on the Montana (#71)."""
+def test_street_names_are_small_and_grey_and_towns_larger():
+    """Street labels competed with town names on the Montana (#71): small grey streets,
+    larger towns and settlements."""
     rules = stylegen.load(ROOT / "styles" / "topo50" / "mapping.csv")
     typ = stylegen.render_typ(rules, 5750)
-    sections = {s.split("\n")[0]: s for s in typ.split("[_line]\n")[1:]}
+    lines = {s.split("\n")[0]: s for s in typ.split("[_line]\n")[1:]}
+    points = {s.split("\n")[0]: s for s in typ.split("[_point]\n")[1:]}
     named = {r.type for r in rules if r.name == "${lm:gatunamn_nvdb}"}
-    assert named and all(
-        "small-font" in r.options
-        for r in rules
-        if r.type in named and r.name == "${lm:gatunamn_nvdb}"
-    )
+    assert named
     for t in named:
-        assert "FontStyle=SmallFont\n" in sections[f"Type={t}"], t
-    assert "FontStyle" not in sections["Type=0x01"]  # motorway shields keep the default font
+        assert "FontStyle=SmallFont\nDayCustomColor=#505050\n" in lines[f"Type={t}"], t
+    assert "FontStyle" not in lines["Type=0x01"]  # motorway shields keep the default font
+    assert "FontStyle=LargeFont\n" in points["Type=0x0800"]
+    assert "Xpm" in points["Type=0x0800"]  # mkgmap needs a bitmap: a round town dot
+    assert "FontStyle=NormalFont\n" in points["Type=0x0c00"]
+
+
+@pytest.mark.parametrize("opt", ["font=tiny", "label-colour=grey"])
+def test_invalid_label_options_rejected(opt):
+    base = dict.fromkeys(
+        [
+            "layer",
+            "t",
+            "condition",
+            "resolution",
+            "name",
+            "description",
+            "colour",
+            "colour2",
+            "width",
+            "pattern",
+            "order",
+        ],
+        "",
+    )
+    base.update(kind="line", type="0x06")
+    with pytest.raises(ValueError):
+        stylegen.label_style([stylegen.Rule(**base, options=opt)])

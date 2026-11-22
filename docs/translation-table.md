@@ -89,28 +89,28 @@ and object types.
 | `vaglinje` | `1803` | Mötesfri väg | — | line | `0x03` | 24, 23, 22, 21, 20, 18 | solid, `#D35A3A/#7A1F15`, 6 px | `${ref\|highway-symbol:hbox}` |
 | `vaglinje` | `1804` | Landsväg | `ref=*` | line | `0x03` | 24, 23, 22, 21, 20, 18 | solid, `#D35A3A/#7A1F15`, 6 px | `${ref\|highway-symbol:hbox}` |
 | `vaglinje` | `1804` | Landsväg | — | line | `0x03` | 22, 21, 20, 18 | solid, `#D35A3A/#7A1F15`, 6 px | `continue` |
-| `vaglinje` | `1804` | Landsväg (namn) | — | line | `0x03` | 24, 23 | solid, `#D35A3A/#7A1F15`, 6 px | `${lm:gatunamn_nvdb}`, `small-font` |
+| `vaglinje` | `1804` | Landsväg (namn) | — | line | `0x03` | 24, 23 | solid, `#D35A3A/#7A1F15`, 6 px | `${lm:gatunamn_nvdb}`, `font=small label-colour=#505050` |
 | `vaglinje` | `1805` | Landsväg liten | `ref=*` | line | `0x04` | 24, 23, 22, 21, 20 | solid, `#E89070/#8A3A20`, 4 px | `${ref\|highway-symbol:hbox}` |
 | `vaglinje` | `1805` | Landsväg liten | — | line | `0x04` | 22, 21, 20 | solid, `#E89070/#8A3A20`, 4 px | `continue` |
-| `vaglinje` | `1805` | Landsväg liten (namn) | — | line | `0x04` | 24, 23 | solid, `#E89070/#8A3A20`, 4 px | `${lm:gatunamn_nvdb}`, `small-font` |
+| `vaglinje` | `1805` | Landsväg liten (namn) | — | line | `0x04` | 24, 23 | solid, `#E89070/#8A3A20`, 4 px | `${lm:gatunamn_nvdb}`, `font=small label-colour=#505050` |
 | `vaglinje` | `1806` | Småväg | `ref=*` | line | `0x05` | 24, 23, 22, 21, 20 | solid, `#7F7F7F`, 3 px | `${ref\|highway-symbol:hbox}` |
 | `vaglinje` | `1806` | Småväg | — | line | `0x05` | 22, 21, 20 | solid, `#7F7F7F`, 3 px | `continue` |
-| `vaglinje` | `1806` | Småväg (namn) | — | line | `0x05` | 24, 23 | solid, `#7F7F7F`, 3 px | `${lm:gatunamn_nvdb}`, `small-font` |
+| `vaglinje` | `1806` | Småväg (namn) | — | line | `0x05` | 24, 23 | solid, `#7F7F7F`, 3 px | `${lm:gatunamn_nvdb}`, `font=small label-colour=#505050` |
 | `vaglinje` | `1807` | Småväg enkel standard | `ref=*` | line | `0x07` | 24, 23, 22, 21 | solid, `#A0A0A0`, 2 px | `${ref\|highway-symbol:hbox}` |
 | `vaglinje` | `1807` | Småväg enkel standard | — | line | `0x07` | 22, 21 | solid, `#A0A0A0`, 2 px | `continue` |
-| `vaglinje` | `1807` | Småväg enkel standard (namn) | — | line | `0x07` | 24, 23 | solid, `#A0A0A0`, 2 px | `${lm:gatunamn_nvdb}`, `small-font` |
+| `vaglinje` | `1807` | Småväg enkel standard (namn) | — | line | `0x07` | 24, 23 | solid, `#A0A0A0`, 2 px | `${lm:gatunamn_nvdb}`, `font=small label-colour=#505050` |
 | `vaglinje` | `1808` | Övergripande länk | `ref=*` | line | `0x0b` | 24, 23, 22, 21, 20 | solid, `#B5442B`, 4 px | `${ref\|highway-symbol:hbox}` |
 | `vaglinje` | `1808` | Övergripande länk | — | line | `0x0b` | 22, 21, 20 | solid, `#B5442B`, 4 px | `continue` |
-| `vaglinje` | `1808` | Övergripande länk (namn) | — | line | `0x0b` | 24, 23 | solid, `#B5442B`, 4 px | `${lm:gatunamn_nvdb}`, `small-font` |
+| `vaglinje` | `1808` | Övergripande länk (namn) | — | line | `0x0b` | 24, 23 | solid, `#B5442B`, 4 px | `${lm:gatunamn_nvdb}`, `font=small label-colour=#505050` |
 | `vaglinje` | `1809` | Huvudgata | `ref=*` | line | `0x04` | 24, 23, 22, 21, 20 | solid, `#E89070/#8A3A20`, 4 px | `${ref\|highway-symbol:hbox}` |
 | `vaglinje` | `1809` | Huvudgata | — | line | `0x04` | 22, 21, 20 | solid, `#E89070/#8A3A20`, 4 px | `continue` |
-| `vaglinje` | `1809` | Huvudgata (namn) | — | line | `0x04` | 24, 23 | solid, `#E89070/#8A3A20`, 4 px | `${lm:gatunamn_nvdb}`, `small-font` |
+| `vaglinje` | `1809` | Huvudgata (namn) | — | line | `0x04` | 24, 23 | solid, `#E89070/#8A3A20`, 4 px | `${lm:gatunamn_nvdb}`, `font=small label-colour=#505050` |
 | `vaglinje` | `1810` | Lokalgata stor | `ref=*` | line | `0x06` | 24, 23, 22, 21 | solid, `#8C8C8C`, 2 px | `${ref}` |
 | `vaglinje` | `1810` | Lokalgata stor | — | line | `0x06` | 22, 21 | solid, `#8C8C8C`, 2 px | `continue` |
-| `vaglinje` | `1810` | Lokalgata stor (namn) | — | line | `0x06` | 24, 23 | solid, `#8C8C8C`, 2 px | `${lm:gatunamn_nvdb}`, `small-font` |
+| `vaglinje` | `1810` | Lokalgata stor (namn) | — | line | `0x06` | 24, 23 | solid, `#8C8C8C`, 2 px | `${lm:gatunamn_nvdb}`, `font=small label-colour=#505050` |
 | `vaglinje` | `1811` | Lokalgata liten | `ref=*` | line | `0x06` | 24, 23, 22 | solid, `#8C8C8C`, 2 px | `${ref}` |
 | `vaglinje` | `1811` | Lokalgata liten | — | line | `0x06` | 22 | solid, `#8C8C8C`, 2 px | `continue` |
-| `vaglinje` | `1811` | Lokalgata liten (namn) | — | line | `0x06` | 24, 23 | solid, `#8C8C8C`, 2 px | `${lm:gatunamn_nvdb}`, `small-font` |
+| `vaglinje` | `1811` | Lokalgata liten (namn) | — | line | `0x06` | 24, 23 | solid, `#8C8C8C`, 2 px | `${lm:gatunamn_nvdb}`, `font=small label-colour=#505050` |
 | `farjeled` | `1891` | Färjeled | — | line | `0x1b` | 24, 23, 22, 21, 20, 18 | dash, `#C0392B`, 2 px | — |
 | `ralstrafik` | `1861` | Järnväg | — | line | `0x14` | 24, 23, 22, 21, 20, 18 | solid, `#333333`, 2 px | — |
 | `ralstrafik` | `1862` | Museijärnväg | — | line | `0x10e0e` | 24, 23, 22, 21, 20 | dash, `#555555`, 2 px | — |
@@ -161,15 +161,15 @@ and object types.
 | `textlinje` | Any | Namn längs linje | — | line | `0x10d02` | 24, 23, 22, 21 | label, `#D0D0D0`, 1 px | `${name}` |
 | `textpunkt` | Any | Vattennamn (sök) | `lm:textdelnr!=2 & lm:textdelnr!=3 & lm:textkategori=Hydrografi` | point | `0x6500` | 24 | label only (no symbol) | `${name}` |
 | `textpunkt` | Any | Terrängnamn (sök) | `lm:textdelnr!=2 & lm:textdelnr!=3 & lm:textkategori=Terrängnamn` | point | `0x6600` | 24 | label only (no symbol) | `${name}` |
-| `textpunkt` | Any | Tätort stor | `lm:textdelnr!=2 & lm:textdelnr!=3 & lm:textkategori=Tätort & lm:textstorleksklass>=7` | point | `0x0400` | 24, 23, 22, 21, 20, 18, 16 | Garmin default | `${name}` |
-| `textpunkt` | Any | Tätort | `lm:textdelnr!=2 & lm:textdelnr!=3 & lm:textkategori=Tätort` | point | `0x0800` | 24, 23, 22, 21, 20, 18 | Garmin default | `${name}` |
-| `textpunkt` | Any | Bebyggelse stor | `lm:textdelnr!=2 & lm:textdelnr!=3 & lm:textkategori=Bebyggelse & lm:i_bebyggelse=yes & lm:textstorleksklass>=5` | point | `0x0a00` | 24, 23, 22, 21, 20 | label only (no symbol) | `${name}` |
-| `textpunkt` | Any | Bebyggelse | `lm:textdelnr!=2 & lm:textdelnr!=3 & lm:textkategori=Bebyggelse & lm:i_bebyggelse=yes & lm:textstorleksklass>=4` | point | `0x0c00` | 24, 23, 22 | label only (no symbol) | `${name}` |
-| `textpunkt` | Any | Bebyggelse liten | `lm:textdelnr!=2 & lm:textdelnr!=3 & lm:textkategori=Bebyggelse & lm:i_bebyggelse=yes & lm:textstorleksklass>=3` | point | `0x0c00` | 24, 23 | label only (no symbol) | `${name}` |
-| `textpunkt` | Any | Bebyggelse liten | `lm:textdelnr!=2 & lm:textdelnr!=3 & lm:textkategori=Bebyggelse & lm:i_bebyggelse=yes` | point | `0x0c00` | 24 | label only (no symbol) | `${name}` |
-| `textpunkt` | Any | Bebyggelse stor | `lm:textdelnr!=2 & lm:textdelnr!=3 & lm:textkategori=Bebyggelse & lm:textstorleksklass>=4` | point | `0x0a00` | 24, 23, 22, 21, 20 | label only (no symbol) | `${name}` |
-| `textpunkt` | Any | Bebyggelse | `lm:textdelnr!=2 & lm:textdelnr!=3 & lm:textkategori=Bebyggelse & lm:textstorleksklass>=3` | point | `0x0c00` | 24, 23, 22 | label only (no symbol) | `${name}` |
-| `textpunkt` | Any | Bebyggelse liten | `lm:textdelnr!=2 & lm:textdelnr!=3 & lm:textkategori=Bebyggelse` | point | `0x0c00` | 24, 23 | label only (no symbol) | `${name}` |
+| `textpunkt` | Any | Tätort stor | `lm:textdelnr!=2 & lm:textdelnr!=3 & lm:textkategori=Tätort & lm:textstorleksklass>=7` | point | `0x0400` | 24, 23, 22, 21, 20, 18, 16 | Garmin default | `${name}`, `font=large` |
+| `textpunkt` | Any | Tätort | `lm:textdelnr!=2 & lm:textdelnr!=3 & lm:textkategori=Tätort` | point | `0x0800` | 24, 23, 22, 21, 20, 18 | Garmin default | `${name}`, `font=large` |
+| `textpunkt` | Any | Bebyggelse stor | `lm:textdelnr!=2 & lm:textdelnr!=3 & lm:textkategori=Bebyggelse & lm:i_bebyggelse=yes & lm:textstorleksklass>=5` | point | `0x0a00` | 24, 23, 22, 21, 20 | label only (no symbol) | `${name}`, `font=normal` |
+| `textpunkt` | Any | Bebyggelse | `lm:textdelnr!=2 & lm:textdelnr!=3 & lm:textkategori=Bebyggelse & lm:i_bebyggelse=yes & lm:textstorleksklass>=4` | point | `0x0c00` | 24, 23, 22 | label only (no symbol) | `${name}`, `font=normal` |
+| `textpunkt` | Any | Bebyggelse liten | `lm:textdelnr!=2 & lm:textdelnr!=3 & lm:textkategori=Bebyggelse & lm:i_bebyggelse=yes & lm:textstorleksklass>=3` | point | `0x0c00` | 24, 23 | label only (no symbol) | `${name}`, `font=normal` |
+| `textpunkt` | Any | Bebyggelse liten | `lm:textdelnr!=2 & lm:textdelnr!=3 & lm:textkategori=Bebyggelse & lm:i_bebyggelse=yes` | point | `0x0c00` | 24 | label only (no symbol) | `${name}`, `font=normal` |
+| `textpunkt` | Any | Bebyggelse stor | `lm:textdelnr!=2 & lm:textdelnr!=3 & lm:textkategori=Bebyggelse & lm:textstorleksklass>=4` | point | `0x0a00` | 24, 23, 22, 21, 20 | label only (no symbol) | `${name}`, `font=normal` |
+| `textpunkt` | Any | Bebyggelse | `lm:textdelnr!=2 & lm:textdelnr!=3 & lm:textkategori=Bebyggelse & lm:textstorleksklass>=3` | point | `0x0c00` | 24, 23, 22 | label only (no symbol) | `${name}`, `font=normal` |
+| `textpunkt` | Any | Bebyggelse liten | `lm:textdelnr!=2 & lm:textdelnr!=3 & lm:textkategori=Bebyggelse` | point | `0x0c00` | 24, 23 | label only (no symbol) | `${name}`, `font=normal` |
 | `textpunkt` | Any | Upplysningstext i tätort | `lm:textdelnr!=2 & lm:textdelnr!=3 & lm:textkategori=Upplysningstext & lm:i_bebyggelse=yes` | point | `0x2800` | 24 | Garmin default | `${name}` |
 | `textpunkt` | Any | Upplysningstext | `lm:textdelnr!=2 & lm:textdelnr!=3 & (lm:textkategori=Upplysningstext \| lm:textkategori=Fjällupplysningstext)` | point | `0x2800` | 24, 23 | Garmin default | `${name}` |
 | `textpunkt` | Any | Kyrka | `lm:textdelnr!=2 & lm:textdelnr!=3 & lm:textkategori=Kyrka` | point | `0x2800` | 24, 23 | Garmin default | `${name}` |
