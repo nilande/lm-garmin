@@ -84,5 +84,6 @@ def test_report_and_copyright(named_build):
     sn = convert["detail"]["street_names"]
     assert sn["named_share_by_class"]["1811"] > 0.9
     assert report["nvdb_sources"]
+    assert report["nvdb"] == {"betraktelsedatum": [], "undated": [f"{FX}.nvdb.gpkg"]}
     img = (out / PRODUCTS["topo50"].filename).read_bytes()
     assert b"Trafikverket (NVDB)" in img

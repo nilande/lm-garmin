@@ -385,8 +385,10 @@ makes the map useful for finding and reaching a street, and keeps it working aft
 Lantmäteriet's structure change. In priority order:
 
 1. **Street names in the release map** ([#71](https://github.com/nilande/lm-garmin/issues/71)).
-   The nationwide NVDB extract and Sweden build already exist (23 min 10 s, `verify` passed);
-   what is left is the release instructions and the device check.
+   The nationwide NVDB extract and Sweden build already exist (23 min 10 s, `verify` passed).
+   The release build is `build --region sweden --topo250-dir … --nvdb-dir …` on a fresh
+   `nvdb extract` of the 21 Lastkajen county zips (GeoPackage, FileGDB for Dalarna); the
+   build report records the NVDB Betraktelsedatum. What is left is the device check.
 2. **Topografi 50 structure change on 2027-05-04**
    ([#56](https://github.com/nilande/lm-garmin/issues/56)). The FTP test data shows the new
    structure but no real data yet: adapt the schema and decide how to support both

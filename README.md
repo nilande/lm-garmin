@@ -83,8 +83,10 @@ uv run pytest
    uv run lm-garmin nvdb extract "/path/to/lastkajen-zips" --out "/path/to/nvdb/nvdb-names.gpkg"
    ```
 
-   Stockholms and Västerbottens län give 180 000 name lines in a 67 MB file (23 s). A
-   sidecar `nvdb-names.json` records the source files and checksums.
+   All 21 counties give 898 000 name lines in a 356 MB file (2 min 40 s). A sidecar
+   `nvdb-names.json` records the source files, checksums and each delivery's
+   *Betraktelsedatum* (from `Leveransinformation_*.txt`; FileGDB zips have none), and the
+   build report repeats the dates under `nvdb`.
 
 6. Optional: **Topografi 100** (same steps) for the 2 km overview level, and
    **Karta 1:50 000 Nedladdning, raster** (GeoTIFF) for visual comparison.
@@ -98,8 +100,9 @@ Keep the delivery anywhere; paths may contain spaces and colons
 # S0: unpack the delivery once into the cache (~/.cache/lm-garmin/gpkg); re-runs are no-ops
 uv run lm-garmin unpack "/path/to/LM2026:173692 - Topografi 50 Nedladdning, vektor"
 
-# S1–S3: build the maps for a region. The release map (≈ 20 min, about 1.9 GB):
-uv run lm-garmin build --region sweden --topo250-dir "/path/to/topografi250/gpkg" --out dist/
+# S1–S3: build the maps for a region. The release map (≈ 23 min, about 1.9 GB):
+uv run lm-garmin build --region sweden --topo250-dir "/path/to/topografi250/gpkg" \
+  --nvdb-dir "/path/to/nvdb" --out dist/
 # smaller regions
 uv run lm-garmin build --bbox 500000,7250000,550000,7310000 --out dist/   # SWEREF 99 TM
 uv run lm-garmin build --bbox-wgs84 14.5,65.4,16.0,65.9 --out dist/
@@ -289,7 +292,8 @@ i enheten. Ortnamn, sjöar och fjäll blir sökbara.
 
 Data hämtas gratis från Geotorget (se ovan): Topografi 50 och, för översiktsnivåerna,
 Topografi 250. Gatunamn kan läggas till från Trafikverkets NVDB (Lastkajen, CC0) med
-`--nvdb-dir`. Hela Sverige byggs på cirka 20 minuter till en karta på 1,9 GB. Version
+`--nvdb-dir`, efter `lm-garmin nvdb extract` på länsfilerna. Hela Sverige med gatunamn
+byggs på cirka 23 minuter till en karta på 1,9 GB. Version
 0.2.0 är provad och godkänd på en Montana 700. Repot innehåller ingen kartdata utöver små
 testutsnitt. Planen finns i [docs/PLAN.md](docs/PLAN.md), läget och nästa steg i
 [AGENTS.md](AGENTS.md), och arbetet följs i GitHub Issues. Koden är MIT-licensierad;

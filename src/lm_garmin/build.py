@@ -488,6 +488,7 @@ def build(
     }
     if nvdb:
         report["nvdb_sources"] = [str(p) for p in nvdb]
+        report["nvdb"] = street_names.provenance(nvdb)
     if sources:
         report["overview_sources"] = {str(scale): str(path) for scale, path in sources.items()}
     (out_dir / "build-report.json").write_text(json.dumps(report, indent=1), encoding="utf-8")

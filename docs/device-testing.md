@@ -21,6 +21,13 @@ Use the same verified `lm-topo50.img` and `lm-skoter.img` for both
   from the search menu. Find **Vallentuna** in the list or with **Spell Search**.
   The search-map setting is independent of **Map Manager**. Record which method
   worked and roughly how long it took.
+- [ ] For a build with `--nvdb-dir`: at **120 m** or closer, check that streets carry NVDB
+  names in **Täby / Ensta** and in **Falun centrum** (60.6065, 15.6355; Dalarna is read from
+  the FileGDB) and that names follow the street where it changes name. At **250 m**, only
+  the larger named roads should be labelled
+  ([earlier result](#2026-11-21--street-names-from-nvdb-issue-60)). In **Map Manager →
+  LM Topo50 → map info**, check that the copyright lists **Trafikverket (NVDB)** next to
+  Lantmäteriet.
 - [ ] In daylight at normal brightness, enable the snowmobile overlay in
   **Map Manager**. At the [Syter example locations](#2026-11-19--snowmobile-overlay-issue-24),
   check the four line styles and the red 1836 marker at **180–250 m**. Toggle the
@@ -40,6 +47,7 @@ Copy this record for each candidate.
 | Täby redraw and legibility at 250 m, 2 km, 8 km | |
 | Hemavan/Syter redraw and legibility at 250 m, 2 km, 8 km | |
 | Vallentuna search using LM Topo50 | |
+| NVDB street names in Täby and Falun; Trafikverket in map info | |
 | Overlay toggle and 1836 marker | |
 | Four statuses, brightness and lighting | |
 | Screenshot files and follow-up issues | |

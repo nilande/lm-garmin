@@ -9,6 +9,13 @@
   unpacked). Reads GeoPackage and FileGDB zips; Dalarnas län needs the FileGDB, since its
   GeoPackage zip on Lastkajen is empty. README: which Lastkajen files to download for all
   of Sweden.
+- `nvdb extract` records each delivery's *Betraktelsedatum* (from Lastkajen's
+  `Leveransinformation_*.txt`), and `build-report.json` lists the dates under `nvdb` (#71).
+
+### Changed
+
+- The release build includes NVDB street names: README and PLAN give the `--nvdb-dir` step
+  for all of Sweden (#71).
 
 ## v0.2.0 – 2026-11-21
 
