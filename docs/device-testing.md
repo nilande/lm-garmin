@@ -85,6 +85,27 @@ build, device firmware, scale and result here when a check is complete.
   Check the physical display at normal riding brightness, especially the grey
   dashed routes against snow or open terrain.
 
+## 2026-11-22 – Sweden map with NVDB street names (#71)
+
+Montana 700, firmware 25.70. Build `c732baf` (`lm-topo50.img` 1.88 GB, 410 tiles, NVDB
+Betraktelsedatum 2026-11-17; `lm-skoter.img` unchanged from v0.2.0), installed with
+`lm-garmin install` (verified copy, 13 min 55 s). Captures in `dist/montana-release/v0.3-nvdb/`.
+**Works as intended**, with one style finding.
+
+| Check | Captures | Result |
+|---|---|---|
+| Täby / Ensta, 120 m and 65 m | `217`, `226` | Streets named from NVDB (Sportvägen, Lindvägen, Djäknevägen …). |
+| Falun centrum, 120 m and 60 m (FileGDB) | `279`, `282`, `286` | Streets named (Svärdsjögatan, Östra Hamngatan, Åsgatan …). |
+| Täby, 800 m | `354` | Towns and road shields only, no street names. |
+| Map info | `307` | "©© Lantmäteriet, Trafikverket (NVDB)": the device prints its own "©", so the message must not start with one. |
+| Search, Cities | `394` | Vallentuna, SE, 8.97 km N. |
+
+Finding: street labels use the device's default line font, which is larger and bolder than
+the town labels (compare "Ensta" and "Falun"). They compete with place names, and where a
+street changes name the labels do not fit, so the change is not visible. Next: the street
+name types use `FontStyle=SmallFont` (`small-font` in `mapping.csv`); check a `--dev` build
+of Täby and Falun.
+
 ## 2026-11-21 – v0.2.0 Sweden release check
 
 Montana 700, firmware 25.70. Release build `1a8f5d6` (`lm-topo50.img` 1.87 GB, 410 tiles;

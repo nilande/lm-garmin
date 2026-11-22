@@ -14,7 +14,9 @@ fills the gaps),
 order (polygon draw order 1–8), options (`continue`: keep matching later rules, so one feature
 can be emitted twice, e.g. unlabelled at one resolution range and labelled at another;
 `outline`: pass the layer and object type to inner rings of a multipolygon for a line rule;
-`relabel`: replace the label already set from `name`, e.g. to abbreviate it).
+`relabel`: replace the label already set from `name`, e.g. to abbreviate it; `small-font`:
+draw the labels of this line type in the device's small font – a TYP setting, so it applies
+to every rule of the type).
 A resolution may be a range, e.g. `20-21`.
 """
 
@@ -174,9 +176,11 @@ def _typ_polygon(r: Rule) -> str:
     return s + "[end]\n"
 
 
-def _typ_line(r: Rule) -> str:
+def _typ_line(r: Rule, small_font: bool = False) -> str:
     w = max(int(r.width or 1), 1)
     s = f"[_line]\nType={r.type}\nString1=0x04,{r.description}\n"
+    if small_font:
+        s += "FontStyle=SmallFont\n"
     if r.pattern == "label":
         # Label-only line: mkgmap rejects a fully transparent line, so one faint pixel in 32.
         s += "UseOrientation=Y\n" + _xpm(["a" + "b" * 31], {"a": r.colour, "b": "none"})
@@ -225,6 +229,7 @@ def typ_rules(rules: list[Rule]) -> dict[tuple[str, str], Rule]:
 
 def render_typ(rules: list[Rule], family_id: int, product_id: int = 1) -> str:
     seen = typ_rules(rules)
+    small = {(r.kind, r.type) for r in rules if "small-font" in r.options.split()}
     out = [
         HEADER.replace("#", ";"),
         f"[_id]\nFID={family_id}\nProductCode={product_id}\nCodePage=65001\n[end]\n",
@@ -237,7 +242,7 @@ def render_typ(rules: list[Rule], family_id: int, product_id: int = 1) -> str:
         if kind == "polygon":
             out.append(_typ_polygon(r))
         elif kind == "line":
-            out.append(_typ_line(r))
+            out.append(_typ_line(r, (kind, r.type) in small))
         elif r.pattern != "none":
             out.append(_typ_point(r))
     return "\n".join(out)
