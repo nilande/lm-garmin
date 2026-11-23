@@ -56,6 +56,10 @@ Data cache: `$LM_GARMIN_CACHE` or `~/.cache/lm-garmin` (unpacked GeoPackages in 
 - Street names can be switched off per activity profile: *Map Setup › Advanced Setup ›
   Zoom Levels › Street Label = Off* hides them while place names and road-number shields stay
   (2026-11-22, #81). Text sizes in that menu do not change our labels.
+- Activity profiles are `Garmin/Profiles/<name>.gpf` (XML). Edits from the computer apply
+  only to profiles that are **not active**: the device writes the active profile from memory
+  over its file on USB connect and on profile switch; a new `.gpf` appears as a new profile
+  (2026-11-23, #81).
 - TYP `FontStyle` works on **lines only** (SmallFont is clearly smaller); point labels ignore
   TYP font size and colour, city types `0x0e00`–`0x1100` get no label, and label colour on
   lines had no visible effect (label kit, 2026-11-22).
