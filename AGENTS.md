@@ -76,11 +76,14 @@ geographic POIs (0x65xx/0x66xx) are searchable but unlabelled, label points (0x2
 labelled but not searchable; TYP line bitmaps have two colours; `name` never replaces a
 label already set (use `relabel`). *Where to?* has no address or street search with our maps: the menu lists *Addresses* only when a loaded map has street data (mkgmap `--net`/`--route`), which our maps do not have yet (#72).
 
-Next: [v0.3 "Navigation and 2027 readiness"](https://github.com/nilande/lm-garmin/milestone/9)
-(PLAN §12) – the release map with NVDB street names (#71), street search with `--net`
-(#72), routing on roads (#28), the Topografi 50 structure change on 2027-05-04 (#56);
-if time allows legend/night colours (#68) and packaging (#30). M5 Later: the single-file
-bundle (#51), cp1252 (#17), CI performance trends (#26), the style-only rebuild target (#27).
+Next: [v0.3 "Street names and 2027 readiness"](https://github.com/nilande/lm-garmin/milestone/9)
+(PLAN §12) – the release map with NVDB street names (#71), the Topografi 50 structure change
+on 2027-05-04 (#56), the device-side configuration test (#81); if time allows packaging (#30).
+Test iterations on single municipalities (Täby, Storuman) with `--municipality … --dev`; one
+Sweden build is the final check before the release. Then
+[v0.4 "Navigation"](https://github.com/nilande/lm-garmin/milestone/10): street search (#72,
+draft PR #76), routing (#28), legend/night colours (#68). M5 Later: the single-file bundle
+(#51), cp1252 (#17), CI performance trends (#26), the style-only rebuild target (#27).
 
 ## Where things are
 
