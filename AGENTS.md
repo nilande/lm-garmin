@@ -72,6 +72,13 @@ Data cache: `$LM_GARMIN_CACHE` or `~/.cache/lm-garmin` (unpacked GeoPackages in 
 
 ## Release status
 
+**v0.3.0** (2026-11-23): "Street names" – NVDB street names in the release map (small
+line font), lake and mountain labels restored (#79), county/municipality maps cut at the
+border, Topografi 50 2027.05 structure supported side by side (ADR-0008, CI fixture), and
+the device-side settings mapped (street names, contour labels, POI symbols, land cover per
+activity profile; profiles writable from the computer when not active). Accepted on the
+Montana 700.
+
 **v0.2.0** (2026-11-21, see [CHANGELOG.md](CHANGELOG.md)): "Everyday map" – labels thinned
 by text size class and harder in towns, searchable lakes and terrain names, optional NVDB
 street names (`--nvdb-dir`, [street-names.md](docs/street-names.md)), road shields, calmer
@@ -84,14 +91,13 @@ geographic POIs (0x65xx/0x66xx) are searchable but unlabelled, label points (0x2
 labelled but not searchable; TYP line bitmaps have two colours; `name` never replaces a
 label already set (use `relabel`). *Where to?* has no address or street search with our maps: the menu lists *Addresses* only when a loaded map has street data (mkgmap `--net`/`--route`), which our maps do not have yet (#72).
 
-Next: [v0.3 "Street names and 2027 readiness"](https://github.com/nilande/lm-garmin/milestone/9)
-(PLAN §12) – the release map with NVDB street names (#71), the Topografi 50 structure change
-on 2027-05-04 (#56), the device-side configuration test (#81); if time allows packaging (#30).
-Test iterations on single municipalities (Täby, Storuman) with `--municipality … --dev`; one
-Sweden build is the final check before the release. Then
-[v0.4 "Navigation"](https://github.com/nilande/lm-garmin/milestone/10): street search (#72,
-draft PR #76), routing (#28), legend/night colours (#68). M5 Later: the single-file bundle
-(#51), cp1252 (#17), CI performance trends (#26), the style-only rebuild target (#27).
+Next: [v0.4 "Navigation"](https://github.com/nilande/lm-garmin/milestone/10) (PLAN §12):
+street search (#72, draft PR #76), routing (#28), legend/night colours (#68); the #81 ADR on
+device-side configuration (#77, #78, #80). [Topografi 50 2027.05](https://github.com/nilande/lm-garmin/milestone/11):
+the real-data check when Lantmäteriet delivers (#56). M5 Later: packaging (#30), the
+single-file bundle (#51), cp1252 (#17), CI performance trends (#26), the style-only rebuild
+target (#27). Test iterations on single municipalities (Täby, Storuman) with
+`--municipality … --dev`; one Sweden build is the final check before a release.
 
 ## Where things are
 

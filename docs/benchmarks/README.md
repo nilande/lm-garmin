@@ -3,6 +3,24 @@
 Reference machine: Apple M5 (10 cores), 16 GB RAM, internal SSD; data on an SMB share (NAS).
 Delivery `LM2026:173692` (data 2026-10-16).
 
+## 2026-11-23 – v0.3.0 Sweden release build
+
+Built `d09ea72` (main after #87, version string still 0.2.0) with a cold Topografi 50
+conversion, Topografi 250 `LM2026:174947` at resolution 18 and the nationwide NVDB name
+extract (Betraktelsedatum 2026-11-17). The [build report](2026-11-23-build-sweden-v0.3.json)
+has the stage timings.
+
+| Measurement | Result |
+|---|---:|
+| Build time, cold conversion | 1,339 s (22 min 19 s) |
+| Convert / split / compile (base map) | 636 s / 255 s / 410 s |
+| Highest process RSS | 4,649 MB (mkgmap); convert 1,625 MB |
+| Base map bytes | 1,887,207,424, 410 tiles (+0.5 % over the 2026-11-21 NVDB build) |
+| Road length named | 40.2 % of 627,610 km; 1809/1810/1811: 95.0 / 97.8 / 88.2 % |
+| Overlay bytes | 904,192 |
+| `verify`, both maps | passed |
+| Copy to the Montana 700 (`install`, verified) | 13 min 59 s |
+
 ## 2026-11-21 – Sweden with nationwide NVDB street names (issue #60)
 
 Built `d8a416a` (PR #70) like the v0.2.0 release build, plus `--nvdb-dir` with the

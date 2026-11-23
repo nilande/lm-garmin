@@ -85,6 +85,25 @@ build, device firmware, scale and result here when a check is complete.
   Check the physical display at normal riding brightness, especially the grey
   dashed routes against snow or open terrain.
 
+## 2026-11-23 – v0.3.0 Sweden release check (#71)
+
+Montana 700, 25.70, profile Hike (Detail Normal, text sizes Small, zoom levels Auto), only
+LM Topo50 and LM Skoterleder on. Files from `dist/sweden-v0.3.0` (`d09ea72`, see
+[benchmarks](benchmarks/README.md)). Captures in `dist/montana-release/v0.3.0-release-check/`.
+**Accepted.**
+
+- Map info: *LM Topo50 – ©Lantmäteriet, Trafikverket (NVDB)*, *LM Skoterleder –
+  ©Lantmäteriet*, one © each (`97`, `107`).
+- Täby at 1.2 km, 300 m and 250 m (`127`, `136`, `266`): street names in the small line
+  font, place names stay dominant, reserves and road shields as before.
+- Falun at 90 m (`317`): street names from the Dalarna FileGDB extract.
+- Storuman–Tärnaby–Syter (`430`–`466`): lake and mountain names are back (#79), contours,
+  hatching and trails as in v0.2.
+- Snowmobile overlay around Tärnaby and Hemavan at 1.2–5 km (`469`, `478`).
+- *Zoom Levels › Street Label = Off* hides the street names, but only after the next zoom
+  step: the device keeps the labels already drawn until it loads another zoom level
+  (device behaviour, not the map).
+
 ## 2026-11-23 – what *Map Points* and *Land Cover* control (#81)
 
 Montana 700, 25.70, profile Hike, 200 m. Kit `spikes/10-label-sizes/make_category_kit.py`

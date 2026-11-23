@@ -382,6 +382,9 @@ Each style change is tried with a `--dev` map on the device before it is merged.
 
 ### v0.3 Street names and 2027 readiness
 
+**Status: done – v0.3.0 released 2026-11-23** ([CHANGELOG](../CHANGELOG.md)); accepted on the
+Montana 700. #56 continues in its own milestone (real 2027.05 data); #30 moved to M5 Later.
+
 The [v0.3 milestone](https://github.com/nilande/lm-garmin/milestone/9) (planned 2026-11-21,
 narrowed 2026-11-23) puts street names in the release map, fixes the lake and mountain labels
 that v0.2.0 lost (#79), and keeps the map working after Lantmäteriet's structure change. In
