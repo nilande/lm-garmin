@@ -282,6 +282,33 @@ Street names (optional): Trafikverket NVDB, CC0; maps built with them also carry
 "Trafikverket (NVDB)".
 mkgmap and splitter (GPL-2.0) are downloaded at build time and run as separate programs.
 
+### Sharing built maps
+
+Maps built with the default products (`lm-topo50.img`, `lm-skoter.img`) contain only CC0
+data, so you may copy, give away or sell them. This is our reading of the licences, not
+legal advice.
+
+- **Data.** Topografi 50 and 250 (Lantmäteriet) and NVDB (Trafikverket) are CC0: no
+  permission, attribution or share-alike needed. Keep the source notice that the maps
+  carry ("Lantmäteriet, Trafikverket (NVDB)") and state the delivery dates (in
+  `build-report.json`) so users know how current the map is.
+- **Tools.** The GPL of mkgmap and splitter covers the programs, not the maps they write.
+  The MIT licence of this project needs no notice in the map files; include `LICENSE` if you
+  pass on the code.
+- **OpenStreetMap.** The optional `skoter-osm` overlay and any Skoterleder.org data are
+  OpenStreetMap data under the [ODbL](https://www.openstreetmap.org/copyright). A map built
+  from it must say "© OpenStreetMap contributors", and the ODbL's share-alike rules apply to
+  the underlying data. Leave it out, or follow the ODbL, when you share maps.
+- **No endorsement.** Do not suggest that Lantmäteriet, Trafikverket or Garmin made or
+  approve the map, and do not use their logos. Naming them as data sources, or saying the
+  map works on a Garmin Montana 700, is fine.
+- **Garmin.** Garmin's licence for the device software forbids reverse-engineering the
+  device software; it does not cover maps you load on the device, and copying a `.img` to
+  `Garmin/` changes no device software. Garmin's own map products have their own licences
+  and are not part of these maps.
+- **No warranty.** The data comes as is. If you sell maps, you answer to your buyers under
+  consumer law; say that the map is not meant for safety-critical navigation.
+
 ---
 
 ## Sammanfattning på svenska
@@ -300,4 +327,7 @@ byggs på cirka 23 minuter till en karta på 1,9 GB. Version
 POI-symboler kan slås av och på per aktivitetsprofil i enheten. Repot innehåller ingen kartdata utöver små
 testutsnitt. Planen finns i [docs/PLAN.md](docs/PLAN.md), läget och nästa steg i
 [AGENTS.md](AGENTS.md), och arbetet följs i GitHub Issues. Koden är MIT-licensierad;
-data © Lantmäteriet (CC0).
+data © Lantmäteriet (CC0). Byggda kartor med enbart Lantmäteriets och Trafikverkets data
+(CC0) får kopieras, ges bort och säljas, så länge man inte antyder att Lantmäteriet,
+Trafikverket eller Garmin står bakom dem. Kartor med OpenStreetMap-data följer ODbL. Se
+[Sharing built maps](#sharing-built-maps).
