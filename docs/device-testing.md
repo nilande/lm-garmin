@@ -85,6 +85,28 @@ build, device firmware, scale and result here when a check is complete.
   Check the physical display at normal riding brightness, especially the grey
   dashed routes against snow or open terrain.
 
+## 2026-11-23 – activity profiles written from the computer (#81, #78)
+
+Montana 700, 25.70. Captures and profile copies in `dist/montana-release/v0.3-profile-test/`.
+Each activity profile is an XML file `Garmin/Profiles/<name>.gpf` on the USB volume; the
+file name is the profile name (there is no name field inside).
+
+| Step | Result |
+|---|---|
+| Edit `Hike.gpf` while Hike is the active profile, eject | **Lost.** The device keeps the active profile in memory and writes it back over the file – when a USB connection starts (file time = plug-in time) and when it switches to another profile. *Zoom Levels* and *Text Size* still showed the old values (`22`, `28`). |
+| Copy `Hike.gpf` (edited) to a new `LMTest.gpf`, eject, *Profile Change › LMTest* | **Works.** The new profile appears and has the values from the file (`33`–`98`). |
+| With Hike active, change one value in the inactive `LMTest.gpf` (`LandCoverText` 0 → 1), eject, switch to LMTest | **Works.** *Text Size › Land Cover* = Medium (`27`). |
+
+So the computer can set up profiles, but only profiles that are **not active** when the device
+is connected: the device reads a profile file when it switches to that profile, and saves the
+active one from memory. Map Manager choices (`ImgSelectName` lists the maps switched off) come
+along with the profile. macOS writes `._<name>.gpf` AppleDouble files next to edited
+profiles; remove them so the device does not see them.
+
+Consequence for #81 and #78: a tool can ship ready-made profiles (e.g. *LM Hike*, *LM Town*,
+*LM Snowmobile*) as new `.gpf` files based on the device's own profile, and update them later
+as long as another profile is active. Editing the active profile has to be done on the device.
+
 ## 2026-11-22 – street names switched off per activity profile (#81, #77)
 
 Montana 700, 25.70, the v0.3 candidate `lm-topo50.img` (`--nvdb-dir`). Captures in
