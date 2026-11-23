@@ -85,6 +85,36 @@ build, device firmware, scale and result here when a check is complete.
   Check the physical display at normal riding brightness, especially the grey
   dashed routes against snow or open terrain.
 
+## 2026-11-23 – what *Map Points* and *Land Cover* control (#81)
+
+Montana 700, 25.70, profile Hike, 200 m. Kit `spikes/10-label-sizes/make_category_kit.py`
+(`lm-labelcat.img`, family 5758, east of Täby, no TYP): A city points `0x0100`–`0x1100`,
+B label points `0x2800`–`0x2806`, C geographic POIs `0x65xx`/`0x66xx` alone, D common POIs,
+E named polygons (lake `0x3c`, forest `0x50`, park `0x17`, wetland `0x51`, glacier `0x4d`),
+F named lines (contour `0x20`, stream `0x18`, river `0x1f`, trail `0x16`). Captures in
+`dist/montana-release/v0.3-label-categories/`.
+
+| Setting | A city | B label pt | C geo POI | D POI | E polygons | F lines |
+|---|---|---|---|---|---|---|
+| Baseline: text Small, zoom Auto (`87`–`91`) | labelled | labelled | icon, **no label** | icon, no label | labelled (not the park) | labelled |
+| *Zoom Levels › Map Points = Off* (`116`–`125`) | – | – | **icons hidden** | **icons hidden** | – | – |
+| *Zoom Levels › Land Cover = Off* (`143`–`154`) | – | – | – | – | **land polygons and their labels hidden**; lake stays | – |
+| *Text Size › Map Points = None* (`198`–`208`), *Large* (`260`–`270`) | – | – | – | – | – | – |
+| *Text Size › Land Cover = None* (`225`–`237`) | – | – | – | – | **labels of forest, wetland, glacier hidden**; lake label stays | **contour label hidden**; river label stays |
+| *Text Size › Land Cover = Large* (`282`–`291`) | – | – | – | – | glacier label larger, others dropped for space | contour label dropped |
+
+"–" = no visible change.
+
+- City points and `0x28xx` label points – all place names and map texts on our maps – follow
+  **none** of these settings; only *Detail* moves them.
+- *Map Points* governs POI **symbols** (geographic and common POIs); their names are not drawn
+  at any text size. So the unlabelled `0x65xx`/`0x66xx` search points are firmware, not a
+  setting (AGENTS.md lesson holds).
+- *Land Cover* governs land polygons and their labels, and the **contour labels**: text size
+  None gives a map without contour numbers. Lake polygons and river labels are not land cover.
+- With street names (*Street Label*, 2026-11-22) this gives three device-side switches for an
+  activity profile: street names, contour labels and POI symbols, plus all land polygons.
+
 ## 2026-11-23 – activity profiles written from the computer (#81, #78)
 
 Montana 700, 25.70. Captures and profile copies in `dist/montana-release/v0.3-profile-test/`.
