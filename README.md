@@ -163,9 +163,10 @@ uv run lm-garmin build --municipality Storuman --admin-index /path/to/scb.zip --
 
 The build matches names to closed polygons made from Topografi 50 boundary lines
 and reports when it uses a simplified SCB polygon instead. The converter uses
-the GeoPackage spatial index for the bounding box and then keeps objects that
-intersect the boundary polygon. Topografi 50 objects crossing it are retained as
-whole features. The Garmin tile itself is rectangular.
+the GeoPackage spatial index for the bounding box, keeps objects that intersect
+the boundary polygon and cuts those that cross it at the boundary, so the map
+ends cleanly at the county or municipality border. Bounding-box regions and
+Sweden are not clipped.
 
 Output in `dist/`:
 

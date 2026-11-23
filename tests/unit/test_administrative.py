@@ -94,7 +94,7 @@ def test_names_codes_exact_polygon_and_fallback(boundary_fixture):
         named_regions("municipality", ["okänd"], gpkg_dir, index)
 
 
-def test_convert_filters_outside_polygon_and_keeps_crossing_ways(boundary_fixture, tmp_path):
+def test_convert_filters_outside_polygon_and_cuts_crossing_ways(boundary_fixture, tmp_path):
     index, gpkg_dir, _ = boundary_fixture
     src = gpkg_dir / "features.gpkg"
     write_layer(
@@ -144,4 +144,6 @@ def test_convert_filters_outside_polygon_and_keeps_crossing_ways(boundary_fixtur
         for obj in osmium.FileProcessor(out / "kommunikation.osm.pbf")
         if obj.is_node()
     ]
-    assert min(eastings) < X < X + 1000 < max(eastings)
+    # The way from X-50 to X+1050 is cut at the county boundary (X … X+1000).
+    assert min(eastings) == pytest.approx(X, abs=0.01)
+    assert max(eastings) == pytest.approx(X + 1000, abs=0.01)

@@ -28,6 +28,9 @@
 
 ### Fixed
 
+- County and municipality maps (`--county`, `--municipality`) end at the border: features
+  that cross it are cut there instead of sticking out as whole lakes, forests and reserves.
+  Bounding-box and Sweden builds are unchanged.
 - Lake and mountain names are labelled on the map again. Since v0.2.0 the searchable
   `0x6500`/`0x6600` rows lacked their `continue` (the value sat in the `order` column), so
   the names were only invisible search points. `style generate` now rejects a non-numeric
