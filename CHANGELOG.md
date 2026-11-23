@@ -11,6 +11,9 @@
   of Sweden.
 - `nvdb extract` records each delivery's *Betraktelsedatum* (from Lastkajen's
   `Leveransinformation_*.txt`), and `build-report.json` lists the dates under `nvdb` (#71).
+- CI builds a Täby fixture with the 2027.05 structure (`hojd` and `kommunikation` from
+  Lantmäteriet's test data) next to the current one; ADR-0008 keeps both structures
+  supported side by side (#56).
 - Topografi 50 2027.05 (from 2027-05-04, #56): the new layer `cykelvaglinje` is converted
   and drawn like today's cycle paths; `build` warns and records `missing_columns` in the
   build report when the style reads an attribute the delivery lacks (Lantmäteriet's 2027

@@ -33,7 +33,8 @@ Data cache: `$LM_GARMIN_CACHE` or `~/.cache/lm-garmin` (unpacked GeoPackages in 
 ## Rules
 
 - **No map data in the repo**, releases or CI artifacts. The only exception is `tests/data/`
-  (three clipped fixtures + two raster cut-outs, made by `scripts/make_fixtures.py`).
+  (four clipped fixtures, one with the 2027.05 structure, + two raster cut-outs, made by
+  `scripts/make_fixtures.py`).
 - **Never commit the Skoterleder.org GPX** (OSM-derived, ODbL); use it only locally.
 - Code, docs and issues in **English**; the README has a Swedish summary.
 - Styles: edit only `mapping.csv`, then run `lm-garmin style generate`; the generated files

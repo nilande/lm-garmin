@@ -65,7 +65,7 @@ lm-garmin/
 │   └── skoter/               # overlay style + typ/skoter.txt
 ├── java/ImgDump.java         # decoder used by verification (runs on mkgmap.jar)
 ├── tests/
-│   ├── data/                 # fixtures: 3 clipped GeoPackages (≤ 3 MB each) + PROVENANCE.md
+│   ├── data/                 # fixtures: 4 clipped GeoPackages (≤ 3 MB each) + PROVENANCE.md
 │   │   └── tracks/           # hand-made test GPX for CI coverage check
 │   ├── unit/  integration/
 ├── scripts/make_fixtures.py  # re-creates tests/data from a Topografi 50 delivery
@@ -393,10 +393,10 @@ priority order:
    build report records the NVDB Betraktelsedatum. What is left is the device check.
 2. **Topografi 50 structure change on 2027-05-04**
    ([#56](https://github.com/nilande/lm-garmin/issues/56)). `cykelvaglinje` and the
-   missing-column warning are done (#75). Left: record the 2027.05 test data against the data
-   inventory, run `convert` and `build --area` on it, decide how to support both structures,
-   and add fixtures and CI. The check against real data follows when Lantmäteriet delivers
-   it, as a v0.3.x before May if needed.
+   missing-column warning are done (#75); both structures build side by side
+   ([ADR-0008](adr/0008-topografi-50-2027-structure.md)) and CI builds a 2027.05 fixture.
+   The check against real data follows when Lantmäteriet delivers it, as a v0.3.x before
+   May if needed; road numbers from NVDB are the fallback if `vardvagnummer` stays missing.
 3. **Device-side configuration** ([#81](https://github.com/nilande/lm-garmin/issues/81)):
    the Map Points / Land Cover label-kit test runs in the same device session as #71. It
    decides whether a separate street-name overlay (#77) is needed at all.

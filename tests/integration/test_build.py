@@ -27,7 +27,7 @@ from lm_garmin.verify import check, decode, norm_type, summarize
 pytestmark = pytest.mark.integration
 
 ROOT = Path(__file__).parents[2]
-FIXTURES = ["fjall_727_51_05", "tatort_659_67_00", "skoter_730_51"]
+FIXTURES = ["fjall_727_51_05", "tatort_659_67_00", "tatort_659_67_00_2027", "skoter_730_51"]
 REPORTS = ROOT / "reports"
 SKOTER_TYPES = {
     (1847, "Ja"): "0x10e10",
@@ -104,6 +104,14 @@ def test_base_map_has_expected_types_and_labels(built, fx, data_dir_module):
         if not {norm_type(r.type) for r in cands} & decoded:
             missing.append(f"{layer}/{t or '*'} ({n} features) → {sorted({r.type for r in cands})}")
     assert missing == []
+
+
+def test_2027_structure_builds_with_a_report_of_what_it_lacks(built):
+    """Topografi 50 2027.05 (#56): the test data builds; road numbers are reported missing."""
+    _, report = built["tatort_659_67_00_2027"]
+    assert report["missing_columns"] == {"vaglinje": ["ref"]}
+    _, current = built["tatort_659_67_00"]
+    assert not current.get("missing_columns")
 
 
 def assert_points_match(source: ndarray, decoded: list[Point]) -> None:
