@@ -7,7 +7,8 @@ gdal_translate for the raster cut-outs:
         --gpkg-dir ~/.cache/lm-garmin/gpkg \
         --raster-dir "/Volumes/scratch/lm-kartdata/raster 1-50k" \
         --delivery-id "LM2026:173692" \
-        --nvdb-dir ~/.cache/lm-garmin/nvdb/stockholm --nvdb-date 2026-11-17
+        --nvdb-dir ~/.cache/lm-garmin/nvdb/stockholm --nvdb-date 2026-11-17 \
+        --testdata-2027-dir ~/.cache/lm-garmin/testdata-2027/t50
 
 Every fixture is a clip of all layers of all themes into one GeoPackage. Features are
 selected with the R-tree index and cut to the bbox with shapely.clip_by_rect; only parts
@@ -16,6 +17,9 @@ point). Where a 1:50 000 raster exists, a cut-out of the reference raster is wri
 With --nvdb-dir, the NVDB street-name layers (Trafikverket, CC0) are cut out for the fixtures
 that have `nvdb=True` into tests/data/nvdb/<name>.nvdb.gpkg: whole lines selected with the
 R-tree within the bbox plus NVDB_PAD, only the name columns.
+With --testdata-2027-dir, fixtures with `testdata_2027=True` take the themes that
+Lantmäteriet's 2027.05 test data has (`hojd`, `kommunikation`) from it and the other themes
+from --gpkg-dir: the shape of a delivery after the structure change on 2027-05-04 (#56).
 PROVENANCE.md is (re)written with bboxes, method, data dates and checksums.
 """
 
@@ -44,6 +48,7 @@ class Fixture:
     raster: str | None  # 1:50 000 raster file that contains the bbox
     why: str
     nvdb: bool = False  # also cut out NVDB street names (needs --nvdb-dir)
+    testdata_2027: bool = False  # themes of the 2027.05 test data replace current ones
 
 
 FIXTURES = [
@@ -59,6 +64,13 @@ FIXTURES = [
         "65_6_55.tif",
         "urban area and archipelago; same extent as the 1:10 000 reference 659_67_00",
         nvdb=True,
+    ),
+    Fixture(
+        "tatort_659_67_00_2027",
+        (670000, 6590000, 675000, 6595000),
+        None,
+        "tatort_659_67_00 with hojd and kommunikation from the 2027.05 test data (#56)",
+        testdata_2027=True,
     ),
     Fixture(
         "skoter_730_51",
@@ -92,6 +104,19 @@ def layers(gpkg: Path) -> list[tuple[str, str]]:
     return [(t, g.upper()) for t, g in rows]
 
 
+def theme(gpkg: Path) -> str:
+    """Theme of a delivery file: `hojd_sverige.gpkg`, `hojd_ln01.gpkg` → `hojd`."""
+    return gpkg.stem.rsplit("_", 1)[0]
+
+
+def sources(gpkg_dir: Path, replace: Path | None = None) -> list[Path]:
+    """Theme files of `gpkg_dir`, with the themes that `replace` has taken from there."""
+    files = {theme(g): g for g in theme_files(gpkg_dir)}
+    if replace is not None:
+        files |= {theme(g): g for g in theme_files(replace)}
+    return [files[k] for k in sorted(files)]
+
+
 def data_date(gpkg_dir: Path) -> str:
     dates: set[str] = set()
     for g in theme_files(gpkg_dir):
@@ -122,10 +147,10 @@ def clip_geometries(geoms: np.ndarray, bbox: tuple[int, ...], dim: int) -> np.nd
     return out
 
 
-def clip_vector(fx: Fixture, gpkg_dir: Path) -> Path:
+def clip_vector(fx: Fixture, files: list[Path]) -> Path:
     out = OUT / f"{fx.name}.gpkg"
     out.unlink(missing_ok=True)
-    for g in theme_files(gpkg_dir):
+    for g in files:
         for layer, gtype in layers(g):
             meta, _, wkb, fields = pyogrio.raw.read(g, layer=layer, bbox=fx.bbox)
             dim = DIMENSION[gtype.removeprefix("MULTI")]
@@ -209,6 +234,11 @@ def main() -> int:
     )
     ap.add_argument("--nvdb-dir", type=Path, help="folder with one NVDB GeoPackage (Lastkajen)")
     ap.add_argument("--nvdb-date", default="unknown", help="NVDB betraktelsedatum, e.g. 2026-11-17")
+    ap.add_argument(
+        "--testdata-2027-dir",
+        type=Path,
+        help="unpacked Topografi 50 2027.05 test data (hojd_ln01.gpkg, kommunikation_ln01.gpkg)",
+    )
     a = ap.parse_args()
 
     if not theme_files(a.gpkg_dir):
@@ -217,7 +247,10 @@ def main() -> int:
 
     rows = []
     for fx in FIXTURES:
-        v = clip_vector(fx, a.gpkg_dir)
+        if fx.testdata_2027 and not a.testdata_2027_dir:
+            sys.exit(f"{fx.name} needs --testdata-2027-dir")
+        files = sources(a.gpkg_dir, a.testdata_2027_dir if fx.testdata_2027 else None)
+        v = clip_vector(fx, files)
         r = clip_raster(fx, a.raster_dir) if a.raster_dir else None
         n = clip_nvdb(fx, a.nvdb_dir) if a.nvdb_dir else None
         for p in (v, r, n):
@@ -236,6 +269,9 @@ def main() -> int:
         f"- Generated: {dt.date.today().isoformat()}",
         "- Vector: every layer of every theme; features selected by R-tree, cut with "
         "`shapely.clip_by_rect`, only parts of the layer's own dimension kept; EPSG:3006.",
+        "- 2027.05 test data: Lantmäteriet, *Vektorrelease 2027* test data (CC0), Stockholms "
+        f"län, data dated {data_date(a.testdata_2027_dir) if a.testdata_2027_dir else '–'}; "
+        "replaces the themes it has (`hojd`, `kommunikation`) in the `_2027` fixture.",
         "- Raster: `gdal_translate -projwin <bbox>` from the 1:50 000 GeoTIFF (5 m/px), DEFLATE.",
         "- Street names: Trafikverket, *NVDB* from Lastkajen (CC0 1.0), betraktelsedatum "
         f"{a.nvdb_date}; layers {', '.join(f'`{k}`' for k in NVDB_LAYERS)}, name columns only, "

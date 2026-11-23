@@ -1,0 +1,13 @@
+{
+  "min_tiles": 1,
+  "labels": ["Enebyberg", "Sätra", "Kärrdal"],
+  "max_features_by_level": {
+    "0": {"point": 230, "line": 1746, "polygon": 519},
+    "1": {"point": 230, "line": 1736, "polygon": 508},
+    "2": {"point": 136, "line": 1210, "polygon": 393},
+    "3": {"point": 59, "line": 1186, "polygon": 305},
+    "4": {"point": 20, "line": 130, "polygon": 199},
+    "5": {"point": 5, "line": 26, "polygon": 14},
+    "6": {"point": 3, "line": 6, "polygon": 3}
+  }
+}
