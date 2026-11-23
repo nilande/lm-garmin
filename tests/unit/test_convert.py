@@ -4,6 +4,7 @@ import collections
 import sqlite3
 from collections import Counter
 
+import numpy as np
 import osmium
 import pyogrio
 import pytest
@@ -148,3 +149,29 @@ def test_missing_columns_reports_style_tags_without_source(tmp_path, data_dir):
         crs=meta["crs"],
     )
     assert missing_columns(tmp_path, needed) == {"vaglinje": ["ref"]}
+
+
+def test_clip_to_region_cuts_at_the_boundary():
+    from shapely.geometry import LineString, Point, box
+
+    from lm_garmin.convert import clip_to_region
+
+    area = box(0, 0, 10, 10)
+    geoms = np.array(
+        [
+            box(5, 5, 15, 15),  # crosses: cut
+            box(1, 1, 2, 2),  # inside: unchanged
+            box(20, 20, 30, 30),  # outside: dropped
+            LineString([(5, 5), (15, 5)]),  # crosses: cut
+            Point(3, 3),
+            box(10, 0, 20, 10),  # touches the edge only: no area left
+        ],
+        dtype=object,
+    )
+    out = clip_to_region(geoms, area)
+    assert out[0].area == 25
+    assert out[1].equals(geoms[1])
+    assert out[2] is None
+    assert out[3].length == 5
+    assert out[4].equals(geoms[4])
+    assert out[5].is_empty  # the shared edge is a line, not a polygon part

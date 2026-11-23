@@ -89,8 +89,10 @@ lm-garmin/
 
 - Region = bbox in EPSG:3006 (from CLI bbox, county/municipality polygon, or "sweden").
   Features are selected with the GeoPackage **R-tree** (`pyogrio.read_arrow(bbox=…)` /
-  spatial filter). **No geometric clipping** – splitter/mkgmap handle tile edges, and
-  clipping was the slowest step in the spike (62 s vs 17 s for 50×50 km).
+  spatial filter). **No geometric clipping** for bbox regions and Sweden – splitter/mkgmap
+  handle tile edges, and clipping was the slowest step in the spike (62 s vs 17 s for
+  50×50 km). A county or municipality cuts only the features that cross its boundary
+  (2026-11-23: whole features stuck out of the Täby and Storuman test maps).
 - Read in Arrow batches (pyogrio `use_arrow=True`), transform with pyproj vectorised,
   write **OSM PBF** with pyosmium. Streaming, bounded memory per batch.
 - One PBF per theme ⇒ themes are converted **in parallel** (process pool). Each theme gets

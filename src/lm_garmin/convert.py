@@ -1,6 +1,8 @@
 """S1: convert Topografi 50 GeoPackages to OSM PBF (one file per theme) for a region.
 
-- Features are selected with the GeoPackage R-tree (bbox filter); geometries are not clipped.
+- Features are selected with the GeoPackage R-tree (bbox filter). For a named region (county,
+  municipality) features that cross its boundary are cut at it; a bbox region and Sweden
+  are not clipped.
 - Read in Arrow batches, reprojected EPSG:3006 → 4326 vectorised.
 - OSM ids are positive and ascending per object type, with one id range per theme so all
   theme files can be fed to splitter together.
@@ -189,6 +191,28 @@ def _to_wgs84(geoms: np.ndarray, tr: Transformer) -> np.ndarray:
     return shapely.transform(geoms, f)
 
 
+def clip_to_region(geoms: np.ndarray, area) -> np.ndarray:
+    """Cut features that cross a named region's boundary; drop those outside.
+
+    Only parts of the feature's own dimension are kept (a polygon cut along the boundary
+    must not leave stray lines or points). Features inside are returned unchanged.
+    """
+    keep = shapely.intersects(area, geoms)
+    geoms = geoms.copy()
+    geoms[~keep] = None
+    cross = keep & ~shapely.within(geoms, area)
+    if cross.any():
+        dims = shapely.get_dimensions(geoms[cross])
+        cut = shapely.intersection(geoms[cross], area)
+        geoms[cross] = [
+            shapely.geometrycollections(
+                [q for q in shapely.get_parts(c) if shapely.get_dimensions(q) == d]
+            )
+            for c, d in zip(cut, dims, strict=True)
+        ]
+    return geoms
+
+
 def _write_batch(
     sink: OsmSink,
     layer: str,
@@ -206,7 +230,8 @@ def _write_batch(
 ) -> int:
     geoms = shapely.from_wkb(batch.column(geom_col).to_numpy(zero_copy_only=False))
     if region.geometry is not None:
-        keep = shapely.intersects(region.geometry, geoms)
+        geoms = clip_to_region(geoms, region.geometry)
+        keep = ~shapely.is_missing(geoms) & ~shapely.is_empty(geoms)
         geoms = geoms[keep]
         batch = batch.filter(keep)
     if names is not None and layer == "vaglinje":
@@ -359,6 +384,13 @@ def convert_theme(
                         )
                 stats.layers[layer] = stats.layers.get(layer, 0) + count
                 stats.features += count
+            if region.geometry is not None:
+                cut = clip_to_region(np.array(list(lakes.values()), dtype=object), region.geometry)
+                lakes = {
+                    k: g
+                    for k, g in zip(lakes, cut, strict=True)
+                    if g is not None and not g.is_empty
+                }
             for water_id, lake in sorted(lakes.items()):
                 tags = {
                     "lm:l": "mark",
@@ -375,8 +407,12 @@ def convert_theme(
             forest_overviews.seek(0)
             for _ in range(stats.merged_forests):
                 size = int.from_bytes(forest_overviews.read(4), "little")
-                wkb = forest_overviews.read(size)
-                for part in shapely.get_parts(_to_wgs84(shapely.from_wkb(wkb), tr)):
+                forest = shapely.from_wkb(forest_overviews.read(size))
+                if region.geometry is not None:
+                    forest = clip_to_region(np.array([forest], dtype=object), region.geometry)[0]
+                if forest is None or forest.is_empty:
+                    continue
+                for part in shapely.get_parts(_to_wgs84(forest, tr)):
                     sink.polygon(
                         [shapely.get_coordinates(r) for r in shapely.get_rings(part)], forest_tags
                     )
