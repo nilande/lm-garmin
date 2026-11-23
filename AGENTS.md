@@ -57,6 +57,9 @@ Data cache: `$LM_GARMIN_CACHE` or `~/.cache/lm-garmin` (unpacked GeoPackages in 
 - Street names can be switched off per activity profile: *Map Setup › Advanced Setup ›
   Zoom Levels › Street Label = Off* hides them while place names and road-number shields stay
   (2026-11-22, #81). Text sizes in that menu do not change our labels.
+- *Map Points* (zoom Off) hides POI symbols only; *Land Cover* hides land polygons (zoom Off)
+  or their labels and **contour labels** (text None). City points and `0x28xx` label points
+  follow neither (label-category kit, 2026-11-23, #81).
 - Activity profiles are `Garmin/Profiles/<name>.gpf` (XML). Edits from the computer apply
   only to profiles that are **not active**: the device writes the active profile from memory
   over its file on USB connect and on profile switch; a new `.gpf` appears as a new profile
