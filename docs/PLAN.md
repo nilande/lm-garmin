@@ -378,30 +378,49 @@ test data for the new structure.
 
 Each style change is tried with a `--dev` map on the device before it is merged.
 
-### v0.3 Navigation and 2027 readiness
+### v0.3 Street names and 2027 readiness
 
-The [v0.3 milestone](https://github.com/nilande/lm-garmin/milestone/9) (planned 2026-11-21)
-makes the map useful for finding and reaching a street, and keeps it working after
-Lantmäteriet's structure change. In priority order:
+The [v0.3 milestone](https://github.com/nilande/lm-garmin/milestone/9) (planned 2026-11-21,
+narrowed 2026-11-23) puts street names in the release map, fixes the lake and mountain labels
+that v0.2.0 lost (#79), and keeps the map working after Lantmäteriet's structure change. In
+priority order:
 
 1. **Street names in the release map** ([#71](https://github.com/nilande/lm-garmin/issues/71)).
-   The nationwide NVDB extract and Sweden build already exist (23 min 10 s, `verify` passed).
    The release build is `build --region sweden --topo250-dir … --nvdb-dir …` on a fresh
    `nvdb extract` of the 21 Lastkajen county zips (GeoPackage, FileGDB for Dalarna); the
    build report records the NVDB Betraktelsedatum. What is left is the device check.
 2. **Topografi 50 structure change on 2027-05-04**
-   ([#56](https://github.com/nilande/lm-garmin/issues/56)). The FTP test data shows the new
-   structure but no real data yet: adapt the schema and decide how to support both
-   structures now; check against real data when it arrives, possibly in a v0.3.x before May.
-3. **Street search** ([#72](https://github.com/nilande/lm-garmin/issues/72)). Roads as roads,
-   `--net`, `mkgmap:city` per road; device check of *Where to? › Addresses*.
-4. **Routing on roads** ([#28](https://github.com/nilande/lm-garmin/issues/28)). Shared nodes,
-   road class and speed, `--route`; starts as a `--dev` Täby spike, and moves to a later
-   release if the device result or the cost does not hold up.
+   ([#56](https://github.com/nilande/lm-garmin/issues/56)). `cykelvaglinje` and the
+   missing-column warning are done (#75). Left: record the 2027.05 test data against the data
+   inventory, run `convert` and `build --area` on it, decide how to support both structures,
+   and add fixtures and CI. The check against real data follows when Lantmäteriet delivers
+   it, as a v0.3.x before May if needed.
+3. **Device-side configuration** ([#81](https://github.com/nilande/lm-garmin/issues/81)):
+   the Map Points / Land Cover label-kit test runs in the same device session as #71. It
+   decides whether a separate street-name overlay (#77) is needed at all.
 
-If time allows: legend colours, mm → px widths and night colours
-([#68](https://github.com/nilande/lm-garmin/issues/68)), and packaging with `uv tool`/`pipx`
-([#30](https://github.com/nilande/lm-garmin/issues/30)).
+If time allows: packaging with `uv tool`/`pipx` ([#30](https://github.com/nilande/lm-garmin/issues/30)).
+
+**Test iterations use single municipalities**, not Sweden: Täby (town) and Storuman
+(mountains), built with `build --municipality Täby --municipality Storuman --dev` and the
+same `--topo250-dir`/`--nvdb-dir` as the release. They build and copy in minutes instead
+of about 25 + 14 minutes. One Sweden build, run through the
+[Montana release checklist](device-testing.md#release-checklist), is the final check before
+the tag.
+
+### v0.4 Navigation
+
+The [v0.4 milestone](https://github.com/nilande/lm-garmin/milestone/10) (split from v0.3 on
+2026-11-23):
+
+1. **Street search** ([#72](https://github.com/nilande/lm-garmin/issues/72), draft PR #76).
+   *Addresses* appears and finds street names, but choosing a street gives "None Found".
+   Untried: `--country-abbr=SWE`, one road copy per street instead of duplicates on lower
+   levels, house numbers.
+2. **Routing on roads** ([#28](https://github.com/nilande/lm-garmin/issues/28)). Shared nodes,
+   road class and speed, `--route`; starts as a `--dev` spike.
+3. Legend colours, mm → px widths and night colours
+   ([#68](https://github.com/nilande/lm-garmin/issues/68)).
 
 M5 Later: the single-file bundle (#51), cp1252 labels (#17), CI performance trends (#26) and
 the unmeasured style-only rebuild target (#27). Milestones M0–M4 were closed on 2026-11-21;
