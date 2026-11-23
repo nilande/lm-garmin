@@ -4,11 +4,11 @@ Build a Garmin map (`.img`) from Lantmäteriet's open topographic data
 **Topografi 50 Nedladdning, vektor**, styled to resemble Lantmäteriet's printed
 **Karta 1:50 000**. Primary target device: **Garmin Montana 700**.
 
-> **v0.2.0** – the nationwide base map and the separate Lantmäteriet snowmobile overlay are
-> built, verified and accepted on a Garmin Montana 700, with calmer labels, searchable lakes
-> and mountains, optional NVDB street names and an overlay readable outdoors. See [CHANGELOG.md](CHANGELOG.md),
-> the [device test record](docs/device-testing.md) and [AGENTS.md](AGENTS.md) for the state of
-> the project and next steps.
+> **v0.3.0** – the nationwide base map with NVDB street names and the separate Lantmäteriet
+> snowmobile overlay are built, verified and accepted on a Garmin Montana 700; the converter
+> is ready for Lantmäteriet's 2027 structure change. See [CHANGELOG.md](CHANGELOG.md), the
+> [device test record](docs/device-testing.md) and [AGENTS.md](AGENTS.md) for the state of the
+> project and next steps.
 
 Map data © Lantmäteriet (CC0). This repository contains **no map data** except small test
 cut-outs in [`tests/data`](tests/data/PROVENANCE.md).
@@ -296,7 +296,8 @@ Data hämtas gratis från Geotorget (se ovan): Topografi 50 och, för översikts
 Topografi 250. Gatunamn kan läggas till från Trafikverkets NVDB (Lastkajen, CC0) med
 `--nvdb-dir`, efter `lm-garmin nvdb extract` på länsfilerna. Hela Sverige med gatunamn
 byggs på cirka 23 minuter till en karta på 1,9 GB. Version
-0.2.0 är provad och godkänd på en Montana 700. Repot innehåller ingen kartdata utöver små
+0.3.0 är provad och godkänd på en Montana 700. Gatunamn, höjdkurvornas siffror och
+POI-symboler kan slås av och på per aktivitetsprofil i enheten. Repot innehåller ingen kartdata utöver små
 testutsnitt. Planen finns i [docs/PLAN.md](docs/PLAN.md), läget och nästa steg i
 [AGENTS.md](AGENTS.md), och arbetet följs i GitHub Issues. Koden är MIT-licensierad;
 data © Lantmäteriet (CC0).

@@ -1,6 +1,13 @@
 # Changelog
 
-## Unreleased
+## v0.3.0 – 2026-11-23
+
+"Street names": the release map has NVDB street names in a small font, lake and mountain
+names are back, county and municipality maps end at the border, and the converter is
+ready for Lantmäteriet's Topografi 50 structure change on 2027-05-04 (checked against the
+2027.05 test data in CI). Street names, contour labels, POI symbols and land cover can be
+switched per activity profile on the device. Code, styles and build instructions only;
+maps are built locally from the free deliveries.
 
 ### Added
 
