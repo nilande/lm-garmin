@@ -94,9 +94,11 @@ geographic POIs (0x65xx/0x66xx) are searchable but unlabelled, label points (0x2
 labelled but not searchable; TYP line bitmaps have two colours; `name` never replaces a
 label already set (use `relabel`). *Where to?* has no address or street search with our maps: the menu lists *Addresses* only when a loaded map has street data (mkgmap `--net`/`--route`), which our maps do not have yet (#72).
 
-Next: [v0.4 "Navigation"](https://github.com/nilande/lm-garmin/milestone/10) (PLAN §12):
-street search (#72, draft PR #76), routing (#28), legend/night colours (#68); the #81 ADR on
-device-side configuration (#77, #78, #80). [Topografi 50 2027.05](https://github.com/nilande/lm-garmin/milestone/11):
+Next: [v0.4 "Terrain"](https://github.com/nilande/lm-garmin/milestone/12) (PLAN §12):
+terrain shading from grid 50+ (#90, merged), night colours (#92), the release (#93). Then
+[v0.5 "Navigation"](https://github.com/nilande/lm-garmin/milestone/10): street search (#72,
+draft PR #76), routing (#28), legend colours (#68); the #81 ADR on device-side configuration
+(#77, #78, #80). [Topografi 50 2027.05](https://github.com/nilande/lm-garmin/milestone/11):
 the real-data check when Lantmäteriet delivers (#56). M5 Later: packaging (#30), the
 single-file bundle (#51), cp1252 (#17), CI performance trends (#26), the style-only rebuild
 target (#27). Test iterations on single municipalities (Täby, Storuman) with
