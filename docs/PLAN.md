@@ -413,10 +413,24 @@ of about 25 + 14 minutes. One Sweden build, run through the
 [Montana release checklist](device-testing.md#release-checklist), is the final check before
 the tag.
 
-### v0.4 Navigation
+### v0.4 Terrain
 
-The [v0.4 milestone](https://github.com/nilande/lm-garmin/milestone/10) (split from v0.3 on
-2026-11-23):
+The [v0.4 milestone](https://github.com/nilande/lm-garmin/milestone/12) (planned 2026-11-24)
+ships what is ready before the larger navigation work:
+
+1. **Terrain shading** ([#90](https://github.com/nilande/lm-garmin/issues/90), done in
+   PR #91): `build --dem-dir` with Lantmäteriet's Markhöjdmodell grid 50+; Shaded Relief in
+   day colours down to the 120 m scale; Sweden 2.25 GB.
+2. **Night colours** ([#92](https://github.com/nilande/lm-garmin/issues/92), split from #68):
+   a TYP night palette, checked on the device.
+3. **Release** ([#93](https://github.com/nilande/lm-garmin/issues/93)): optionally the yearly
+   *nh* variant of grid 50+, test iterations on Täby and Storuman, one Sweden build through
+   the release checklist.
+
+### v0.5 Navigation
+
+The [v0.5 milestone](https://github.com/nilande/lm-garmin/milestone/10) (split from v0.3 on
+2026-11-23 as v0.4, renumbered 2026-11-24):
 
 1. **Street search** ([#72](https://github.com/nilande/lm-garmin/issues/72), draft PR #76).
    *Addresses* appears and finds street names, but choosing a street gives "None Found".
@@ -424,8 +438,8 @@ The [v0.4 milestone](https://github.com/nilande/lm-garmin/milestone/10) (split f
    levels, house numbers.
 2. **Routing on roads** ([#28](https://github.com/nilande/lm-garmin/issues/28)). Shared nodes,
    road class and speed, `--route`; starts as a `--dev` spike.
-3. Legend colours, mm → px widths and night colours
-   ([#68](https://github.com/nilande/lm-garmin/issues/68)).
+3. Legend colours and mm → px widths
+   ([#68](https://github.com/nilande/lm-garmin/issues/68); night colours moved to #92).
 
 M5 Later: the single-file bundle (#51), cp1252 labels (#17), CI performance trends (#26) and
 the unmeasured style-only rebuild target (#27). Milestones M0–M4 were closed on 2026-11-21;
