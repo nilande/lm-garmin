@@ -90,6 +90,9 @@ uv run pytest
 
 6. Optional: **Topografi 100** (same steps) for the 2 km overview level, and
    **Karta 1:50 000 Nedladdning, raster** (GeoTIFF) for visual comparison.
+7. Optional, for **terrain shading**: order **Markhöjdmodell Nedladdning, grid 50+** for
+   the counties you build (or all of Sweden: 76 zips, 1.6 GB). Keep the zips (`71_5.zip`, …)
+   as delivered in one folder; the `metadata/` folder is not used.
 
 Keep the delivery anywhere; paths may contain spaces and colons
 (e.g. `LM2026:173692 - Topografi 50 Nedladdning, vektor`).
@@ -131,6 +134,16 @@ Matching adds about 20 s per county; the result is cached per region and NVDB fi
 
 ```bash
 uv run lm-garmin build --area taby --dev --nvdb-dir "/path/to/nvdb" --out dist/dev
+```
+
+Add `--dem-dir "/path/to/grid50+"` to put a terrain model in the base map for **hill
+shading** (#90). The 50 m grid is turned into 1° elevation tiles (cached per region and
+delivery) and added with mkgmap's `--dem`. The map grows by about a third. On the Montana
+700, turn on *Map › Map Sets › Shaded Relief*; shading shows in day colours and down to the
+120 m scale ([device test](docs/device-testing.md#2026-11-24--terrain-shading-90)).
+
+```bash
+uv run lm-garmin build --municipality Storuman --dev --dem-dir "/path/to/grid50+" --out dist/dev
 ```
 
 Topografi 100 replaces land cover, water surfaces and wetlands at resolution 20.
@@ -279,7 +292,7 @@ percentage point below the 45.9% baseline. Keep the reference tracks local.
 Code, styles and TYP sources: [MIT](LICENSE). Map data: Lantmäteriet, CC0 – attribution is
 not required, but maps built with this tool carry "© Lantmäteriet" and we ask you to keep it.
 Street names (optional): Trafikverket NVDB, CC0; maps built with them also carry
-"Trafikverket (NVDB)".
+"Trafikverket (NVDB)". Terrain model (optional): Lantmäteriet Markhöjdmodell grid 50+, CC0.
 mkgmap and splitter (GPL-2.0) are downloaded at build time and run as separate programs.
 
 ### Sharing built maps
@@ -288,10 +301,10 @@ Maps built with the default products (`lm-topo50.img`, `lm-skoter.img`) contain 
 data, so you may copy, give away or sell them. This is our reading of the licences, not
 legal advice.
 
-- **Data.** Topografi 50 and 250 (Lantmäteriet) and NVDB (Trafikverket) are CC0: no
-  permission, attribution or share-alike needed. Keep the source notice that the maps
-  carry ("Lantmäteriet, Trafikverket (NVDB)") and state the delivery dates (in
-  `build-report.json`) so users know how current the map is.
+- **Data.** Topografi 50 and 250, Markhöjdmodell grid 50+ (Lantmäteriet) and NVDB
+  (Trafikverket) are CC0: no permission, attribution or share-alike needed. Keep the source
+  notice that the maps carry ("Lantmäteriet, Trafikverket (NVDB)") and state the delivery
+  dates (in `build-report.json`) so users know how current the map is.
 - **Tools.** The GPL of mkgmap and splitter covers the programs, not the maps they write.
   The MIT licence of this project needs no notice in the map files; include `LICENSE` if you
   pass on the code.

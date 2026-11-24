@@ -67,6 +67,9 @@ Data cache: `$LM_GARMIN_CACHE` or `~/.cache/lm-garmin` (unpacked GeoPackages in 
 - TYP `FontStyle` works on **lines only** (SmallFont is clearly smaller); point labels ignore
   TYP font size and colour, city types `0x0e00`–`0x1100` get no label, and label colour on
   lines had no visible effect (label kit, 2026-11-22).
+- Terrain shading (#90): only via *Map Sets › Shaded Relief* (profile `ShadedReliefEnabled`
+  0/2), day colours only, from any loaded map with a DEM. mkgmap needs one `--dem-dists`
+  value per level or the device ignores the DEM; shading stops below the 120 m scale.
 - Extended types: subtype ≤ `0x1f` (mkgmap rejects more); a fully transparent TYP line is
   rejected (use pattern `label`).
 

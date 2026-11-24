@@ -3,6 +3,21 @@
 Reference machine: Apple M5 (10 cores), 16 GB RAM, internal SSD; data on an SMB share (NAS).
 Delivery `LM2026:173692` (data 2026-10-16).
 
+## 2026-11-24 – Sweden with terrain shading (issue #90)
+
+Built from branch `feat/90-dem` like the v0.3.0 release build, plus `--dem-dir` with
+Markhöjdmodell grid 50+ `LM2026:176630` (76 squares). The conversion ran cold. The
+[build report](2026-11-24-build-sweden-dem.json) has the stage timings.
+
+| Measurement | Result |
+|---|---:|
+| Build time, cold conversion | 1,596 s (26 min 36 s) |
+| DEM stage (76 squares → 132 `.hgt` tiles, 3.2 GB cache) | 111 s |
+| Convert / split / compile (base map) | 680 s / 261 s / 489 s (+79 s over v0.3.0) |
+| Highest process RSS | 5,086 MB (mkgmap, +437 MB) |
+| Base map bytes | 2,246,836,224, 410 tiles (+19 % over v0.3.0; FAT32 guard is 3.5 GB) |
+| `verify` | passed |
+
 ## 2026-11-23 – v0.3.0 Sweden release build
 
 Built `d09ea72` (main after #87, version string still 0.2.0) with a cold Topografi 50

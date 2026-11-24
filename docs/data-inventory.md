@@ -15,6 +15,24 @@ the data from Geotorget.
 | Legend for *Karta 1:50 000 Nedladdning, raster* (dated 2026-05-27) | `https://geotorget.lantmateriet.se/dokument/projects/karta-1-50-000-nedladdning-raster/released/2018.01/_scroll_external/attachments/37fe81cc7533/tf-karta-50000-raster.pdf` |
 | Raster product documentation | Geotorget → *Karta 1:50 000 Nedladdning, raster* → *Dokumentation* (version 2018.01) |
 
+## Markhöjdmodell Nedladdning, grid 50+ (terrain shading, #90)
+
+Delivery `LM2026:176630` (2026-11-24), all of Sweden: 76 zips, 1.6 GB, plus `metadata/` with a
+`<square>_metod.json` and `<square>_kvmfel.json` (GeoJSON) per square. Read by `dem.py`.
+
+- One zip per **100 × 100 km** square, named `<N/100 km>_<E/100 km>.zip`: `71_5.zip` covers
+  N 7 100–7 200 km, E 500–600 km (SWEREF 99 TM). Each holds one `.xyz` file.
+- `.xyz`: one `x y z` row per point, space separated, **decimal commas**, heights in metres
+  (RH 2000), two decimals. About 4 M points per full square.
+- The `.xyz` files are dated 2015, so this is the *hdb* variant (older data, not updated)
+  rather than the yearly *nh* variant.
+- The points are about 50 m apart but **not on a SWEREF-aligned grid** (x and y have
+  decimals and drift slightly, like a rotated grid). `dem.py` bins them into 50 m cells; in
+  Storuman 0.02 % of the cells inside the data were empty and are filled from neighbours.
+- Heights in the Storuman area: 247–1 905 m.
+- Licence: **CC0**, as for Topografi 50 (Geotorget product page,
+  `https://geotorget.lantmateriet.se/geodataprodukter/markhojdmodell-nedladdning-grid-50`).
+
 > The PDF product descriptions linked in the original brief (`www2.lantmateriet.se/globalassets/…/e-pb-*.pdf`)
 > return **404**. Lantmäteriet has moved all product documentation to Geotorget (HTML).
 

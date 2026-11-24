@@ -14,7 +14,7 @@ from tempfile import NamedTemporaryFile, TemporaryDirectory
 
 from .tools import sha256_file
 
-STAGES = ("convert", "extract", "split", "compile")
+STAGES = ("convert", "extract", "split", "dem", "compile")
 
 
 def key(value) -> str:
