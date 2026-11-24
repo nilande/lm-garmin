@@ -9,6 +9,10 @@
   the base map with mkgmap `--dem`, one DEM distance per map level (the Montana ignores a
   DEM without them). Shown with *Map Sets › Shaded Relief* in day colours down to the
   120 m scale.
+- Night colours (#92): every TYP entry gets a night colour derived from its day colour
+  (areas darkened and muted with water kept blue, pattern marks a little lighter than their
+  area, lines and symbols brightened), so the Montana's night mode shows a dark map instead
+  of the day palette. Points get a separate night icon.
 
 ## v0.3.0 – 2026-11-23
 

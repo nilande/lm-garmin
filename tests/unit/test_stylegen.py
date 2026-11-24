@@ -194,3 +194,45 @@ def test_order_must_be_numeric(tmp_path):
     csv_file.write_text(header + "point,textpunkt,,,0x2800,24,${name},X,,,,label,continue\n")
     with pytest.raises(ValueError, match="order must be a number"):
         stylegen.load(csv_file)
+
+
+def test_night_colours_darken_fills_and_brighten_inks():
+    import colorsys
+
+    def lightness(c):
+        return colorsys.rgb_to_hls(*(int(c[i : i + 2], 16) / 255 for i in (1, 3, 5)))[1]
+
+    for day in ("#FFFFF2", "#CBEAFF", "#D4EEB7", "#E88A2E", "#464646"):
+        assert lightness(stylegen.night(day, "fill")) <= 0.32
+    # lighter by day stays lighter by night
+    assert lightness(stylegen.night("#FFFFF2", "fill")) > lightness(
+        stylegen.night("#E88A2E", "fill")
+    )
+    for day in ("#000000", "#333333", "#0080E6", "#C44982", "#D4B0F0", "#A0A0A0"):
+        assert lightness(stylegen.night(day, "ink")) >= 0.55
+    assert stylegen.night("none", "fill") == "none"
+    with pytest.raises(ValueError):
+        stylegen.night("#000000", "glow")
+
+
+def test_typ_has_night_colours_for_every_drawn_entry():
+    for style in ("topo50", "skoter", "skoter-osm"):
+        typ = stylegen.render_typ(stylegen.load(ROOT / "styles" / style / "mapping.csv"), 5750)
+        for section in typ.split("[_")[1:]:
+            kind, body = section.split("]\n", 1)
+            if kind in ("polygon", "line"):
+                xpm = re.search(r'Xpm="(\d+) (\d+) (\d+) ', body)
+                assert xpm and int(xpm[3]) in (2, 4), body
+            elif kind == "point" and '"a c none"' not in body:
+                assert "DayXpm=" in body and "NightXpm=" in body, body
+
+
+def test_night_pattern_marks_sit_between_fill_and_ink():
+    import colorsys
+
+    def lightness(c):
+        return colorsys.rgb_to_hls(*(int(c[i : i + 2], 16) / 255 for i in (1, 3, 5)))[1]
+
+    for day in ("#707070", "#B2E39C", "#40BAFF", "#C04040"):
+        fill, mark, ink = (stylegen.night(day, role) for role in ("fill", "mark", "ink"))
+        assert lightness(fill) < lightness(mark) < lightness(ink)

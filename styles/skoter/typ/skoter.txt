@@ -11,9 +11,11 @@ Type=0x10e11
 String1=0x04,Vinterled – skoterkörning påbjuden
 LineWidth=5
 BorderWidth=1
-Xpm="0 0 2 0"
+Xpm="0 0 4 0"
 "a c #D62000"
 "b c #600000"
+"3 c #F05C41"
+"4 c #311717"
 [end]
 
 [_line]
@@ -21,9 +23,11 @@ Type=0x10e15
 String1=0x04,Vinterled – skoterkörning påbjuden
 LineWidth=5
 BorderWidth=1
-Xpm="0 0 2 0"
+Xpm="0 0 4 0"
 "a c #D62000"
 "b c #600000"
+"3 c #F05C41"
+"4 c #311717"
 [end]
 
 [_line]
@@ -31,9 +35,11 @@ Type=0x10e10
 String1=0x04,Vinterled – skoterkörning tillåten
 LineWidth=4
 BorderWidth=1
-Xpm="0 0 2 0"
+Xpm="0 0 4 0"
 "a c #FF7A00"
 "b c #7A3A00"
+"3 c #EE882B"
+"4 c #34261A"
 [end]
 
 [_line]
@@ -41,18 +47,22 @@ Type=0x10e14
 String1=0x04,Vinterled – skoterkörning tillåten
 LineWidth=4
 BorderWidth=1
-Xpm="0 0 2 0"
+Xpm="0 0 4 0"
 "a c #FF7A00"
 "b c #7A3A00"
+"3 c #EE882B"
+"4 c #34261A"
 [end]
 
 [_line]
 Type=0x10e12
 String1=0x04,Vinterled – skoterkörning ej tillåten
 UseOrientation=Y
-Xpm="32 5 2 1"
+Xpm="32 5 4 1"
 "a c #B4B4B4"
 "b c #303030"
+"3 c #ACACAC"
+"4 c #242424"
 "aaaaaaaaaabbbbbbaaaaaaaaaabbbbbb"
 "aaaaaaaaaabbbbbbaaaaaaaaaabbbbbb"
 "aaaaaaaaaabbbbbbaaaaaaaaaabbbbbb"
@@ -64,9 +74,11 @@ Xpm="32 5 2 1"
 Type=0x10e16
 String1=0x04,Vinterled – skoterkörning ej tillåten
 UseOrientation=Y
-Xpm="32 5 2 1"
+Xpm="32 5 4 1"
 "a c #B4B4B4"
 "b c #303030"
+"3 c #ACACAC"
+"4 c #242424"
 "aaaaaaaaaabbbbbbaaaaaaaaaabbbbbb"
 "aaaaaaaaaabbbbbbaaaaaaaaaabbbbbb"
 "aaaaaaaaaabbbbbbaaaaaaaaaabbbbbb"
@@ -78,9 +90,11 @@ Xpm="32 5 2 1"
 Type=0x10e13
 String1=0x04,Vinterled – ingen information om skoterkörning
 UseOrientation=Y
-Xpm="32 5 2 1"
+Xpm="32 5 4 1"
 "a c #FFB060"
 "b c #7A3A00"
+"3 c #F2AA60"
+"4 c #34261A"
 "aaaaaaaaaabbbbbbaaaaaaaaaabbbbbb"
 "aaaaaaaaaabbbbbbaaaaaaaaaabbbbbb"
 "aaaaaaaaaabbbbbbaaaaaaaaaabbbbbb"
@@ -92,9 +106,11 @@ Xpm="32 5 2 1"
 Type=0x10e17
 String1=0x04,Vinterled – ingen information om skoterkörning
 UseOrientation=Y
-Xpm="32 5 2 1"
+Xpm="32 5 4 1"
 "a c #FFB060"
 "b c #7A3A00"
+"3 c #F2AA60"
+"4 c #34261A"
 "aaaaaaaaaabbbbbbaaaaaaaaaabbbbbb"
 "aaaaaaaaaabbbbbbaaaaaaaaaabbbbbb"
 "aaaaaaaaaabbbbbbaaaaaaaaaabbbbbb"
@@ -105,9 +121,23 @@ Xpm="32 5 2 1"
 [_point]
 Type=0x11610
 String1=0x04,Påbjuden färdväg vid skoteråkning
-Xpm="11 11 2 1"
+DayXpm="11 11 2 1"
 "a c #D62000"
 "b c #FFFFFF"
+"bbbbbbbbbbb"
+"bbbbbbbbbbb"
+"bbaaaaaaabb"
+"bbaaaaaaabb"
+"bbaaaaaaabb"
+"bbaaaaaaabb"
+"bbaaaaaaabb"
+"bbaaaaaaabb"
+"bbaaaaaaabb"
+"bbbbbbbbbbb"
+"bbbbbbbbbbb"
+NightXpm="11 11 2 1"
+"a c #F05C41"
+"b c #525252"
 "bbbbbbbbbbb"
 "bbbbbbbbbbb"
 "bbaaaaaaabb"
