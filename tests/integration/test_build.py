@@ -311,6 +311,42 @@ def test_dev_build_of_two_regions_in_one_map(tmp_path, data_dir_module):
     assert (out / "lm-dev-skoter.img").exists()
 
 
+def test_dem_from_grid50_is_added_to_the_base_map(tmp_path, data_dir_module):
+    """A synthetic grid 50+ square → cached .hgt tiles → DEM subfiles in the map (#90)."""
+    import re
+    import zipfile
+
+    src = tmp_path / "src"
+    src.mkdir()
+    (src / "fjall_727_51_05.gpkg").symlink_to(data_dir_module / "fjall_727_51_05.gpkg")
+    grid = tmp_path / "grid50"
+    grid.mkdir()
+    rows = (
+        f"{x + 0.3:.1f} {y + 0.2:.1f} {600 + (x - 514000) / 20:.2f}".replace(".", ",")
+        for x in range(514025, 521000, 50)
+        for y in range(7269025, 7276000, 50)
+    )
+    with zipfile.ZipFile(grid / "72_5.zip", "w") as z:
+        z.writestr("72_5.xyz", "\n".join(rows) + "\n")
+    out = tmp_path / "out"
+    rep = build(
+        src,
+        Region("a", (515000, 7270000, 520000, 7275000)),
+        out,
+        tmp_path / "cache",
+        products=["topo50"],
+        jobs=2,
+        java_mem="1g",
+        dev=True,
+        log=lambda *_: None,
+        dem_dir=grid,
+    )
+    assert rep["dem_source"] == str(grid)
+    assert [s["detail"] for s in rep["steps"] if s["name"] == "dem"] == [{"tiles": 1}]
+    img = (out / "lm-dev-topo50.img").read_bytes()
+    assert re.search(rb"\d{8}DEM", img[:200_000]), "no DEM subfile in the map"
+
+
 def test_restriction_area_draws_outer_and_inner_boundaries(tmp_path):
     if not tools.find_java():
         pytest.skip("java not found")

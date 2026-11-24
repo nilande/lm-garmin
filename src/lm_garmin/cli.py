@@ -96,6 +96,11 @@ def main(argv: list[str] | None = None) -> int:
         type=Path,
         help="unpacked Trafikverket NVDB GeoPackages (Lastkajen) for street names",
     )
+    b.add_argument(
+        "--dem-dir",
+        type=Path,
+        help="Lantmäteriet Markhöjdmodell grid 50+ folder (<N>_<E>.zip) for terrain shading",
+    )
     b.add_argument("--out", type=Path, default=Path("dist"), help="output folder (default: dist)")
     b.add_argument(
         "--products",
@@ -233,6 +238,7 @@ def main(argv: list[str] | None = None) -> int:
                 topo100_dir=a.topo100_dir,
                 topo250_dir=a.topo250_dir,
                 nvdb_dir=a.nvdb_dir,
+                dem_dir=a.dem_dir,
             )
         except BuildError as e:
             print(f"build failed: {e}", file=sys.stderr)

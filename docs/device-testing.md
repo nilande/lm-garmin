@@ -85,6 +85,25 @@ build, device firmware, scale and result here when a check is complete.
   Check the physical display at normal riding brightness, especially the grey
   dashed routes against snow or open terrain.
 
+## 2026-11-24 – terrain shading (#90)
+
+Storuman dev maps, Hike profile, day colours, around Sjulåejvie / Praahkoe and Nedre Björknäs.
+Screenshots in `dist/montana-release/v0.3-shaded-relief` and `v0.3-dem-test1…4` (local).
+
+- **Shaded relief is a Map Set**, not a setting: *Map › Map Sets* lists Shaded Relief,
+  Popularity, TopoActive and CityNavigator. The profile stores the Shaded Relief toggle as
+  `ShadedReliefEnabled` (0 off, 2 on). Third-party maps, ours included, are in the
+  CityNavigator set. Popularity showed no visible effect.
+- Shading needs DEM data in a loaded map; TopoActive Europe East has none, the Worldwide DEM
+  Basemap has a coarse one. Shading shows in **day colours only**.
+- A map with mkgmap `--dem` but no `--dem-dists` (one DEM distance) was **not shaded**. With
+  one distance per level (3312 · 2^level) the device shades our map with the basemap off.
+- DEM from Topografi 50 contours and from Lantmäteriet's Markhöjdmodell grid 50+ both look
+  right; grid 50+ has no terraces between contours and is used.
+- Shading shows down to the **120 m** scale and is gone at **110 m**. A finer first DEM
+  distance (1656) did not move this limit, made the map 54 % bigger and showed faint
+  striping; the limit is the device's.
+
 ## 2026-11-23 – v0.3.0 Sweden release check (#71)
 
 Montana 700, 25.70, profile Hike (Detail Normal, text sizes Small, zoom levels Auto), only

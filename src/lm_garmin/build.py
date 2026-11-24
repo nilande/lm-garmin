@@ -21,6 +21,7 @@ import osmium
 
 from . import __version__, overview, street_names, stylegen, tools
 from . import convert as convert_mod
+from . import dem as dem_mod
 from .convert import convert
 from .products import DEFAULT_PRODUCTS, PRODUCTS, Product, dev_variant
 from .region import Region
@@ -114,6 +115,7 @@ def compile_img(
     product: Product,
     jobs: int,
     java_mem: str,
+    dem: list[Path] = (),
 ) -> Step:
     if work.exists():
         shutil.rmtree(work)
@@ -147,6 +149,14 @@ def compile_img(
         cmd += ["--transparent", f"--draw-priority={product.draw_priority}"]
     else:
         cmd += ["--index"]
+    if dem:
+        # Elevation tiles (SRTM-style .hgt) for terrain shading on the device (#90).
+        # Devices need one DEM distance per map level (BaseCamp needs one): start at
+        # 3312 (about 1 arc second) on the most detailed level, doubled per level. A finer
+        # first level does not keep the shading below the device's 120 m scale (#90).
+        levels = product.levels.count(":")
+        dists = ",".join(str(3312 * 2**i) for i in range(levels))
+        cmd += [f"--dem={','.join(sorted({str(f.parent) for f in dem}))}", f"--dem-dists={dists}"]
     # Tile files are named <mapid>.osm.pbf by splitter; mkgmap takes the map number from it.
     cmd += [*map(str, tiles), str(style_dir / "typ" / f"{product.style}.txt")]
     secs, rss = run_tool(cmd, work / "mkgmap.log")
@@ -177,6 +187,7 @@ def build(
     topo100_dir: Path | None = None,
     topo250_dir: Path | None = None,
     nvdb_dir: Path | None = None,
+    dem_dir: Path | None = None,
 ) -> dict:
     """Build the products for one region, or several regions combined into one map.
 
@@ -218,6 +229,13 @@ def build(
             nvdb = street_names.sources(nvdb_dir)
         except (OSError, ValueError) as e:
             raise BuildError(f"NVDB: {e}") from e
+    dem_squares: dict = {}
+    if dem_dir is not None:
+        if "topo50" not in keys:
+            raise BuildError("--dem-dir requires topo50 in --products")
+        dem_squares = dem_mod.squares(dem_dir)
+        if not dem_squares:
+            raise BuildError(f"--dem-dir: no grid 50+ squares (<N>_<E>.zip) in {dem_dir}")
     prods = {k: dev_variant(PRODUCTS[k]) if dev else PRODUCTS[k] for k in keys}
     if nvdb:
         prods["topo50"] = replace(
@@ -240,6 +258,7 @@ def build(
     build_id = "+".join(r.id for r in regions) + ("-dev" if dev else "")
     build_id += "".join(f"-topo{scale}" for scale in sources)
     build_id += "-nvdb" if nvdb else ""
+    build_id += "-dem" if dem_squares else ""
     stage_cache = StageCache(cache)
     out_dir.mkdir(parents=True, exist_ok=True)
     steps: list[Step] = []
@@ -352,6 +371,33 @@ def build(
                     raise BuildError(f"Could not prepare overview polygons: {e}") from e
             return Step("extract", round(time.monotonic() - t0, 2), detail={"objects": count})
 
+        dem: list[Path] = []
+        if dem_squares:
+            union = (
+                min(r.bbox[0] for r in regions),
+                min(r.bbox[1] for r in regions),
+                max(r.bbox[2] for r in regions),
+                max(r.bbox[3] for r in regions),
+            )
+            dem_plan = dem_mod.plan(union, dem_squares)
+            used = sorted({s for need in dem_plan.values() for s in need})
+            dem_inputs = [
+                implementation("dem"),
+                {pkg: version(pkg) for pkg in ("rasterio", "pyproj", "numpy")},
+                sorted(dem_plan.items()),
+                [(dem_squares[s].name, stage_cache.fingerprint(dem_squares[s])) for s in used],
+            ]
+
+            def dem_stage(dest):
+                t0 = time.monotonic()
+                files = dem_mod.write_tiles(dem_squares, dem_plan, dest / "hgt", log=log)
+                return Step("dem", round(time.monotonic() - t0, 2), None, {"tiles": len(files)})
+
+            dem_artifact = run("dem", dem_inputs, dem_stage, "dem")
+            dem = sorted((dem_artifact.path / "hgt").glob("*.hgt"))
+            if not dem:
+                raise BuildError(f"--dem-dir: no elevation data for {build_id}")
+
         outputs = {}
         for k, p in prods.items():
             tiles: list[Path] = []
@@ -442,10 +488,12 @@ def build(
                 p.style_dir, p.family_id, p.levels, overview_resolutions=resolutions
             )
 
-            def compile_stage(dest, style_files=style_files, tiles=tiles, p=p):
+            k_dem = dem if k == "topo50" else []
+
+            def compile_stage(dest, style_files=style_files, tiles=tiles, p=p, k_dem=k_dem):
                 style_dir = dest / "style"
                 _write_style(style_dir, style_files)
-                return compile_img(java, tiles, style_dir, dest / "img", p, jobs, java_mem)
+                return compile_img(java, tiles, style_dir, dest / "img", p, jobs, java_mem, k_dem)
 
             compiled = run(
                 "compile",
@@ -458,6 +506,7 @@ def build(
                     style_files,
                     jobs,
                     java_mem,
+                    *([dem_inputs] if k_dem else []),
                 ],
                 compile_stage,
                 f"compile:{k}",
@@ -499,6 +548,8 @@ def build(
     }
     if missing:
         report["missing_columns"] = missing
+    if dem_squares:
+        report["dem_source"] = str(dem_dir)
     if nvdb:
         report["nvdb_sources"] = [str(p) for p in nvdb]
         report["nvdb"] = street_names.provenance(nvdb)

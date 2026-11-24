@@ -24,6 +24,7 @@
 
 # Spike outputs and local tools
 spikes/**/out/
+spikes/**/out-*/
 spikes/**/build*/
 spikes/**/Garmin*/
 spikes/**/img/

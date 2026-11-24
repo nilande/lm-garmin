@@ -1,5 +1,15 @@
 # Changelog
 
+## Unreleased
+
+### Added
+
+- Terrain shading (#90): `build --dem-dir` reads Lantmäteriet's *Markhöjdmodell
+  Nedladdning, grid 50+*, makes cached 1° elevation tiles for the region and adds them to
+  the base map with mkgmap `--dem`, one DEM distance per map level (the Montana ignores a
+  DEM without them). Shown with *Map Sets › Shaded Relief* in day colours down to the
+  120 m scale.
+
 ## v0.3.0 – 2026-11-23
 
 "Street names": the release map has NVDB street names in a small font, lake and mountain
