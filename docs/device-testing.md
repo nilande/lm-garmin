@@ -85,6 +85,24 @@ build, device firmware, scale and result here when a check is complete.
   Check the physical display at normal riding brightness, especially the grey
   dashed routes against snow or open terrain.
 
+## 2026-11-24 – night colours (#92)
+
+Täby + Storuman dev maps (`--topo250-dir --nvdb-dir --dem-dir`), Hike profile, *Color Mode*
+Night and Day at 2 km, 650 m and 120 m. Screenshots in `dist/montana-release/v0.4-night-colours`
+(first palette) and `v0.4-night-colours-2` (tuned), local.
+
+- Before #92 the TYP had one colour per entry, so day and night mode looked the same.
+- With night colours derived from the day colours (`stylegen.night`: fills darkened, inks
+  brightened) the device switches palettes by itself: dark green and olive land, dark blue
+  water, light roads, contours and trails; labels are drawn white by the device. Street
+  names, contour labels, place names and the snowmobile overlay stay readable. Accepted.
+- Day mode is unchanged, terrain shading included; at night there is no shading (#90).
+- First palette: open land and built-up areas turned olive and brown (the day hue kept at
+  low lightness), and pattern marks (hatch, dots) were near-white and prominent in the
+  mountains. Tuned: fill chroma is halved and capped (blue keeps its chroma, capped higher,
+  so water stays blue), and pattern marks are only a little lighter than their fill. The
+  tuned map is calm and muted at night and was accepted.
+
 ## 2026-11-24 – terrain shading (#90)
 
 Storuman dev maps, Hike profile, day colours, around Sjulåejvie / Praahkoe and Nedre Björknäs.

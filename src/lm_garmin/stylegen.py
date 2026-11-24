@@ -19,10 +19,13 @@ can be emitted twice, e.g. unlabelled at one resolution range and labelled at an
 rule of the type. The Montana 700 ignores TYP font size and label colour on points and label
 colour on lines, so only line font sizes are supported; see docs/device-testing.md).
 A resolution may be a range, e.g. `20-21`.
+
+Night colours are not in mapping.csv: `night()` derives them from the day colours (#92).
 """
 
 from __future__ import annotations
 
+import colorsys
 import csv
 import re
 from dataclasses import dataclass, replace
@@ -127,12 +130,64 @@ def render_relations(rules: list[Rule]) -> str:
 
 # ---------------------------------------------------------------- TYP
 
+# Night colours (#92) are derived from the day colours, so mapping.csv stays the only source.
+# The device switches to them in night mode (Color Mode Night, or Auto after dark).
+# - "fill": area backgrounds and the fill behind line and point symbols. Darkened, keeping
+#   the order of lightness so light day areas stay the lighter night areas.
+#   The colourfulness (chroma) is reduced and capped, so open land, fields and built-up areas
+#   become muted greys and browns instead of olive and rust; blue keeps more, so water and
+#   wet ground stay recognisably blue.
+# - "mark": the marks of area patterns (hatch, dots, stripes). A little lighter than a dark
+#   fill, so patterns stay visible without glaring on the dark map.
+# - "ink": lines and point symbols. Brightened to stand out on the dark fills, keeping hue and
+#   most of the saturation; very dark and very light inks end up lightest.
+NIGHT_FILL_L = (0.10, 0.22)  # lightness = a + b * day lightness
+NIGHT_FILL_C = (0.5, 0.10, 0.30)  # share of the day chroma (not for blue), cap, cap for blue
+NIGHT_MARK_DL = 0.15  # mark lightness = fill lightness + this
+NIGHT_INK_L = (0.55, 0.30)  # lightness = a + b * |2 * day lightness - 1|
 
-def _xpm(rows: list[str], colours: dict[str, str]) -> str:
+
+def night(colour: str, role: str) -> str:
+    """Night version of a `#RRGGBB` day colour; `none` stays transparent."""
+    if colour.lower() == "none":
+        return colour
+    r, g, b = (int(colour[i : i + 2], 16) / 255 for i in (1, 3, 5))
+    h, lum, s = colorsys.rgb_to_hls(r, g, b)
+    if role in ("fill", "mark"):
+        share, cap, blue_cap = NIGHT_FILL_C
+        chroma = s * (1 - abs(2 * lum - 1))
+        blue = 0.5 <= h <= 0.7
+        chroma = min(chroma if blue else chroma * share, blue_cap if blue else cap)
+        lum = NIGHT_FILL_L[0] + NIGHT_FILL_L[1] * lum
+        if role == "mark":
+            lum, chroma = lum + NIGHT_MARK_DL, chroma * 1.5
+        s = min(1.0, chroma / (1 - abs(2 * lum - 1)))
+    elif role == "ink":
+        lum, s = NIGHT_INK_L[0] + NIGHT_INK_L[1] * abs(2 * lum - 1), s * 0.85
+    else:
+        raise ValueError(role)
+    return "#" + "".join(f"{round(c * 255):02X}" for c in colorsys.hls_to_rgb(h, lum, s))
+
+
+NIGHT_TAGS = {"a": "3", "b": "4"}
+
+
+def _xpm(rows: list[str], colours: dict[str, str], roles: dict[str, str] | None = None) -> str:
+    """An XPM block; with `roles` (tag → fill|ink) the night colours follow the day ones.
+
+    The device draws the rows with the day tags and swaps in the night colours itself.
+    """
+    colours = dict(colours)
+    if roles:
+        colours |= {NIGHT_TAGS[k]: night(colours[k], role) for k, role in roles.items()}
     w, h = len(rows[0]), len(rows)
     head = f'Xpm="{w} {h} {len(colours)} 1"\n'
     cols = "".join(f'"{k} c {v}"\n' for k, v in colours.items())
     return head + cols + "".join(f'"{r}"\n' for r in rows)
+
+
+def _solid(day: str, role: str) -> str:
+    return f'Xpm="0 0 2 0"\n"a c {day}"\n"b c {night(day, role)}"\n'
 
 
 def _pattern(kind: str) -> list[str]:
@@ -174,11 +229,11 @@ def _pattern(kind: str) -> list[str]:
 def _typ_polygon(r: Rule) -> str:
     s = f"[_polygon]\nType={r.type}\nString1=0x04,{r.description}\n"
     if r.pattern in ("solid", ""):
-        s += f'Xpm="0 0 1 0"\n"a c {r.colour}"\n'
+        s += _solid(r.colour, "fill")
     else:
         bg = r.colour2 and r.colour or "none"
         fg = r.colour2 or r.colour
-        s += _xpm(_pattern(r.pattern), {"a": fg, "b": bg})
+        s += _xpm(_pattern(r.pattern), {"a": fg, "b": bg}, {"a": "mark", "b": "fill"})
     return s + "[end]\n"
 
 
@@ -206,7 +261,9 @@ def _typ_line(r: Rule, label: str = "") -> str:
     s = f"[_line]\nType={r.type}\nString1=0x04,{r.description}\n" + label
     if r.pattern == "label":
         # Label-only line: mkgmap rejects a fully transparent line, so one faint pixel in 32.
-        s += "UseOrientation=Y\n" + _xpm(["a" + "b" * 31], {"a": r.colour, "b": "none"})
+        s += "UseOrientation=Y\n" + _xpm(
+            ["a" + "b" * 31], {"a": r.colour, "b": "none"}, {"a": "ink", "b": "fill"}
+        )
     elif r.pattern in ("dash", "dash-long", "dot", "solid-bitmap"):
         length, period = {"dash": (5, 8), "dash-long": (10, 16), "dot": (2, 8)}.get(
             r.pattern, (7, 8)
@@ -218,26 +275,41 @@ def _typ_line(r: Rule, label: str = "") -> str:
             rows[w // 2] = "a" * 32
         # Garmin line bitmaps have two colours: with colour2 the gaps are filled (a two-tone
         # line that stays visible on any background, #57); without, they are transparent.
-        s += "UseOrientation=Y\n" + _xpm(rows, {"a": r.colour, "b": r.colour2 or "none"})
+        s += "UseOrientation=Y\n" + _xpm(
+            rows, {"a": r.colour, "b": r.colour2 or "none"}, {"a": "ink", "b": "fill"}
+        )
     elif r.colour2:
-        s += f'LineWidth={w}\nBorderWidth=1\nXpm="0 0 2 0"\n"a c {r.colour}"\n"b c {r.colour2}"\n'
+        s += f"LineWidth={w}\nBorderWidth=1\n" + _xpm_solid_border(r.colour, r.colour2)
     else:
-        s += f'LineWidth={w}\nXpm="0 0 1 0"\n"a c {r.colour}"\n'
+        s += f"LineWidth={w}\n" + _solid(r.colour, "ink")
     return s + "[end]\n"
+
+
+def _xpm_solid_border(line: str, border: str) -> str:
+    """A solid line with a border: day line and border, then night line and border."""
+    colours = (line, border, night(line, "ink"), night(border, "fill"))
+    return 'Xpm="0 0 4 0"\n' + "".join(
+        f'"{k} c {c}"\n' for k, c in zip("ab34", colours, strict=True)
+    )
 
 
 def _typ_point(r: Rule) -> str:
     if r.pattern == "label":
         # Label without a symbol: replaces the device's default dot with a transparent pixel.
         icon = _xpm(["a"], {"a": "none"})
-    elif r.colour2:
-        # Square with a 2 px ring in colour2, to stand out on a line of the same colour (#57).
-        n = max(int(r.width or 5), 5)
-        rows = ["b" * n, "b" * n, *("bb" + "a" * (n - 4) + "bb" for _ in range(n - 4))]
-        icon = _xpm([*rows, "b" * n, "b" * n], {"a": r.colour, "b": r.colour2})
     else:
-        n = max(int(r.width or 5), 1)
-        icon = _xpm(["a" * n] * n, {"a": r.colour})
+        if r.colour2:
+            # Square with a 2 px ring in colour2, to stand out on a line of the same colour (#57).
+            n = max(int(r.width or 5), 5)
+            rows = ["b" * n, "b" * n, *("bb" + "a" * (n - 4) + "bb" for _ in range(n - 4))]
+            rows += ["b" * n, "b" * n]
+            day, roles = {"a": r.colour, "b": r.colour2}, {"a": "ink", "b": "fill"}
+        else:
+            n = max(int(r.width or 5), 1)
+            rows, day, roles = ["a" * n] * n, {"a": r.colour}, {"a": "ink"}
+        # Points take a separate night icon instead of night colours in one XPM.
+        night_cols = {k: night(c, roles[k]) for k, c in day.items()}
+        icon = "Day" + _xpm(rows, day) + "Night" + _xpm(rows, night_cols)
     return f"[_point]\nType={r.type}\nString1=0x04,{r.description}\n" + icon + "[end]\n"
 
 

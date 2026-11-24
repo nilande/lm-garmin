@@ -10,9 +10,11 @@ CodePage=65001
 Type=0x10c02
 String1=0x04,OSM skoterled över is
 UseOrientation=Y
-Xpm="32 2 2 1"
+Xpm="32 2 4 1"
 "a c #007D87"
 "b c none"
+"3 c #6DE9F3"
+"4 c none"
 "aabbbbbbaabbbbbbaabbbbbbaabbbbbb"
 "aabbbbbbaabbbbbbaabbbbbbaabbbbbb"
 [end]
@@ -21,9 +23,11 @@ Xpm="32 2 2 1"
 Type=0x10e0f
 String1=0x04,OSM utpekad skoterled
 UseOrientation=Y
-Xpm="32 3 2 1"
+Xpm="32 3 4 1"
 "a c #007D87"
 "b c none"
+"3 c #6DE9F3"
+"4 c none"
 "aaaaaaabaaaaaaabaaaaaaabaaaaaaab"
 "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
 "aaaaaaabaaaaaaabaaaaaaabaaaaaaab"
@@ -33,9 +37,11 @@ Xpm="32 3 2 1"
 Type=0x10c01
 String1=0x04,OSM skoterled eller tillträde
 UseOrientation=Y
-Xpm="32 2 2 1"
+Xpm="32 2 4 1"
 "a c #007D87"
 "b c none"
+"3 c #6DE9F3"
+"4 c none"
 "aaaaabbbaaaaabbbaaaaabbbaaaaabbb"
 "aaaaabbbaaaaabbbaaaaabbbaaaaabbb"
 [end]
