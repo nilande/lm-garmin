@@ -1,5 +1,7 @@
 """Street-name matching against NVDB name lines (issue #60), on synthetic geometry."""
 
+import shutil
+import sqlite3
 from pathlib import Path
 
 import numpy as np
@@ -134,3 +136,18 @@ def test_sources_rejects_folders_without_nvdb(tmp_path):
     (tmp_path / "x.gpkg").symlink_to(DATA / "tatort_659_67_00.gpkg")
     with pytest.raises(ValueError, match="NVDB"):
         street_names.sources(tmp_path)
+
+
+def test_without_places_lists_name_layers_lacking_municipality_and_county(tmp_path):
+    """Extracts made before `nvdb extract` joined KommunLanReg give streets no city (#72)."""
+    old = DATA / "nvdb" / "tatort_659_67_00.nvdb.gpkg"
+    assert street_names.without_places([old]) == [
+        f"{old.name}:{layer}" for layer in sorted(street_names.LAYERS)
+    ]
+    new = tmp_path / "new.gpkg"
+    shutil.copy(old, new)
+    with sqlite3.connect(new) as c:
+        for layer in street_names.LAYERS:
+            for col in (street_names.CITY_FIELD, street_names.REGION_FIELD):
+                c.execute(f'ALTER TABLE "{layer}" ADD COLUMN "{col}" TEXT')
+    assert street_names.without_places([new]) == []

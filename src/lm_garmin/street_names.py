@@ -148,6 +148,22 @@ def provenance(files: list[Path]) -> dict:
     return {"betraktelsedatum": sorted(dates), "undated": undated}
 
 
+def without_places(files: list[Path]) -> list[str]:
+    """Name layers (`file:layer`) without the municipality and county columns.
+
+    Roads named from them get no city, so the device's address search cannot resolve them
+    (#72). Extracts made by `nvdb extract` before it joined KommunLanReg lack the columns.
+    """
+    out = []
+    for f in files:
+        with sqlite3.connect(f"file:{f}?mode=ro", uri=True) as c:
+            for layer in sorted(set(LAYERS) & tables(f)):
+                cols = {r[1] for r in c.execute(f'PRAGMA table_info("{layer}")')}
+                if not {CITY_FIELD, REGION_FIELD} <= cols:
+                    out.append(f"{f.name}:{layer}")
+    return out
+
+
 def tables(gpkg: Path) -> set[str]:
     """Feature tables of a GeoPackage. (pyogrio.list_layers fails on some NVDB tables.)"""
     with sqlite3.connect(f"file:{gpkg}?mode=ro", uri=True) as c:
