@@ -42,8 +42,10 @@ NAME_FIELD = "Namn"
 CITY_FIELD = "Kommun"
 REGION_FIELD = "Lan"
 TAG = "lm:gatunamn_nvdb"
-CITY_TAG = "mkgmap:city"
-REGION_TAG = "mkgmap:region"
+# Plain tags: mkgmap ignored mkgmap:city/mkgmap:region given as input tags with our style, so
+# the `road` rules set them from these (#72).
+CITY_TAG = "lm:kommun"
+REGION_TAG = "lm:lan"
 COPYRIGHT = "Trafikverket (NVDB)"
 
 

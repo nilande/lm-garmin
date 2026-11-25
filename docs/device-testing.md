@@ -239,6 +239,26 @@ Device settings during this and the earlier checks (profile *Hike*, *Map Setup �
 Setup*): Detail = Normal; Text Size: Map Points = None, User Waypoints = Small,
 Street Label = Medium, Land Cover = Small.
 
+## 2026-11-25 – street search resolves streets (#72)
+
+Montana 700, firmware 25.70. Dev map of Täby (`--municipality 0160 --dev --nvdb-dir`,
+0.7 MB): roads with an NVDB street name get `road_class`/`road_speed` and `mkgmap:city` /
+`mkgmap:region` set **in the style** from `lm:kommun`/`lm:lan` (the earlier map set them on
+the input, which mkgmap ignores with our style), built with `--index --net` and
+`--country-abbr=SWE`. NET: 2 169 of 2 171 roads with city Täby, region Stockholms län.
+OpenMapChest Northern Europe (mkgmap, with house numbers) was loaded at the same time.
+Captures in `dist/street-search2/scrn/` (`184`, `236`, `248`, `280`–`310`).
+
+| Check | Result |
+|---|---|
+| *Where to? › Addresses*, Sverige, street only | "None Found": the device asks for a house number first |
+| Number 4 + Stora Marknadsvägen | Hits from both maps: ours as "Stora Marknadsvägen Täby, SWE", OpenMapChest's with number and postcode ("… 2 18334 Täby Kommun") |
+| Number + Vesslevägen, choose our hit | **Resolved**: the map opens on the street with a pin |
+
+So a street resolves once roads carry a city set in the style. The device still wants a
+number; without house numbers in the map it falls back to the street. House numbers need an
+address source and `--housenumbers`.
+
 ## 2026-11-22 – street search dev map (#72)
 
 Montana 700, firmware 25.70. Dev map of Täby, Hemavan and Falun (`--bbox` ×3,

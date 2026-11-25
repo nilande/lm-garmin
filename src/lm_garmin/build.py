@@ -138,7 +138,7 @@ def compile_img(
         "--lower-case",
         # Search results show "<name>, <country abbr>"; mkgmap's default is "ABC".
         "--country-name=Sverige",
-        "--country-abbr=SE",
+        "--country-abbr=SWE",
         # Line merging is on by default, but only joins lines that run end-to-start.
         # Topografi 50 segments have no common direction: allow reversing (#62).
         "--allow-reverse-merge",

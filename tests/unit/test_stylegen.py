@@ -133,6 +133,37 @@ def test_relabel_overrides_the_generic_name():
     assert "{ name '${name}' }" in Rule(**base, name="${name}").mkgmap_rule()
 
 
+def test_road_rules_make_only_named_lines_roads():
+    """mkgmap does not merge road segments: unnamed lines stay plain lines (#72)."""
+    from dataclasses import replace
+
+    from lm_garmin.stylegen import Rule
+
+    rule = Rule(
+        kind="line",
+        layer="vaglinje",
+        t="1806",
+        condition="",
+        type="0x05",
+        resolution="23",
+        name="${lm:gatunamn_nvdb}",
+        description="",
+        colour="",
+        colour2="",
+        width="",
+        pattern="solid",
+        order="",
+        options="font=small road",
+    )
+    named, unnamed = rule.mkgmap_rule().splitlines()
+    assert named.startswith("lm:l=vaglinje & lm:t=1806 & lm:gatunamn_nvdb=* {")
+    assert "set mkgmap:city='${lm:kommun}'" in named
+    assert named.endswith("[0x05 road_class=1 road_speed=3 resolution 23]")
+    assert unnamed == "lm:l=vaglinje & lm:t=1806 [0x05 resolution 23]"
+    with pytest.raises(ValueError, match="needs a name"):
+        replace(rule, name="").mkgmap_rule()
+
+
 def test_street_name_types_use_the_small_font():
     """Street labels competed with town names on the Montana (#71). The device honours TYP
     FontStyle only on lines (label kit, docs/device-testing.md)."""

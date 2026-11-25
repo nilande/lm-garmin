@@ -15,8 +15,9 @@ order (polygon draw order 1–8), options (`continue`: keep matching later rules
 can be emitted twice, e.g. unlabelled at one resolution range and labelled at another;
 `outline`: pass the layer and object type to inner rings of a multipolygon for a line rule;
 `relabel`: replace the label already set from `name`, e.g. to abbreviate it;
-`road`: write the line as a road (mkgmap `road_class`/`road_speed` from the Garmin type), so
-it goes into the NET data the device's address search needs (#72);
+`road`: write the line as a road (mkgmap `road_class`/`road_speed` from the Garmin type) when
+it has the tag its label comes from, so it goes into the NET data the device's address
+search needs (#72); lines without it stay plain lines;
 `font=small|normal|large`: label size of a line type – a TYP setting, so it applies to every
 rule of the type. The Montana 700 ignores TYP font size and label colour on points and label
 colour on lines, so only line font sizes are supported; see docs/device-testing.md).
@@ -71,11 +72,27 @@ class Rule:
         else:
             action = f" {{ name '{self.name}' }}" if self.name else ""
         cont = " continue" if "continue" in self.options.split() else ""
-        road = ""
-        if "road" in self.options.split():
-            road_class, road_speed = ROADS[self.type]
-            road = f" road_class={road_class} road_speed={road_speed}"
-        return f"{self.expression()}{action} [{self.type}{road} resolution {self.resolution}{cont}]"
+        plain = f"{self.expression()}{action} [{self.type} resolution {self.resolution}{cont}]"
+        if "road" not in self.options.split():
+            return plain
+        # Only named lines become roads (NET data for the address search, #72): mkgmap does
+        # not merge road segments, so making every line of the type a road left level 0 with
+        # half again as many lines. Lines without the name tag fall through to the next,
+        # unnamed rule and are merged as before.
+        road_class, road_speed = ROADS[self.type]
+        names = re.findall(r"\$\{([^}|]+)", self.name)
+        if not names:
+            raise ValueError(f"road rule {self.layer}/{self.t} needs a name from a tag")
+        named = " & ".join([self.expression(), *(f"{n}=*" for n in names)])
+        # The street's city and region for the address search. mkgmap writes a road to NET
+        # only with a label, and takes the address only from tags set in the style.
+        address = "set mkgmap:city='${lm:kommun}'; set mkgmap:region='${lm:lan}'"
+        return (
+            f"{named} {{ {action.strip()[2:-2]}; {address} }}"
+            f" [{self.type} road_class={road_class} road_speed={road_speed}"
+            f" resolution {self.resolution}{cont}]\n"
+            f"{self.expression()} [{self.type} resolution {self.resolution}{cont}]"
+        )
 
 
 def check_type(type_: str, where: str = "") -> None:
