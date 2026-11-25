@@ -37,7 +37,15 @@ GATUNAMN = "NVDB_DK_O_20_Gatunamn"
 OVRIGT_VAGNAMN = "NVDB_DK_O_21_Ovrigt_vagnamn"
 LAYERS = (GATUNAMN, OVRIGT_VAGNAMN)
 NAME_FIELD = "Namn"
+# Municipality and county of each name line (`nvdb extract` joins them from KommunLanReg):
+# the "city" and "region" of a street for the device's address search (#72).
+CITY_FIELD = "Kommun"
+REGION_FIELD = "Lan"
 TAG = "lm:gatunamn_nvdb"
+# Plain tags: mkgmap ignored mkgmap:city/mkgmap:region given as input tags with our style, so
+# the `road` rules set them from these (#72).
+CITY_TAG = "lm:kommun"
+REGION_TAG = "lm:lan"
 COPYRIGHT = "Trafikverket (NVDB)"
 
 
@@ -149,9 +157,16 @@ def tables(gpkg: Path) -> set[str]:
 class NameIndex:
     """NVDB name lines of a region with a spatial index."""
 
-    def __init__(self, lines: np.ndarray, names: list[str], params: Params = PARAMS):
+    def __init__(
+        self,
+        lines: np.ndarray,
+        names: list[str],
+        params: Params = PARAMS,
+        places: list[tuple[str, str] | None] | None = None,
+    ):
         self.lines = lines
         self.names = names
+        self.places = places or [None] * len(names)
         self.params = params
         self.tree = shapely.STRtree(lines)
         self._buffers: dict[int, object] = {}
@@ -170,21 +185,32 @@ class NameIndex:
         area = (bbox[0] - pad, bbox[1] - pad, bbox[2] + pad, bbox[3] + pad)
         lines: list[np.ndarray] = []
         names: list[str] = []
+        places: list[tuple[str, str] | None] = []
         seen: set[tuple[str, bytes]] = set()  # counties overlap at their borders
         for path in paths:
             available = tables(path)
             for layer in LAYERS:
                 if layer not in available:
                     continue
+                fields_here = set(pyogrio.read_info(path, layer=layer)["fields"])
+                extra = [f for f in (CITY_FIELD, REGION_FIELD) if f in fields_here]
                 meta, _, wkb, fields = pyogrio.raw.read(
-                    path, layer=layer, bbox=area, columns=[NAME_FIELD]
+                    path, layer=layer, bbox=area, columns=[NAME_FIELD, *extra]
                 )
                 if meta["crs"] != "EPSG:3006":
                     raise ValueError(f"{path}:{layer} must use SWEREF 99 TM (EPSG:3006)")
                 if wkb is None or not len(wkb):
                     continue
                 geoms = shapely.force_2d(shapely.from_wkb(wkb))
-                for geom, name in zip(geoms, fields[0], strict=True):
+                cols = dict(zip(list(meta["fields"]), fields, strict=True))
+                if len(extra) == 2:
+                    where = [
+                        (c, r) if c and r else None
+                        for c, r in zip(cols[CITY_FIELD], cols[REGION_FIELD], strict=True)
+                    ]
+                else:
+                    where = [None] * len(geoms)
+                for geom, name, place in zip(geoms, cols[NAME_FIELD], where, strict=True):
                     name = (name or "").strip()
                     if geom is None or geom.is_empty or not name:
                         continue
@@ -194,7 +220,8 @@ class NameIndex:
                             seen.add(k)
                             lines.append(part)
                             names.append(name)
-        return cls(np.array(lines, dtype=object), names, params)
+                            places.append(place)
+        return cls(np.array(lines, dtype=object), names, params, places)
 
     def _buffer(self, i: int):
         b = self._buffers.get(i)
@@ -225,6 +252,18 @@ class NameIndex:
                 at = shapely.line_locate_point(line, shapely.points(pc))
                 raw[self.names[i]].append((float(at.min()), float(at.max())))
         return {name: _union(iv) for name, iv in raw.items()}
+
+    def place(self, piece: LineString, name: str) -> tuple[str, str] | None:
+        """(municipality, county) of the nearest name line called `name` near `piece`."""
+        mid = shapely.line_interpolate_point(piece, 0.5, normalized=True)
+        best = None
+        for i in self.tree.query(mid, predicate="dwithin", distance=self.params.buffer * 4):
+            i = int(i)
+            if self.names[i] == name and self.places[i] is not None:
+                d = shapely.distance(self.lines[i], mid)
+                if best is None or d < best[0]:
+                    best = (d, self.places[i])
+        return best[1] if best else None
 
     def match(self, line: LineString) -> Match:
         return assign(line, self.cover(line), self.params)

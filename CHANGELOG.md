@@ -13,6 +13,12 @@
   (areas darkened and muted with water kept blue, pattern marks a little lighter than their
   area, lines and symbols brightened), so the Montana's night mode shows a dark map instead
   of the day palette. Points get a separate night icon.
+- Street search (#72): roads with an NVDB street name are written as roads with their
+  municipality as city and county as region (from NVDB KommunLanReg), and the base map is
+  built with `--index --net`, so *Where to? › Addresses* finds and shows streets on the
+  Montana. The device asks for a house number, which the map does not have yet; it then
+  falls back to the street. Roads without a street name stay plain lines, since mkgmap does
+  not merge road segments.
 
 ## v0.3.0 – 2026-11-23
 
