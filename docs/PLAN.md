@@ -249,15 +249,23 @@ fixtures — they are CC0 and ~1–3 MB each.)
   **Cities** with **LM Topo50** selected as the search map. Lake and mountain search
   passed in the diagnostic map. Production integration is tracked in
   [#16](https://github.com/nilande/lm-garmin/issues/16).
-- **Street search** ([#72](https://github.com/nilande/lm-garmin/issues/72), v0.3): the
-  Montana 700 shows *Where to? › Addresses* only for maps with NET data. mkgmap writes it
-  with `--net` (or `--route`) for lines tagged as roads, and the street index needs
-  `mkgmap:city`/region per road. Street names come from NVDB (#60). No house numbers.
-- **Routing** ([#28](https://github.com/nilande/lm-garmin/issues/28), v0.3): needs a connected network. Plan: road layers converted with shared
-  nodes at identical coordinates (node de-duplication in S1 for `vaglinje`, later
-  `ovrig_vag` 1847/1848 for winter routing), `mkgmap:road-class`/`road-speed` from vägklass,
-  `--route`. The S1 tag schema already carries everything needed; only node sharing and
-  style rules are added.
+- **Street search** ([#72](https://github.com/nilande/lm-garmin/issues/72), done in v0.4):
+  the Montana 700 shows *Where to? › Addresses* only for maps with NET data. Roads with an
+  NVDB street name are written as roads with their municipality as city and county as
+  region (set in the style), and the base map is built with `--index --net`. No house
+  numbers: there is no open source yet ([#101](https://github.com/nilande/lm-garmin/issues/101)).
+- **Routing for hiking and cycling** ([#28](https://github.com/nilande/lm-garmin/issues/28),
+  v0.5): roads, paths, trails and cycle paths as one connected network – shared nodes at
+  identical coordinates, road class and speed per type, `--route`. mkgmap only routes
+  standard line types `0x01–0x3f`, so paths and trails need routable types instead of
+  today's extended `0x10exx`; and it does not merge road segments, so road pieces may have
+  to be merged in `convert` to keep the line budgets. Both are measured in a `--dev` spike.
+- **Car routing** ([#99](https://github.com/nilande/lm-garmin/issues/99)): a go/no-go
+  spike, not a commitment. Topografi 50 has no one-way streets, turn restrictions or speed
+  limits; the spike compares Topografi 50 alone with NVDB direction and speed matched to the
+  roads on fixed test routes in Täby and Storuman–Hemavan, and records the decision in an
+  ADR. On no-go, a separate road map is noted for later. Snowmobile routing is out of scope
+  (the overlay is a separate map).
 
 ## 8. Performance
 
@@ -433,17 +441,20 @@ ships what is ready before the larger navigation work:
 
 ### v0.5 Navigation
 
-The [v0.5 milestone](https://github.com/nilande/lm-garmin/milestone/10) (split from v0.3 on
-2026-11-23 as v0.4, renumbered 2026-11-24):
+The [v0.5 milestone](https://github.com/nilande/lm-garmin/milestone/10) (replanned
+2026-11-26, after street search shipped in v0.4):
 
-1. **Street search** ([#72](https://github.com/nilande/lm-garmin/issues/72), draft PR #76).
-   *Addresses* appears and finds street names, but choosing a street gives "None Found".
-   Untried: `--country-abbr=SWE`, one road copy per street instead of duplicates on lower
-   levels, house numbers.
-2. **Routing on roads** ([#28](https://github.com/nilande/lm-garmin/issues/28)). Shared nodes,
-   road class and speed, `--route`; starts as a `--dev` spike.
-3. Legend colours and mm → px widths
-   ([#68](https://github.com/nilande/lm-garmin/issues/68); night colours moved to #92).
+1. **Routing for hiking and cycling** ([#28](https://github.com/nilande/lm-garmin/issues/28)):
+   a Täby/Storuman `--dev` spike on line budgets and routable path types, then a connected
+   network with `--route`; device check with a hiking and a cycling route.
+2. **Car routing spike** ([#99](https://github.com/nilande/lm-garmin/issues/99)): go/no-go
+   on fixed test routes, Topografi 50 alone vs. with NVDB direction and speed; decision in
+   an ADR. Does not block the release.
+3. **Release** ([#100](https://github.com/nilande/lm-garmin/issues/100)).
+
+Moved to M5 Later: legend colours and mm → px widths
+([#68](https://github.com/nilande/lm-garmin/issues/68)) and house numbers
+([#101](https://github.com/nilande/lm-garmin/issues/101)).
 
 M5 Later: the single-file bundle (#51), cp1252 labels (#17), CI performance trends (#26) and
 the unmeasured style-only rebuild target (#27). Milestones M0–M4 were closed on 2026-11-21;
