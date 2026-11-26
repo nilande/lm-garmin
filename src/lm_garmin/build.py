@@ -10,6 +10,7 @@ from __future__ import annotations
 import json
 import os
 import platform
+import re
 import shutil
 import subprocess
 import time
@@ -149,7 +150,8 @@ def compile_img(
         cmd += ["--transparent", f"--draw-priority={product.draw_priority}"]
     else:
         # --net: street data for Where to? › Addresses (named roads, #72).
-        cmd += ["--index", "--net"]
+        # --route: NET and NOD data for routing on roads, paths and trails (#28).
+        cmd += ["--index", "--route", "--drive-on=right", "--report-routing-islands"]
     if dem:
         # Elevation tiles (SRTM-style .hgt) for terrain shading on the device (#90).
         # Devices need one DEM distance per map level (BaseCamp needs one): start at
@@ -162,7 +164,23 @@ def compile_img(
     cmd += [*map(str, tiles), str(style_dir / "typ" / f"{product.style}.txt")]
     secs, rss = run_tool(cmd, work / "mkgmap.log")
     img = work / "gmapsupp.img"
-    return Step(f"compile:{product.key}", round(secs, 2), rss, {"bytes": img.stat().st_size})
+    detail: dict = {"bytes": img.stat().st_size}
+    if not product.transparent:
+        detail["routing_islands"] = routing_islands(work / "mkgmap.log")
+    return Step(f"compile:{product.key}", round(secs, 2), rss, detail)
+
+
+ISLAND = re.compile(r"Routing island .* with (\d+) routing node\(s\) and total length of (\d+)m")
+
+
+def routing_islands(log: Path) -> dict:
+    """Road networks inside a tile that connect to nothing else (`--report-routing-islands`).
+
+    The tile's main network is listed too when it touches no tile edge, as in small maps."""
+    lengths = sorted(
+        (int(m[2]) for m in ISLAND.finditer(log.read_text(errors="replace"))), reverse=True
+    )
+    return {"count": len(lengths), "km": round(sum(lengths) / 1000, 1), "largest_m": lengths[:3]}
 
 
 def _write_style(style_dir: Path, files: dict[str, str]) -> None:
@@ -306,7 +324,13 @@ def build(
         conversion = [
             __version__,
             implementation(
-                "convert", "tags", "region", "forest_overview", "water_overview", "street_names"
+                "convert",
+                "tags",
+                "region",
+                "forest_overview",
+                "water_overview",
+                "street_names",
+                "network",
             ),
         ]
         # NVDB is part of the conversion key: names are cached per region and NVDB checksum.
@@ -332,6 +356,7 @@ def build(
             t0 = time.monotonic()
             stats = convert(gpkg_dir, reg, dest, jobs, log=log, nvdb=nvdb or None)
             names = next((s.street_names for s in stats if s.street_names), None)
+            junctions = next((s.junctions for s in stats if s.junctions), None)
             return Step(
                 "convert",
                 round(time.monotonic() - t0, 2),
@@ -340,6 +365,7 @@ def build(
                     "features": sum(s.features for s in stats),
                     "pbf": [s.pbf for s in stats if s.nodes],
                     **({"street_names": names} if names else {}),
+                    **({"junctions": junctions} if junctions else {}),
                 },
             )
 

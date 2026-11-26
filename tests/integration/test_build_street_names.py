@@ -92,3 +92,22 @@ def test_report_and_copyright(named_build):
     ]
     img = (out / PRODUCTS["topo50"].filename).read_bytes()
     assert b"Trafikverket (NVDB)" in img
+
+
+def test_roads_and_paths_form_one_routable_network(named_build):
+    """Roads, paths and trails are routable lines at level 0 and few pieces are cut off (#28)."""
+    out, report = named_build
+    roads: Counter[str] = Counter()
+    plain: Counter[str] = Counter()
+    for f in decode(out / PRODUCTS["topo50"].filename):
+        p = f["properties"]
+        if p["kind"] == "line" and p["level"] == 0:
+            (roads if p.get("road") else plain)[p["type"]] += 1
+    assert roads["0x6"] and roads["0x11"] and roads["0x16"]  # streets, cycle paths, footpaths
+    assert not plain.keys() & {"0x6", "0x11", "0x16"}
+    assert "0x20" in plain  # contours stay plain lines
+    convert = next(s for s in report["steps"] if s["name"].startswith("convert"))
+    assert convert["detail"]["junctions"]["inserted"] > 50  # level crossings without a vertex
+    compile_ = next(s for s in report["steps"] if s["name"] == "compile:topo50")
+    islands = compile_["detail"]["routing_islands"]
+    assert islands["km"] < 10, islands  # fixture: 4.6 km in 8 pieces cut off by the clip

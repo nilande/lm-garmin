@@ -18,6 +18,11 @@ can be emitted twice, e.g. unlabelled at one resolution range and labelled at an
 `road`: write the line as a road (mkgmap `road_class`/`road_speed` from the Garmin type) when
 it has the tag its label comes from, so it goes into the NET data the device's address
 search needs (#72); lines without it stay plain lines;
+`route`: write every line of the rule as a routable road (#28) – road class and speed from
+the Garmin type (`ROADS`, paths and trails the lowest), with `road` also city and region on
+named lines; mkgmap routes only types 0x01–0x3f;
+`access=foot,bicycle,…`: with `route`, who may use the line (mkgmap access classes
+`VEHICLES`); the others are set to no;
 `font=small|normal|large`: label size of a line type – a TYP setting, so it applies to every
 rule of the type. The Montana 700 ignores TYP font size and label colour on points and label
 colour on lines, so only line font sizes are supported; see docs/device-testing.md).
@@ -73,7 +78,10 @@ class Rule:
             action = f" {{ name '{self.name}' }}" if self.name else ""
         cont = " continue" if "continue" in self.options.split() else ""
         plain = f"{self.expression()}{action} [{self.type} resolution {self.resolution}{cont}]"
-        if "road" not in self.options.split():
+        opts = self.options.split()
+        if "route" in opts:
+            return self._route_rule(action, cont)
+        if "road" not in opts:
             return plain
         # Only named lines become roads (NET data for the address search, #72): mkgmap does
         # not merge road segments, so making every line of the type a road left level 0 with
@@ -93,6 +101,41 @@ class Rule:
             f" resolution {self.resolution}{cont}]\n"
             f"{self.expression()} [{self.type} resolution {self.resolution}{cont}]"
         )
+
+    def _route_rule(self, action: str, cont: str) -> str:
+        """Every line of the rule is a routable road (#28): road class, speed and access.
+
+        `access=foot,bicycle` lists who may use it; the other vehicle classes are set to no.
+        With a name from a tag, named lines also get city and region for the address search.
+        """
+        if not 0x01 <= int(self.type, 16) <= 0x3F:
+            raise ValueError(f"route rule {self.layer}/{self.t}: mkgmap routes only 0x01–0x3f")
+        road_class, road_speed = ROADS.get(self.type, PATH)
+        allowed = next(
+            (
+                o.split("=", 1)[1].split(",")
+                for o in self.options.split()
+                if o.startswith("access=")
+            ),
+            None,
+        )
+        if allowed is not None and set(allowed) - set(VEHICLES):
+            raise ValueError(f"route rule {self.layer}/{self.t}: access must be in {VEHICLES}")
+        acts = [action.strip()[2:-2]] if action else []
+        if allowed is not None:
+            acts += [f"set mkgmap:{v}=no" for v in VEHICLES if v not in allowed]
+        road = f"road_class={road_class} road_speed={road_speed}"
+        tail = f" [{self.type} {road} resolution {self.resolution}{cont}]"
+        names = re.findall(r"\$\{([^}|]+)", self.name) if "road" in self.options.split() else []
+        rules = []
+        if names:
+            named = " & ".join([self.expression(), *(f"{n}=*" for n in names)])
+            address = "set mkgmap:city='${lm:kommun}'; set mkgmap:region='${lm:lan}'"
+            rules.append(f"{named} {{ {'; '.join([*acts, address])} }}{tail}")
+            acts = [a for a in acts if not a.startswith("name ")]
+        body = f" {{ {'; '.join(acts)} }}" if acts else ""
+        rules.append(f"{self.expression()}{body}{tail}")
+        return "\n".join(rules)
 
 
 def check_type(type_: str, where: str = "") -> None:
@@ -271,6 +314,10 @@ ROADS = {
     "0x07": (0, 1),
     "0x0b": (2, 4),
 }
+
+# Paths and trails (routable standard types other than ROADS): lowest class and speed.
+PATH = (0, 0)
+VEHICLES = ("foot", "bicycle", "car", "truck", "bus", "taxi", "emergency", "delivery")
 
 FONTS = {"small": "SmallFont", "normal": "NormalFont", "large": "LargeFont"}
 

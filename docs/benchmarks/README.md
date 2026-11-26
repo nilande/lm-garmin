@@ -3,6 +3,28 @@
 Reference machine: Apple M5 (10 cores), 16 GB RAM, internal SSD; data on an SMB share (NAS).
 Delivery `LM2026:173692` (data 2026-10-16).
 
+## 2026-11-26 – Sweden with routing for hiking and cycling (issue #28)
+
+Built from branch `feat/28-routing` like the v0.4.0 release build (Topografi 250, NVDB with
+KommunLanReg, grid 50+ DEM cached), plus the routable network: junction nodes in
+`convert` and mkgmap `--route`. The conversion ran cold. The
+[build report](2026-11-26-build-sweden-routing.json) has the stage timings.
+
+| Measurement | Result |
+|---|---:|
+| Build time, cold conversion, DEM cached | 1,331 s (22 min 11 s; v0.4.0: 1,385 s) |
+| Convert / split / compile (base map) | 621 s / 240 s / 433 s |
+| `kommunikation` theme with junctions | 512 s (was about 290 s; runs in parallel with `mark`) |
+| Junctions | 128,501 inserted, 11,666 ends snapped, 2,778,190 shared nodes |
+| Highest process RSS | 4,925 MB (mkgmap); convert 1,897 MB (+158 MB) |
+| Base map bytes | 2,414,936,064, 409 tiles (+5.5 % over v0.4.0) |
+| Routing islands (`--report-routing-islands`) | 8,315 pieces, 8,903 km; largest 433 km |
+| `verify`, base map | 6 min 38 s, passed (7 levels, 140 types) |
+
+Routing islands are road and path networks inside one tile that connect to nothing else:
+in the Storuman sample mostly isolated footpaths and networks that continue abroad (not checked
+nationwide).
+
 ## 2026-11-25 – v0.4.0 Sweden release build
 
 Built `620ac82` (main after #96, version string still 0.3.0) with a cold Topografi 50

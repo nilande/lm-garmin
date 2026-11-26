@@ -85,6 +85,26 @@ build, device firmware, scale and result here when a check is complete.
   Check the physical display at normal riding brightness, especially the grey
   dashed routes against snow or open terrain.
 
+## 2026-11-26 – routing for hiking and cycling, spike (#28)
+
+Täby + Storuman dev map from branch `spike/28-routing` (`dist/route2`, shared nodes, junctions
+at level crossings, `--route`), only LM Dev Topo50 on. Captures in
+`dist/montana-release/v0.5-routing-spike/` (local).
+
+- Hiking Hemavan → Syterstugan, made in the *Route Planner* (`77`, `86`, `89`, `92`): the
+  route follows the hiking trail up the Syjhterenjohke valley, past Norra Storfjället and
+  down to Syterstugan, and does not take the winter trail. Setting a start position by hand
+  (demo mode) is hard to find on the device; the Route Planner is the practical way to test
+  a route from elsewhere.
+
+- Cycling in Täby: routes are computed on streets and cycle paths; switching between the
+  walking and cycling profiles changes the route.
+- Paths and trails look as before in day and night colours.
+- Street names show along whole streets at 80 m, so the decoder's single labelled piece per
+  merged street is a decoder quirk, not a lost name.
+- *Where to? › Addresses* finds streets as before.
+- Not checked yet: off-route recalculation (needs a live test outdoors).
+
 ## 2026-11-26 – v0.4.0 Sweden release check (#93)
 
 Files from `dist/sweden-v0.4` (`620ac82`, see [benchmarks](benchmarks/README.md)), installed
