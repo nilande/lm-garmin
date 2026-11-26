@@ -25,7 +25,10 @@ Delivery `LM2026:176630` (2026-11-24), all of Sweden: 76 zips, 1.6 GB, plus `met
 - `.xyz`: one `x y z` row per point, space separated, **decimal commas**, heights in metres
   (RH 2000), two decimals. About 4 M points per full square.
 - The `.xyz` files are dated 2015, so this is the *hdb* variant (older data, not updated)
-  rather than the yearly *nh* variant.
+  rather than the yearly *nh* variant. Checked on Geotorget on 2026-11-25: grid 50+ is only
+  offered as *hdb* (höjddatabanken, last revised 2004). The newer laser-scanned model is
+  *Markhöjdmodell Nedladdning* (1 m grid, COG, STAC API
+  `https://api.lantmateriet.se/stac-hojd/v1`, terms for high-value datasets), not used yet.
 - The points are about 50 m apart but **not on a SWEREF-aligned grid** (x and y have
   decimals and drift slightly, like a rotated grid). `dem.py` bins them into 50 m cells; in
   Storuman 0.02 % of the cells inside the data were empty and are filled from neighbours.
