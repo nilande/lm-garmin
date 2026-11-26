@@ -85,6 +85,13 @@ build, device firmware, scale and result here when a check is complete.
   Check the physical display at normal riding brightness, especially the grey
   dashed routes against snow or open terrain.
 
+## 2026-11-26 – v0.4.0 Sweden release check (#93)
+
+Files from `dist/sweden-v0.4` (`620ac82`, see [benchmarks](benchmarks/README.md)), installed
+with `lm-garmin install` (verified, about 17 min); the v0.3.0 files were kept locally in
+`dist/device-backup-v0.3`. Checked on the Montana 700 after the install: terrain shading,
+night colours and street search on the Sweden map. **Accepted.**
+
 ## 2026-11-24 – night colours (#92)
 
 Täby + Storuman dev maps (`--topo250-dir --nvdb-dir --dem-dir`), Hike profile, *Color Mode*

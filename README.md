@@ -4,9 +4,10 @@ Build a Garmin map (`.img`) from Lantmäteriet's open topographic data
 **Topografi 50 Nedladdning, vektor**, styled to resemble Lantmäteriet's printed
 **Karta 1:50 000**. Primary target device: **Garmin Montana 700**.
 
-> **v0.3.0** – the nationwide base map with NVDB street names and the separate Lantmäteriet
-> snowmobile overlay are built, verified and accepted on a Garmin Montana 700; the converter
-> is ready for Lantmäteriet's 2027 structure change. See [CHANGELOG.md](CHANGELOG.md), the
+> **v0.4.0** – the nationwide base map with NVDB street names, street search, terrain shading
+> and night colours, and the separate Lantmäteriet snowmobile overlay, are built, verified and
+> accepted on a Garmin Montana 700; the converter is ready for Lantmäteriet's 2027 structure
+> change. See [CHANGELOG.md](CHANGELOG.md), the
 > [device test record](docs/device-testing.md) and [AGENTS.md](AGENTS.md) for the state of the
 > project and next steps.
 
@@ -103,9 +104,9 @@ Keep the delivery anywhere; paths may contain spaces and colons
 # S0: unpack the delivery once into the cache (~/.cache/lm-garmin/gpkg); re-runs are no-ops
 uv run lm-garmin unpack "/path/to/LM2026:173692 - Topografi 50 Nedladdning, vektor"
 
-# S1–S3: build the maps for a region. The release map (≈ 23 min, about 1.9 GB):
+# S1–S3: build the maps for a region. The release map (≈ 23 min, about 2.3 GB):
 uv run lm-garmin build --region sweden --topo250-dir "/path/to/topografi250/gpkg" \
-  --nvdb-dir "/path/to/nvdb" --out dist/
+  --nvdb-dir "/path/to/nvdb" --dem-dir "/path/to/grid50+" --out dist/
 # smaller regions
 uv run lm-garmin build --bbox 500000,7250000,550000,7310000 --out dist/   # SWEREF 99 TM
 uv run lm-garmin build --bbox-wgs84 14.5,65.4,16.0,65.9 --out dist/
@@ -335,8 +336,9 @@ i enheten. Ortnamn, sjöar och fjäll blir sökbara.
 Data hämtas gratis från Geotorget (se ovan): Topografi 50 och, för översiktsnivåerna,
 Topografi 250. Gatunamn kan läggas till från Trafikverkets NVDB (Lastkajen, CC0) med
 `--nvdb-dir`, efter `lm-garmin nvdb extract` på länsfilerna. Hela Sverige med gatunamn
-byggs på cirka 23 minuter till en karta på 1,9 GB. Version
-0.3.0 är provad och godkänd på en Montana 700. Gatunamn, höjdkurvornas siffror och
+byggs på cirka 23 minuter till en karta på 2,3 GB. Med `--dem-dir` och Markhöjdmodell grid 50+
+får kartan terrängskuggning, och gator går att söka fram under *Vart? › Adresser*. Kartan har
+också nattfärger. Version 0.4.0 är provad och godkänd på en Montana 700. Gatunamn, höjdkurvornas siffror och
 POI-symboler kan slås av och på per aktivitetsprofil i enheten. Repot innehåller ingen kartdata utöver små
 testutsnitt. Planen finns i [docs/PLAN.md](docs/PLAN.md), läget och nästa steg i
 [AGENTS.md](AGENTS.md), och arbetet följs i GitHub Issues. Koden är MIT-licensierad;

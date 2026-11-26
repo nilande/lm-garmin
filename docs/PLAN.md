@@ -415,6 +415,10 @@ the tag.
 
 ### v0.4 Terrain
 
+**Status: done – v0.4.0 released 2026-11-26** ([CHANGELOG](../CHANGELOG.md)); accepted on the
+Montana 700. Street search (#72) came forward from v0.5. Grid 50+ is only offered as the
+*hdb* variant on Geotorget, so the *nh* option is dropped.
+
 The [v0.4 milestone](https://github.com/nilande/lm-garmin/milestone/12) (planned 2026-11-24)
 ships what is ready before the larger navigation work:
 

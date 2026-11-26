@@ -3,6 +3,27 @@
 Reference machine: Apple M5 (10 cores), 16 GB RAM, internal SSD; data on an SMB share (NAS).
 Delivery `LM2026:173692` (data 2026-10-16).
 
+## 2026-11-25 – v0.4.0 Sweden release build
+
+Built `620ac82` (main after #96, version string still 0.3.0) with a cold Topografi 50
+conversion (tag schema 6), Topografi 250 `LM2026:174947`, Markhöjdmodell grid 50+
+`LM2026:176630` (DEM tiles reused from the cache) and the nationwide NVDB name extract
+re-run with KommunLanReg (Betraktelsedatum 2026-11-17). The
+[build report](2026-11-25-build-sweden-v0.4.json) has the stage timings.
+
+| Measurement | Result |
+|---|---:|
+| Build time, cold conversion, DEM cached | 1,385 s (23 min 5 s) |
+| Convert / split / compile (base map) | 653 s / 259 s / 469 s |
+| Highest process RSS | 4,984 MB (mkgmap); convert 1,739 MB |
+| Base map bytes | 2,289,172,480, 410 tiles (+1.9 % over the 2026-11-24 DEM build) |
+| Roads with a city in NET (Täby tile) | 24,249 of 24,256, 656 cities |
+| Overlay bytes | 904,192 |
+| `verify`, base map | passed (7 levels, 141 types) |
+| Copy to the Montana 700 (`install`, verified) | about 17 min |
+
+Street search (`--index --net`, city and region on named roads) and night colours add 42 MB.
+
 ## 2026-11-24 – Sweden with terrain shading (issue #90)
 
 Built from branch `feat/90-dem` like the v0.3.0 release build, plus `--dem-dir` with

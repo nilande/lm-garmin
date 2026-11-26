@@ -80,6 +80,11 @@ Data cache: `$LM_GARMIN_CACHE` or `~/.cache/lm-garmin` (unpacked GeoPackages in 
 
 ## Release status
 
+**v0.4.0** (2026-11-26): "Terrain" – terrain shading from Markhöjdmodell grid 50+ (#90,
+`--dem-dir`), TYP night colours (#92) and street search by street name (#72: NVDB
+municipality as city, named roads in NET, `--index --net`). Sweden 2.29 GB in 23 min.
+Accepted on the Montana 700. Grid 50+ exists only as *hdb* on Geotorget.
+
 **v0.3.0** (2026-11-23): "Street names" – NVDB street names in the release map (small
 line font), lake and mountain labels restored (#79), county/municipality maps cut at the
 border, Topografi 50 2027.05 structure supported side by side (ADR-0008, CI fixture), and
@@ -99,10 +104,9 @@ geographic POIs (0x65xx/0x66xx) are searchable but unlabelled, label points (0x2
 labelled but not searchable; TYP line bitmaps have two colours; `name` never replaces a
 label already set (use `relabel`). *Where to?* lists *Addresses* only when a loaded map has street data (mkgmap `--net`/`--route`).
 
-Next: [v0.4 "Terrain"](https://github.com/nilande/lm-garmin/milestone/12) (PLAN §12):
-terrain shading from grid 50+ (#90, merged), night colours (#92), the release (#93). Then
-[v0.5 "Navigation"](https://github.com/nilande/lm-garmin/milestone/10): street search (#72,
-draft PR #76), routing (#28), legend colours (#68); the #81 ADR on device-side configuration
+Next: [v0.5 "Navigation"](https://github.com/nilande/lm-garmin/milestone/10): routing (#28,
+including merging road pieces so the line budgets hold), house numbers for address search,
+legend colours (#68); the #81 ADR on device-side configuration
 (#77, #78, #80). [Topografi 50 2027.05](https://github.com/nilande/lm-garmin/milestone/11):
 the real-data check when Lantmäteriet delivers (#56). M5 Later: packaging (#30), the
 single-file bundle (#51), cp1252 (#17), CI performance trends (#26), the style-only rebuild

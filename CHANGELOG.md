@@ -2,6 +2,13 @@
 
 ## Unreleased
 
+## v0.4.0 – 2026-11-26
+
+"Terrain": the release map has terrain shading from Lantmäteriet's Markhöjdmodell grid 50+,
+night colours and street search by street name, and is accepted on a Garmin Montana 700.
+Sweden builds in about 23 minutes to 2.29 GB. Code, styles and build instructions only;
+maps are built locally from the free deliveries.
+
 ### Added
 
 - Terrain shading (#90): `build --dem-dir` reads Lantmäteriet's *Markhöjdmodell
