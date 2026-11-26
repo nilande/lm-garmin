@@ -18,7 +18,8 @@
   built with `--index --net`, so *Where to? › Addresses* finds and shows streets on the
   Montana. The device asks for a house number, which the map does not have yet; it then
   falls back to the street. Roads without a street name stay plain lines, since mkgmap does
-  not merge road segments.
+  not merge road segments. NVDB extracts made with v0.3 lack the municipality and county:
+  `build` warns about them; re-run `lm-garmin nvdb extract`.
 
 ## v0.3.0 – 2026-11-23
 

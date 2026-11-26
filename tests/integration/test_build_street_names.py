@@ -85,5 +85,10 @@ def test_report_and_copyright(named_build):
     assert sn["named_share_by_class"]["1811"] > 0.9
     assert report["nvdb_sources"]
     assert report["nvdb"] == {"betraktelsedatum": [], "undated": [f"{FX}.nvdb.gpkg"]}
+    # The fixture predates the KommunLanReg join: the build warns and records it (#72).
+    assert report["nvdb_without_places"] == [
+        f"{FX}.nvdb.gpkg:NVDB_DK_O_20_Gatunamn",
+        f"{FX}.nvdb.gpkg:NVDB_DK_O_21_Ovrigt_vagnamn",
+    ]
     img = (out / PRODUCTS["topo50"].filename).read_bytes()
     assert b"Trafikverket (NVDB)" in img

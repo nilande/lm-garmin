@@ -167,6 +167,14 @@ counties (20 GeoPackage zips and Dalarna's FileGDB zip, Betraktelsedatum 2026-11
 from a network share): 898 273 lines, 356 MB, 2 min 40 s; town streets named 96.2 % in Täby
 and 91.0 % in Falun (from the FileGDB), 0 of 100 sample disagreements in both.
 
+Since #72 the extract also keeps each name line's municipality and county (`Kommun`, `Lan`,
+joined from KommunLanReg by road-element id); the style makes them the street's city and
+region for the device's address search. Extracts made before that lack the columns:
+streets then get no city and the search cannot resolve them, so `build` warns
+(`WARNING: NVDB … has no Kommun/Lan columns`) and lists the layers under
+`nvdb_without_places` in `build-report.json`. Re-run `nvdb extract` on the same zips
+(2 min 48 s for all 21 counties).
+
 ### Test data
 
 `tests/data/nvdb/tatort_659_67_00.nvdb.gpkg` is a CC0 cut-out of both name layers (2 040

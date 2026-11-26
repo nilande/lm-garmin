@@ -223,6 +223,7 @@ def build(
             for layer in overview.LAYERS
         }
     nvdb: list[Path] = []
+    nvdb_without_places: list[str] = []
     if nvdb_dir is not None:
         if "topo50" not in keys:
             raise BuildError("--nvdb-dir requires topo50 in --products")
@@ -230,6 +231,13 @@ def build(
             nvdb = street_names.sources(nvdb_dir)
         except (OSError, ValueError) as e:
             raise BuildError(f"NVDB: {e}") from e
+        nvdb_without_places = street_names.without_places(nvdb)
+        for name in nvdb_without_places:
+            log(
+                f"WARNING: NVDB {name} has no {street_names.CITY_FIELD}/"
+                f"{street_names.REGION_FIELD} columns – streets get no city and the device's "
+                "address search cannot resolve them; re-run `lm-garmin nvdb extract` (#72)"
+            )
     dem_squares: dict = {}
     if dem_dir is not None:
         if "topo50" not in keys:
@@ -554,6 +562,8 @@ def build(
     if nvdb:
         report["nvdb_sources"] = [str(p) for p in nvdb]
         report["nvdb"] = street_names.provenance(nvdb)
+        if nvdb_without_places:
+            report["nvdb_without_places"] = nvdb_without_places
     if sources:
         report["overview_sources"] = {str(scale): str(path) for scale, path in sources.items()}
     (out_dir / "build-report.json").write_text(json.dumps(report, indent=1), encoding="utf-8")
