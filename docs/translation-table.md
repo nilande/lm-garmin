@@ -84,44 +84,44 @@ and object types.
 | `hojdlinje` | Any | Stödkurva | `lm:stodkurva=Ja` | line | `0x22` | 24, 23 | solid, `#907450`, 2 px | `${ele\|conv:m=>ft}` |
 | `hojdlinje` | `2401` | Höjdkurva 5 m | — | line | `0x20` | 24, 23 | solid, `#A89274`, 1 px | — |
 | `hojdlinje` | `2404` | Höjdkurva 10 m | — | line | `0x20` | 24, 23 | solid, `#A89274`, 1 px | — |
-| `vaglinje` | `1801` | Motorväg | — | line | `0x01` | 24, 23, 22, 21, 20, 18, 16 | solid, `#C0392B/#7A1F15`, 7 px | `${ref\|highway-symbol:hbox}` |
-| `vaglinje` | `1802` | Motortrafikled | — | line | `0x02` | 24, 23, 22, 21, 20, 18, 16 | solid, `#C0392B/#7A1F15`, 6 px | `${ref\|highway-symbol:hbox}` |
-| `vaglinje` | `1803` | Mötesfri väg | — | line | `0x03` | 24, 23, 22, 21, 20, 18 | solid, `#D35A3A/#7A1F15`, 6 px | `${ref\|highway-symbol:hbox}` |
-| `vaglinje` | `1804` | Landsväg | `ref=*` | line | `0x03` | 24, 23, 22, 21, 20, 18 | solid, `#D35A3A/#7A1F15`, 6 px | `${ref\|highway-symbol:hbox}` |
+| `vaglinje` | `1801` | Motorväg | — | line | `0x01` | 24, 23, 22, 21, 20, 18, 16 | solid, `#C0392B/#7A1F15`, 7 px | `${ref\|highway-symbol:hbox}`, `route access=car,truck,bus,taxi,emergency,delivery` |
+| `vaglinje` | `1802` | Motortrafikled | — | line | `0x02` | 24, 23, 22, 21, 20, 18, 16 | solid, `#C0392B/#7A1F15`, 6 px | `${ref\|highway-symbol:hbox}`, `route access=car,truck,bus,taxi,emergency,delivery` |
+| `vaglinje` | `1803` | Mötesfri väg | — | line | `0x03` | 24, 23, 22, 21, 20, 18 | solid, `#D35A3A/#7A1F15`, 6 px | `${ref\|highway-symbol:hbox}`, `route` |
+| `vaglinje` | `1804` | Landsväg | `ref=*` | line | `0x03` | 24, 23, 22, 21, 20, 18 | solid, `#D35A3A/#7A1F15`, 6 px | `${ref\|highway-symbol:hbox}`, `route` |
 | `vaglinje` | `1804` | Landsväg | — | line | `0x03` | 22, 21, 20, 18 | solid, `#D35A3A/#7A1F15`, 6 px | `continue` |
-| `vaglinje` | `1804` | Landsväg (namn) | — | line | `0x03` | 24, 23 | solid, `#D35A3A/#7A1F15`, 6 px | `${lm:gatunamn_nvdb}`, `font=small road` |
-| `vaglinje` | `1805` | Landsväg liten | `ref=*` | line | `0x04` | 24, 23, 22, 21, 20 | solid, `#E89070/#8A3A20`, 4 px | `${ref\|highway-symbol:hbox}` |
+| `vaglinje` | `1804` | Landsväg (namn) | — | line | `0x03` | 24, 23 | solid, `#D35A3A/#7A1F15`, 6 px | `${lm:gatunamn_nvdb}`, `font=small road route` |
+| `vaglinje` | `1805` | Landsväg liten | `ref=*` | line | `0x04` | 24, 23, 22, 21, 20 | solid, `#E89070/#8A3A20`, 4 px | `${ref\|highway-symbol:hbox}`, `route` |
 | `vaglinje` | `1805` | Landsväg liten | — | line | `0x04` | 22, 21, 20 | solid, `#E89070/#8A3A20`, 4 px | `continue` |
-| `vaglinje` | `1805` | Landsväg liten (namn) | — | line | `0x04` | 24, 23 | solid, `#E89070/#8A3A20`, 4 px | `${lm:gatunamn_nvdb}`, `font=small road` |
-| `vaglinje` | `1806` | Småväg | `ref=*` | line | `0x05` | 24, 23, 22, 21, 20 | solid, `#7F7F7F`, 3 px | `${ref\|highway-symbol:hbox}` |
+| `vaglinje` | `1805` | Landsväg liten (namn) | — | line | `0x04` | 24, 23 | solid, `#E89070/#8A3A20`, 4 px | `${lm:gatunamn_nvdb}`, `font=small road route` |
+| `vaglinje` | `1806` | Småväg | `ref=*` | line | `0x05` | 24, 23, 22, 21, 20 | solid, `#7F7F7F`, 3 px | `${ref\|highway-symbol:hbox}`, `route` |
 | `vaglinje` | `1806` | Småväg | — | line | `0x05` | 22, 21, 20 | solid, `#7F7F7F`, 3 px | `continue` |
-| `vaglinje` | `1806` | Småväg (namn) | — | line | `0x05` | 24, 23 | solid, `#7F7F7F`, 3 px | `${lm:gatunamn_nvdb}`, `font=small road` |
-| `vaglinje` | `1807` | Småväg enkel standard | `ref=*` | line | `0x07` | 24, 23, 22, 21 | solid, `#A0A0A0`, 2 px | `${ref\|highway-symbol:hbox}` |
+| `vaglinje` | `1806` | Småväg (namn) | — | line | `0x05` | 24, 23 | solid, `#7F7F7F`, 3 px | `${lm:gatunamn_nvdb}`, `font=small road route` |
+| `vaglinje` | `1807` | Småväg enkel standard | `ref=*` | line | `0x07` | 24, 23, 22, 21 | solid, `#A0A0A0`, 2 px | `${ref\|highway-symbol:hbox}`, `route` |
 | `vaglinje` | `1807` | Småväg enkel standard | — | line | `0x07` | 22, 21 | solid, `#A0A0A0`, 2 px | `continue` |
-| `vaglinje` | `1807` | Småväg enkel standard (namn) | — | line | `0x07` | 24, 23 | solid, `#A0A0A0`, 2 px | `${lm:gatunamn_nvdb}`, `font=small road` |
-| `vaglinje` | `1808` | Övergripande länk | `ref=*` | line | `0x0b` | 24, 23, 22, 21, 20 | solid, `#B5442B`, 4 px | `${ref\|highway-symbol:hbox}` |
+| `vaglinje` | `1807` | Småväg enkel standard (namn) | — | line | `0x07` | 24, 23 | solid, `#A0A0A0`, 2 px | `${lm:gatunamn_nvdb}`, `font=small road route` |
+| `vaglinje` | `1808` | Övergripande länk | `ref=*` | line | `0x0b` | 24, 23, 22, 21, 20 | solid, `#B5442B`, 4 px | `${ref\|highway-symbol:hbox}`, `route` |
 | `vaglinje` | `1808` | Övergripande länk | — | line | `0x0b` | 22, 21, 20 | solid, `#B5442B`, 4 px | `continue` |
-| `vaglinje` | `1808` | Övergripande länk (namn) | — | line | `0x0b` | 24, 23 | solid, `#B5442B`, 4 px | `${lm:gatunamn_nvdb}`, `font=small road` |
-| `vaglinje` | `1809` | Huvudgata | `ref=*` | line | `0x04` | 24, 23, 22, 21, 20 | solid, `#E89070/#8A3A20`, 4 px | `${ref\|highway-symbol:hbox}` |
+| `vaglinje` | `1808` | Övergripande länk (namn) | — | line | `0x0b` | 24, 23 | solid, `#B5442B`, 4 px | `${lm:gatunamn_nvdb}`, `font=small road route` |
+| `vaglinje` | `1809` | Huvudgata | `ref=*` | line | `0x04` | 24, 23, 22, 21, 20 | solid, `#E89070/#8A3A20`, 4 px | `${ref\|highway-symbol:hbox}`, `route` |
 | `vaglinje` | `1809` | Huvudgata | — | line | `0x04` | 22, 21, 20 | solid, `#E89070/#8A3A20`, 4 px | `continue` |
-| `vaglinje` | `1809` | Huvudgata (namn) | — | line | `0x04` | 24, 23 | solid, `#E89070/#8A3A20`, 4 px | `${lm:gatunamn_nvdb}`, `font=small road` |
-| `vaglinje` | `1810` | Lokalgata stor | `ref=*` | line | `0x06` | 24, 23, 22, 21 | solid, `#8C8C8C`, 2 px | `${ref}` |
+| `vaglinje` | `1809` | Huvudgata (namn) | — | line | `0x04` | 24, 23 | solid, `#E89070/#8A3A20`, 4 px | `${lm:gatunamn_nvdb}`, `font=small road route` |
+| `vaglinje` | `1810` | Lokalgata stor | `ref=*` | line | `0x06` | 24, 23, 22, 21 | solid, `#8C8C8C`, 2 px | `${ref}`, `route` |
 | `vaglinje` | `1810` | Lokalgata stor | — | line | `0x06` | 22, 21 | solid, `#8C8C8C`, 2 px | `continue` |
-| `vaglinje` | `1810` | Lokalgata stor (namn) | — | line | `0x06` | 24, 23 | solid, `#8C8C8C`, 2 px | `${lm:gatunamn_nvdb}`, `font=small road` |
-| `vaglinje` | `1811` | Lokalgata liten | `ref=*` | line | `0x06` | 24, 23, 22 | solid, `#8C8C8C`, 2 px | `${ref}` |
+| `vaglinje` | `1810` | Lokalgata stor (namn) | — | line | `0x06` | 24, 23 | solid, `#8C8C8C`, 2 px | `${lm:gatunamn_nvdb}`, `font=small road route` |
+| `vaglinje` | `1811` | Lokalgata liten | `ref=*` | line | `0x06` | 24, 23, 22 | solid, `#8C8C8C`, 2 px | `${ref}`, `route` |
 | `vaglinje` | `1811` | Lokalgata liten | — | line | `0x06` | 22 | solid, `#8C8C8C`, 2 px | `continue` |
-| `vaglinje` | `1811` | Lokalgata liten (namn) | — | line | `0x06` | 24, 23 | solid, `#8C8C8C`, 2 px | `${lm:gatunamn_nvdb}`, `font=small road` |
+| `vaglinje` | `1811` | Lokalgata liten (namn) | — | line | `0x06` | 24, 23 | solid, `#8C8C8C`, 2 px | `${lm:gatunamn_nvdb}`, `font=small road route` |
 | `farjeled` | `1891` | Färjeled | — | line | `0x1b` | 24, 23, 22, 21, 20, 18 | dash, `#C0392B`, 2 px | — |
 | `ralstrafik` | `1861` | Järnväg | — | line | `0x14` | 24, 23, 22, 21, 20, 18 | solid, `#333333`, 2 px | — |
 | `ralstrafik` | `1862` | Museijärnväg | — | line | `0x10e0e` | 24, 23, 22, 21, 20 | dash, `#555555`, 2 px | — |
-| `ovrig_vag` | `1623` | Cykelväg | — | line | `0x10e00` | 24, 23, 22, 21 | dash, `#8A6A3A`, 2 px | — |
-| `cykelvaglinje` | `1623` | Cykelväg (2027) | — | line | `0x10e00` | 24, 23, 22, 21 | dash, `#8A6A3A`, 2 px | — |
-| `ovrig_vag` | `1624` | Gångstig | — | line | `0x16` | 24, 23, 22, 21 | dash, `#333333`, 2 px | — |
-| `ovrig_vag` | `1625` | Elljusspår | — | line | `0x10e01` | 24, 23, 22, 21 | dash, `#C8B400`, 2 px | — |
-| `ovrig_vag` | `1628` | Traktorväg | — | line | `0x0a` | 24, 23, 22, 21 | dash, `#606060`, 3 px | — |
-| `ovrig_vag` | `1842` | Parkväg | — | line | `0x10e02` | 24, 23, 22 | dash, `#8A6A3A`, 2 px | — |
-| `ovrig_vag` | `1846` | Vandringsled | — | line | `0x10e03` | 24, 23, 22, 21, 20 | solid, `#C44982`, 2 px | — |
-| `ovrig_vag` | `1847` | Vandrings- och vinterled | — | line | `0x10e04` | 24, 23, 22, 21, 20 | solid, `#C44982`, 2 px | — |
+| `ovrig_vag` | `1623` | Cykelväg | — | line | `0x11` | 24, 23, 22, 21 | dash, `#8A6A3A`, 2 px | `route access=foot,bicycle` |
+| `cykelvaglinje` | `1623` | Cykelväg (2027) | — | line | `0x11` | 24, 23, 22, 21 | dash, `#8A6A3A`, 2 px | `route access=foot,bicycle` |
+| `ovrig_vag` | `1624` | Gångstig | — | line | `0x16` | 24, 23, 22, 21 | dash, `#333333`, 2 px | `route access=foot,bicycle` |
+| `ovrig_vag` | `1625` | Elljusspår | — | line | `0x0e` | 24, 23, 22, 21 | dash, `#C8B400`, 2 px | `route access=foot,bicycle` |
+| `ovrig_vag` | `1628` | Traktorväg | — | line | `0x0a` | 24, 23, 22, 21 | dash, `#606060`, 3 px | `route access=foot,bicycle` |
+| `ovrig_vag` | `1842` | Parkväg | — | line | `0x0d` | 24, 23, 22 | dash, `#8A6A3A`, 2 px | `route access=foot,bicycle` |
+| `ovrig_vag` | `1846` | Vandringsled | — | line | `0x0f` | 24, 23, 22, 21, 20 | solid, `#C44982`, 2 px | `route access=foot` |
+| `ovrig_vag` | `1847` | Vandrings- och vinterled | — | line | `0x10` | 24, 23, 22, 21, 20 | solid, `#C44982`, 2 px | `route access=foot` |
 | `ovrig_vag` | `1848` | Vinterled | — | line | `0x10e05` | 24, 23, 22, 21, 20 | dash, `#C44982`, 2 px | — |
 | `transportled_fjall` | `1821` | Skidspår | — | line | `0x10e06` | 24, 23, 22, 21 | dash, `#555555`, 1 px | — |
 | `transportled_fjall` | `1822` | Lämplig färdväg | — | line | `0x10e07` | 24, 23, 22, 21 | dash, `#C44982`, 1 px | — |

@@ -267,3 +267,70 @@ def test_night_pattern_marks_sit_between_fill_and_ink():
     for day in ("#707070", "#B2E39C", "#40BAFF", "#C04040"):
         fill, mark, ink = (stylegen.night(day, role) for role in ("fill", "mark", "ink"))
         assert lightness(fill) < lightness(mark) < lightness(ink)
+
+
+def _rule(**kw):
+    from lm_garmin.stylegen import Rule
+
+    base = dict(
+        kind="line",
+        layer="ovrig_vag",
+        t="1846",
+        condition="",
+        type="0x0f",
+        resolution="20",
+        name="",
+        description="",
+        colour="",
+        colour2="",
+        width="",
+        pattern="solid",
+        order="",
+        options="route access=foot",
+    )
+    return Rule(**{**base, **kw})
+
+
+def test_route_rules_make_paths_routable_for_the_allowed_classes_only():
+    """Hiking trails are roads for walkers only (#28)."""
+    (line,) = _rule().mkgmap_rule().splitlines()
+    assert line.startswith("lm:l=ovrig_vag & lm:t=1846 {")
+    assert "set mkgmap:car=no" in line and "set mkgmap:bicycle=no" in line
+    assert "mkgmap:foot" not in line
+    assert line.endswith("[0x0f road_class=0 road_speed=0 resolution 20]")
+
+
+def test_route_rules_with_road_keep_the_address_on_named_lines():
+    """Every street is routable; named ones also carry city and region (#72, #28)."""
+    named, unnamed = (
+        _rule(
+            layer="vaglinje",
+            t="1811",
+            type="0x06",
+            resolution="23",
+            name="${lm:gatunamn_nvdb}",
+            options="font=small road route",
+        )
+        .mkgmap_rule()
+        .splitlines()
+    )
+    assert named.startswith("lm:l=vaglinje & lm:t=1811 & lm:gatunamn_nvdb=* {")
+    assert "set mkgmap:city='${lm:kommun}'" in named
+    assert unnamed == "lm:l=vaglinje & lm:t=1811 [0x06 road_class=0 road_speed=2 resolution 23]"
+
+
+def test_route_rules_reject_unroutable_types_and_unknown_access():
+    with pytest.raises(ValueError, match="0x01–0x3f"):
+        _rule(type="0x10e03").mkgmap_rule()
+    with pytest.raises(ValueError, match="access"):
+        _rule(options="route access=hiker").mkgmap_rule()
+
+
+def test_walkers_and_cyclists_can_route_on_paths_but_not_on_motorways():
+    rules = stylegen.load(ROOT / "styles" / "topo50" / "mapping.csv")
+    route = {(r.layer, r.t): r for r in rules if "route" in r.options.split()}
+    for t in ("1623", "1624", "1625", "1628", "1842", "1846", "1847"):
+        assert ("ovrig_vag", t) in route, t
+    assert ("ovrig_vag", "1848") not in route  # winter trails cross lakes and bogs
+    motorway = route[("vaglinje", "1801")].mkgmap_rule()
+    assert "set mkgmap:foot=no" in motorway and "set mkgmap:bicycle=no" in motorway

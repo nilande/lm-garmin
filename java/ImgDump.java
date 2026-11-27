@@ -5,7 +5,8 @@
 //
 // Works on single tiles and on gmapsupp-style files with several tiles. mkgmap's MapReader
 // only reads the first tile of a file, so Tile below does the same for a named tile.
-// Output properties: tile, kind (point|line|polygon), type (hex), label, level.
+// Output properties: tile, kind (point|line|polygon), type (hex), label, level, and
+// road=true for lines in NET.
 import java.io.Closeable;
 import java.io.FileNotFoundException;
 import java.util.ArrayDeque;
@@ -69,11 +70,18 @@ public class ImgDump {
     }
 
     private static void head(String tile, String kind, int type, String label, int level) {
+        head(tile, kind, type, label, level, false);
+    }
+
+    private static void head(String tile, String kind, int type, String label, int level,
+                             boolean road) {
         OUT.append("{\"type\":\"Feature\",\"properties\":{\"tile\":\"").append(tile)
            .append("\",\"kind\":\"").append(kind)
            .append("\",\"type\":\"0x").append(Integer.toHexString(type))
            .append("\",\"label\":\"").append(label)
-           .append("\",\"level\":").append(level).append("},\"geometry\":");
+           .append("\",\"level\":").append(level);
+        if (road) OUT.append(",\"road\":true");  // in NET: searchable / routable (#72, #28)
+        OUT.append("},\"geometry\":");
     }
 
     private static void flush() {
@@ -87,6 +95,8 @@ public class ImgDump {
         final TREFileReader tre;
         final RGNFileReader rgn;
         final LBLFileReader lbl;
+        /** Raw NET subfile: road labels by road record (NET1), see roadLabel. */
+        byte[] net;
 
         Tile(FileSystem fs, String name) throws Exception {
             tre = keep(new TREFileReader(keep(fs.open(name + ".TRE", "r"))));
@@ -98,10 +108,39 @@ public class ImgDump {
                 net.setCities(lbl.getCities());
                 net.setZips(lbl.getZips());
                 rgn.setNetFile(net);
+                this.net = readAll(fs, name + ".NET");
             } catch (FileNotFoundException e) {
                 // no NET: map built without routing/address data
             }
             rgn.setLblFile(lbl);
+        }
+
+        private static byte[] readAll(FileSystem fs, String file) throws Exception {
+            try (var ch = fs.open(file, "r")) {
+                var out = new java.io.ByteArrayOutputStream();
+                var buf = java.nio.ByteBuffer.allocate(1 << 16);
+                int n;
+                while ((n = ch.read(buf)) > 0) {
+                    out.write(buf.array(), 0, n);
+                    buf.clear();
+                }
+                return out.toByteArray();
+            }
+        }
+
+        /**
+         * The first label of a road's NET1 record. mkgmap's reader maps only the roads listed
+         * in the sorted-roads index (one per name), so the other roads of a merged street came
+         * out unlabelled (#28).
+         */
+        Label roadLabel(int net1Offset) {
+            if (net == null) return null;
+            int start = (net[0x15] & 0xff) | (net[0x16] & 0xff) << 8 | (net[0x17] & 0xff) << 16
+                    | (net[0x18] & 0xff) << 24;
+            int pos = start + net1Offset;
+            if (pos < 0 || pos + 3 > net.length) return null;
+            int v = (net[pos] & 0xff) | (net[pos + 1] & 0xff) << 8 | (net[pos + 2] & 0xff) << 16;
+            return lbl.fetchLabel(v & 0x7fffff);
         }
 
         private <T extends Closeable> T keep(T c) {
@@ -135,7 +174,9 @@ public class ImgDump {
                                 c.getLonDegrees(), c.getLatDegrees()));
                     }
                     for (Polyline l : t.rgn.linesForSubdiv(sd)) {
-                        head(tile, "line", l.getType(), text(l.getLabel()), lv);
+                        Label label = l.getLabel();
+                        if (l.isRoad() && text(label).isEmpty()) label = t.roadLabel(l.getOffsetNet1());
+                        head(tile, "line", l.getType(), text(label), lv, l.isRoad());
                         OUT.append("{\"type\":\"LineString\",\"coordinates\":");
                         coords(l.getPoints());
                         OUT.append("}}\n");

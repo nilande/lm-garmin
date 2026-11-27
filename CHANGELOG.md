@@ -2,6 +2,20 @@
 
 ## Unreleased
 
+### Added
+
+- Routing for hiking and cycling (#28): roads, paths, trails and cycle paths form one
+  routable network (mkgmap `--route`). The converter adds junction nodes where paths cross
+  roads or other paths at ground level without a shared vertex (not at bridges and
+  tunnels) and joins line ends that stop within 1 m of another line. Paths and trails get
+  routable Garmin types with their old look, closed to motor vehicles; winter trails are not
+  routable. `build-report.json` records the junctions and mkgmap's routing islands.
+
+### Fixed
+
+- `verify` decoded only one piece of a merged street with its name: the other road pieces
+  now get their label from their NET record.
+
 ## v0.4.0 – 2026-11-26
 
 "Terrain": the release map has terrain shading from Lantmäteriet's Markhöjdmodell grid 50+,

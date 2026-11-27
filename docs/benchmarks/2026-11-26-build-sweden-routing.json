@@ -1,0 +1,175 @@
+{
+ "lm_garmin": "0.4.0",
+ "regions": [
+  {
+   "id": "sweden",
+   "bbox_3006": [
+    200000.0,
+    6090000.0,
+    940000.0,
+    7680000.0
+   ]
+  }
+ ],
+ "dev": false,
+ "tools": {
+  "mkgmap": "r4924",
+  "splitter": "r654"
+ },
+ "java": "/opt/homebrew/opt/openjdk/bin/java",
+ "jobs": 10,
+ "seconds": 1331.24,
+ "steps": [
+  {
+   "name": "convert:sweden",
+   "seconds": 620.79,
+   "max_rss_mb": 1896.8,
+   "detail": {
+    "features": 18585717,
+    "pbf": [
+     "administrativindelning.osm.pbf",
+     "anlaggningsomrade.osm.pbf",
+     "byggnadsverk.osm.pbf",
+     "hojd.osm.pbf",
+     "hydrografi.osm.pbf",
+     "kommunikation.osm.pbf",
+     "kulturhistorisklamning.osm.pbf",
+     "ledningar.osm.pbf",
+     "mark.osm.pbf",
+     "militartomrade.osm.pbf",
+     "naturvard.osm.pbf",
+     "norrapolcirkeln.osm.pbf",
+     "text.osm.pbf"
+    ],
+    "street_names": {
+     "nvdb_lines": 897306,
+     "segments": 1832254,
+     "km": 627610.0,
+     "named_share": 0.4022,
+     "split_segments": 26864,
+     "ambiguous_segments": 18909,
+     "named_share_by_class": {
+      "1801": 0.1088,
+      "1802": 0.0753,
+      "1803": 0.1497,
+      "1804": 0.167,
+      "1805": 0.1829,
+      "1806": 0.3675,
+      "1807": 0.399,
+      "1808": 0.8272,
+      "1809": 0.9498,
+      "1810": 0.9781,
+      "1811": 0.8817
+     }
+    },
+    "junctions": {
+     "inserted": 128501,
+     "snapped": 11666,
+     "nodes": 2778190
+    }
+   },
+   "cached": false
+  },
+  {
+   "name": "dem",
+   "seconds": 0,
+   "max_rss_mb": null,
+   "detail": {
+    "tiles": 132
+   },
+   "cached": true
+  },
+  {
+   "name": "extract:topo50:sweden",
+   "seconds": 33.53,
+   "max_rss_mb": 0.0,
+   "detail": {
+    "objects": 157507
+   },
+   "cached": false
+  },
+  {
+   "name": "split:topo50:sweden",
+   "seconds": 239.66,
+   "max_rss_mb": 2526.5,
+   "detail": {
+    "tiles": 409
+   },
+   "cached": false
+  },
+  {
+   "name": "compile:topo50",
+   "seconds": 432.74,
+   "max_rss_mb": 4925.2,
+   "detail": {
+    "bytes": 2414936064,
+    "routing_islands": {
+     "count": 8315,
+     "km": 8903.2,
+     "largest_m": [
+      433388,
+      151821,
+      142393
+     ]
+    }
+   },
+   "cached": false
+  },
+  {
+   "name": "extract:skoter:sweden",
+   "seconds": 1.78,
+   "max_rss_mb": 0.0,
+   "detail": {
+    "objects": 10596
+   },
+   "cached": false
+  },
+  {
+   "name": "split:skoter:sweden",
+   "seconds": 0.52,
+   "max_rss_mb": 351.0,
+   "detail": {
+    "tiles": 1
+   },
+   "cached": false
+  },
+  {
+   "name": "compile:skoter",
+   "seconds": 1.0,
+   "max_rss_mb": 258.4,
+   "detail": {
+    "bytes": 902144
+   },
+   "cached": false
+  }
+ ],
+ "outputs": {
+  "topo50": {
+   "file": "lm-topo50.img",
+   "bytes": 2414936064,
+   "family_id": 5750,
+   "tiles": 409
+  },
+  "skoter": {
+   "file": "lm-skoter.img",
+   "bytes": 902144,
+   "family_id": 5751,
+   "tiles": 1
+  }
+ },
+ "dem_source": "/Volumes/scratch/lm-kartdata/LM2026:176630 - Markhöjdmodell Nedladdning, grid 50+",
+ "nvdb_sources": [
+  "~/.cache/lm-garmin/nvdb/sverige2/nvdb-names.gpkg"
+ ],
+ "nvdb": {
+  "betraktelsedatum": [
+   "2026-11-17"
+  ],
+  "undated": [
+   "nvdb_dalarnas_lan_FileGDB_2026-11-17.zip"
+  ]
+ },
+ "overview_sources": {
+  "250": "/Volumes/scratch/lm-kartdata/LM2026:174947 - Topografi 250 Nedladdning, vektor/gpkg/mark_sverige.gpkg"
+ }
+}

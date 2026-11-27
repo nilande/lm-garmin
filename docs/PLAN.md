@@ -255,11 +255,17 @@ fixtures — they are CC0 and ~1–3 MB each.)
   region (set in the style), and the base map is built with `--index --net`. No house
   numbers: there is no open source yet ([#101](https://github.com/nilande/lm-garmin/issues/101)).
 - **Routing for hiking and cycling** ([#28](https://github.com/nilande/lm-garmin/issues/28),
-  v0.5): roads, paths, trails and cycle paths as one connected network – shared nodes at
-  identical coordinates, road class and speed per type, `--route`. mkgmap only routes
-  standard line types `0x01–0x3f`, so paths and trails need routable types instead of
-  today's extended `0x10exx`; and it does not merge road segments, so road pieces may have
-  to be merged in `convert` to keep the line budgets. Both are measured in a `--dev` spike.
+  v0.5): roads, paths, trails and cycle paths are one connected network. `network.py` finds
+  per 50 km cell the level crossings and T-junctions that have no vertex yet (Topografi 50
+  lacks one at about half of the path crossings) and moves loose ends within 1 m onto the
+  line; bridges and tunnels (`bro_och_tunnel`) are not joined. The converter writes one
+  shared OSM node per junction coordinate. With shared nodes mkgmap merges road pieces
+  itself, so the line budgets hold (the earlier jump from 1 397 to 2 194 lines came from
+  unshared nodes). Paths and trails use routable standard types (`0x0a`, `0x0d`–`0x11`,
+  `0x16`; mkgmap routes only `0x01–0x3f`), closed to motor vehicles; motorways are closed
+  to walkers and cyclists; winter trails (1848) are not routable. Build with `--route`
+  (`--report-routing-islands` goes to the build report). Spike S13 in
+  [spikes.md](spikes.md), device result in [device-testing.md](device-testing.md).
 - **Car routing** ([#99](https://github.com/nilande/lm-garmin/issues/99)): a go/no-go
   spike, not a commitment. Topografi 50 has no one-way streets, turn restrictions or speed
   limits; the spike compares Topografi 50 alone with NVDB direction and speed matched to the

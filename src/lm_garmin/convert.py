@@ -27,7 +27,7 @@ import pyogrio
 import shapely
 from pyproj import Transformer
 
-from . import __version__, street_names
+from . import __version__, network, street_names
 from .forest_overview import FOREST_TYPE, merged_forests
 from .region import Region
 from .tags import ALIASES, SCHEMA_VERSION, feature_tags, read_columns, tag_key
@@ -108,12 +108,19 @@ class ThemeStats:
     merged_lakes: int = 0
     merged_forests: int = 0
     street_names: dict = field(default_factory=dict)
+    junctions: dict = field(default_factory=dict)
 
 
 class OsmSink:
     """Writes nodes immediately; buffers ways/relations so the output is correctly ordered."""
 
-    def __init__(self, path: Path, base: int, bbox_wgs84: tuple[float, float, float, float]):
+    def __init__(
+        self,
+        path: Path,
+        base: int,
+        bbox_wgs84: tuple[float, float, float, float],
+        shared: np.ndarray | None = None,
+    ):
         self.path = path
         hdr = osmium.io.Header()
         hdr.set("generator", f"lm-garmin {__version__}")
@@ -130,6 +137,14 @@ class OsmSink:
         self.wr = osmium.SimpleWriter(str(self._tmp_rels), overwrite=True)
         self.next_node = self.next_way = self.next_rel = base
         self.nodes = self.ways = self.relations = 0
+        self.last_node = 0
+        # Shared junction nodes of the routable network (#28): ids base … base + n - 1, in the
+        # order of network.Junctions.nodes, written first so node ids stay ascending.
+        self.shared_base = base
+        for x, y in shared if shared is not None else ():
+            self.w.add_node(osmium.osm.mutable.Node(id=self.next_node, location=(x, y)))
+            self.next_node += 1
+            self.nodes += 1
 
     def point(self, x: float, y: float, tags: dict[str, str]) -> None:
         self.w.add_node(osmium.osm.mutable.Node(id=self.next_node, location=(x, y), tags=tags))
@@ -150,11 +165,44 @@ class OsmSink:
             ids.append(first)
         return ids
 
-    def way(self, coords: np.ndarray, tags: dict[str, str] | None, closed: bool = False) -> int:
+    def _linked_nodes(self, coords: np.ndarray, shared: np.ndarray, first: int | None) -> list[int]:
+        """Node ids for a routable line: shared junction nodes where `shared` ≥ 0, `first` as
+        the first node (to join the pieces of a split line), new nodes elsewhere."""
+        ids: list[int] = []
+        Node = osmium.osm.mutable.Node
+        own: dict[tuple[float, float], int] = {}  # a coordinate repeated within the line
+        for i, ((x, y), s) in enumerate(zip(coords, shared, strict=True)):
+            if i == 0 and first is not None:
+                ids.append(first)
+            elif s >= 0:
+                ids.append(self.shared_base + int(s))
+            elif (x, y) in own:
+                ids.append(own[(x, y)])
+            else:
+                nid = own[(x, y)] = self.next_node
+                self.w.add_node(Node(id=nid, location=(x, y)))
+                self.next_node += 1
+                self.nodes += 1
+                ids.append(nid)
+        return ids
+
+    def way(
+        self,
+        coords: np.ndarray,
+        tags: dict[str, str] | None,
+        closed: bool = False,
+        shared: np.ndarray | None = None,
+        first: int | None = None,
+    ) -> int:
+        """Write a way. For routable lines `shared` gives the junction node index per vertex
+        (-1: own node) and `first` an existing node id to start from."""
         wid = self.next_way
-        self.ww.add_way(
-            osmium.osm.mutable.Way(id=wid, nodes=self._nodes(coords, closed), tags=tags or {})
-        )
+        if shared is None:
+            nodes = self._nodes(coords, closed)
+        else:
+            nodes = self._linked_nodes(coords, shared, first)
+        self.last_node = nodes[-1]
+        self.ww.add_way(osmium.osm.mutable.Way(id=wid, nodes=nodes, tags=tags or {}))
         self.next_way += 1
         self.ways += 1
         return wid
@@ -227,6 +275,7 @@ def _write_batch(
     names: street_names.NameIndex | None = None,
     name_stats: street_names.MatchStats | None = None,
     builtup: shapely.STRtree | None = None,
+    junctions: network.Junctions | None = None,
 ) -> int:
     geoms = shapely.from_wkb(batch.column(geom_col).to_numpy(zero_copy_only=False))
     if region.geometry is not None:
@@ -234,7 +283,29 @@ def _write_batch(
         keep = ~shapely.is_missing(geoms) & ~shapely.is_empty(geoms)
         geoms = geoms[keep]
         batch = batch.filter(keep)
-    if names is not None and layer == "vaglinje":
+    net = junctions if junctions is not None and layer in network.LAYERS else None
+    shared: list[list[np.ndarray]] = []
+    if net is not None:
+        types = batch.column("objekttypnr").to_pylist()
+        fids = batch.column(fid_col).to_pylist()
+        geoms = np.array(
+            [
+                net.apply(layer, f, g) if g is not None and network.routable(layer, t) else g
+                for g, f, t in zip(geoms, fids, types, strict=True)
+            ],
+            dtype=object,
+        )
+        if names is not None and layer == "vaglinje":
+            return _write_named_roads(
+                sink, layer, columns, batch, geoms, tr, names, name_stats, net
+            )
+        shared = [
+            [net.shared(network.key(shapely.get_coordinates(p))) for p in shapely.get_parts(g)]
+            if g is not None
+            else []
+            for g in geoms
+        ]
+    elif names is not None and layer == "vaglinje":
         return _write_named_roads(sink, layer, columns, batch, geoms, tr, names, name_stats)
     inside = np.zeros(len(geoms), dtype=bool)
     if builtup is not None and len(geoms):
@@ -244,7 +315,7 @@ def _write_batch(
     rows = list(zip(*values, strict=True)) if values else [()] * len(geoms)
     n = 0
     fids = batch.column(fid_col).to_pylist() if forest_fids else [None] * len(geoms)
-    for g, row, fid, built in zip(geoms, rows, fids, inside, strict=True):
+    for gi, (g, row, fid, built) in enumerate(zip(geoms, rows, fids, inside, strict=True)):
         if g is None or g.is_empty:
             continue
         tags = feature_tags(layer, columns, row)
@@ -255,12 +326,14 @@ def _write_batch(
         ):
             tags["lm:ov"] = "detail"
         n += 1
-        for part in shapely.get_parts(g):
+        for pi, part in enumerate(shapely.get_parts(g)):
             t = shapely.get_type_id(part)
             if t == 0:  # Point
                 sink.point(part.x, part.y, tags)
             elif t == 1:  # LineString
-                sink.way(shapely.get_coordinates(part), tags)
+                sink.way(
+                    shapely.get_coordinates(part), tags, shared=shared[gi][pi] if shared else None
+                )
             elif t == 3:  # Polygon
                 rings = [shapely.get_coordinates(r) for r in shapely.get_rings(part)]
                 sink.polygon(rings, tags)
@@ -276,6 +349,7 @@ def _write_named_roads(
     tr: Transformer,
     names: street_names.NameIndex,
     stats: street_names.MatchStats,
+    net: network.Junctions | None = None,
 ) -> int:
     """Roads with NVDB street names: match in EPSG:3006, split where the name changes."""
     values = [batch.column(c).to_pylist() for c in columns]
@@ -289,12 +363,23 @@ def _write_named_roads(
             m = names.match(part)
             named = sum(p.length for p, nm in m.pieces if nm)
             stats.add(tags.get("lm:t", ""), part.length, named, m)
+            prev_end = None
             for piece, name in m.pieces:
                 t = {**tags, street_names.TAG: name} if name else tags
                 place = names.place(piece, name) if name else None
                 if place:
                     t = {**t, street_names.CITY_TAG: place[0], street_names.REGION_TAG: place[1]}
-                sink.way(shapely.get_coordinates(_to_wgs84(piece, tr)), t)
+                c = shapely.get_coordinates(piece)
+                wgs = shapely.get_coordinates(_to_wgs84(piece, tr))
+                if net is None:
+                    sink.way(wgs, t)
+                    continue
+                # Pieces of one line join where the name changes: reuse the last node.
+                first = (
+                    sink.last_node if prev_end is not None and np.allclose(c[0], prev_end) else None
+                )
+                sink.way(wgs, t, shared=net.shared(network.key(c)), first=first)
+                prev_end = c[-1]
     return n
 
 
@@ -336,11 +421,19 @@ def convert_theme(
     if nvdb and any(layer == "vaglinje" for _, layer in sources):
         names = street_names.NameIndex.read(nvdb, region.bbox)
         name_stats = street_names.MatchStats()
+    junctions = None
+    if any(layer in network.LAYERS for _, layer in sources):
+        junctions = network.Junctions.find(sources, region.bbox)
+        stats.junctions = junctions.stats()
     builtup = None
     if mark and any(layer == "textpunkt" for _, layer in sources):
         builtup = builtup_index(mark, region)
     with TemporaryFile(dir=out_dir) as forest_overviews:
-        sink = OsmSink(out, id_base(theme), (lon[0], lat[0], lon[1], lat[1]))
+        shared_nodes = None
+        if junctions is not None and len(junctions.nodes):
+            xy = network.unkey(junctions.nodes)
+            shared_nodes = np.column_stack(tr.transform(xy[:, 0], xy[:, 1]))
+        sink = OsmSink(out, id_base(theme), (lon[0], lat[0], lon[1], lat[1]), shared_nodes)
         try:
             lakes = merged_lakes(
                 [gpkg for gpkg, layer in sources if layer == "mark"], region.bbox, region.geometry
@@ -366,7 +459,7 @@ def convert_theme(
                     bbox=region.bbox,
                     batch_size=BATCH_SIZE,
                     use_pyarrow=True,
-                    return_fids=bool(forest_fids),
+                    return_fids=bool(forest_fids) or layer in network.LAYERS,
                 ) as (meta, reader):
                     geom_col = meta["geometry_name"] or "wkb_geometry"
                     for batch in reader:
@@ -384,6 +477,7 @@ def convert_theme(
                             names,
                             name_stats,
                             builtup if layer == "textpunkt" else None,
+                            junctions,
                         )
                 stats.layers[layer] = stats.layers.get(layer, 0) + count
                 stats.features += count

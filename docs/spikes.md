@@ -187,6 +187,22 @@ data-inventory). Rasters are anti-aliased; comparison must classify to nearest p
 covered share). Täby: 90.0 % of town-street length named in 0.5 s. Results and next steps are in
 [street-names.md](street-names.md).
 
+## S13 – Routing network (`spikes/13-routing`, issue #28, 2026-11-26)
+
+`connectivity.py` and `crossings.py` measure how Topografi 50 roads and paths connect in
+Täby and Tärnaby. 93 % (Täby) and 82 % (Tärnaby) of line ends share a vertex exactly; roads
+never cross roads without one. Paths often do: 714 of 1 536 path–road level crossings in
+Täby and 156 of 180 in Tärnaby, and 105 of 236 / 227 of 265 path–path crossings, have no
+shared vertex. 0.2–2 % of ends stop within 1 m of another line. mkgmap connects lines only
+at shared OSM node ids, so the converter adds junctions (`network.py`).
+
+Result in the Täby + Storuman dev map: Täby is one 634 km network with 2.2 km in small cut-off
+pieces; Storuman's cut-off pieces are mostly isolated footpaths and a road network that
+continues into Norway. Level-0 lines +0.6 %; the map grows from 31.4 to 32.7 MB. On the
+Montana a hiking route Hemavan → Syterstugan follows the trail and a cycling route in Täby
+uses streets and cycle paths ([device-testing.md](device-testing.md)). Nationwide junction
+finding: 138 s and 0.55 GB in 50 km cells (3.75 GB in one piece).
+
 ## S10 – Label size kit (`spikes/10-label-sizes`, 2026-11-22)
 
 `make_kit.py` builds one small map near Täby with every city point type, label points and
